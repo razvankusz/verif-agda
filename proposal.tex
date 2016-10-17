@@ -1,7 +1,7 @@
  March 2007 %%%%%%%%%%%%%%%%
 \documentclass[12pt]{article}
 \usepackage{a4wide}
-
+\usepackage{cite}
 \newcommand{\al}{$<$}
 \newcommand{\ar}{$>$}
 
@@ -12,11 +12,11 @@
 
 \thispagestyle{empty}
 
-\rightline{\large\al\emph{name}\ar}
+\rightline{\large\al\emph{Razvan Kusztos}\ar}
 \medskip
-\rightline{\large\al\emph{College}\ar}
+\rightline{\large\al\emph{Girton}\ar}
 \medskip
-\rightline{\large\al\emph{CRSID}\ar}
+\rightline{\large\al\emph{rek43}\ar}
 
 \vfil
 
@@ -69,25 +69,26 @@ whenever a change occurs to the data structure, the programmer should expect to 
 both the previous and the new version available. This is different from the usual
 imperative approach, where updates are destructive and yield ephemeral data structures.
 Although for long it was a consensus that the functional data structures are not
-as efficient as their imperative counterparts, Okasaki's book, 'Purely Functional
-Data Structures' goes in depth to optimizing structures for this paradigm.
+as efficient as their imperative counterparts, Okasaki's book \cite{okasaki} goes
+in depth to optimizing structures for this paradigm.
 It is coded in a Standard ML and provides informal proofs.
 
 Another approach to providing proofs to such data structures is by using languages,
-such as Coq, HOL or Agda. During this project I aim to use Agda as it is the one
-to help me learn about depedent types.
+such as Coq, HOL, Isabelle or Agda \cite{agda}. During this project I aim to use Agda as it is the one
+to help me learn about dependent types.
 
-Agda is a functional, dependently typed programming language. In this setting,
+Agda is a functional, dependently typed programming language \cite{agda}. In this setting,
 types can depend on values, allowing for more expressive type declaration.
 Agda's environment allows the users the ability to write both the code and the
-proofs that have as objects entities in the code in the same language.
+proofs that have as objects entities in the code in the same language. An illustrative
+book on this topic is \cite{verif}
 
 Defining data structures and functions in a dependently typed programming language
-opens up new possiblities for better expressivity. Invariants can now be part of
+opens up new possibillities for better expressivity. Invariants can now be part of
 the typing system. A great example of this that is already part of the literature
 is the implementation or Red-Black trees, which can maintain all five invariants
 in the typing declaration. This ensures that any update operation on a Red-Black
-tree will continue to maintain these invariants.
+tree will continue to maintain these invariants.{rbtrees}
 
 Agda was originally developed as a programming language, quite similar in syntax
 to Haskell, but kept as simple as possible. The dependently typed environment
@@ -106,12 +107,10 @@ even better readability.
 The Agda Library is not extensively documented and is a work in progress. It would
 be great if via this project I can not only demonstrate the power of this language,
 but also contribute with more efficient data structures for the standard library.
-Some work include the afore mentioned Red Black Trees and AVL trees (2),
-
 
 \section*{Resources Required}
 
-I will undertake this project on my laptop + specs
+I will undertake this project on my laptop.
 
 \section*{Starting Point}
 
@@ -119,7 +118,7 @@ At the beginning of this project I have some experience with functional programm
 languages (SML from the Foundations of Computer Science course in Part IA) and Scala
 (from a Udacity course). Basics of structural induction, which will almost certainly
 be a central part are gained from the Semantics of Programming Languages course.
-I will have to familirize myself with Agda and most recent advents in terms of
+I will have to familiarize myself with Agda and most recent advents in terms of
 functional data structures, as well as relevant chapters from the
 Denotational Semantics and Type Theory courses in Part II.
 No prior experience with Agda, dependent types and proofs in this environment.
@@ -132,8 +131,9 @@ properties about their correctness and mathematical properties
 
 Okasaki's book describes a mechanism for optimizing functional data structures
 that were thought to be a lot inferior to the imperative counter-parts.
-A general purpose data structure that stems from okasaki's principles is the
-Finger Tree(3). This will be implemented, along with other basic data structures to
+A general purpose data structure that stems from okasaki's principles and implemented
+by Hinze and Patterson \cite{fingertree} is the Finger Tree.
+This will be implemented, along with other basic data structures to
 illustrate the power of dependent typing in action. Finger Trees will then be used
 to implement more powerful data structures, such as Random Access Lists or
 Heaps and prove properties of them to be correct. Then, benchmarks will be ran to
@@ -142,20 +142,20 @@ The project will aim to build more complex data structures over general
 purpose ones, showing a software engineering approach that ensures correctness
 by using dependent types.
 
-Finger Trees have been implemented in Coq (3) although the paper does not describe
+Finger Trees have been implemented in Coq \cite{fingertrees} although the paper does not describe
 any recursive proofs, which are the most important. There is not any implementation
 yet that provides size information on the Finger Trees. I hope that, via this
 dissertation I can provide a complete dependent implementation of Finger Trees.
 Once they are proved correct, I can build up towards any data structure that
 their monoidal structure allows. Some examples in the literature are heaps,
-sorted sequences, concatenable dequeues etc(3)
+sorted sequences, concatenable dequeues etc.
 
 The objective of this project is to ultimately write code that is proven to be
-bug free and efficient such that it can at some point be made avilable to the
+bug free and efficient such that it can at some point be made available to the
 developers of the Agda standard library.
 In case the Finger Trees dependent implementation appears to be unfeasible,
 there is a fallback plan on starting to implement Okasaki's numerical representation
-inspired data structures, defined in Chapter 9 of []. This will have the same
+inspired data structures, defined in Chapter 9 of \cite{okasaki}. This will have the same
 structure as before, building a layering of proved data structures.
 
 The project will start with an introduction section which will provide all the
@@ -167,8 +167,8 @@ The first chapter will be devoted to showing how dependent typing in Agda can be
 used to ensure correctness by following through the simple classic example of
 vectors, which has been studied before in the past, introducing the concepts that
 will be used in the Implementation phase. This will be shown in contrast with
-the classic functional list implmentation. Proofs of associatativy of concatenation
-and distributivity of length over concatentation will also illustrate how
+the classic functional list implementation. Proofs of associatativy of concatenation
+and distributivity of length over concatenation will also illustrate how
 proofs and implementation can be incorporated in the same environment with Agda.
 
 The implementation phase will introduce Finger Trees and also provide their complete
@@ -179,7 +179,7 @@ require recursively proofs about the base data structures. There are no previous
 implementations of data structures such as maps or priority queue that can be reused
 and also guarantee the amortized cost complexity of the structures I propose.
 
-Evaluation will constist of output of the Agda type checker, showing that the
+Evaluation will consist of output of the Agda type checker, showing that the
 code is indeed correct, as well as output of a test program. Numerical results
 can be derived from the runtime of random tests of increasing lengths, giving
 insights into the complexity.
@@ -193,15 +193,17 @@ in the type of the data structures, it might turn out the other data structures
 are more illustrative to the process, such as perhaps maps and sets, in which
 case those will be the chosen data structures to evolve Finger Trees to.
 As already mentioned, if the complete dependent implementation of Finger Trees
-becomse too cumbersome, the Okasaki's numerical representation inspired
+become too cumbersome, the Okasaki's numerical representation inspired
 data structures are a good and similar in spirit alternative. I would like to
 stick to the Finger Trees as much as possible because they are already established
-as a swiss army knife of functional data structures
+as a swiss army knife of functional data structures.
 Some work could be done on trying to specialize on of these structures as much
 as possible to see how much expressivity can be derived in the chosen paradigm.
-One example of this is found in [] exerices, where a sublist is defined by a
+One example of this is found in \cite{okasaki} exercises, where a sublist is defined by a
 type that contains information about the underlying list. This could be extended
-to sets
+to sets and subsets.
+The evaluation could also be based on a previously implemented library on computing
+complexities in a functional environment. \cite{complexity}
 
 \section*{Success Criterion}
 
@@ -265,11 +267,11 @@ Finish implementation of the complex data structures and proofs.
 Write-up in the dissertation or the previous work. Try to find in literature and
 example where I can specialize the data structure so much that would truly show
 the power of the chosen setup (if time). Everything done in this period should
-be writen down.
+be written down.
 
 \subsection*{Weeks 20 to 26}
 
-Evaluation phase, carefull discussion with examples from literature,
+Evaluation phase, careful discussion with examples from literature,
 Run-time evaluation
 Type-checking agda output.
 Interacitve example of coding in a dependently typed programming language.
@@ -288,7 +290,39 @@ Further improvements related to the material. Meeting with supervisor.
 
 Milestone: Submission of Dissertation.
 
-\section{References}
+\begin{thebibliography}{9}
+\bibitem{okasaki}
+  Chris Okasaki,
+  \emph{Purely Functional Data Structures},
+  School of Computer Science,
+  Carnegie Mellon University,
+  September 1996,
+  Pittsburgh, PA 15213
+\bibitem{fingertrees}
+  Ralf Hinze, Ross Patterson
+  \emph{Finger trees: A Simple General-Purpose Data Structure},
+\bibitem{rbtrees}
+  LINUS EK
+  OLA HOLMSTRÖM
+  STEVAN ANDJELKOVIC
+  \emph{Formalizing Arne Andersson trees and Left-leaning Red-Black trees in Agda}
+  Institutionen för Data- och informationsteknik
+  CHALMERS TEKNISKA HÖGSKOLA
+\bibitem{complexity}
+Nils Anders Danielsson
+  \emph{Lightweight Semiformal Time Complexity Analysis for
+Purely Functional Data Structures}
+Chalmers University of Technology
+\bibitem{agda}
+  Ulf Norell and James Chapman.
+  \emph{Dependently Typed Programming in Agda}
+\bibitem{verif}
+  Aaron Stump.
+  \emph{Verified Functional Programming in Agda}
+  The University of Iowa,
+  Iowa City, Iowa, USA
 
-\end
+\end{thebibliography}
+
+
 \end{document}
