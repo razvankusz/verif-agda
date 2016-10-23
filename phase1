@@ -23,7 +23,7 @@ using a dependently typed programming language brings in terms of expresivity.
 Exactly what datastructures is still under consideration. I could start
 by implementing finger trees as a general purpose data structure
 and then building up to more complicated ones. There are also some
-good resources on disjoint sets.                            
+good resources on disjoint sets.
 
 2. Please list names of potential project supervisors.
 Timothy Griffin
