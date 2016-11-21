@@ -1,5 +1,5 @@
 open import numbers
-
+open import IO
 data V {l} (A : Set l) : ℕ -> Set l where
   [] : V A zero
   _::_ : {n : ℕ} (x : A) (xs : V A n) -> V A (suc n)
@@ -23,3 +23,5 @@ mapv : ∀ {l} {l'} {A : Set l} {B : Set l'} {n : ℕ} ->
   (A -> B) -> V A n -> V B n
 mapv f [] = []
 mapv f (x :: xs) = f x :: mapv f xs
+
+main = run (headv test-vector)

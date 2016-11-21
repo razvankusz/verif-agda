@@ -3,7 +3,7 @@ data ℕ : Set where
   suc  : ℕ -> ℕ
 
 pred : ℕ -> ℕ
-pred zero = zero 
+pred zero = zero
 pred (suc n) = n
 
 data _==_ { A : Set}(x : A) : A -> Set where
