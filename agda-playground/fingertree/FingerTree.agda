@@ -99,8 +99,13 @@ reducerDigit _⤙_ (Four a b c d) z = a ⤙ (b ⤙ (c ⤙ (d ⤙ z)))
 reducelDigit : ∀ {a} {A : Set a} {B : Set a} → (B → A → B) → B → Digit A → B
 reducelDigit _⤚_ z (One a)        = z ⤚ a
 reducelDigit _⤚_ z (Two b a)      = (z ⤚ b) ⤚ a
-reducelDigit _⤚_ z (Three c b a)  = ((z ⤚ b) ⤚ c) ⤚ a
-reducelDigit _⤚_ z (Four d b c a) = (((z ⤚ d) ⤚ c) ⤚ b) ⤚ a
+
+-- surprisingly verified programming helped me find a problem in his code ^^
+-- old version reducelDigit _⤚_ z (Three c b a)  = ((z ⤚ b) ⤚ c) ⤚ a
+-- old version reducelDigit _⤚_ z (Four d b c a) = (((z ⤚ d) ⤚ c) ⤚ b) ⤚ a
+-- those mistakes are too consistent maybe I am the one going wrong here
+reducelDigit _⤚_ z (Three c b a)  = ((z ⤚ c) ⤚ b) ⤚ a
+reducelDigit _⤚_ z (Four d c b a) = (((z ⤚ d) ⤚ c) ⤚ b) ⤚ a
 
 reduceInstanceDigit : {a : Level} → reduceClass Digit
 reduceInstanceDigit {a} = record {
@@ -278,9 +283,93 @@ nodes (a ∷ b ∷ [ c , d ]) = (Node2 a b) ∷ (Node2 c d) ∷ []
 nodes (a ∷ b ∷ c ∷ xs)    = (Node3 a b c) ∷ (nodes xs)
 
 test-tree : FingerTree ℕ
-test-tree = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
+test-tree = (1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty) ▷ 7 ▷ 8 ▷ 9 ▷ 10 ▷ 7 ▷ 8 ▷ 9 ▷ 10 ▷ 7 ▷ 8 ▷ 9 ▷ 10
+
+sum : FingerTree ℕ → ℕ
+sum ft = reducelFingerTree (Data.Nat._+_) ℕ.zero ft
+
+open import Agda.Builtin.Equality
+
+Associative : ∀ {A} → (A → A → A) → Set
+Associative _⊕_ = ∀ x y z → x ⊕ (y ⊕ z) ≡ (x ⊕ y) ⊕ z
+
+Commutative :  ∀ {A} → (A → A → A) → Set
+Commutative _⊕_ = ∀ x y → (x ⊕ y) ≡ (y ⊕ x)
 
 
+-- simple test to get myself started
+assoc+comm : ∀ {A} → (x y z : A) → (_*_ : A → A → A) → (Commutative _*_) →
+            x * (y * z) ≡ x * (z * y)
+assoc+comm x y z _*_ comm rewrite comm y z = refl
+
+-- a very annoying thing with the rewrite directive is that it can't figure it out
+-- that if eqn = a ≡ b it can replace b with a instead, so we have to use the
+-- with b | eqn ... pattern
+-- needed for Node2
+assoc+comm2 : ∀ {A} → (x y z : A) → (_*_ : A → A → A) → (Associative _*_) → (Commutative _*_) →
+            x * (y * z) ≡ (z * x) * y
+assoc+comm2 x y z _*_ assoc comm with (y * z) | comm y z
+assoc+comm2 x y z _*_ assoc comm | .(z * y) | refl with x * (z * y) | assoc x z y
+assoc+comm2 x y z _*_ assoc comm | .(z * y) | refl | .((x * z) * y) | refl
+                                                   with (x * z) | comm x z
+assoc+comm2 x y z _*_ assoc comm | .(z * y) | refl | .((x * z) * y) | refl | .(z * x) | refl = refl
+-- figure out how to reuse this for Node3
+
+-- reducelNode _⤚_ z (Node3 c b a) = ((z ⤚ c) ⤚ b) ⤚ a
+-- reducerNode _⤙_ (Node3 a b c) z = a ⤙ (b ⤙ (c ⤙ z))
+assoc+comm3 : ∀ {A} → (a b c z : A) → (_*_ : A → A → A) → (Associative _*_) → (Commutative _*_) →
+            a * (b * (c * z)) ≡ ((z * a) * b) * c
+assoc+comm3 a b c z _*_ assoc comm rewrite assoc+comm2 b c z _*_ assoc comm |
+                                           assoc a (z * b) c |
+                                           assoc a z b |
+                                           comm a z = refl
+
+-- reducelDigit _⤚_ z (Four d b c a) = (((z ⤚ d) ⤚ c) ⤚ b) ⤚ a
+-- reducerDigit _⤙_ (Four a b c d) z = a ⤙ (b ⤙ (c ⤙ (d ⤙ z)))
+assoc+comm4 : ∀ {A} → (a b c d z : A) → (_*_ : A → A → A) → (Associative _*_) → (Commutative _*_) →
+           a * (b * (c * (d * z))) ≡ (((z * a) * b) * c) * d
+assoc+comm4 a b c d z _*_ assoc comm rewrite assoc+comm3 b c d z _*_ assoc comm |
+                                             assoc a ((z * b) * c) d |
+                                             assoc a (z * b) c |
+                                             assoc a z b |
+                                             comm a z = refl
+
+node-reduce : ∀ {A} (n : Node A) → (fun : A → A → A) → (z : A) →
+      (assoc : Associative fun) → (comm : Commutative fun) →
+      reducerNode fun n z ≡ reducelNode fun z n
+node-reduce (Node2 x x₁) fun z assoc comm rewrite assoc+comm2 x x₁ z fun assoc comm = refl
+node-reduce (Node3 x x₁ x₂) fun z assoc comm rewrite assoc+comm3 x x₁ x₂ z fun assoc comm = refl
+
+digit-reduce : ∀ {A} (d : Digit A) → (fun : A → A → A) → (z : A) →
+      (assoc : Associative fun) → (comm : Commutative fun) →
+      reducerDigit fun d z ≡ reducelDigit fun z d
+digit-reduce (One x) fun z assoc comm = comm x z
+digit-reduce (Two x x₁) fun z assoc comm rewrite assoc+comm2 x x₁ z fun assoc comm = refl
+digit-reduce (Three x x₁ x₂) fun z assoc comm rewrite assoc+comm3 x x₁ x₂ z fun assoc comm = refl
+digit-reduce (Four x x₁ x₂ x₃) fun z assoc comm rewrite assoc+comm4 x x₁ x₂ x₃ z fun assoc comm = refl
+
+
+-- (Deep {i} pr m sf) z = pr ⤙′ (m ⤙″ (sf ⤙′ z))
+-- (reducerDigit fun) x (reducerFingerTree (reducerNode fun) ft ((reducerDigit fun) x₁ z))
+fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →
+                  (assoc : Associative fun) → (comm : Commutative fun) →
+                  reducerFingerTree fun ft base ≡ reducelFingerTree fun base ft
+fingertree-reduce Empty fun z assoc comm = refl
+fingertree-reduce (Single x) fun z assoc comm = comm x z
+fingertree-reduce (Deep x ft x₁) fun z assoc comm
+              rewrite digit-reduce x₁ fun z assoc comm |
+                      digit-reduce x fun (reducerFingerTree (reducerNode fun) ft (reducelDigit fun z x₁)) assoc comm = {!   !}
+
+-- this is clearly an issue here. I am thinking of solving the problem by introducing a Node1 constructor and use it
+-- to give a result for an associative and commutative reduction function on NodeA
+-- reduce-node-new :: (fun : A → A → A) → Node A → Node A → Node A
+-- reduce-node-new fun = λ x z. Node1 (fun (reduceNode x) (reduceNode z))
+-- this also requires us to rework the reducerFingerTree and reducelFingerTree methods
+
+
+
+-- ignore this for now
+--    ---------------------------------------------------------------------
 -- app3 : ∀ {a} {A : Set a} → FingerTree A → List A → FingerTree A → FingerTree A
 -- app3 Empty ts xs      = ts ◁′ xs
 -- app3 xs ts Empty      = xs ▷′ ts
@@ -289,7 +378,6 @@ test-tree = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
 -- app3 (Deep pr₁ m₁ sf₁) ts (Deep pr₂ m₂ sf₂)
 --  = Deep pr₁ (app3 m₁ (nodes ((toList⁺⁺ sf₁ ts pr₂))) m₂) sf₂
 
-------------------------------------------------------------------------
 -- Concatenation itself
 
 -- _⋈_ : ∀ {a} {A : Set a} → FingerTree A → FingerTree A → FingerTree A
