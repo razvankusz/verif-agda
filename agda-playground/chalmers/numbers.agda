@@ -27,11 +27,11 @@ suc n + m = suc (n + m)
 +assoc (suc x) y z with (x + (y + z)) | +assoc x y z
 +assoc (suc x) y z | .((x + y) + z) | refl = refl
 
-+suc : ∀ (x y : ℕ) → (x + (suc y)) == (suc (x + y))
+open import Agda.Builtin.Equality 
++suc : ∀ (x y : ℕ) → (x + (suc y)) ≡ (suc (x + y))
 +suc zero y = refl
-+suc (suc x) y with (x + (suc y)) | +suc x y
-+suc (suc x) y | .(suc (x + y)) | refl = refl
-
++suc (suc x) y rewrite +suc x y = ?
+-- (x + (suc y))
 +comm : ∀ (x y : ℕ) → (x + y) == (y + x)
 +comm zero y with y + zero | +0 {y}
 +comm zero y | .y | refl = refl
