@@ -206,8 +206,39 @@ foldr-node-correct fun (Node3 n n₁ n₂) z =
             foldr fun z (toList-node n ++ toList-node n₁ ++ toList-node n₂)
           ∎
 
-foldr-digit-correct : ∀ {a} {A : Set a} {B : Set a} → (d : Digit A) → (z : B) →
+foldr-digit-correct : ∀ {a} {A : Set a} {B : Set a} → (fun : A → B → B) (d : Digit A) → (z : B) →
                 foldr-digit fun d z ≡ foldr fun z (toList-digit d)
+foldr-digit-correct fun (One x) z =
+          begin
+            foldr-node fun x z
+          ≡⟨ foldr-node-correct fun x z ⟩
+            foldr fun z (toList-node x)
+          ∎
+
+foldr-digit-correct fun (Two x x₁) z =
+          begin
+            foldr-node fun x (foldr-node fun x₁ z)
+          ≡⟨ cong (foldr-node fun x) (foldr-node-correct fun x₁ z) ⟩
+            foldr-node fun x (foldr fun z (toList-node x₁))
+          ≡⟨ foldr-node-correct fun x (foldr fun z (toList-node x₁)) ⟩
+            foldr fun (foldr fun z (toList-node x₁)) (toList-node x)
+          ≡⟨ foldr-lemma0 (toList-node x) (toList-node x₁) (toList-digit (Two x x₁)) refl fun z ⟩
+            foldr fun z (toList-node x ++ toList-node x₁)
+          ∎
+
+foldr-digit-correct fun (Three x x₁ x₂) z =
+          begin
+            foldr-node fun x (foldr-node fun x₁ (foldr-node fun x₂ z))
+          ≡⟨ cong (λ v → foldr-node fun x (foldr-node fun x₁ v)) (foldr-node-correct fun x₂ z) ⟩
+            foldr-node fun x (foldr-node fun x₁ (foldr fun z (toList-node x₂)))
+          ≡⟨ cong (foldr-node fun x) (foldr-node-correct fun x₁ (foldr fun z (toList-node x₂))) ⟩
+            foldr-node fun x (foldr fun (foldr fun z (toList-node x₂)) (toList-node x₁))
+          ≡⟨ foldr-node-correct fun x (foldr fun (foldr fun z (toList-node x₂)) (toList-node x₁)) ⟩
+            foldr fun (foldr fun (foldr fun z (toList-node x₂)) (toList-node x₁)) (toList-node x)
+          ≡⟨ foldr-lemma1 (toList-node x) (toList-node x₁) (toList-node x₂) (toList-digit (Three x x₁ x₂)) refl fun z ⟩
+            foldr fun z (toList-node x ++ toList-node x₁ ++ toList-node x₂)
+          ∎
+foldr-digit-correct fun (Four x x₁ x₂ x₃) z = {!   !}
 
 foldr-correct : ∀ {A}{B} → (fun : A → B → B) → (ft : FingerTree A) → (z : B) →
                 foldr-ft fun ft z ≡ Data.List.foldr fun z (toList-ft ft)
@@ -231,10 +262,16 @@ foldr-correct fun (Single x) z =
 foldr-correct fun (Deep x ft x₁) z =
           begin
             foldr-digit fun x (foldr-ft fun ft (foldr-digit fun x₁ z))
-          ≡⟨ {!   !} ⟩ {!   !}
---
--- foldr-digit fun x (foldr-ft fun ft (foldr-digit fun x₁ z)) ≡
---       foldr fun z (toList-digit x ++ toList-ft ft ++ toList-digit x₁)
+          ≡⟨ cong (λ v → foldr-digit fun x (foldr-ft fun ft v)) (foldr-digit-correct fun x₁ z) ⟩
+            foldr-digit fun x (foldr-ft fun ft (foldr fun z (toList-digit x₁)))
+          ≡⟨ cong (foldr-digit fun x) (foldr-correct fun ft ((foldr fun z (toList-digit x₁)))) ⟩
+            foldr-digit fun x (foldr fun ((foldr fun z (toList-digit x₁))) (toList-ft ft))
+          ≡⟨ foldr-digit-correct fun x (foldr fun ((foldr fun z (toList-digit x₁))) (toList-ft ft)) ⟩
+            foldr fun (foldr fun ((foldr fun z (toList-digit x₁))) (toList-ft ft)) (toList-digit x)
+          ≡⟨ foldr-lemma1 (toList-digit x) (toList-ft ft) (toList-digit x₁) (toList-ft (Deep x ft x₁)) refl fun z ⟩
+            foldr fun z ((toList-digit x) ++ (toList-ft ft) ++ (toList-digit x₁))
+          ∎
+
 
 fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →
                   (assoc : Associative fun) → (comm : Commutative fun) →
