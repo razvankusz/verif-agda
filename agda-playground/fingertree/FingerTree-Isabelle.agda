@@ -1,11 +1,10 @@
 module FingerTree-Isabelle where
 
-open import Class.Reduce
 open import Level using (Level)
 open import Data.Unit using (⊤)
 open import Data.Nat using (ℕ; suc; _<_; _+_)
 open import Data.Fin using (Fin)
-open import Data.List using (List; []; _∷_; _++_)
+open import Data.List using (List; []; _∷_; _++_; foldr; foldl)
 -- open import Data.List.NonEmpty using (List⁺; [_]; _∷_; _⁺++_)
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Bool using (Bool; true; false)
@@ -44,7 +43,12 @@ _◁_ : ∀ {a} → {A : Set a} → A → FingerTree A → FingerTree A
 x ◁ ft = (Tip x) ◁' ft
 
 test-tree : FingerTree ℕ
-test-tree = (1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ 4 ◁ 5 ◁ 4 ◁ 5 ◁ 4 ◁ 5 ◁ Empty)
+test-tree = (1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁
+              1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁
+              1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁
+              1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁
+              1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁
+              1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ 1 ◁ Empty)
 
 -- ---------------------------------------------------------------
 
@@ -82,7 +86,23 @@ foldl-ft f z Empty = z
 foldl-ft f z (Single x) = foldl-node f z x
 foldl-ft f z (Deep x t x₁) = foldl-digit f (foldl-ft f (foldl-digit f z x) t) x₁
 
+-- Abstraction to list
 
+toList-node : ∀ {a} → {A : Set a} → Node A → List A
+toList-node (Tip x) = x ∷ []
+toList-node (Node2 n n₁) = (toList-node n) ++ (toList-node n₁)
+toList-node (Node3 n n₁ n₂) = (toList-node n) ++ (toList-node n₁) ++ (toList-node n₂)
+
+toList-digit : ∀ {a} → {A : Set a} → Digit A → List A
+toList-digit (One x) = toList-node x
+toList-digit (Two x x₁) = toList-node x ++ toList-node x₁
+toList-digit (Three x x₁ x₂) = toList-node x ++ toList-node x₁ ++ toList-node x₂
+toList-digit (Four x x₁ x₂ x₃) = toList-node x ++ toList-node x₁ ++ toList-node x₂ ++ toList-node x₃
+
+toList-ft : ∀ {a} → {A : Set a} → FingerTree A → List A
+toList-ft Empty = []
+toList-ft (Single x) = toList-node x
+toList-ft (Deep x ft x₁) = toList-digit x ++ toList-ft ft ++ toList-digit x₁
 
 -- -------------------------------------------------------------------------
 -- here I am trying to prove the original lemma using the Isabelle structure
@@ -94,34 +114,127 @@ Commutative :  ∀ {A} → (A → A → A) → Set
 Commutative _⊕_ = ∀ x y → (x ⊕ y) ≡ (y ⊕ x)
 
 
-foldr-com : ∀ {A} (n : Node A) → (m : Node A) → (fun : A → A → A) → (z : A) →
-            (assoc : Associative fun) → (comm : Commutative fun) →
-            foldr-node fun n (foldr-node fun m z) ≡ foldr-node fun m (foldr-node fun n z)
-foldr-com (Tip x) (Tip x₁) fun z assoc comm =
-  begin
-      fun x (fun x₁ z)
-    ≡⟨ sym (cong (fun x) (comm z x₁)) ⟩
-      fun x (fun z x₁)
-    ≡⟨ assoc x z x₁ ⟩
-      fun (fun x z) x₁
-    ≡⟨ comm (fun x z) x₁ ⟩
-      fun x₁ (fun x z)
-    ∎
-foldr-com (Tip x) (Node2 m m₁) fun z assoc comm =
-  begin
-    fun x (foldr-node fun m (foldr-node fun m₁ z))
-  ≡⟨ {!  !} ⟩ {!   !}
-foldr-com (Tip x) (Node3 m m₁ m₂) fun z assoc comm = {!   !}
-foldr-com (Node2 n n₁) m fun z assoc comm = {!   !}
-foldr-com (Node3 n n₁ n₂) m fun z assoc comm = {!   !}
+-- foldr-com : ∀ {A} (n : Node A) → (m : Node A) → (fun : A → A → A) → (z : A) →
+--             (assoc : Associative fun) → (comm : Commutative fun) →
+--             foldr-node fun n (foldr-node fun m z) ≡ foldr-node fun m (foldr-node fun n z)
+-- foldr-com (Tip x) (Tip x₁) fun z assoc comm =
+--   begin
+--       fun x (fun x₁ z)
+--     ≡⟨ sym (cong (fun x) (comm z x₁)) ⟩
+--       fun x (fun z x₁)
+--     ≡⟨ assoc x z x₁ ⟩
+--       fun (fun x z) x₁
+--     ≡⟨ comm (fun x z) x₁ ⟩
+--       fun x₁ (fun x z)
+--     ∎
+-- foldr-com (Tip x) (Node2 m m₁) fun z assoc comm =
+--   begin
+--     fun x (foldr-node fun m (foldr-node fun m₁ z))
+--   ≡⟨ {!  !} ⟩ {!   !}
+-- foldr-com (Tip x) (Node3 m m₁ m₂) fun z assoc comm = {!   !}
+-- foldr-com (Node2 n n₁) m fun z assoc comm = {!   !}
+-- foldr-com (Node3 n n₁ n₂) m fun z assoc comm = {!   !}
+--
+-- node-reduce : ∀ {A} (n : Node A) → (fun : A → A → A) → (z : A) →
+--               (assoc : Associative fun) → (comm : Commutative fun) →
+--               foldr-node fun n z ≡ foldl-node fun z n
+-- node-reduce (Tip x) fun z assoc comm = comm x z
+-- node-reduce (Node2 n n₁) fun z assoc comm = begin
+--   foldr-node fun n (foldr-node fun n₁ z) ≡⟨ {!   !} ⟩ {!   !}
+-- node-reduce (Node3 n n₁ n₂) fun z assoc comm = {!   !}
+--
 
-node-reduce : ∀ {A} (n : Node A) → (fun : A → A → A) → (z : A) →
-              (assoc : Associative fun) → (comm : Commutative fun) →
-              foldr-node fun n z ≡ foldl-node fun z n
-node-reduce (Tip x) fun z assoc comm = comm x z
-node-reduce (Node2 n n₁) fun z assoc comm = begin
-  foldr-node fun n (foldr-node fun n₁ z) ≡⟨ {!   !} ⟩ {!   !}
-node-reduce (Node3 n n₁ n₂) fun z assoc comm = {!   !}
+foldr-lemma0 : ∀ {a} {A : Set a}{B : Set a} → (xs : List A) → (ys : List A) → (zs : List A) → (xs ++ ys ≡ zs) →
+              (fun : A → B → B) → (z : B) →
+              foldr fun (foldr fun z ys) xs ≡ foldr fun z zs
+foldr-lemma0 [] ys zs eq fun z = cong (foldr fun z) eq
+foldr-lemma0 (x ∷ xs) ys zs eq fun z =
+      begin
+        fun x (foldr fun (foldr fun z ys) xs)
+      ≡⟨ cong (fun x) (foldr-lemma0 xs ys (xs ++ ys) refl fun z) ⟩
+        (begin
+            fun x (foldr fun z (xs ++ ys))
+          ≡⟨ sym (cong (λ _ → fun x (foldr fun z (xs ++ ys))) eq) ⟩
+            fun x (foldr fun z (xs ++ ys))
+          ≡⟨ cong (foldr fun z) eq ⟩
+            foldr fun z zs
+        ∎)
+
+foldr-lemma1 : ∀ {a} {A : Set a}{B : Set a} →
+            (xs : List A) → (ys : List A) → (zs : List A) → (ts : List A) →
+            (xs ++ ys ++ zs ≡ ts) →
+            (fun : A → B → B) → (z : B) →
+            foldr fun (foldr fun (foldr fun z zs) ys) xs ≡ foldr fun z ts
+foldr-lemma1 [] ys zs ts eq fun z = foldr-lemma0 ys zs ts eq fun z
+foldr-lemma1 (x ∷ xs) ys zs ts eq fun z =
+        begin
+          fun x (foldr fun (foldr fun (foldr fun z zs) ys) xs)
+         ≡⟨ cong (fun x) (foldr-lemma1 xs ys zs (xs ++ ys ++ zs) refl fun z) ⟩
+          fun x (foldr fun z (xs ++ ys ++ zs))
+         ≡⟨ refl ⟩
+          (begin
+             fun x (foldr fun z (xs ++ ys ++ zs))
+            ≡⟨ sym (cong (λ _ → fun x (foldr fun z (xs ++ ys ++ zs))) eq) ⟩
+             fun x (foldr fun z (xs ++ ys ++ zs))
+            ≡⟨ cong (foldr fun z) eq ⟩
+            foldr fun z ts
+          ∎)
+
+foldr-node-correct : ∀ {a} {A : Set a}{B : Set a} → (fun : A → B → B) → (n : Node A) → (z : B) →
+                foldr-node fun n z ≡ foldr fun z (toList-node n)
+foldr-node-correct fun (Tip x) z = refl
+foldr-node-correct fun (Node2 n n₁) z =
+          begin
+            foldr-node fun n (foldr-node fun n₁ z)
+          ≡⟨ cong (foldr-node fun n) (foldr-node-correct fun n₁ z ) ⟩
+            foldr-node fun n (foldr fun z (toList-node n₁))
+          ≡⟨ foldr-node-correct fun n (foldr fun z (toList-node n₁)) ⟩
+           foldr fun (foldr fun z (toList-node n₁)) (toList-node n)
+          ≡⟨ foldr-lemma0 (toList-node n) (toList-node n₁) (toList-node (Node2 n n₁)) refl fun z ⟩
+          foldr fun z (toList-node n ++ toList-node n₁)
+          ∎
+foldr-node-correct fun (Node3 n n₁ n₂) z =
+          begin
+            foldr-node fun n (foldr-node fun n₁ (foldr-node fun n₂ z))
+          ≡⟨ cong (λ x → foldr-node fun n (foldr-node fun n₁ x)) (foldr-node-correct fun n₂ z) ⟩
+            foldr-node fun n (foldr-node fun n₁ (foldr fun z (toList-node n₂)))
+          ≡⟨ cong (foldr-node fun n) (foldr-node-correct fun n₁ (foldr fun z (toList-node n₂))) ⟩
+            foldr-node fun n (foldr fun (foldr fun z (toList-node n₂)) (toList-node n₁))
+          ≡⟨ foldr-node-correct fun n (foldr fun (foldr fun z (toList-node n₂)) (toList-node n₁)) ⟩
+            foldr fun (foldr fun (foldr fun z (toList-node n₂)) (toList-node n₁)) (toList-node n)
+          ≡⟨ foldr-lemma1 (toList-node n) (toList-node n₁) (toList-node n₂) (toList-node (Node3 n n₁ n₂)) refl fun z ⟩
+            foldr fun z (toList-node n ++ toList-node n₁ ++ toList-node n₂)
+          ∎
+
+foldr-digit-correct : ∀ {a} {A : Set a} {B : Set a} → (d : Digit A) → (z : B) →
+                foldr-digit fun d z ≡ foldr fun z (toList-digit d)
+
+foldr-correct : ∀ {A}{B} → (fun : A → B → B) → (ft : FingerTree A) → (z : B) →
+                foldr-ft fun ft z ≡ Data.List.foldr fun z (toList-ft ft)
+foldr-correct fun Empty z =
+          begin
+            foldr-ft fun Empty z
+          ≡⟨ refl ⟩
+            z ≡⟨ refl ⟩ z
+          ∎
+foldr-correct fun (Single x) z =
+          begin
+            foldr-ft fun (Single x) z
+          ≡⟨ refl ⟩
+            foldr-node fun x z
+          ≡⟨ foldr-node-correct fun x z ⟩
+            foldr fun z (toList-node x)
+          ≡⟨ cong (foldr fun z) refl ⟩
+           foldr fun z (toList-ft (Single x))
+          ∎
+
+foldr-correct fun (Deep x ft x₁) z =
+          begin
+            foldr-digit fun x (foldr-ft fun ft (foldr-digit fun x₁ z))
+          ≡⟨ {!   !} ⟩ {!   !}
+--
+-- foldr-digit fun x (foldr-ft fun ft (foldr-digit fun x₁ z)) ≡
+--       foldr fun z (toList-digit x ++ toList-ft ft ++ toList-digit x₁)
 
 fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →
                   (assoc : Associative fun) → (comm : Commutative fun) →

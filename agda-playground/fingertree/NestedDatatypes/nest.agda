@@ -35,24 +35,25 @@ Associative _⊕_ = ∀ x y z → x ⊕ (y ⊕ z) ≡ (x ⊕ y) ⊕ z
 Commutative :  ∀ {A} → (A → A → A) → Set
 Commutative _⊕_ = ∀ x y → (x ⊕ y) ≡ (y ⊕ x)
 
-toList-pair : ∀ {a} {A : Set a} → A × A → List A
-toList-pair (x , y) = x ∷ y ∷ []
-
-append-pair : ∀ {a} {A : Set a} → A × A → List A → List A
-append-pair (x , y) l = x ∷ y ∷ l
-
 toList : ∀ {a} {A : Set a} → Nest A → List A
 toList nilN = []
 toList (consN x n) = x ∷ (foldr (foldr-pair _∷_) [] (toList n) )
-
-lemma-fold0 : ∀ {a} {A : Set a} {B : Set a} → (f : A → B → B) → (z : B) → (p : A × A) →
-              foldr-pair f p z ≡ foldr f z (append-pair p [])
-lemma-fold0 f z (x , y) = refl
 
 lemma-fold1 : ∀ {a} {A : Set a} {B : Set a} → (f : A → B → B) → (z : B) → (n' : List (A × A))
             → foldr (foldr-pair f) z n' ≡ foldr f z (foldr (foldr-pair _∷_) [] n')
 lemma-fold1 f z [] = refl
 lemma-fold1 f z (x ∷ n') rewrite lemma-fold1 f z n' = refl
+
+
+
+-- we discover that this is not true in general.
+-- implementation is wrong?
+
+lemma-fold2 : ∀ {a} {A : Set a} {B : Set a} → (f : B → A → B) → (z : B) → (n' : List (A × A)) → (x : A)
+            → f (foldl (foldl-pair f) z n') x ≡ foldl f (f z x) (foldr (foldr-pair _∷_) [] n')
+lemma-fold2 f z [] x = refl
+lemma-fold2 f z (n ∷ n') x rewrite lemma-fold2 f (foldl-pair f z n) n' x =  {!   !}
+
 
 th-fold : ∀ {a} {A : Set a} {B : Set a} → (f : A → B → B) → (z : B) → (n : Nest A) →
               foldr-nest f n z ≡ Data.List.foldr f z (toList n)
@@ -68,3 +69,15 @@ th-fold f z (consN x n) =
   ≡⟨ cong (f x) (lemma-fold1 f z (toList n)) ⟩
     f x (foldr f z (foldr (foldr-pair _∷_) [] (toList n)))
   ∎
+
+
+th-foldl : ∀ {a} {A : Set a} {B : Set a} → (f : B → A → B) → (z : B) → (n : Nest A) →
+            foldl-nest f z n ≡ foldl f z (toList n)
+th-foldl f z nilN = refl
+th-foldl f z (consN x n) =
+  begin
+    foldl-nest f z (consN x n)
+  ≡⟨ cong₂ f (th-foldl (foldl-pair f) z n) refl ⟩
+    f (foldl (foldl-pair f) z (toList n)) x
+  ≡⟨ {!   !} ⟩
+    {!   !}
