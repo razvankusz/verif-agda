@@ -24,7 +24,7 @@ open reduceClass {{...}} public
 ------------------------------------------------------------------------
 -- Instances
 
-reduceInstanceList : {a : Level} → reduceClass List
+instance reduceInstanceList : {a : Level} → reduceClass List
 reduceInstanceList {a} = record {
   reducer = λ {A} {B} f F x → Data.List.foldr {a} {a} {A} {B} f x F;
   reducel = Data.List.foldl }

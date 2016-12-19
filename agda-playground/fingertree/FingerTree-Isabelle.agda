@@ -113,37 +113,6 @@ Associative _⊕_ = ∀ x y z → x ⊕ (y ⊕ z) ≡ (x ⊕ y) ⊕ z
 Commutative :  ∀ {A} → (A → A → A) → Set
 Commutative _⊕_ = ∀ x y → (x ⊕ y) ≡ (y ⊕ x)
 
-
--- foldr-com : ∀ {A} (n : Node A) → (m : Node A) → (fun : A → A → A) → (z : A) →
---             (assoc : Associative fun) → (comm : Commutative fun) →
---             foldr-node fun n (foldr-node fun m z) ≡ foldr-node fun m (foldr-node fun n z)
--- foldr-com (Tip x) (Tip x₁) fun z assoc comm =
---   begin
---       fun x (fun x₁ z)
---     ≡⟨ sym (cong (fun x) (comm z x₁)) ⟩
---       fun x (fun z x₁)
---     ≡⟨ assoc x z x₁ ⟩
---       fun (fun x z) x₁
---     ≡⟨ comm (fun x z) x₁ ⟩
---       fun x₁ (fun x z)
---     ∎
--- foldr-com (Tip x) (Node2 m m₁) fun z assoc comm =
---   begin
---     fun x (foldr-node fun m (foldr-node fun m₁ z))
---   ≡⟨ {!  !} ⟩ {!   !}
--- foldr-com (Tip x) (Node3 m m₁ m₂) fun z assoc comm = {!   !}
--- foldr-com (Node2 n n₁) m fun z assoc comm = {!   !}
--- foldr-com (Node3 n n₁ n₂) m fun z assoc comm = {!   !}
---
--- node-reduce : ∀ {A} (n : Node A) → (fun : A → A → A) → (z : A) →
---               (assoc : Associative fun) → (comm : Commutative fun) →
---               foldr-node fun n z ≡ foldl-node fun z n
--- node-reduce (Tip x) fun z assoc comm = comm x z
--- node-reduce (Node2 n n₁) fun z assoc comm = begin
---   foldr-node fun n (foldr-node fun n₁ z) ≡⟨ {!   !} ⟩ {!   !}
--- node-reduce (Node3 n n₁ n₂) fun z assoc comm = {!   !}
---
-
 foldr-lemma0 : ∀ {a} {A : Set a}{B : Set a} → (xs : List A) → (ys : List A) → (zs : List A) → (xs ++ ys ≡ zs) →
               (fun : A → B → B) → (z : B) →
               foldr fun (foldr fun z ys) xs ≡ foldr fun z zs
@@ -271,12 +240,3 @@ foldr-correct fun (Deep x ft x₁) z =
           ≡⟨ foldr-lemma1 (toList-digit x) (toList-ft ft) (toList-digit x₁) (toList-ft (Deep x ft x₁)) refl fun z ⟩
             foldr fun z ((toList-digit x) ++ (toList-ft ft) ++ (toList-digit x₁))
           ∎
-
-
-fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →
-                  (assoc : Associative fun) → (comm : Commutative fun) →
-                  foldr-ft fun ft base ≡ foldl-ft fun base ft
-fingertree-reduce Empty fun z assoc comm = refl
-fingertree-reduce (Single x) fun z assoc comm with foldr-node fun x z
-... | v   = {!   !}
-fingertree-reduce (Deep x ft x₁) fun z assoc comm = {!   !}

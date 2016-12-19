@@ -362,15 +362,9 @@ fingertree-reduce (Deep x ft x₁) fun z assoc comm
                       = {!   !}
 
 
-reducelFingerTree2 : ∀ {i : Size}{a} {A : Set a} {B : Set a} → (fun : B → A → B) → (base : B) → (ft : FingerTree A {i}) → B
-reducelFingerTree2 fun base ft with viewL ft
-reducelFingerTree2 fun base ft | nilL = base
-reducelFingerTree2 fun base ft | consL x x₁ = fun (reducelFingerTree2 fun base x₁) x
-
-
-
 ρₗ = reducelFingerTree
 open import numbers
+
 
 funprop0 : ∀ {a} {A : Set a} {B : Set a} → (B → A → B) → Set a
 funprop0 f = ∀ x y z → f (f x y) z ≡ f (f x z) y
@@ -402,15 +396,18 @@ lemma0n (Deep (Four x x₁ x₂ x₃) t x₄) m  =
 
 -- ignore this for now
 --    ---------------------------------------------------------------------
--- app3 : ∀ {a} {A : Set a} → FingerTree A → List A → FingerTree A → FingerTree A
--- app3 Empty ts xs      = ts ◁′ xs
--- app3 xs ts Empty      = xs ▷′ ts
--- app3 (Single x) ts xs = x ◁ (ts ◁′ xs)
--- app3 xs ts (Single x) = (xs ▷′ ts) ▷ x
--- app3 (Deep pr₁ m₁ sf₁) ts (Deep pr₂ m₂ sf₂)
---  = Deep pr₁ (app3 m₁ (nodes ((toList⁺⁺ sf₁ ts pr₂))) m₂) sf₂
+app3 : ∀ {a} {A : Set a} → FingerTree A → List A → FingerTree A → FingerTree A
+app3 Empty ts xs      = ts ◁′ xs
+app3 xs ts Empty      = xs ▷′ ts
+app3 (Single x) ts xs = x ◁ (ts ◁′ xs)
+app3 xs ts (Single x) = (xs ▷′ ts) ▷ x
+app3 (Deep pr₁ m₁ sf₁) ts (Deep pr₂ m₂ sf₂)
+ = Deep pr₁ (app3 m₁ (nodes ((toList⁺⁺ sf₁ ts pr₂))) m₂) sf₂
 
 -- Concatenation itself
 
--- _⋈_ : ∀ {a} {A : Set a} → FingerTree A → FingerTree A → FingerTree A
--- xs ⋈ ys = app3 xs [] ys
+_⋈_ : ∀ {a} {A : Set a} → FingerTree A → FingerTree A → FingerTree A
+xs ⋈ ys = app3 xs [] ys
+
+test-concat : FingerTree ℕ
+test-concat = (1 ◁ 2 ◁ 3 ◁ Empty) ⋈ (4 ◁ 5 ◁ 6 ◁ Empty)

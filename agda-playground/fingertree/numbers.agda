@@ -1,7 +1,9 @@
 
 module numbers where
   open import Data.Nat
+  open import Data.List
   open import Relation.Binary.PropositionalEquality
+  open ≡-Reasoning
 
   0+ : (m : ℕ) → (0 + m) ≡ m
   0+ m = refl
@@ -23,3 +25,26 @@ module numbers where
   +comm (suc x) y rewrite +suc x y |
                           +suc y x |
                           +comm x y = refl
+
+  lemma++ : ∀ {a} {A : Set a} → (x : A) → (xs : List A) → (ys : List A)
+        → (x ∷ xs) ++ ys ≡ x ∷ (xs ++ ys)
+  lemma++ x xs ys =
+        begin
+          x ∷ xs ++ ys
+        ∎
+
+  []+ : ∀ {a} {A : Set a} → (xs : List A) → ([] ++ xs) ≡ xs
+  []+ xs = refl
+
+  +[] : ∀ {a} {A : Set a} → (xs : List A) → (xs ++ []) ≡ xs
+  +[] [] = refl
+  +[] (x ∷ xs) =
+    begin
+      x ∷ xs ++ []
+    ≡⟨ lemma++ x xs [] ⟩
+      cong (_∷_ x) (+[] xs)
+
+  ++assoc : ∀ {a} {A : Set a} → (xs : List A) → (ys : List A) → (zs : List A) →
+      xs ++ (ys ++ zs) ≡ (xs ++ ys) ++ zs
+  ++assoc [] ys zs = refl
+  ++assoc (x ∷ xs) ys zs = cong (_∷_ x) (++assoc xs ys zs)

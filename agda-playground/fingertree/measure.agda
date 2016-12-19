@@ -2,6 +2,7 @@ open import Relation.Binary.PropositionalEquality
 open import Level
 record Monoid {a}(V : Set a) : Set a where
   constructor monoid
+  infixr 5 _∙_
   field
     ε : V
     _∙_ : V → V → V
