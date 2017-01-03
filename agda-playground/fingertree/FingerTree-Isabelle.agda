@@ -28,6 +28,14 @@ data FingerTree {a : Level} (A : Set a) : Set a where
   Single : Node A → FingerTree A
   Deep : Digit A → FingerTree A → Digit A → FingerTree A
 
+-- - COMMENTS ---------------------------------------------------
+--
+-- One thing to note about this implementation is, although it makes
+-- proofs easier and a lot more readable, it requires a lot more
+-- invariants to be held explicitly. In the original implementation
+-- by Ross Patterson, the invariants realted to level correctness are kept
+-- in the type signature.
+
 -- --------------------------------------------------------------
 infixr 5 _◁'_
 _◁'_ : ∀ {a} → {A : Set a} → Node A → FingerTree A → FingerTree A
@@ -103,6 +111,13 @@ toList-ft : ∀ {a} → {A : Set a} → FingerTree A → List A
 toList-ft Empty = []
 toList-ft (Single x) = toList-node x
 toList-ft (Deep x ft x₁) = toList-digit x ++ toList-ft ft ++ toList-digit x₁
+
+-- -----------------------------------------------------------------------------
+
+
+
+
+
 
 -- -------------------------------------------------------------------------
 -- here I am trying to prove the original lemma using the Isabelle structure

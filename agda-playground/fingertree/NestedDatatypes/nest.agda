@@ -29,10 +29,10 @@ open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 open import Data.List
 
-Associative : ∀ {A} → (A → A → A) → Set
+Associative : ∀ {a} {A : Set a} → (A → A → A) → Set a
 Associative _⊕_ = ∀ x y z → x ⊕ (y ⊕ z) ≡ (x ⊕ y) ⊕ z
 
-Commutative :  ∀ {A} → (A → A → A) → Set
+Commutative :  ∀ {a} {A : Set a} → (A → A → A) → Set a
 Commutative _⊕_ = ∀ x y → (x ⊕ y) ≡ (y ⊕ x)
 
 toList : ∀ {a} {A : Set a} → Nest A → List A
@@ -71,6 +71,23 @@ th-fold f z (consN x n) =
   ∎
 
 
+-- I can't even prove this for lists, let alone for finger trees ^^
+lemma-fold-list : ∀ {a} {A : Set a} → (f : A → A → A) → (z : A) →
+                  (Commutative f) → (Associative f) → (xs : List A) →
+                  foldr f z xs ≡ foldl f z xs
+lemma-fold-list f z com asoc [] = refl
+lemma-fold-list f z com asoc (x ∷ xs) =
+  begin
+    f x (foldr f z xs)
+  ≡⟨ cong (f x) (lemma-fold-list f z com asoc xs) ⟩
+    f x (foldl f z xs)
+  ≡⟨ {!   !} ⟩ {!   !}
+
+lemma-fold-list-b : ∀ {a} {A : Set a} → (f : A → A → A) → (z : A) →
+                  (Commutative f) → (Associative f) → (xs : List A) →
+                  foldl f z xs ≡ foldr f z xs
+lemma-fold-list-b f z com asoc [] = refl
+lemma-fold-list-b f z com asoc (x ∷ xs) = begin foldl f (f z x) xs ≡⟨ {!   !} ⟩ {!   !}
 th-foldl : ∀ {a} {A : Set a} {B : Set a} → (f : B → A → B) → (z : B) → (n : Nest A) →
             foldl-nest f z n ≡ foldl f z (toList n)
 th-foldl f z nilN = refl

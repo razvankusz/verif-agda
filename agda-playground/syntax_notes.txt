@@ -1,0 +1,58 @@
+Notes on Agda syntax which is not very obvious from the documentation
+with examples from the code
+
+
+The 'open foo {{...}} public' and something on Records.
+
+record Monoid {a} (V : Set a) : Set a where
+ constructor monoid
+ infixr 5 _∙_
+ field
+   ε : V
+   _∙_ : V → V → V
+   ε-left  : ∀ (v : V) → ε ∙ v ≡ v
+   ε-right : ∀ (v : V) → v ∙ ε ≡ v
+   ∙-assoc : ∀ (a b c : V) → a ∙ (b ∙ c) ≡ (a ∙ b) ∙ c
+
+In Agda, record fields are functions under the hood.
+That is, in order to access for example the unit (ε) field of a Monoid (declared above),
+We need to call the function Monoid.ε which is of type {V} -> Monoid V -> V.
+Therfore, everytime we want to use this element, we need to write the horrible
+Monoid.ε mon, and keep mon in scope when it should be more or less implicit.
+
+This is where 'open foo {{...}} public' helpes out.
+
+Opening a Record is equivalent to bringing all these functions into scope, so that
+we can write ε instead of Monoid.ε.
+Furthermore, the {{...}} tells agda that I want to make the monoid argument of this
+function an instance argument, making the signature of ε : {V} -> {{Monoid V}} -> V
+
+instance and {{ }} keywords.
+
+When a function takes an argument surrounded by double-braces, that argument
+becomes an instance argument.
+This has been introduced in Agda to make possible the implementation of
+something simmilar to the Haskell type-classes.
+When such a function is called, agda checks the whole environment
+for an element of that type. The checking procedure has a couple rules (relevant in this project)
+
+  1) In top level, it only looks for variables that declared with the instance modifier
+  2) If used inside a function, it looks in the arguments of the function, as well as in top level
+
+The way it is used in this project is via the (standard library) Reduce Class and for defining
+functions involving measurement (which I am discussing here)
+
+We can mimic the Haskell typeclass of a monoid, by providing instance arguements in all the
+functions signatures that need to use it.
+
+measure-tree : {a : Level} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → V
+measure-tree Empty = ε
+
+Returning to the previous example, when we use ε inside such a function, we can think of it as
+the actual unit element of the monoid we have declared in the signature. This is because
+ε has the type {a}{V : Set a} -> {{ Monoid V}} -> V. Agda can find 'mo' as having type Monoid V and
+implicitly infer a and V from the scope. Therefore ε is shorthand for Monoid.ε {a} {V} {{ mo }}
+
+
+The same thing happens in the standard library, in the Reduce class.
+Hence the instance reduceBlaBlaInstance throughout the code.

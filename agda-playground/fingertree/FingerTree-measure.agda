@@ -16,11 +16,6 @@ open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 ------------------------------------------------------------------------
 
--- Finger tree =
---   Digit (of Nodes) + Finger Tree (of Nodes) + Digit (of Nodes)
-
--- prove that V is a monoid
-
 data Node {a : Level} (A : Set a)(V : Set a) : Set a where
   Node2 : V → A → A → Node A V
   Node3 : V → A → A → A → Node A V
@@ -56,6 +51,7 @@ open Measured {{...}} public
 open Monoid {{...}} public
 
 -- REDUCTIONS --------------------------------------------------------------
+
 
 reducer-node : ∀ {a}{A : Set a}{V : Set a}{B : Set a} → (f : A → B → B) → (Node A V) → B → B
 reducer-node f (Node2 x x₁ x₂) z = f x₁ (f x₂ z)
@@ -131,6 +127,13 @@ reduceinstance-ft =
 
 -- SMART CONSTRUCTORS -------------------------------------------------------
 
+-- These constructors also perform the computation required to update the annotation -- or measure
+-- of each element. If throughout the code we replace the lowercase constructors with their
+-- uppercase equivalents, we obtain the implementation for the initial datastructure.
+
+-- However, the datastructure with annotation helps this project both by adding novelty to the
+-- previous Agda implementation and by allowing development of higher level data structures
+
 node2 : ∀ {a : Level} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → A → A → Node A V
 node2 x y = Node2 (∥ x ∥ ∙ ∥ y ∥) x y
 
@@ -148,7 +151,7 @@ measure-digit (Three x x₁ x₂) = ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
 measure-digit (Four x x₁ x₂ x₃) = ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
 
 measure-tree : {a : Level} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → V
-measure-tree {{m}} Empty = ε {{m}}
+measure-tree Empty = ε 
 measure-tree (Single x) = ∥ x ∥
 measure-tree (Deep v x ft x₁) = v
 
@@ -159,6 +162,8 @@ deep : ∀ {a : Level} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Meas
   (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) →
   FingerTree A V
 deep pr ft sf = Deep ((measure-digit pr) ∙ ((measure-tree ft) ∙ (measure-digit sf))) pr ft sf
+
+-- -- CONS -------------------------------------------------------------
 
 infixr 5 _◁_
 _◁_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → A → FingerTree A V → FingerTree A V
@@ -175,8 +180,32 @@ toTree : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A 
         {F : Set a → Set a} ⦃ r : reduceClass {a} F ⦄ → F A → FingerTree A V
 toTree s = reducer _◁_ s Empty
 
+-- -- To List ----------------------------------------------------------
+
+-- is an instance of the reducer but explicitly so makes proofs easier
+toList-dig : ∀{a}{A : Set a} → Digit A → List A
+toList-dig (One x) = x ∷ []
+toList-dig (Two x x₁) = x ∷ x₁ ∷ []
+toList-dig (Three x x₁ x₂) = x ∷ x₁ ∷ x₂ ∷ []
+toList-dig (Four x x₁ x₂ x₃) = x ∷ x₁ ∷ x₂ ∷ x₃ ∷ []
+
+toList-node : ∀{a}{A : Set a}{V : Set a} → Node A V → List A
+toList-node (Node2 x x₁ x₂) = x₁ ∷ x₂ ∷ []
+toList-node (Node3 x x₁ x₂ x₃) = x₁ ∷ x₂ ∷ x₃ ∷ []
+
+flatten-list : ∀{a}{A : Set a}{V : Set a} → List (Node A V) → List A
+flatten-list [] = []
+flatten-list (x ∷ xs) = (toList-node x) ++ (flatten-list xs)
+
+toList-ft : ∀ {a}{A : Set a}{V : Set a} → FingerTree A V → List A
+toList-ft Empty = []
+toList-ft (Single x) = x ∷ []
+toList-ft (Deep x x₁ ft x₂) = (toList-dig x₁) ++ (flatten-list (toList-ft ft)) ++ (toList-dig x₂)
+
+
 -- -- VIEW FROM THE LEFT -----------------------------------------------
 
+-- the head and tail operations on digits
 head-dig : ∀ {a} {A : Set a} → Digit A → A
 head-dig (One x) = x
 head-dig (Two x x₁) = x
@@ -189,13 +218,13 @@ tail-dig (Two x x₁) = just (One x₁)
 tail-dig (Three x x₁ x₂) = just (Two x₁ x₂)
 tail-dig (Four x x₁ x₂ x₃) = just (Three x₁ x₂ x₃)
 
-data ViewL {a}(A : Set a)(S : Set a) : Set a where
-  NilL : ViewL A S
-  ConsL : A → S → ViewL A S
+data ViewL {a}(A : Set a)(S : {j : Size} → Set a) : {i : Size} → Set a where
+  NilL : ∀ {i : Size} → ViewL A S {↑ i}
+  ConsL : ∀ {i : Size} → A → S {i} → ViewL A S {↑ i}
 
 mutual
-  viewL : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-        FingerTree A V → ViewL A (FingerTree A V)
+  viewL : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+        FingerTree A V {i} → ViewL A (FingerTree A V) {i}
   viewL Empty = NilL
   viewL (Single x) = ConsL x Empty
   viewL (Deep x pr ft sf) = ConsL (head-dig pr) (deepL (tail-dig pr) ft sf)
@@ -263,8 +292,18 @@ mutual
 
 -- -- -- SPLITING ---------------------------------------------
 
+-- Splitting referes to splitting a datastructures in two parts plus the element at which
+-- the datastructure has split -- we use this to split a finger at the point where the cumulative 'sum'
+-- of the elements until that point fails to satisfy some property p
+
 data Split {a} (F : Set a) (A : Set a) : Set a where
   split : F → A → F → Split F A
+
+
+toDigit : ∀ {a} {A : Set a} {V : Set a} → Node A V → Digit A
+toDigit (Node2 x x₁ x₂) = Two x₁ x₂
+toDigit (Node3 x x₁ x₂ x₃) = Three x₁ x₂ x₃
+
 
 splitDigit : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
           (p : V → Bool) → V → Digit A → Split (Maybe (Digit A)) A
@@ -291,23 +330,106 @@ splitDigit p i (Four x x₁ x₂ x₃) = if (p i) then
     split (just (Three x x₁ x₂)) x₃ nothing
 --
 
+-- Axioms related to splitting.
+isEmpty-ft  : ∀ {a} {A : Set a}{V : Set a} → (FingerTree A V) → Bool
+isEmpty-ft Empty = false
+isEmpty-ft (Single x) = false
+isEmpty-ft (Deep x x₁ ft x₂) = false
+
+split-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+        (p : V → Bool) → (x : V) → (ft : FingerTree A V) → (p x ≡ true) → (p (x ∙ measure-tree (ft)) ≡ false) → (isEmpty-ft ft ≡ false)
+split-lemma0 p x Empty prf1 prf2 = refl
+split-lemma0 p x (Single x₁) prf1 prf2 = refl
+split-lemma0 p x (Deep x₁ x₂ ft x₃) prf1 prf2 = refl
+
+-- splitTree-pr : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+--           (p : V → Bool) → (i : V) → (pr : Digit A) → ( ft : FingerTree A V) → (sf : Digit A) →
+--           (p (i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr)) ≡ true) →
+--           (p (i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)) ≡ false) →
+--           Maybe (Split (FingerTree A V) A)
+-- splitTree-pr p i pr ft sf prf1 prf2 with (splitTree p )
+
 splitTree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
           (p : V → Bool) → V → FingerTree A V → Maybe (Split (FingerTree A V) A)
 splitTree p i Empty = nothing
 splitTree p i (Single x) = just (split Empty x Empty)
--- fix this ugly bit here
-splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) with (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) | (measure-tree ft)
+
+-- with is required here because we need to pattern match on the RHS
+-- agda only allows pattern matching after the equal sign. I can't find any workarounds
+splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) with i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) | i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)
 ... | vpr | vm with (p vpr) | (p vm)
 splitTree p i (Deep x pr ft sf) | vpr | vm | false | false with (splitDigit p vm sf)
 splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | false | split l x r = just (split (deepR pr ft l) x (toTree r))
 splitTree p i (Deep x pr ft sf) | vpr | vm | false | true with (splitTree p vpr ft)
-splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split x x₁ x₂) = ?
-splitTree p i (Deep x pr ft sf) | vpr | vm | false | true | nothing = {!   !}
-splitTree p i (Deep x pr ft sf) | vpr | vm | true | _ = {!   !}
+splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) with (splitDigit ⦃ mo ⦄ ⦃ m ⦄ p (vpr ∙ measure-tree ml) (toDigit xs))
+splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) | split l x r = just (split (deepR pr ml l) x (deepL r mr sf))
+splitTree p i (Deep x pr ft sf) | vpr | vm | false | true | nothing = nothing
+  -- check this case more thoroughly, it shouldn't be reached
+  -- probably here I can talk about limitations of agda -- see split-lemma0
+splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) | vpr | vm | true | _ with splitDigit ⦃ mo ⦄ ⦃ m ⦄ p i pr
+splitTree p i (Deep x₃ pr ft sf) | vpr | vm | true | _ | split l x r = just (split (toTree l) x (deepL r ft sf))
 
 
---   where
--- --
+-- -- -- Lemmas -------------------------------------------------------------------------
+
+-- toList-ft2 : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V {i}) → List A
+-- toList-ft2 {a}{i} ft with viewL ft
+-- toList-ft2 ft | NilL {i} = []
+-- toList-ft2 ft | ConsL {.(↑ i)} x x₁ = toList-ft2 _ {i} x₁
+--
+-- viewL-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : A) → (ft : FingerTree A V) →
+--         viewL (x ◁ ft) ≡ ConsL x ft
+-- viewL-lemma0 x ft = {!   !}
+
+-- I have tried for a long time to help agda realize that the viewL decreases the size of its argument but
+-- to no avail. All the proofs would become a lot simpler if we manage that, otherwise trying to do so
+-- will cause the termination check to fail -- see above example.
+
+
+-- Managed to prove that consing appends to the front -- and also that toList is sane
+-- First proof to go in the dissertation
+cons-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : A) → (ft : FingerTree A V) →
+        toList-ft (x ◁ ft) ≡ x ∷ (toList-ft ft)
+cons-lemma0 x Empty = refl
+cons-lemma0 x (Single x₁) = refl
+cons-lemma0 x (Deep x₁ (One x₂) ft x₃) =
+  begin
+    toList-ft (x ◁ (Deep x₁ (One x₂) ft x₃))
+  ≡⟨ refl ⟩
+    x ∷ x₂ ∷ flatten-list (toList-ft ft) ++ toList-dig x₃
+  ≡⟨ cong (λ xs → x ∷ xs) refl ⟩
+    x ∷ (toList-ft ) (Deep x₁ (One x₂) ft x₃)
+  ∎
+cons-lemma0 x (Deep x₁ (Two x₂ x₃) ft x₄) =
+  begin
+    toList-ft (x ◁ (Deep x₁ (Two x₂ x₃) ft x₄))
+  ≡⟨ refl ⟩
+    x ∷ x₂ ∷ x₃ ∷ flatten-list (toList-ft ft) ++ toList-dig x₄
+  ≡⟨ cong (λ xs → x ∷ xs) refl ⟩
+    x ∷ (toList-ft (Deep x₁ (Two x₂ x₃) ft x₄))
+  ∎
+cons-lemma0 x (Deep x₁ (Three x₂ x₃ x₄) ft x₅) =
+  begin
+    toList-ft (x ◁ Deep x₁ (Three x₂ x₃ x₄) ft x₅)
+  ≡⟨ refl ⟩
+    x ∷ x₂ ∷ x₃ ∷ x₄ ∷ flatten-list (toList-ft ft) ++ toList-dig x₅
+  ≡⟨ cong (λ xs → x ∷ xs) refl ⟩
+    x ∷ toList-ft (Deep x₁ (Three x₂ x₃ x₄) ft x₅)
+  ∎
+cons-lemma0 {_}{_}{_} ⦃ mo ⦄ ⦃ m ⦄ x (Deep x₁ (Four x₂ x₃ x₄ x₅) ft x₆) =
+  begin
+    toList-ft (x ◁ Deep x₁ (Four x₂ x₃ x₄ x₅) ft x₆)
+  ≡⟨ refl ⟩
+    x ∷ x₂ ∷ (flatten-list (toList-ft ((node3 x₃ x₄ x₅) ◁ ft)) ++ toList-dig x₆)
+  ≡⟨ cong (λ r → x ∷ x₂ ∷ (flatten-list r ++ toList-dig x₆)) (cons-lemma0 (node3 x₃ x₄ x₅) ft) ⟩
+    x ∷ x₂ ∷ (flatten-list ((node3 x₃ x₄ x₅) ∷ (toList-ft ft)) ++ toList-dig x₆)
+  ≡⟨ cong (λ r → x ∷ x₂ ∷ r) refl ⟩
+    x ∷ x₂ ∷ ((x₃ ∷ x₄ ∷ x₅ ∷ (flatten-list (toList-ft ft))) ++ toList-dig x₆)
+  ≡⟨ cong (λ r → x ∷ r) refl ⟩
+    x ∷ toList-ft (Deep x₁ (Four x₂ x₃ x₄ x₅) ft x₆)
+  ∎
+
+
 -- -- -- TESTING ---------------------------------------------------------------------------
 open import numbers
 
@@ -328,15 +450,9 @@ list-measure =  measured (λ x → x ∷ [])
 -- _◁_ : ℕ → FingerTree ℕ (List ℕ) → FingerTree ℕ (List ℕ)
 -- _◁_ = _◁_ list-measure
 
+
 test-tree : FingerTree ℕ (List ℕ)
 test-tree = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
 
 test-tree2 : FingerTree ℕ ℕ
-test-tree2 = 1 ◁ 2 ◁ 3 ◁ Empty
-
-test-pred : ℕ → Bool
-test-pred 2 = true
-test-pred _ = false
-
-test-digit : Digit ℕ
-test-digit = Four 1 2 3 4
+test-tree2 = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
