@@ -10,6 +10,7 @@ open import Data.List using (List; []; _∷_; _++_)
 -- open import Data.List.NonEmpty using (List⁺; [_]; _∷_; _⁺++_)
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Bool using (Bool; true; false; if_then_else_)
+open import Function using(case_of_)
 open import Size
 
 open import Relation.Binary.PropositionalEquality
@@ -151,7 +152,7 @@ measure-digit (Three x x₁ x₂) = ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
 measure-digit (Four x x₁ x₂ x₃) = ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
 
 measure-tree : {a : Level} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → V
-measure-tree Empty = ε 
+measure-tree Empty = ε
 measure-tree (Single x) = ∥ x ∥
 measure-tree (Deep v x ft x₁) = v
 
@@ -349,25 +350,58 @@ split-lemma0 p x (Deep x₁ x₂ ft x₃) prf1 prf2 = refl
 --           Maybe (Split (FingerTree A V) A)
 -- splitTree-pr p i pr ft sf prf1 prf2 with (splitTree p )
 
-splitTree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-          (p : V → Bool) → V → FingerTree A V → Maybe (Split (FingerTree A V) A)
-splitTree p i Empty = nothing
-splitTree p i (Single x) = just (split Empty x Empty)
+mutual
+
+  splitTree1 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+            (p : V → Bool) → (i : V) → (Digit A) → (FingerTree (Node A V) V) → (Digit A) → Split (FingerTree A V) A
+  splitTree1 p i pr ft sf with splitDigit p i pr
+  splitTree1 p i pr ft sf | split l x r = split (toTree l) x (deepL r ft sf)
+
+  splitTree2 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+            (p : V → Bool) → (i : V) → (Digit A) → (FingerTree (Node A V) V) → (Digit A) → Split (FingerTree A V) A
+  splitTree2 p i pr ft sf with splitDigit p i sf
+  splitTree2 p i pr ft sf | split l x r = split (deepR pr ft l) x (toTree r)
+
+  splitTree3 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+            (p : V → Bool) → (i : V) → (Digit A) → (FingerTree (Node A V) V) → (Digit A) → Split (FingerTree A V) V
+  splitTree3 p i pr ft sf with splitTree p vpr ft
+
+  where
+      vpr = i ∙ (measure-digit pr)
+      vm  = vpr ∙ (measure-tree ft)
+
+
+  splitTree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+            (p : V → Bool) → V → FingerTree A V → Maybe (Split (FingerTree A V) A)
+  splitTree p i Empty = nothing
+  splitTree p i (Single x) = just (split Empty x Empty)
+  splitTree p i (Deep x pr ft sf) =
+    if (p vpr) then
+      just (splitTree1 p i pr ft sf)
+    else
+      {!   !}
+
+    where
+      vpr = i ∙ (measure-digit pr)
+      vm  = vpr ∙ (measure-tree ft)
 
 -- with is required here because we need to pattern match on the RHS
 -- agda only allows pattern matching after the equal sign. I can't find any workarounds
-splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) with i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) | i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)
-... | vpr | vm with (p vpr) | (p vm)
-splitTree p i (Deep x pr ft sf) | vpr | vm | false | false with (splitDigit p vm sf)
-splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | false | split l x r = just (split (deepR pr ft l) x (toTree r))
-splitTree p i (Deep x pr ft sf) | vpr | vm | false | true with (splitTree p vpr ft)
-splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) with (splitDigit ⦃ mo ⦄ ⦃ m ⦄ p (vpr ∙ measure-tree ml) (toDigit xs))
-splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) | split l x r = just (split (deepR pr ml l) x (deepL r mr sf))
-splitTree p i (Deep x pr ft sf) | vpr | vm | false | true | nothing = nothing
-  -- check this case more thoroughly, it shouldn't be reached
-  -- probably here I can talk about limitations of agda -- see split-lemma0
-splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) | vpr | vm | true | _ with splitDigit ⦃ mo ⦄ ⦃ m ⦄ p i pr
-splitTree p i (Deep x₃ pr ft sf) | vpr | vm | true | _ | split l x r = just (split (toTree l) x (deepL r ft sf))
+-- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) with i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) | i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)
+-- ... | vpr | vm with (p vpr) | (p vm)
+-- splitTree p i (Deep x pr ft sf) | vpr | vm | false | false with (splitDigit p vm sf)
+-- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | false | split l x r = just (split (deepR pr ft l) x (toTree r))
+-- splitTree p i (Deep x pr ft sf) | vpr | vm | false | true with (splitTree p vpr ft)
+-- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) with (splitDigit ⦃ mo ⦄ ⦃ m ⦄ p (vpr ∙ measure-tree ml) (toDigit xs))
+-- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) | split l x r = just (split (deepR pr ml l) x (deepL r mr sf))
+-- splitTree p i (Deep x pr ft sf) | vpr | vm | false | true | nothing = nothing
+--   -- check this case more thoroughly, it shouldn't be reached
+--   -- probably here I can talk about limitations of agda -- see split-lemma0
+-- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) | vpr | vm | true | _ with splitDigit ⦃ mo ⦄ ⦃ m ⦄ p i pr
+-- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | true | _ | split l x r = just (split (toTree l) x (deepL r ft sf))
+
+
+
 
 
 -- -- -- Lemmas -------------------------------------------------------------------------
