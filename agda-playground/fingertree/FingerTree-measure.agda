@@ -1,3 +1,4 @@
+{-# OPTIONS --sized-types #-}
 module FingerTree-measure where
 
 open import Class.Reduce
@@ -6,7 +7,7 @@ open import Data.Maybe
 open import Data.Unit using (⊤)
 open import Data.Nat using (ℕ; suc; _<_; _+_)
 open import Data.Fin using (Fin)
-open import Data.List using (List; []; _∷_; _++_)
+open import Data.List using (List; []; _∷_; _++_; length; tails)
 -- open import Data.List.NonEmpty using (List⁺; [_]; _∷_; _⁺++_)
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Bool using (Bool; true; false; if_then_else_)
@@ -15,6 +16,7 @@ open import Size
 
 open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
+
 ------------------------------------------------------------------------
 
 data Node {a : Level} (A : Set a)(V : Set a) : Set a where
@@ -32,6 +34,18 @@ data FingerTree {a : Level} (A : Set a)(V : Set a) : {i : Size} → Set a where
   Single : ∀ {i : Size} → A → FingerTree A V {↑ i}
   Deep   : ∀ {i : Size} → V → Digit A → FingerTree (Node A V) V {i} → Digit A →
            FingerTree A V {↑ i}
+
+-- data Digit {a : Level} (A : Set a) : {i : ℕ} → Set a where
+--   One   : A → Digit A {1}
+--   Two   : A → A → Digit A {2}
+--   Three : A → A → A → Digit A {3}
+--   Four  : A → A → A → A → Digit A {4}
+--
+-- data FingerTree {a : Level} (A : Set a)(V : Set a) : {i : ℕ} → Set a where
+--   Empty  : FingerTree A V {0}
+--   Single : A → FingerTree A V {1}
+--   Deep   : ∀ {n m p : ℕ} → V → Digit A {n} → FingerTree (Node A V) V {m} → Digit A {p} →
+--            FingerTree A V {n + m + p}
 
 record Monoid {a} (V : Set a) : Set a where
  constructor monoid
@@ -219,9 +233,9 @@ tail-dig (Two x x₁) = just (One x₁)
 tail-dig (Three x x₁ x₂) = just (Two x₁ x₂)
 tail-dig (Four x x₁ x₂ x₃) = just (Three x₁ x₂ x₃)
 
-data ViewL {a}(A : Set a)(S : {j : Size} → Set a) : {i : Size} → Set a where
-  NilL : ∀ {i : Size} → ViewL A S {↑ i}
-  ConsL : ∀ {i : Size} → A → S {i} → ViewL A S {↑ i}
+data ViewL {a}(A : Set a)(S : Set a) : {i : Size} → Set a where
+  NilL : ∀ {i : Size} → ViewL A S {i}
+  ConsL : ∀ {i : Size} → A → S → ViewL A S {↑ i}
 
 mutual
   viewL : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
@@ -230,7 +244,7 @@ mutual
   viewL (Single x) = ConsL x Empty
   viewL (Deep x pr ft sf) = ConsL (head-dig pr) (deepL (tail-dig pr) ft sf)
 
-  deepL : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  deepL : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
         Maybe (Digit A) → FingerTree (Node A V) V → Digit A → FingerTree A V
   deepL (just x) ft sf = deep x ft sf
   deepL nothing ft sf with viewL ft
@@ -270,13 +284,13 @@ tailr-dig (Two x x₁) = just (One x)
 tailr-dig (Three x x₁ x₂) = just (Two x x₁)
 tailr-dig (Four x x₁ x₂ x₃) = just (Three x x₁ x₂)
 
-data ViewR {a}(A : Set a)(S : Set a) : Set a where
-  NilR : ViewR A S
-  ConsR : A → S → ViewR A S
+data ViewR {a}(A : Set a)(S : {j : Size} → Set a) : {i : Size} → Set a where
+  NilR : ∀ {i} → ViewR A S {i}
+  ConsR : ∀ {i} → A → S {i} → ViewR A S {↑ i}
 
 mutual
-  viewR : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-        FingerTree A V → ViewR A (FingerTree A V)
+  viewR : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+        FingerTree A V {i} → ViewR A (FingerTree A V) {i}
   viewR Empty = NilR
   viewR (Single x) = ConsR x Empty
   viewR (Deep x pr ft sf) = ConsR (headr-dig sf) (deepR pr ft (tailr-dig sf))
@@ -331,27 +345,22 @@ splitDigit p i (Four x x₁ x₂ x₃) = if (p i) then
     split (just (Three x x₁ x₂)) x₃ nothing
 --
 
--- Axioms related to splitting.
-isEmpty-ft  : ∀ {a} {A : Set a}{V : Set a} → (FingerTree A V) → Bool
-isEmpty-ft Empty = false
-isEmpty-ft (Single x) = false
-isEmpty-ft (Deep x x₁ ft x₂) = false
 
-split-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-        (p : V → Bool) → (x : V) → (ft : FingerTree A V) → (p x ≡ true) → (p (x ∙ measure-tree (ft)) ≡ false) → (isEmpty-ft ft ≡ false)
-split-lemma0 p x Empty prf1 prf2 = refl
-split-lemma0 p x (Single x₁) prf1 prf2 = refl
-split-lemma0 p x (Deep x₁ x₂ ft x₃) prf1 prf2 = refl
+notEmpty :  ∀ {a} {A : Set a} {V : Set a} → FingerTree A V → Bool
+notEmpty Empty = false
+notEmpty (Single x) = true
+notEmpty (Deep x x₁ ft x₂) = true
 
--- splitTree-pr : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
---           (p : V → Bool) → (i : V) → (pr : Digit A) → ( ft : FingerTree A V) → (sf : Digit A) →
---           (p (i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr)) ≡ true) →
---           (p (i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)) ≡ false) →
---           Maybe (Split (FingerTree A V) A)
--- splitTree-pr p i pr ft sf prf1 prf2 with (splitTree p )
+-- if the value of p x changes after passing through the ft, then ft can't be empty
+struct-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+           (p : V → Bool) → (x : V) → (ft : FingerTree A V) →
+           ((p x ≡ false)) → ((p (x ∙ (measure-tree ft))) ≡ true) → (notEmpty ft ≡ true)
+struct-lemma0 p i Empty pf1 ()
+struct-lemma0 p i (Single x) pf1 pf2 = refl
+struct-lemma0 p i (Deep x x₁ ft x₂) pf1 pf2 = refl
 
+--
 mutual
-
   splitTree1 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
             (p : V → Bool) → (i : V) → (Digit A) → (FingerTree (Node A V) V) → (Digit A) → Split (FingerTree A V) A
   splitTree1 p i pr ft sf with splitDigit p i pr
@@ -363,46 +372,27 @@ mutual
   splitTree2 p i pr ft sf | split l x r = split (deepR pr ft l) x (toTree r)
 
   splitTree3 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-            (p : V → Bool) → (i : V) → (Digit A) → (FingerTree (Node A V) V) → (Digit A) → Split (FingerTree A V) V
-  splitTree3 p i pr ft sf with splitTree p vpr ft
+            (p : V → Bool) → (i : V) → (pr : Digit A) → (ft : FingerTree (Node A V) V) → (Digit A) →
+            (p (i ∙ (measure-digit pr)) ≡ false) → (p ((i ∙ (measure-digit pr)) ∙ (measure-tree ft)) ≡ true) → Split (FingerTree A V) A
+  splitTree3 p i pr ft sf prf1 prf2 with splitTree p (i ∙ (measure-digit pr)) ft | struct-lemma0 p (i ∙ (measure-digit pr)) ft prf1 prf2
+  splitTree3 p i pr ft sf prf1 prf2 | just (split ml mx mr) | strlemma with splitDigit p (i ∙ (measure-digit pr) ∙ (measure-tree ml)) (toDigit mx)
+  splitTree3 p i pr ft sf prf1 prf2 | just (split ml mx mr) | strlemma | split l x r = split (deepR pr ml l) x (deepL r mr sf)
+  splitTree3 p i pr ft sf prf1 prf2 | nothing | ()
 
-  where
-      vpr = i ∙ (measure-digit pr)
-      vm  = vpr ∙ (measure-tree ft)
-
+  -- this struct-lemma0 trick doesn't work here
+--
 
   splitTree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
             (p : V → Bool) → V → FingerTree A V → Maybe (Split (FingerTree A V) A)
   splitTree p i Empty = nothing
   splitTree p i (Single x) = just (split Empty x Empty)
-  splitTree p i (Deep x pr ft sf) =
-    if (p vpr) then
-      just (splitTree1 p i pr ft sf)
-    else
-      {!   !}
-
-    where
-      vpr = i ∙ (measure-digit pr)
-      vm  = vpr ∙ (measure-tree ft)
-
--- with is required here because we need to pattern match on the RHS
--- agda only allows pattern matching after the equal sign. I can't find any workarounds
--- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) with i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) | i ∙ (measure-digit ⦃ mo ⦄ ⦃ m ⦄ pr) ∙ (measure-tree ft)
--- ... | vpr | vm with (p vpr) | (p vm)
--- splitTree p i (Deep x pr ft sf) | vpr | vm | false | false with (splitDigit p vm sf)
--- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | false | split l x r = just (split (deepR pr ft l) x (toTree r))
--- splitTree p i (Deep x pr ft sf) | vpr | vm | false | true with (splitTree p vpr ft)
--- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) with (splitDigit ⦃ mo ⦄ ⦃ m ⦄ p (vpr ∙ measure-tree ml) (toDigit xs))
--- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | false | true | just (split ml xs mr) | split l x r = just (split (deepR pr ml l) x (deepL r mr sf))
--- splitTree p i (Deep x pr ft sf) | vpr | vm | false | true | nothing = nothing
---   -- check this case more thoroughly, it shouldn't be reached
---   -- probably here I can talk about limitations of agda -- see split-lemma0
--- splitTree ⦃ mo ⦄ ⦃ m ⦄ p i (Deep x pr ft sf) | vpr | vm | true | _ with splitDigit ⦃ mo ⦄ ⦃ m ⦄ p i pr
--- splitTree p i (Deep x₃ pr ft sf) | vpr | vm | true | _ | split l x r = just (split (toTree l) x (deepL r ft sf))
-
-
-
-
+  splitTree p i (Deep x pr ft sf) with    p (i ∙ (measure-digit pr)) |
+                                  inspect p (i ∙ (measure-digit pr)) |
+                                          p ((i ∙ measure-digit pr) ∙ measure-tree ft) |
+                                  inspect p ((i ∙ measure-digit pr) ∙ measure-tree ft)
+  splitTree p i (Deep x pr ft sf) | false | _ | false | _ = just (splitTree2 p i pr ft sf)
+  splitTree p i (Deep x pr ft sf) | false | [ eq ] | true | [ eq₁ ] = just (splitTree3 p i pr ft sf eq eq₁)
+  splitTree p i (Deep x pr ft sf) | true | _ | _ | _ = just (splitTree1 p i pr ft sf)
 
 -- -- -- Lemmas -------------------------------------------------------------------------
 
@@ -464,7 +454,193 @@ cons-lemma0 {_}{_}{_} ⦃ mo ⦄ ⦃ m ⦄ x (Deep x₁ (Four x₂ x₃ x₄ x�
   ∎
 
 
--- -- -- TESTING ---------------------------------------------------------------------------
+
+-- -- proof that viewL and ◁ are inverses fails because it's not true.
+-- need to define a new equality for fingertrees as such
+
+data _==_ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : (f1 : FingerTree A V) → (f2 : FingerTree A V) → Set a where
+  leq : ∀ (f1 : FingerTree A V)(f2 : FingerTree A V) → (toList-ft f1 ≡ toList-ft f2) → f1 == f2
+
+-- view-lemma3 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+--   (hd : A) → (tl1 : FingerTree A V) → (tl2 : FingerTree A V) → (viewL (hd ◁ tl1) ≡ ConsL hd tl2) → (tl1 == tl2)
+-- view-lemma3 ft hd tl1 tl2 prp = {!   !}
+
+-- view-lemma4 : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+--     (hd : A) → (tl : FingerTree A V) → (viewL ft ≡ ConsL hd tl) → ((hd ◁ tl) == ft)
+-- view-lemma4 Empty hd tl ()
+-- view-lemma4 (Single x) .x .Empty refl = leq (x ◁ Empty) (Single x) refl
+-- view-lemma4 (Deep x (One x₁) ft x₂) .x₁ .(deepL nothing ft x₂) refl with viewL ft | inspect viewL ft
+-- view-lemma4 (Deep x (One x₁) ft x₂) .x₁ .(deepL nothing ft x₂) refl | NilL | [ eq ] = {!   !}
+-- view-lemma4 (Deep x (One x₁) ft x₂) .x₁ .(deepL nothing ft x₂) refl | ConsL x₃ x₄ | re = {!   !}
+-- --
+-- -- = leq (x₁ ◁ (deepL nothing ft x₂)) ((Deep x (One x₁) ft x₂))
+-- --     (begin
+-- --         toList-ft (x₁ ◁ deepL nothing ft x₂)
+-- --       ≡⟨ cons-lemma0 x₁ (deepL nothing ft x₂) ⟩
+-- --     x₁ ∷ toList-ft (deepL nothing ft x₂)
+-- --       ≡⟨ refl ⟩ {!   !} ≡⟨ {!   !} ⟩ {!   !})
+-- view-lemma4 (Deep x (Two x₁ x₂) ft x₃) hd tl prp = {!   !}
+-- view-lemma4 (Deep x (Three x₁ x₂ x₃) ft x₄) hd tl prp = {!   !}
+-- view-lemma4 (Deep x (Four x₁ x₂ x₃ x₄) ft x₅) hd tl prp = {!   !}
+
+view-lemma4 : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+    (hd : A) → (tl : FingerTree A V) → (viewL ft ≡ ConsL hd tl) → ((hd ◁ tl) == ft)
+view-lemma4 Empty hd tl ()
+view-lemma4 (Single x) .x .Empty refl = leq (Single x) (x ◁ Empty) refl
+view-lemma4 (Deep x x₁ ft x₂) .(head-dig x₁)
+      .(deepL (tail-dig x₁) ft x₂) refl = {!   !}
+
+tail : ∀ {a} {A : Set a} → List A → List A
+tail [] = []
+tail (x ∷ xs) = xs
+
+toList-dig-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  (pr : Digit A) → (toList-ft (toTree ⦃ mo ⦄ ⦃ m ⦄ pr) ≡ (toList-dig pr))
+toList-dig-lemma0 (One x) = refl
+toList-dig-lemma0 (Two x x₁) = refl
+toList-dig-lemma0 (Three x x₁ x₂) = refl
+toList-dig-lemma0 (Four x x₁ x₂ x₃) = refl
+
+toList-lemma11 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) → (viewL ft ≡ NilL) →
+  (toList-ft (deepL (tail-dig pr) ft sf) ≡ tail (toList-ft (deep pr ft sf)))
+toList-lemma11 (One x) Empty sf prop =
+  begin
+    toList-ft (deepL (tail-dig (One x)) Empty sf)
+  ≡⟨ refl ⟩
+    toList-ft (reducer-digit _◁_ sf Empty)
+  ≡⟨ toList-dig-lemma0 sf ⟩
+    refl
+toList-lemma11 (Two x x₁) Empty sf prop = refl
+toList-lemma11 (Three x x₁ x₂) Empty sf prop = refl
+toList-lemma11 (Four x x₁ x₂ x₃) Empty sf prop = refl
+toList-lemma11 pr (Single x) sf ()
+toList-lemma11 pr (Deep x x₁ ft x₂) sf ()
+mutual
+  toList-lemma12 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+    (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) → (hd : Node A V) →
+    (tl : FingerTree (Node A V) V) → (viewL ft ≡ ConsL hd tl) →
+    (toList-ft (deepL (tail-dig pr) ft sf) ≡ tail (toList-ft (deep pr ft sf)))
+  toList-lemma12 pr Empty sf hd tl ()
+  toList-lemma12 (One x₃) (Single (Node2 x x₁ x₂)) sf .(Node2 x x₁ x₂) .Empty refl = refl
+  toList-lemma12 (One x₄) (Single (Node3 x x₁ x₂ x₃)) sf .(Node3 x x₁ x₂ x₃) .Empty refl = refl
+  toList-lemma12 (Two x₁ x₂) (Single x) sf .x .Empty refl = refl
+  toList-lemma12 (Three x₁ x₂ x₃) (Single x) sf .x .Empty refl = refl
+  toList-lemma12 (Four x₁ x₂ x₃ x₄) (Single x) sf .x .Empty refl = refl
+
+
+  toList-lemma12 (One x₃) (Deep x₁ (One x) ft x₂) sf .x .(deepL nothing ft x₂) refl = {!   !}
+
+  
+  toList-lemma12 (One x₅) (Deep x₆ (Two (Node2 x x₁ x₂) x₃) ft x₄) sf .(Node2 x x₁ x₂) _ refl = refl
+  toList-lemma12 (One x₆) (Deep x₇ (Two (Node3 x x₁ x₂ x₃) x₄) ft x₅) sf .(Node3 x x₁ x₂ x₃) _ refl = refl
+  toList-lemma12 (One x₆) (Deep x₇ (Three (Node2 x x₁ x₂) x₃ x₄) ft x₅) sf .(Node2 x x₁ x₂) _ refl = refl
+  toList-lemma12 (One x₇) (Deep x₈ (Three (Node3 x x₁ x₂ x₃) x₄ x₅) ft x₆) sf .(Node3 x x₁ x₂ x₃) _ refl = refl
+  toList-lemma12 (One x₇) (Deep x₈ (Four (Node2 x x₁ x₂) x₃ x₄ x₅) ft x₆) sf .(Node2 x x₁ x₂) _ refl = refl
+  toList-lemma12 (One x₈) (Deep x₉ (Four (Node3 x x₁ x₂ x₃) x₄ x₅ x₆) ft x₇) sf .(Node3 x x₁ x₂ x₃) _ refl = refl
+  toList-lemma12 (Two x₃ x₄) (Deep x x₁ ft x₂) sf .(head-dig x₁) .(deepL (tail-dig x₁) ft x₂) refl = refl
+  toList-lemma12 (Three x₃ x₄ x₅) (Deep x x₁ ft x₂) sf .(head-dig x₁) .(deepL (tail-dig x₁) ft x₂) refl = refl
+  toList-lemma12 (Four x₃ x₄ x₅ x₆) (Deep x x₁ ft x₂) sf .(head-dig x₁) .(deepL (tail-dig x₁) ft x₂) refl = refl
+
+  toList-lemma1 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+    (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) →
+    (toList-ft (deepL (tail-dig pr) ft sf) ≡ tail (toList-ft (deep pr ft sf)))
+  toList-lemma1 pr ft sf with viewL ft | inspect viewL ft
+  toList-lemma1 pr ft sf | NilL | [ eq ] = toList-lemma11 pr ft sf eq
+  toList-lemma1 pr ft sf | ConsL x₁ x₂ | [ eq ] = toList-lemma12 pr ft sf x₁ x₂ eq
+
+toList-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  (xs : List A) → (toList-ft (toTree ⦃ mo ⦄ ⦃ m ⦄ xs) ≡ xs )
+toList-lemma0 [] = refl
+toList-lemma0 (x ∷ xs) =
+  begin
+    toList-ft (x ◁ (toTree xs))
+  ≡⟨ cons-lemma0 x (toTree xs) ⟩
+    x ∷ toList-ft (toTree xs)
+  ≡⟨ cong (λ r → x ∷ r) (toList-lemma0 xs) ⟩
+    x ∷ xs ∎
+
+toTree-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  (ft : FingerTree A V) → (toTree (toList-ft ft) == ft)
+toTree-lemma0 ft = leq ((toTree (toList-ft ft))) ft (toList-lemma0 (toList-ft ft))
+
+-- ------REVERSING ------------------------------------------------------------------------
+
+-- this, as before, fails termination check - I need to find a solution for this - it should involve sized types but cannot figure it out
+-- reverse : ∀ {a}{i : Size}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V {i} → FingerTree A V
+-- reverse ft with viewR ft
+-- reverse ft | NilR = Empty
+-- reverse ft | ConsR x x₁ = x ◁ reverse x₁
+
+-- ------ SIZING ATTEMPT -----------------------------------------------------------------
+-- Finally, I have perfectly understood the problem that is present in the Coq Paper, under the dependency hell.
+-- We cannot run recursion on the ViewL because the termination check fails - and the system becomes inconsistent
+-- We need to teach agda that the viewL always results in a smaller fingertree. This is not obvious in the recursive case
+
+
+-- The first idea, presented in the Coq paper as well is to find a way to measure the number of elements in a FingerTree
+-- One idea I have here is to use the measurment information associated such that
+-- a ∙ b > a and a ∙ b > b and a > ε and b > ε
+-- For this to work, we need to not allow elements with ∥ a ∥ = ε in the FingerTree
+
+-- We can define a new view to be a functor from FingerTree A V to FingerTree A ℕ with a special monoid and measure function
+-- haha, remember why this fails.
+-- myView : ∀ {A : Set}{V : Set} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → FingerTree A ℕ
+-- myView Empty = Empty
+-- myView (Single x) = Single x
+-- myView (Deep x x₁ ft x₂) = {! deep ⦃ nat ⦄ ⦃ nat-measure ⦄ x₁ (myView ft) x₂  !}
+
+
+
+-- Another idea would be to define some partial order that is sufficient for the viewL and viewR sizing
+-- The complicated case is the recursive one, as always.
+
+-- Another idea is to implement some subtraction function (i.e concatenation with negative fingertrees)
+-- that would behave like okasaki's numerical representations
+
+-- so far, I have shown that we can find an ambiguous numerical representation that counts the sizes of
+-- the two fingers at each level only if we get rid of the the node2 constructor, which is actually not reachable.
+
+
+
+-- Another idea is to simply convert to list and then to length, but it seems silly at first
+size-node : ∀ {a}{A : Set a}{V : Set a} → Node A V → ℕ
+size-node n = {!   !}
+
+size-dig :  ∀ {a}{A : Set a} → Digit A → ℕ
+size-dig d = Data.List.length (toList-dig d)
+
+size-ft : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → ℕ
+size-ft ft = Data.List.length (toList-ft ft)
+
+size-view : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → ViewL A (FingerTree A V) → ℕ
+size-view NilL = ℕ.zero
+size-view (ConsL x x₁) = 1 + size-ft x₁
+
+size-mbdig :  ∀ {a}{A : Set a} → Maybe (Digit A) → ℕ
+size-mbdig (just x) = Data.List.length (toList-dig x)
+size-mbdig nothing = 0
+
+
+postulate size-view-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) → (x : A) → (xs : FingerTree A V) → (viewL ft ≡ ConsL x xs) → (size-ft xs < size-ft ft)
+
+data Acc {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ (ft : FingerTree A V) : Set a where
+  acc : (∀ (hd : A)(tl : FingerTree A V) → ft == (hd ◁ tl) → Acc tl) → Acc ft
+
+data _≲_ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : (f : FingerTree A V) → (g : FingerTree A V) → Set a where
+  lt : ∀ (f : FingerTree A V)(g : FingerTree A V) → (size-ft f < size-ft g) → f ≲ g
+
+
+
+
+-- wrong implemntation but using it to see if I can trick the termination check
+-- reverse : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V → FingerTree A V
+-- reverse ft with viewL ft | inspect viewL ft
+-- reverse ft | NilL | v  = Empty
+-- reverse ft | ConsL x x₁ | [ eq ] with size-view-lemma0 ft x x₁ eq
+-- ... | svl = x ◁ (reverse x₁)
+
+-- -- TESTING ---------------------------------------------------------------------------
 open import numbers
 
 instance nat : Monoid ℕ
@@ -473,16 +649,11 @@ nat = monoid 0 _+_ 0+ +0 +assoc
 instance list : Monoid (List ℕ)
 list = monoid [] _++_ []+ +[] ++assoc
 
-instance nat-measure : Measured ℕ ℕ
+instance nat-measure : ∀ {A : Set} →  Measured A ℕ
 nat-measure = measured (λ x → 1)
 
 instance list-measure : Measured ℕ (List ℕ)
 list-measure =  measured (λ x → x ∷ [])
-
---
--- infixr 5 _◁_
--- _◁_ : ℕ → FingerTree ℕ (List ℕ) → FingerTree ℕ (List ℕ)
--- _◁_ = _◁_ list-measure
 
 
 test-tree : FingerTree ℕ (List ℕ)
