@@ -311,6 +311,8 @@ mutual
 -- the datastructure has split -- we use this to split a finger at the point where the cumulative 'sum'
 -- of the elements until that point fails to satisfy some property p
 
+-- This implementation is flawed here, need to figure out where the bug is.
+
 data Split {a} (F : Set a) (A : Set a) : Set a where
   split : F → A → F → Split F A
 
@@ -379,8 +381,6 @@ mutual
   splitTree3 p i pr ft sf prf1 prf2 | just (split ml mx mr) | strlemma | split l x r = split (deepR pr ml l) x (deepL r mr sf)
   splitTree3 p i pr ft sf prf1 prf2 | nothing | ()
 
-  -- this struct-lemma0 trick doesn't work here
---
 
   splitTree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
             (p : V → Bool) → V → FingerTree A V → Maybe (Split (FingerTree A V) A)
@@ -456,8 +456,7 @@ cons-lemma0 {_}{_}{_} ⦃ mo ⦄ ⦃ m ⦄ x (Deep x₁ (Four x₂ x₃ x₄ x�
 
 
 -- -- proof that viewL and ◁ are inverses fails because it's not true.
--- need to define a new equality for fingertrees as such
-
+-- need to define a new equality for fingertrees
 data _==_ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : (f1 : FingerTree A V) → (f2 : FingerTree A V) → Set a where
   leq : ∀ (f1 : FingerTree A V)(f2 : FingerTree A V) → (toList-ft f1 ≡ toList-ft f2) → f1 == f2
 
@@ -482,13 +481,6 @@ data _==_ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V �
 -- view-lemma4 (Deep x (Two x₁ x₂) ft x₃) hd tl prp = {!   !}
 -- view-lemma4 (Deep x (Three x₁ x₂ x₃) ft x₄) hd tl prp = {!   !}
 -- view-lemma4 (Deep x (Four x₁ x₂ x₃ x₄) ft x₅) hd tl prp = {!   !}
-
-view-lemma4 : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
-    (hd : A) → (tl : FingerTree A V) → (viewL ft ≡ ConsL hd tl) → ((hd ◁ tl) == ft)
-view-lemma4 Empty hd tl ()
-view-lemma4 (Single x) .x .Empty refl = leq (Single x) (x ◁ Empty) refl
-view-lemma4 (Deep x x₁ ft x₂) .(head-dig x₁)
-      .(deepL (tail-dig x₁) ft x₂) refl = {!   !}
 
 tail : ∀ {a} {A : Set a} → List A → List A
 tail [] = []
@@ -516,6 +508,7 @@ toList-lemma11 (Three x x₁ x₂) Empty sf prop = refl
 toList-lemma11 (Four x x₁ x₂ x₃) Empty sf prop = refl
 toList-lemma11 pr (Single x) sf ()
 toList-lemma11 pr (Deep x x₁ ft x₂) sf ()
+
 mutual
   toList-lemma12 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
     (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) → (hd : Node A V) →
@@ -527,11 +520,10 @@ mutual
   toList-lemma12 (Two x₁ x₂) (Single x) sf .x .Empty refl = refl
   toList-lemma12 (Three x₁ x₂ x₃) (Single x) sf .x .Empty refl = refl
   toList-lemma12 (Four x₁ x₂ x₃ x₄) (Single x) sf .x .Empty refl = refl
-
-
-  toList-lemma12 (One x₃) (Deep x₁ (One x) ft x₂) sf .x .(deepL nothing ft x₂) refl = {!   !}
-
-  
+  toList-lemma12 (One x₅) (Deep x₃ (One (Node2 x x₁ x₂)) ft x₄) sf .(Node2 x x₁ x₂) .(deepL nothing ft x₄) refl =
+    cong (λ reclist → x₁ ∷ x₂ ∷ flatten-list (reclist) ++ toList-dig sf) (toList-lemma1 (One (Node2 x x₁ x₂)) ft x₄)
+  toList-lemma12 (One x₆) (Deep x₄ (One (Node3 x x₁ x₂ x₃)) ft x₅) sf .(Node3 x x₁ x₂ x₃) .(deepL nothing ft x₅) refl =
+    cong (λ reclist → x₁ ∷ x₂ ∷ x₃ ∷ flatten-list (reclist) ++ toList-dig sf) (toList-lemma1 (One (Node3 x x₁ x₂ x₃)) ft x₅)
   toList-lemma12 (One x₅) (Deep x₆ (Two (Node2 x x₁ x₂) x₃) ft x₄) sf .(Node2 x x₁ x₂) _ refl = refl
   toList-lemma12 (One x₆) (Deep x₇ (Two (Node3 x x₁ x₂ x₃) x₄) ft x₅) sf .(Node3 x x₁ x₂ x₃) _ refl = refl
   toList-lemma12 (One x₆) (Deep x₇ (Three (Node2 x x₁ x₂) x₃ x₄) ft x₅) sf .(Node2 x x₁ x₂) _ refl = refl
@@ -560,9 +552,42 @@ toList-lemma0 (x ∷ xs) =
   ≡⟨ cong (λ r → x ∷ r) (toList-lemma0 xs) ⟩
     x ∷ xs ∎
 
+toList-dig-lemma1 : ∀{a} {A : Set a} → (x : Digit A) → (rest : List A) →
+  head-dig x ∷ tail (toList-dig x ++ rest) ≡ (toList-dig x ++ rest)
+toList-dig-lemma1 (One x) rest = refl
+toList-dig-lemma1 (Two x x₁) rest = refl
+toList-dig-lemma1 (Three x x₁ x₂) rest = refl
+toList-dig-lemma1 (Four x x₁ x₂ x₃) rest = refl
+
 toTree-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
   (ft : FingerTree A V) → (toTree (toList-ft ft) == ft)
 toTree-lemma0 ft = leq ((toTree (toList-ft ft))) ft (toList-lemma0 (toList-ft ft))
+
+view-lemma3 : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+            (viewL ft ≡ NilL) → (ft ≡ Empty)
+view-lemma3 Empty p = refl
+view-lemma3 (Single x) ()
+view-lemma3 (Deep x x₁ ft x₂) ()
+
+view-lemma4 : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+    (hd : A) → (tl : FingerTree A V) → (viewL ft ≡ ConsL hd tl) → ((hd ◁ tl) == ft)
+view-lemma4 Empty hd tl ()
+view-lemma4 (Single x) .x .Empty refl = leq (Single x) (x ◁ Empty) refl
+view-lemma4 (Deep x x₁ ft x₂) .(head-dig x₁)
+      .(deepL (tail-dig x₁) ft x₂) refl =
+    leq ((head-dig) x₁ ◁ (deepL (tail-dig x₁) ft x₂)) ((Deep x x₁ ft x₂))
+          (begin
+            toList-ft (head-dig x₁ ◁ deepL (tail-dig x₁) ft x₂)
+          ≡⟨ cons-lemma0 (head-dig x₁) (deepL (tail-dig x₁) ft x₂) ⟩
+            head-dig x₁ ∷ toList-ft (deepL (tail-dig x₁) ft x₂)
+        ≡⟨ cong (λ y → head-dig x₁ ∷ y) (toList-lemma1 x₁ ft x₂) ⟩
+          head-dig x₁ ∷ tail (toList-dig x₁ ++ flatten-list (toList-ft ft) ++ toList-dig x₂)
+        ≡⟨ toList-dig-lemma1 x₁ (flatten-list (toList-ft ft) ++ toList-dig x₂) ⟩
+          refl)
+
+
+
+
 
 -- ------REVERSING ------------------------------------------------------------------------
 
@@ -622,10 +647,25 @@ size-mbdig (just x) = Data.List.length (toList-dig x)
 size-mbdig nothing = 0
 
 
-postulate size-view-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) → (x : A) → (xs : FingerTree A V) → (viewL ft ≡ ConsL x xs) → (size-ft xs < size-ft ft)
+-- postulate size-view-lemma0 : ∀ {a}{A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) → (x : A) → (xs : FingerTree A V) → (viewL ft ≡ ConsL x xs) → (size-ft xs < size-ft ft)
+
+sym== : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (f1 : FingerTree A V) → (f2 : FingerTree A V) →
+      (f1 == f2) → (f2 == f1)
+sym== f1 f2 (leq .f1 .f2 x) = leq f2 f1 (sym x)
 
 data Acc {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ (ft : FingerTree A V) : Set a where
-  acc : (∀ (hd : A)(tl : FingerTree A V) → ft == (hd ◁ tl) → Acc tl) → Acc ft
+  acc : ∀ (hd : A) → (tl : FingerTree A V) → ft == (hd ◁ tl) → Acc tl → Acc ft
+  acc-empty : (ft ≡ Empty) → Acc ft
+
+
+-- Need to find a way to convince agda that in viewL ft  = Cons x x₁  x₁ is structurally smaller than ft
+-- http://stackoverflow.com/questions/19642921/assisting-agdas-termination-checker
+
+
+-- acc-WF : ∀ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) → Acc ft
+-- acc-WF ft with viewL ft | inspect viewL ft
+-- acc-WF ft | NilL | [ eq ] = acc-empty (view-lemma3 ft eq)
+-- acc-WF ft | ConsL x x₁ | [ eq ] = acc x x₁ (sym== (x ◁ x₁) ft (view-lemma4 ft x x₁ eq)) (acc-WF x₁)
 
 data _≲_ {a}{A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : (f : FingerTree A V) → (g : FingerTree A V) → Set a where
   lt : ∀ (f : FingerTree A V)(g : FingerTree A V) → (size-ft f < size-ft g) → f ≲ g

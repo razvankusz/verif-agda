@@ -56,3 +56,15 @@ implicitly infer a and V from the scope. Therefore ε is shorthand for Monoid.ε
 
 The same thing happens in the standard library, in the Reduce class.
 Hence the instance reduceBlaBlaInstance throughout the code.
+
+
+inspect
+
+This is a very useful trick present in the standard library (in PropositionalEquality.agda)
+The problem is that when using the with consturct and pattern matching on the result,
+agda forgets what the patterns correspond to. The example used in the code is this
+
+myFunction ft with viewL ft | inspect viewL ft
+... | viewleft | rememeber = ?
+
+remember will look like [ eq ], where eq has type (viewleft \equiv viewL ft)
