@@ -33,6 +33,10 @@ module numbers where
   suc n == ℕ.zero = false
   suc n == suc m = n == m
 
+  _<-nat_ : ℕ → ℕ → Bool
+  zero <-nat m = true
+  suc n <-nat zero = false
+  suc n <-nat suc m = n <-nat m
 
   lemma++ : ∀ {a} {A : Set a} → (x : A) → (xs : List A) → (ys : List A)
         → (x ∷ xs) ++ ys ≡ x ∷ (xs ++ ys)
