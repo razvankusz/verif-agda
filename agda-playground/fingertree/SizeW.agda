@@ -7,9 +7,10 @@ open import numbers
 open import AlgebraStructures
 open import Level
 open import Data.Bool
+open import Data.Nat
 module SizeW where
   data SizeW {a} : Set a  where
-    size : ∀ (n : ℕ) → SizeW
+    size : ∀ (n : ℕ) → SizeW {a}
 
   -- proving the monoid properties of this datatype
   ε : ∀ {a : Level} → SizeW {a}
@@ -20,6 +21,14 @@ module SizeW where
 
   _<ˢ_ : ∀ {a} → SizeW {a} → SizeW {a} → Bool
   size n <ˢ size m = n <-nat m
+
+  data _<ᵗ_ {a} : SizeW {a} → SizeW {a} → Set a where
+    lt : ∀ {n : ℕ} {m : ℕ} → (n < m) → size n <ᵗ size m
+
+  import numbers
+
+  unit-step : ∀ {a : Level} → {n : ℕ} → (size {a} n) <ᵗ (size 1  ∙ size n)
+  unit-step {_}{n} = lt (s≤s (numbers.≤-refl n))
 
   ∙ε : ∀ {a} (s : SizeW {a}) → (s ∙ ε ≡ s)
   ∙ε (size n) = cong size (+0 n)

@@ -38,6 +38,10 @@ module numbers where
   suc n <-nat zero = false
   suc n <-nat suc m = n <-nat m
 
+  ≤-refl : ∀ (n : ℕ) → (n ≤ n)
+  ≤-refl zero = z≤n
+  ≤-refl (suc n) = s≤s (≤-refl n)
+
   lemma++ : ∀ {a} {A : Set a} → (x : A) → (xs : List A) → (ys : List A)
         → (x ∷ xs) ++ ys ≡ x ∷ (xs ++ ys)
   lemma++ x xs ys =
