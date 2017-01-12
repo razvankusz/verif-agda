@@ -31,7 +31,6 @@ module RandomAccessSequence where
     seq-measure-lemma1 : ∀ {a} {A : Set a} → (x : A) → (s : SizeW) → (s <ᵗ ((Entry.m (entry x)) ∙ s))
     seq-measure-lemma1 x (size n) = SizeW.unit-step
 
-
     seq-measure-lemma0 : ∀ {a} {A : Set a} → (x : A) → (s : Seq A) → (measure-tree s <ᵗ measure-tree (x ◀ s))
     seq-measure-lemma0 x s rewrite measure-lemma5 (entry x) s = seq-measure-lemma1 x (measure-tree s)
 

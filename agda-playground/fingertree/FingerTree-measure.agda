@@ -658,8 +658,18 @@ toTree-measure-lemma0 ⦃ mo ⦄ (x ∷ xs) = begin
                                          ≡⟨ sym (measure-lemma5 x (toTree xs)) ⟩
                                           measure-tree (toTree (x ∷ xs)) ∎
 
- 
--- measure-lemma5 x Empty =
+toList-measure-lemma0 : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+  (measure-tree ft ≡ (measureList (toList-ft ft)))
+toList-measure-lemma0 ft = ?
+
+measure-equal-lemma0 :  ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (f1 : FingerTree A V) → (f2 : FingerTree A V) →
+                  (f1 == f2) → (measure-tree f1 ≡ measure-tree f2)
+measure-equal-lemma0 f1 f2 (leq .f1 .f2 x) = {!   !}
+
+toList-view-lemma0 : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : A) → (f : FingerTree A V)
+                → (ft : FingerTree A V) → (viewL ft ≡ ConsL x f) → (∥ x ∥ ∙ measure-tree f ≡ measure-tree ft)
+toList-view-lemma0 x f ft pr = {!   !}
+ -- measure-lemma5 x Empty =
 --         begin ∥ x ∥ ≡⟨ sym (ε-right ∥ x ∥) ⟩ ∥ x ∥ ∙ ε ∎
 -- measure-lemma5 x (Single y) =
 --         begin (measure-tree (x ◁ (Single y)))
