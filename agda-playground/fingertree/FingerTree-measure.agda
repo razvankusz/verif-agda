@@ -299,7 +299,6 @@ mutual
 -- the datastructure has split -- we use this to split a finger at the point where the cumulative 'sum'
 -- of the elements until that point fails to satisfy some property p
 
--- This implementation is flawed here, need to figure out where the bug is.
 
 data Split {a} (F : Set a) (A : Set a) : Set a where
   split : F → A → F → Split F A
@@ -658,10 +657,12 @@ toTree-measure-lemma0 ⦃ mo ⦄ (x ∷ xs) = begin
                                          ≡⟨ sym (measure-lemma5 x (toTree xs)) ⟩
                                           measure-tree (toTree (x ∷ xs)) ∎
 
+-- this is not true in general, same fallacy caused by the fact that our data structure is NOT dependently typed. There's no guarantee that the correct constructors are in use.
 toList-measure-lemma0 : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
   (measure-tree ft ≡ (measureList (toList-ft ft)))
-toList-measure-lemma0 ft = ?
+toList-measure-lemma0 ft = {!   !}
 
+-- same goes for this one. I can enforce equality to constraint the measure, in which case I get this for free.
 measure-equal-lemma0 :  ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (f1 : FingerTree A V) → (f2 : FingerTree A V) →
                   (f1 == f2) → (measure-tree f1 ≡ measure-tree f2)
 measure-equal-lemma0 f1 f2 (leq .f1 .f2 x) = {!   !}

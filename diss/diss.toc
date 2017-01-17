@@ -1,0 +1,18 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {1.1}Functional Datastructures}{1}
+\contentsline {section}{\numberline {1.2}Dependent Typing}{1}
+\contentsline {section}{\numberline {1.3}Nested Types}{2}
+\contentsline {section}{\numberline {1.4}Introduction to Agda}{3}
+\contentsline {section}{\numberline {1.5}Overview of the files}{4}
+\contentsline {section}{\numberline {1.6}Building the document}{4}
+\contentsline {subsection}{\numberline {1.6.1}The makefile}{4}
+\contentsline {chapter}{\numberline {2}Preparation}{5}
+\contentsline {chapter}{\numberline {3}Implementation}{7}
+\contentsline {section}{\numberline {3.1}Verbatim text}{7}
+\contentsline {section}{\numberline {3.2}Tables}{8}
+\contentsline {section}{\numberline {3.3}Simple diagrams}{8}
+\contentsline {chapter}{\numberline {4}Evaluation}{9}
+\contentsline {section}{\numberline {4.1}Printing and binding}{9}
+\contentsline {subsection}{\numberline {4.1.1}Things to note}{9}
+\contentsline {section}{\numberline {4.2}Further information}{10}
+\contentsline {chapter}{\numberline {5}Conclusion}{11}
