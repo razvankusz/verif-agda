@@ -10,6 +10,270 @@
 \usepackage{fontspec}
 \setmainfont{DejaVu Sans}
 \setmonofont{DejaVu Sans Mono}
+%%% HERE I PUT THE LAGDA THINGY
+
+
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode".
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray
+% environment. It is supposed to be used only inside math mode
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+%%% HERE IT ENDS
 \input{epsf}                            % to allow postscript inclusions
 % On thor and CUS read top of file:
 %     /opt/TeX/lib/texmf/tex/dvips/epsf.sty
@@ -141,7 +405,8 @@ An important breakthrough in writing verifiably correct code is the introduction
 In this setting the distinction between types and values becomes blurry, allowing us to define types that depend on values.
 
 
-A good practical motivation is performing the sum of two vectors. The usual programming paradigm would be (in pseudocode): \\
+An immediate practical motivation is performing the sum of two vectors.
+The usual programming paradigm would be (in pseudocode): \\
 
 \begin{verbatim}
 def sum (l1, l2):
@@ -154,7 +419,7 @@ This can cause a runtime error and arguably disrupts the logical flow of the pro
 supports dependent types, we can construct lists that are both parametrized by a variable (as in the usual
 polymorphic programming), but also 'indexed'.
 
-The usual definiton of lists would be (in Agda - but easilty and functional language)
+The usual definiton of lists would be (in Agda - but easily any functional language)
 
 \begin{verbatim}
   data List (A : Set) : Set where
@@ -170,12 +435,13 @@ Compare this with the dependent definition:
     _∷_ : ∀ {n : ℕ} → A → Vec A n → Vec A (n + 1)
 \end{verbatim}
 
-This allows us to write functions that require a 'proof' that the two vectors are equal.
+This allows us to write functions that require a 'proof' that the two arguments are of equal length.
 
 \begin{verbatim}
   sum : ∀ {n : ℕ} → Vec ℕ n → Vec ℕ n → Vec ℕ n
   sum xs ys = ?
 \end{verbatim}
+
 If this is not obvious from the context, the program will not type check.
 The developer is forced to only write correct programs.
 
@@ -189,8 +455,30 @@ and have gained interest because of their practical implications. \cite{birdmeer
 Some difficulties come up in recursive calls or inductive proofs, fact which will be
 covered and discussed in section (TODO implementation/section_nest_example).
 
-The motivation for introducing this concepts is that it allows maintaining
-the invariant of a full tree where information is stored only at the leafs.
+For example, consider the next data structure, introduced in Bird and Meertens \cite{birdmeertens}
+as well, but slightly modified so I can build a pathological example on top of it later on:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Nest}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{nilN}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{Nest}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{consN}\mathbin{:}(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This can be thought of as the levels of a full binary tree (with the exeption of the binary tree with only
+one element, which I am ruling out for simplicity)
+
+
+Another example, with a more interesting application is:
 
 \begin{verbatim}
   data BinTree (A : Set) : Set where
@@ -206,10 +494,10 @@ Where Node is simply:
 
 It can be seen from the declaration that the structure will be forced to be a sequence of deep
 constructors, followed by either a single (Nodeⁿ A) or an empty constructor. The number
-of elements is forced therefore to be a power of two (2ⁿ) making it equivalent with the leafs of a full
+of elements stored in it has to be a power of two (2ⁿ) making it equivalent to the leafs of a full
 binary tree.
 
-This dissertation is concerned with 2-3 trees, the basis for the FingerTrees, which
+This dissertation is mostly concerned with 2-3 trees, the basis for the FingerTrees, which
 will be studied in detail in the Implementation section. They are an example to show arising problems
 when proving properties of nested and dependent typed structures, what limits are imposed and how
 some of them can be overcome.
@@ -225,39 +513,332 @@ an interactive (or automatic) theorem prover. What makes it different from the t
 mentioned system is the ability to write the code and the proofs in the same environment. Its relative
 simplicity also motivated its use in this project.
 
+\subsection{Types as Values}
 
-\section{Overview of the files}
+As said before, a dependently typed environment allows types to be not only arguments to functions,
+as it is the case in generic data structures, but also returned values.
 
-\section{Building the document}
+In Agda, the base for all types is called Set, which can be simplistically though of as the type of types.
 
-\subsection{The makefile}
+I will use, as a running example throughout this section, the construction of natural numbers and lists. They
+should be sufficient for introducing most of the concepts that will be needed throughout this
+dissertation.
 
-To simplify the calls to {\tt latex} and {\tt bibtex},
-a makefile has been provided, see Appendix %%~\ref{makefile}.
-It provides the following facilities:
+\subsection{Declaring Data Structures}
 
-\begin{itemize}
+Data structures in agda follow the ADT (Algebraic Data Types) paradigm. They group together
+constructors that can introduce the given structure.
+Each constructor should be thought of as a function which returns an instance of the data structure.
 
-\item{\tt make} \\
- Display help information.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{data}\;\Conid{ℕ}\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{zero}\mathbin{:}\Conid{ℕ}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{suc}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{ℕ}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
+We declare the type of natural numbers, which is of type Set. It has only two constructors;
+zero, which takes no argument, and suc (successor) which, provided a natural number, can
+construct the next natural number.\\
 
-\end{itemize}
+As you probably noticed, Agda has full unicode support. This makes writing proofs
+about mathematical objects nice and readable since you can use the conventional symbols. \\
 
+Another piece of elegant syntax is the presence of mixfix operators. Most unicode characters
+can be used in the name of the operator, and by \_ you tell agda that's where you want
+to put an argument \begin{verbatim} (Example: _+_, if_then_else_, [_])
+\end{verbatim}
 
+\subsection{Agda's interactive help}
 
+Before writing the implementation of a function, as you stumble upon the equals(=) sign,
+you can tell agda to place a hole ({! !}) instead of an implementation. Here, you can
+perform a number of operations:
+  \begin {itemize}
+  \item{See the types and values of variables in the scope}
+  \item{Case-split} \\
+    For example, consider the addition of natural numbers. \\
+    \begin{hscode}\SaveRestoreHook
+    \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+    \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+    \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+    \>[3]{}\anonymous \mathbin{+\char95 }\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{ℕ}{}\<[E]%
+    \\
+    \>[3]{}\Varid{n}\mathbin{+}\Varid{m}\mathrel{=}\{\mskip1.5mu \mathbin{!}\mathbin{!}\mskip1.5mu\}{}\<[E]%
+    \ColumnHook
+    \end{hscode}\resethooks
+    Performing a case-split on the variable n shows me all the possible ways in which a natural number can be constructed. \\
+    \begin{hscode}\SaveRestoreHook
+    \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+    \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+    \column{19}{@{}>{\hspre}l<{\hspost}@{}}%
+    \column{20}{@{}>{\hspre}c<{\hspost}@{}}%
+    \column{20E}{@{}l@{}}%
+    \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+    \>[3]{}\anonymous \mathbin{+\char95 }\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{ℕ}{}\<[E]%
+    \\
+    \>[3]{}\Varid{zero}\mathbin{+}\Varid{m}\mathrel{=}\{\mskip1.5mu \mathbin{!}{}\<[19]%
+    \>[19]{}\mathbin{!}\mskip1.5mu\}{}\<[E]%
+    \\
+    \>[3]{}\Varid{suc}\;\Varid{n}\mathbin{+}\Varid{m}\mathrel{=}\{\mskip1.5mu \mathbin{!}{}\<[20]%
+    \>[20]{}\mathbin{!}\mskip1.5mu\}{}\<[20E]%
+    \ColumnHook
+    \end{hscode}\resethooks
+    \\
+    A consequence of this is that all functions in Agda must be total. If a possible constructor is not present in the definition,
+    it will not type-check.
+  \item{Refine and Auto} \\
+    These provide the automated and interactive ways of theorem-proving. Essentially, Agda looks throughout the environment to find
+    an inhabitant (a variable) that has the type of the hole. \\
+    They are definitely not as powerfull as any functionality given by Coq of Isabelle, but it can save some typing.
+
+  \end{itemize}
+
+\subsection{Arguments}
+  Agda introduces some syntax for various types of arguments you can provide to functions. As you probably saw,
+  there is a difference in handling the polymorphic types (in the case of List) and the values given as arguments
+  to type constructors (in the case of Vec). \\
+
+  In the declaration of Vec: \\
+
+  \begin{hscode}\SaveRestoreHook
+  \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+  \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+  \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+  \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+  \>[3]{}\mathbf{data}\;\Conid{Vec}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+  \\
+  \>[3]{}\hsindent{2}{}\<[5]%
+  \>[5]{}\Varid{nil}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{zero}{}\<[E]%
+  \\
+  \>[3]{}\hsindent{2}{}\<[5]%
+  \>[5]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mathbin{→}\Conid{Vec}\;\Conid{A}\;(\Varid{suc}\;\Varid{n}){}\<[E]%
+  \ColumnHook
+  \end{hscode}\resethooks
+
+  The first (A : Set) is the type argument for instantiating a polymorphic type, before the :, while the ℕ is the type of the value argument for
+  the dependently typed instantiation.
+
+  Another think to notice here is the curly brackets (\{n : ℕ\}) in the declaration of the \_::\_ constructor.
+  This is called an implicit argument. Agda will bind n to a value it sees fit in the scope. If there are more possibilities, it will take a guess.
+
+\subsection{Instance Arguments}
+
+  Throughout this dissertation, we will be using some properties of certain types, for example of having a monoid operation associated with them.
+  In Haskell, you would accomplish that with the use of type classes \cite{typeclasses} \\
+  In order to mimic this behaviour we will use instance arguments. They are declared by using double square brackets, \{\{ \}\} or the unicode
+  equivalent. \\
+  What Agda does in this case, it looks for a possible instantiation of that type in the current scope, following some predefined rules. \cite{instanceargs}
+  It is important there is only one available possibility, otherwise it will fail to type check.
+
+  The use will become obvious in the Implementation section.
 
 \cleardoublepage
-
-
 
 \chapter{Preparation}
 
-This chapter is empty!
+
+\section{Programs as proofs}
+
+Agda is a depedently typed programming language, based on the intuitionistic type theory developed by
+Per Martin Lof \cite{martinlof}. The power of the typing system is sufficient to express propositions as
+types. Finding an inhabitant of each type becomes equivalent to constructing a proof of
+the embedded proposition.
 
 
-\cleardoublepage
+
+\subsection{Some Agda Examples}
+
+Consider for example the proposition describing equality (taken from the standard libray)
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{Level}{}\<[E]%
+\\
+\>[B]{}\mathbf{data}\;\anonymous \mathbin{≡\char95 }\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{:}\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{refl}\mathbin{:}\Varid{x}\mathbin{≡}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+(An explanation of the Level and universe polymorphism will be found at the end of the section -- TODO Foodnote)
+
+The first thing to notice is that this is a declaration of a dependent data type. It can only be constructed
+by calling refl, which tells us that all elements are equal to themselves (reflexivity).
+
+Therefore, constructing an elements of type (a ≡ b) for some a and b becomes a proof that a and b are equal.
+This, of course, relates elements by their structural equality and is the version most used in the standard library. This
+doesn't stop the developer from defining their own form of equality.
+
+For example, this equality over integers (which is in this case equivalent to ≡)
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{infix}\;\mathrm{4}\;\anonymous \mathbin{==\char95 }{}\<[E]%
+\\
+\>[3]{}\mathbf{data}\;\anonymous \mathbin{==\char95 }\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{z}\mathbin{:}\Varid{zero}\equiv \Varid{zero}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{s}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\;\Varid{m}\mskip1.5mu\}\mathbin{→}\Varid{n}\equiv \Varid{m}\mathbin{→}(\Varid{suc}\;\Varid{n})\equiv (\Varid{suc}\;\Varid{m}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We can already start building up proofs, for example, of the property of zero to be the neutre element to addition:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathrm{0}\mathbin{-}\Varid{left}\mathbin{:}\mathbin{∀}(\Varid{n}\mathbin{:}\Conid{ℕ})\mathbin{→}(\Varid{zero}\mathbin{+}\Varid{n}\equiv \Varid{n}){}\<[E]%
+\\
+\>[3]{}\mathrm{0}\mathbin{-}\Varid{left}\;\Varid{zero}\mathrel{=}\Varid{z}{}\<[E]%
+\\
+\>[3]{}\mathrm{0}\mathbin{-}\Varid{left}\;(\Varid{suc}\;\Varid{n})\mathrel{=}\Varid{s}\;(\mathrm{0}\mathbin{-}\Varid{left}\;\Varid{n}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We can see that the term zero-left is a proof of the proposition embedded in the type, since it shows us how
+the proposition was constructed (by using z or s constructors respectively)
+
+Consider, for example, defining a less then equal operator and the proof of the antisymmetry property
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{14}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{infix}\;\mathrm{4}\;\anonymous \mathbin{≤\char95 }{}\<[E]%
+\\
+\>[3]{}\mathbf{data}\;\anonymous \mathbin{≤\char95 }\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{leq}\mathbin{-}\Varid{zero}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Varid{zero}\mathbin{≤}\Varid{n}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{leq}\mathbin{-}\Varid{suc}{}\<[14]%
+\>[14]{}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{m}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Varid{m}\mathbin{≤}\Varid{n}\mathbin{→}\Varid{suc}\;\Varid{m}\mathbin{≤}\Varid{suc}\;\Varid{n}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{leq}\mathbin{-}\Varid{antisym}\mathbin{:}\mathbin{∀}(\Varid{n}\mathbin{:}\Conid{ℕ})\;(\Varid{m}\mathbin{:}\Conid{ℕ})\mathbin{→}(\Varid{n}\mathbin{≤}\Varid{m})\mathbin{→}(\Varid{m}\mathbin{≤}\Varid{n})\mathbin{→}(\Varid{n}\equiv \Varid{m}){}\<[E]%
+\\
+\>[3]{}\Varid{leq}\mathbin{-}\Varid{antisym}\;\Varid{zero}\;\Varid{zero}\;\Varid{leq}\mathbin{-}\Varid{zero}\;\Varid{leq}\mathbin{-}\Varid{zero}\mathrel{=}\Varid{z}{}\<[E]%
+\\
+\>[3]{}\Varid{leq}\mathbin{-}\Varid{antisym}\;\Varid{zero}\;(\Varid{suc}\;\Varid{m})\;\Varid{leq}\mathbin{-}\Varid{zero}\;(){}\<[E]%
+\\
+\>[3]{}\Varid{leq}\mathbin{-}\Varid{antisym}\;(\Varid{suc}\;\Varid{n})\;(\Varid{suc}\;\Varid{m})\;(\Varid{leq}\mathbin{-}\Varid{suc}\;\Varid{p1})\;(\Varid{leq}\mathbin{-}\Varid{suc}\;\Varid{p2})\mathrel{=}\Varid{s}\;(\Varid{leq}\mathbin{-}\Varid{antisym}\;\Varid{n}\;\Varid{m}\;\Varid{p1}\;\Varid{p2}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This example is important because it shows two important points.
+
+Defining relations properly can allow meaningful case split on the proof object. In the first line, we can see how, if n = 0 and m = 0,
+then both (n ≤ m) and (m ≤ n) can only be constructed by leq-zero. Although this case is trivial, one can imagine a case where knowing exactly
+what constructor was used provides extra information about the inputs.
+
+Another import point is the absurd pattern (). Agda doesn't allow the definition of partial functions, therefore all the cases of the
+input must be analyzed. However, if n = 0 and m > 0, one cannot possibly construct the fourth argument to the function (of type m ≤ n). This case,
+therefore cannot be reached in the program.
+
+During most of the project we will use the structural equality. Agda standard library provides a nice, readable way
+of constructing such proofs (further down)
+
+\subsection{Curry-Howard Isomorphism}
+
+Although the definitions above seem intuitive, they have strong theoretical underpinnings in Martin Lof's theory \cite{martinlof}, as well as
+Curry-Howard isomorphism. The original result by Howard \cite{howard} gives the link between natural deduction in the intutionistic logic theory
+and the simply typed lambda calculus. \\
+-insert some table here \\
+
+\subsection{with, rewrite}
+
+Agda provides some in-built syntax for making writing proofs more intuitive.
+The first such keyword is with. It allows, following the work of McBride and McKinna \cite{viewfromtheleft},
+to pattern match on an intermediate computation. This is more or less equivalent to adding an extra argument to
+the left of the function, although, that would make the code objectively more unreadable by the never ending
+chain or arguments in the type declaration.
+
+We can see how this will become particularly nice with Views \cite{wadler}.
+
+-example needed\\
+-syntax\\
+-unimplemented feature of with -- will fit better at difficulties\\
+-rewrite explained as a sequence of with statements\\
+-rewrite example with +-com
+
+
+\subsection{Equivalence-Reasoning, , inspect}
+
+-show the syntax mostly\\
+-reason behind inspect\\
+
+
+
+\subsection{instance arguments}
+
+-type classes in haskell\\
+-the monoid record\\
+-how we use it\\
+
+\section{Views}
+
+-introduction via wadler http://www.cs.tufts.edu/~nr/cs257/archive/phil-wadler/views.pdf \\
+-emphasise the point in section 10 induction \\
+-give nat example \\
+-show use in nested types \\
+
+\section{Termination checking}
+
+-correctness requires termination checking \\
+-how termination checking works in agda - 'structurally smaller' \\
+-how views with nested types fail \\
+
+\section{Well-foundedness}
+
+-what is well-founded induction \\
+-tb to larry paulson's paper: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.14.8921&rep=rep1&type=pdf \\
+-agda's standard library provides the tools \\
+
 \chapter{Implementation}
+
+\section{FingerTrees in general}
+
+-what are they \\
+-previous work: isabelle, coq, agda. \\
+
+\section{FingerTrees in Agda}
+
+-without measurement - quite boring \\
+-with measurment \\
+-view from the left is not working because of termination check (pointer to coq paper) \\
+-trying to get solve the issue by defining a well-founded induction \\
+-use the measurement info, since it's there \\
+
+\section{Random Access Sequences as an easier example}
+
+-size and entry \\
+-trying to prove the well-foundedness \\
+-boom, we fail because we didn't follow a dependently typed implementation \\
+
+\section{Dependently typed FingerTrees}
+
+
 
 \section{Verbatim text}
 

@@ -3,16 +3,30 @@
 \contentsline {section}{\numberline {1.2}Dependent Typing}{1}
 \contentsline {section}{\numberline {1.3}Nested Types}{2}
 \contentsline {section}{\numberline {1.4}Introduction to Agda}{3}
-\contentsline {section}{\numberline {1.5}Overview of the files}{4}
-\contentsline {section}{\numberline {1.6}Building the document}{4}
-\contentsline {subsection}{\numberline {1.6.1}The makefile}{4}
-\contentsline {chapter}{\numberline {2}Preparation}{5}
-\contentsline {chapter}{\numberline {3}Implementation}{7}
-\contentsline {section}{\numberline {3.1}Verbatim text}{7}
-\contentsline {section}{\numberline {3.2}Tables}{8}
-\contentsline {section}{\numberline {3.3}Simple diagrams}{8}
-\contentsline {chapter}{\numberline {4}Evaluation}{9}
-\contentsline {section}{\numberline {4.1}Printing and binding}{9}
-\contentsline {subsection}{\numberline {4.1.1}Things to note}{9}
-\contentsline {section}{\numberline {4.2}Further information}{10}
-\contentsline {chapter}{\numberline {5}Conclusion}{11}
+\contentsline {subsection}{\numberline {1.4.1}Types as Values}{4}
+\contentsline {subsection}{\numberline {1.4.2}Declaring Data Structures}{4}
+\contentsline {subsection}{\numberline {1.4.3}Agda's interactive help}{5}
+\contentsline {subsection}{\numberline {1.4.4}Arguments}{6}
+\contentsline {subsection}{\numberline {1.4.5}Instance Arguments}{6}
+\contentsline {chapter}{\numberline {2}Preparation}{7}
+\contentsline {section}{\numberline {2.1}Programs as proofs}{7}
+\contentsline {subsection}{\numberline {2.1.1}Curry-Howard Isomorphism}{7}
+\contentsline {subsection}{\numberline {2.1.2}Equivalence-Reasoning}{7}
+\contentsline {subsection}{\numberline {2.1.3}with, rewrite, inspect}{7}
+\contentsline {subsection}{\numberline {2.1.4}instance arguments}{8}
+\contentsline {section}{\numberline {2.2}Views}{8}
+\contentsline {section}{\numberline {2.3}Termination checking}{8}
+\contentsline {section}{\numberline {2.4}Well-foundedness}{8}
+\contentsline {chapter}{\numberline {3}Implementation}{9}
+\contentsline {section}{\numberline {3.1}FingerTrees in general}{9}
+\contentsline {section}{\numberline {3.2}FingerTrees in Agda}{9}
+\contentsline {section}{\numberline {3.3}Random Access Sequences as an easier example}{9}
+\contentsline {section}{\numberline {3.4}Dependently typed FingerTrees}{10}
+\contentsline {section}{\numberline {3.5}Verbatim text}{10}
+\contentsline {section}{\numberline {3.6}Tables}{10}
+\contentsline {section}{\numberline {3.7}Simple diagrams}{11}
+\contentsline {chapter}{\numberline {4}Evaluation}{13}
+\contentsline {section}{\numberline {4.1}Printing and binding}{13}
+\contentsline {subsection}{\numberline {4.1.1}Things to note}{13}
+\contentsline {section}{\numberline {4.2}Further information}{14}
+\contentsline {chapter}{\numberline {5}Conclusion}{15}

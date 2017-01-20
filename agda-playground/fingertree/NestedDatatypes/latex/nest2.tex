@@ -1,0 +1,62 @@
+\begin{code}%
+\>\<%
+\\
+%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Level}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Product}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Nat}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.List}\<%
+\\
+%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Nest} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{nilN} \<[8]%
+\>[8]\AgdaSymbol{:} \AgdaDatatype{Nest} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{consN} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaBound{A}\<%
+\\
+%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{View} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{nilL} \AgdaSymbol{:} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{consL} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+%
+\\
+\>\AgdaFunction{lift-op} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{((}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)} \AgdaFunction{×} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{))} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>\AgdaFunction{lift-op} \AgdaBound{op} \AgdaSymbol{(}\AgdaBound{proj₁} \AgdaInductiveConstructor{,} \AgdaBound{proj₂}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaBound{op} \AgdaBound{proj₁} \AgdaInductiveConstructor{,} \AgdaBound{op} \AgdaBound{proj₂}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>\AgdaFunction{compact} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{compact} \AgdaInductiveConstructor{nilN} \AgdaBound{op} \AgdaSymbol{=} \AgdaInductiveConstructor{nilN}\<%
+\\
+\>\AgdaFunction{compact} \AgdaSymbol{(}\AgdaInductiveConstructor{consN} \AgdaBound{p} \AgdaBound{ns}\AgdaSymbol{)} \AgdaBound{op} \AgdaSymbol{=} \AgdaInductiveConstructor{consN} \AgdaSymbol{(}\AgdaFunction{lift-op} \AgdaBound{op} \AgdaBound{p}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{compact} \AgdaBound{ns} \AgdaSymbol{(}\AgdaFunction{lift-op} \AgdaBound{op}\AgdaSymbol{))}\<%
+\\
+%
+\\
+\>\AgdaFunction{view} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{view} \AgdaBound{op} \AgdaInductiveConstructor{nilN} \AgdaSymbol{=} \AgdaInductiveConstructor{nilL}\<%
+\\
+\>\AgdaFunction{view} \AgdaBound{op} \AgdaSymbol{(}\AgdaInductiveConstructor{consN} \AgdaBound{x} \AgdaBound{ns}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{consL} \AgdaSymbol{(}\AgdaBound{op} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{compact} \AgdaBound{ns} \AgdaBound{op}\AgdaSymbol{)}\<%
+\\
+\>\<%
+\end{code}
+-- toList-nest : ∀ {a : Level} {A : Set a} → (A × A → A) → Nest A → List A
+-- toList-nest op ns with view op ns
+-- toList-nest op ns | nilL = []
+-- toList-nest op ns | consL x x₁ = x ∷ (toList-nest op x₁)

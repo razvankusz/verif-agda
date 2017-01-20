@@ -1,0 +1,665 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.17)  17 JAN 2017 15:01
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**test.tex
+(./test.tex
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 5 language(s) loaded.
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.14 \usepackage{
+                 amstext}
+? q
+OK, entering \batchmode...
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.15 \usepackage{
+                 amssymb}
+\usepackage may only appear in the document preamble, i.e.,
+between \documentclass and \begin{document}.
+
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16 \usepackage{
+                 stmaryrd}
+\usepackage may only appear in the document preamble, i.e.,
+between \documentclass and \begin{document}.
+
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.45 \usepackage{
+                 polytable}
+\usepackage may only appear in the document preamble, i.e.,
+between \documentclass and \begin{document}.
+
+\mathindent=\dimen102
+\blanklineskip=\skip41
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count79
+\calc@Bcount=\count80
+\calc@Adimen=\dimen103
+\calc@Bdimen=\dimen104
+\calc@Askip=\skip42
+\calc@Bskip=\skip43
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count81
+\calc@Cskip=\skip44
+)
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.260 \begin{hscode}
+                    \SaveRestoreHook
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Undefined control sequence.
+\hscode ...e \let \hspre \(\let \hspost \)\pboxed 
+                                                  
+l.260 \begin{hscode}
+                    \SaveRestoreHook
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.261 \column
+             {B}{@{}>{\hspre}l<{\hspost}@{}}%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no B in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no > in font nullfont!
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 261.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 261.
+! Extra }, or forgotten $.
+l.261 \column{B}{@{}>{\hspre}
+                             l<{\hspost}@{}}%
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.261 \column{B}{@{}>{\hspre}l<{\hspost
+                                       }@{}}%
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no @ in font nullfont!
+! Undefined control sequence.
+l.262 \column
+             {3}{@{}>{\hspre}l<{\hspost}@{}}%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no 3 in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no > in font nullfont!
+! Extra }, or forgotten $.
+l.262 \column{3}{@{}>{\hspre}
+                             l<{\hspost}@{}}%
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.262 \column{3}{@{}>{\hspre}l<{\hspost
+                                       }@{}}%
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no @ in font nullfont!
+! Undefined control sequence.
+l.263 \column
+             {5}{@{}>{\hspre}l<{\hspost}@{}}%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no > in font nullfont!
+! Extra }, or forgotten $.
+l.263 \column{5}{@{}>{\hspre}
+                             l<{\hspost}@{}}%
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.263 \column{5}{@{}>{\hspre}l<{\hspost
+                                       }@{}}%
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no @ in font nullfont!
+! Undefined control sequence.
+l.264 \column
+             {E}{@{}>{\hspre}l<{\hspost}@{}}%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no E in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no > in font nullfont!
+! Extra }, or forgotten $.
+l.264 \column{E}{@{}>{\hspre}
+                             l<{\hspost}@{}}%
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.264 \column{E}{@{}>{\hspre}l<{\hspost
+                                       }@{}}%
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no @ in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.265 \>
+        [B]{}\mathbf{module}\;\Varid{test}\;\mathbf{where}{}\<[E]%
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Undefined control sequence.
+l.265 ...module}\;\Varid{test}\;\mathbf{where}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.267 \>[B]{}\hsindent{3}{}\<
+                             [3]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.268 ...hbf{import}\;\Conid{\Conid{Data}.Nat}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.270 \>[B]{}\hsindent{3}{}\<
+                             [3]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.271 ...thbin{â†’}\Conid{Set}\;\mathbf{where}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.273 \>[3]{}\hsindent{2}{}\<
+                             [5]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.274 ...{:}\Conid{Vec}\;\Conid{A}\;\mathrm{0}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.276 \>[3]{}\hsindent{2}{}\<
+                             [5]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.277 ...\;\Conid{A}\;(\Varid{suc}\;\Varid{n}){}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.279 \>[B]{}\hsindent{3}{}\<
+                             [3]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.280 ...’}\Conid{Vec}\;\Conid{â„•}\;\Varid{n}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.282 \>[B]{}\hsindent{3}{}\<
+                             [3]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.283 ...l}\;\Varid{nil}\mathrel{=}\Varid{nil}{}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.285 \>[B]{}\hsindent{3}{}\<
+                             [3]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.286 ...(\Varid{sum}\;\Varid{xs}\;\Varid{ys}){}\<
+                                                  [E]%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\endhscode ->\endpboxed 
+                        \hsnewpar \belowdisplayskip \ignorespacesafterend 
+l.288 \end{hscode}
+                  \resethooks
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.288 \end{hscode}
+                  \resethooks
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.288 \end{hscode}
+                  \resethooks
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no „ in font cmr10!
+Missing character: There is no • in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no · in font cmr10!
+
+Overfull \hbox (13.73608pt too wide) in paragraph at lines 260--288
+$\OML/cmm/m/it/10 l <
+ []
+
+
+Overfull \hbox (13.73608pt too wide) in paragraph at lines 260--288
+[]$$\OML/cmm/m/it/10 l <
+ []
+
+
+Overfull \hbox (13.73608pt too wide) in paragraph at lines 260--288
+[]$$\OML/cmm/m/it/10 l <
+ []
+
+
+Overfull \hbox (13.73608pt too wide) in paragraph at lines 260--288
+[]$$\OML/cmm/m/it/10 l <
+ []
+
+
+Overfull \hbox (115.86124pt too wide) in paragraph at lines 260--288
+[]$$ \OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][][] [] [][][\OML/cmm/
+m/it/10 E\OT1/cmr/m/n/10 ][] 
+ []
+
+
+Overfull \hbox (150.42186pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][] [][3] [3][][] [] [][][\O
+ML/cmm/m/it/10 E\OT1/cmr/m/n/10 ] 
+ []
+
+
+Overfull \hbox (92.37115pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][] [][3] [3][][] [] (\OT1/c
+mr/m/it/10 A []
+ []
+
+
+Overfull \hbox (21.15964pt too wide) in paragraph at lines 260--288
+[]\OT1/cmr/m/n/10 ) []
+ []
+
+
+Overfull \hbox (60.75664pt too wide) in paragraph at lines 260--288
+[] [][]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ][] 
+ []
+
+
+Overfull \hbox (46.72227pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [3][] [][5] [5][][] []
+ []
+
+
+Overfull \hbox (47.42331pt too wide) in paragraph at lines 260--288
+[] \OT1/cmr/m/it/10 A \OT1/cmr/m/n/10 0[][\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ][]
+ 
+ []
+
+
+Overfull \hbox (31.66676pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [3][] [][5] [5][][] []
+ []
+
+
+Overfull \hbox (2.77779pt too wide) in paragraph at lines 260--288
+[] []
+ []
+
+
+Overfull \hbox (15.00044pt too wide) in paragraph at lines 260--288
+\OMS/cmsy/m/n/10 f \OT1/cmr/m/it/10 n []
+ []
+
+
+Overfull \hbox (5.83333pt too wide) in paragraph at lines 260--288
+[] \OMS/cmsy/m/n/10 g []
+ []
+
+
+Overfull \hbox (7.43329pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/it/10 A []
+ []
+
+
+Overfull \hbox (35.29874pt too wide) in paragraph at lines 260--288
+[] \OT1/cmr/m/it/10 A n []
+ []
+
+
+Overfull \hbox (73.98888pt too wide) in paragraph at lines 260--288
+[] \OT1/cmr/m/it/10 A \OT1/cmr/m/n/10 ([] \OT1/cmr/m/it/10 n\OT1/cmr/m/n/10 )[]
+[\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ] 
+ []
+
+
+Overfull \hbox (55.93172pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][] [][3] [3][][] []
+ []
+
+
+Overfull \hbox (15.00044pt too wide) in paragraph at lines 260--288
+[]\OMS/cmsy/m/n/10 f \OT1/cmr/m/it/10 n []
+ []
+
+
+Overfull \hbox (5.83333pt too wide) in paragraph at lines 260--288
+[] \OMS/cmsy/m/n/10 g []
+ []
+
+
+Overfull \hbox (27.86545pt too wide) in paragraph at lines 260--288
+[] [] \OT1/cmr/m/it/10 n []
+ []
+
+
+Overfull \hbox (27.86545pt too wide) in paragraph at lines 260--288
+[] [] \OT1/cmr/m/it/10 n []
+ []
+
+
+Overfull \hbox (41.37933pt too wide) in paragraph at lines 260--288
+[] [] \OT1/cmr/m/it/10 n[]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ][
+] 
+ []
+
+
+Overfull \hbox (93.82031pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][] [][3] [3][][] [] [] []
+ []
+
+
+Overfull \hbox (25.79161pt too wide) in paragraph at lines 260--288
+[][]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ][] 
+ []
+
+
+Overfull \hbox (65.66357pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ][] [][3] [3][][] (\OT1/cmr/
+m/it/10 x []
+ []
+
+
+Overfull \hbox (25.8443pt too wide) in paragraph at lines 260--288
+[]\OT1/cmr/m/n/10 ) (\OT1/cmr/m/it/10 y []
+ []
+
+
+Overfull \hbox (24.20961pt too wide) in paragraph at lines 260--288
+[]\OT1/cmr/m/n/10 ) []
+ []
+
+
+Overfull \hbox (17.50974pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 (\OT1/cmr/m/it/10 x []
+ []
+
+
+Overfull \hbox (9.62914pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/it/10 y\OT1/cmr/m/n/10 ) []
+ []
+
+
+Overfull \hbox (64.56123pt too wide) in paragraph at lines 260--288
+\OT1/cmr/m/n/10 ([] [] [])[][\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 ][]$ 
+ []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.288 \end{hscode}
+                  \resethooks
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Extra }, or forgotten \endgroup.
+\hsnewpar ...rindent =0pt\par \vskip #1\noindent }
+                                                  
+l.288 \end{hscode}
+                  \resethooks
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+)
+! Emergency stop.
+<*> test.tex
+            
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 190 strings out of 494910
+ 2483 string characters out of 6179836
+ 49468 words of memory out of 5000000
+ 3572 multiletter control sequences out of 15000+600000
+ 5611 words of font info for 20 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 18i,5n,16p,286b,68s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!
