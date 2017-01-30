@@ -8,6 +8,7 @@ open import AlgebraStructures
 open import Level
 open import Data.Bool
 open import Data.Nat
+open import Data.Maybe
 module SizeW where
   data SizeW {a} : Set a  where
     size : ∀ (n : ℕ) → SizeW {a}
@@ -19,13 +20,17 @@ module SizeW where
   _∙_ :  ∀ {a} → SizeW {a} → SizeW {a} → SizeW {a}
   size n ∙ size m = size (n + m)
 
+  import numbers
+
+  ∙-comm : ∀ {a} → (x : SizeW {a})→ (y : SizeW {a}) → (x ∙ y ≡ y ∙ x)
+  ∙-comm (size n) (size m) rewrite +comm n m = refl
+
   _<ˢ_ : ∀ {a} → SizeW {a} → SizeW {a} → Bool
   size n <ˢ size m = n <-nat m
 
   data _<ᵗ_ {a} : SizeW {a} → SizeW {a} → Set a where
     lt : ∀ {n : ℕ} {m : ℕ} → (n < m) → size n <ᵗ size m
 
-  import numbers
 
   unit-step : ∀ {a : Level} → {n : ℕ} → (size {a} n) <ᵗ (size 1  ∙ size n)
   unit-step {_}{n} = lt (s≤s (numbers.≤-refl n))
@@ -41,7 +46,7 @@ module SizeW where
 
   -- in main program only export these ones
   instance size-monoid : ∀ {a} → Monoid (SizeW {a})
-  size-monoid = monoid ε _∙_ ε∙ ∙ε ∙-assoc
+  size-monoid = monoid ε _∙_ ε∙ ∙ε ∙-assoc _<ᵗ_ ∙-comm
 
   getSize : ∀ {a} → SizeW {a} → ℕ
   getSize (size n) = n

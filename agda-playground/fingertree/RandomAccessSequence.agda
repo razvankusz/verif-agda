@@ -40,13 +40,14 @@ module RandomAccessSequence where
     -- please-god-let-me-prove-this (Single x) = begin Entry.m x ≡⟨ sym (ε-right (Entry.m x)) ⟩ (Entry.m x SizeW.∙ size zero) ∎
     -- please-god-let-me-prove-this (Deep x x₁ s x₂) = {!   !}
     --
-
-    big-seq-acc : ℕ → ℕ → Seq ℕ → Seq ℕ
-    big-seq-acc zero i ac = ac
-    big-seq-acc (suc n) i ac = big-seq-acc n (suc i) (i ◀ ac)
+    --
+    -- big-seq-acc : ℕ → ℕ → Seq ℕ → Seq ℕ
+    -- big-seq-acc zero i ac = ac
+    -- big-seq-acc (suc n) i ac = big-seq-acc n (suc i) (i ◀ ac)
 
     big-seq : ℕ → Seq ℕ
-    big-seq n = big-seq-acc n 0 Empty
+    big-seq zero = Empty
+    big-seq suc n = (entry n) ◁ (big seq n)
 
     open import IO.Primitive
     open import Data.String

@@ -1,8 +1,9 @@
 open import Relation.Binary.PropositionalEquality
-
+open import Level
+open import Data.Maybe
 module AlgebraStructures where
 
-  record Monoid {a} (V : Set a) : Set a where
+  record Monoid {a} (V : Set a) : Set (suc a) where
    constructor monoid
    infixr 5 _∙_
    field
@@ -11,6 +12,8 @@ module AlgebraStructures where
      ε-left  : ∀ (v : V) → ε ∙ v ≡ v
      ε-right : ∀ (v : V) → v ∙ ε ≡ v
      ∙-assoc : ∀ (a b c : V) → a ∙ (b ∙ c) ≡ (a ∙ b) ∙ c
+     _≲_ : V → V → Set a
+     ∙-comm : ∀ (a b : V) → ((a ∙ b ≡ b ∙ a))
 
   record Measured {a}(A : Set a)(V : Set a) : Set a where
     constructor measured

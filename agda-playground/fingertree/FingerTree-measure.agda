@@ -762,22 +762,22 @@ sym== f1 f2 (leq .f1 .f2 x) = leq f2 f1 (sym x)
 
 -- -- TESTING ---------------------------------------------------------------------------
 open import numbers
-
-instance nat : Monoid ℕ
-nat = monoid 0 _+_ 0+ +0 +assoc
-
-instance list : Monoid (List ℕ)
-list = monoid [] _++_ []+ +[] ++assoc
-
-instance nat-measure : ∀ {A : Set} →  Measured A ℕ
-nat-measure = measured (λ x → 1)
-
-instance list-measure : Measured ℕ (List ℕ)
-list-measure =  measured (λ x → x ∷ [])
-
-
-test-tree : FingerTree ℕ (List ℕ)
-test-tree = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
-
-test-tree2 : FingerTree ℕ ℕ
-test-tree2 = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
+-- 
+-- instance nat : Monoid ℕ
+-- nat = monoid 0 _+_ 0+ +0 +assoc
+--
+-- instance list : Monoid (List ℕ)
+-- list = monoid [] _++_ []+ +[] ++assoc
+--
+-- instance nat-measure : ∀ {A : Set} →  Measured A ℕ
+-- nat-measure = measured (λ x → 1)
+--
+-- instance list-measure : Measured ℕ (List ℕ)
+-- list-measure =  measured (λ x → x ∷ [])
+--
+--
+-- test-tree : FingerTree ℕ (List ℕ)
+-- test-tree = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
+--
+-- test-tree2 : FingerTree ℕ ℕ
+-- test-tree2 = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
