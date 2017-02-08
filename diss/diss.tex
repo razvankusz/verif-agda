@@ -50,7 +50,7 @@
 
 \newcommand{\Conid}[1]{\mathit{#1}}
 \newcommand{\Varid}[1]{\mathit{#1}}
-\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\anonymous}{\kern0.06em \_}
 \newcommand{\plus}{\mathbin{+\!\!\!+}}
 \newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
 \newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
@@ -451,12 +451,12 @@ Further details about agda syntax will be provided in section (Introduction to A
 
 Another way of maintaing invariants throughout the program is the trick or 'irregular'
 or 'nested' datatypes. They allow forcing strong structural invariants on the datastructure
-and have gained interest because of their practical implications. \cite{birdmeertens}
+and have gained interest because of their practical implications, allowing definitions of
+circular datastructures \cite{circular} or de bruijin indexes \cite{birdmeertens}.
 Some difficulties come up in recursive calls or inductive proofs, fact which will be
-covered and discussed in section (TODO implementation/section_nest_example).
-
-For example, consider the next data structure, introduced in Bird and Meertens \cite{birdmeertens}
-as well, but slightly modified so I can build a pathological example on top of it later on:
+covered and discussed in section (TODO implementation/section\_nest\_example).
+For example, consider the next data structure, introduced by Bird and Meertens \cite{birdmeertens}
+, with a slight modification that makes future examples easier to understand.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -665,14 +665,14 @@ Consider for example the proposition describing equality (taken from the standar
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{Level}{}\<[E]%
 \\
-\>[B]{}\mathbf{data}\;\anonymous \mathbin{≡\char95 }\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{:}\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>[B]{}\mathbf{data}\;\anonymous \mathbin{≡\char95}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{:}\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\Varid{refl}\mathbin{:}\Varid{x}\mathbin{≡}\Varid{x}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
-(An explanation of the Level and universe polymorphism will be found at the end of the section -- TODO Foodnote)
+(An explanation of the Level and universe polymorphism will be found at the end of the section -- TODO Footnote)
 
 The first thing to notice is that this is a declaration of a dependent data type. It can only be constructed
 by calling refl, which tells us that all elements are equal to themselves (reflexivity).
@@ -774,9 +774,7 @@ to pattern match on an intermediate computation. This is more or less equivalent
 the left of the function, although, that would make the code objectively more unreadable by the never ending
 chain or arguments in the type declaration.
 
-We can see how this will become particularly nice with Views \cite{wadler}.
-
--example needed\\
+We will see how this become particularly nice with Views \cite{wadler}.
 
 Another piece of usefull syntax is rewrite. This is meant to be read as 'rewrite the left hand side
 by using the equation on the right hand side'. This makes necessarily use of the builtin equality.
@@ -966,9 +964,6 @@ I will give an example of a proof done in both ways. The proof is the commutativ
   filling in side lemmas at the end.
 
 
-
-
-
 -show the syntax mostly\\
 -reason behind inspect\\
 
@@ -982,24 +977,638 @@ I will give an example of a proof done in both ways. The proof is the commutativ
 
 \section{Views}
 
--introduction via wadler http://www.cs.tufts.edu/~nr/cs257/archive/phil-wadler/views.pdf \\
--emphasise the point in section 10 induction \\
--give nat example \\
--show use in nested types \\
+ The idea of a view was first introduced by Phil Wadler \cite{wadler} http://www.cs.tufts.edu/~nr/cs257/archive/phil-wadler/views.pdf . Originally
+   it is meant as a way of reconcilling the conflict between data abstraction and pattern matching. The essence of views is representing an arbitrary
+   data type as a newly defined and computationally meaningful algebraic data type. \\
+ The cannonical example is 'viewing' a natural number in terms of it's peano representation. \\
+ -- Example in haskell maybe?
+
+ 
+\subsection{Example - Natural Numberss} 
+ A more meaningful example is seeing a natural number as an even or odd number in terms of it's representation. That is, a
+ natural number is even if it can be represented as n = 2 * k for some natural k and it is odd if it can be represented as
+ n = 2 * k + 1.
+ I will present some agda code that does exactly this, providing a functional way of checking if a number is even or odd and also
+ performe floored division.
+
+%-- here comes the agda code
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Repr}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{z}{}\<[7]%
+\>[7]{}\mathbin{:}\Conid{Repr}\;\mathrm{0}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrm{2}\mathbin{*\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Repr}\;\Varid{n}\mathbin{→}\Conid{Repr}\;(\Varid{n}\mathbin{*}\mathrm{2}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrm{2}\mathbin{*\char95 +}\mathrm{1}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Repr}\;\Varid{n}\mathbin{→}\Conid{Repr}\;(\Varid{suc}\;(\Varid{n}\mathbin{*}\mathrm{2})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+A few helper functions could help one realise how convenient this representation is in case recursive calls over the binary structure of natural number are needed (e.g. when searching in functional array).
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{+}\mathrm{1}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Repr}\;\Varid{n}\mathbin{→}\Conid{Repr}\;(\Varid{suc}\;\Varid{n}){}\<[E]%
+\\
+\>[B]{}\Varid{z}\mathbin{+}\mathrm{1}\mathrel{=}\mathrm{2}\mathbin{*}\Varid{z}\mathbin{+}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}(\mathrm{2}\mathbin{*}\Varid{m})\mathbin{+}\mathrm{1}\mathrel{=}\mathrm{2}\mathbin{*}\Varid{m}\mathbin{+}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\mathrm{2}\mathbin{*}\Varid{m}\mathbin{+}\mathrm{1}\mathbin{+}\mathrm{1}\mathrel{=}\mathrm{2}\mathbin{*}(\Varid{m}\mathbin{+}\mathrm{1}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{repr}\mathbin{:}(\Varid{n}\mathbin{:}\Conid{ℕ})\mathbin{→}\Conid{Repr}\;\Varid{n}{}\<[E]%
+\\
+\>[B]{}\Varid{repr}\;\Varid{zero}\mathrel{=}\Varid{z}{}\<[E]%
+\\
+\>[B]{}\Varid{repr}\;(\Varid{suc}\;\Varid{n})\mathrel{=}(\Varid{repr}\;\Varid{n})\mathbin{+}\mathrm{1}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Induction with views}
+ An important point made \cite{wadler} is that the design of such views should allow inductive programs to be written on them.
+
+ Views become especially usefull when the data type is very hard itself to reason about, such as the case of nested data-type or irregular
+ datatypes.
+
+ A simple example of such a view is an implementation of the cyclic list \cite{circular}.\\
+ This is a cannonical example of a great structural need satisfied through typing only. 
+
+%-- agda code for definition\\
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{6}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{data}\;\Conid{Clist}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{Var}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{Nil}\mathbin{:}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{RCons}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;(\Conid{Maybe}\;\Conid{A})\mathbin{→}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This is a nested datatype, because each recursive invocation of the Rcons constructor will have type $CList (Maybe^{n} A) $ where $n$ is the recursion depth.
+The implementations of the functions that operate on such datatype are presented in the Appendix. One would understand the need to view this data structure as a $ A × CList A $ rather than $ A × Clist (Maybe A) $, as unfolding in the latter way would cause unenecessary nestings of the $Maybe$ constructor.
+
+%-- agda code for view\\
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{6}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{data}\;\Conid{View}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{NilV}\mathbin{:}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{ConsV}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This is an implementation of a function that iterates through the cyclic list for a given depth which could possibly be used in a simulation. As said before, it is a lot more straight-forward to see the data structure in a flattened way, while keeping strong invariants underneath by the nested type.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{unwind}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{ℕ}{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;\Varid{\Conid{ℕ}.zero}\;\Varid{c}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\;\Varid{with}\;\Varid{view}\;\Varid{c}{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\mid \Conid{NilV}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\mid \Conid{ConsV}\;\Varid{x}\;\Varid{x₁}\mathrel{=}\Varid{x}\mathbin{∷}\Varid{unwind}\;\Varid{n}\;\Varid{x₁}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
 
 \section{Termination checking}
 
--correctness requires termination checking \\
--how termination checking works in agda - 'structurally smaller' \\
--how views with nested types fail \\
+Checking whether a program terminates is, by a well-known result, undecidable. Hence, Agda and other theorem provers must rely on
+heuristics that can rule out all the programs that do not terminate. Due to the undecidability of the halting problem, all such
+heuristics will also reject programs that are correct. This dissertation was inspired by noticing how certain constructions in Agda,
+although usefull from an implementation point of view, do not pass this termination check. We will be exploring ways to get
+arround it.
+
+Since we are interested not only in computing things, but also in checking that they are correct, termination is a mandatory aspect.
+One can imagine very easily (false) proofs in terms of their type, but with no meaning.
+
+\begin{verbatim}
+--
+  bad-proof : forall a b -> P a b
+  bad-proof a b = bad-proof a b
+--
+\end{verbatim}
+
+The heuristic used in Agda revolves around the concept of a structurally smaller argument. That is, every recursive call must have a structurally smaller argument (has less layers of constructors wrapped around eachother) in order to pass the termination check.
+
+
+
+\subsection{Example - Regular Data Type} 
+Consider, for example, this simple pathological case:
+
+%-- list example
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{\Conid{Data}.List}\mathbin{\circ}[\mskip1.5mu \Varid{x}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mathrel{=}\Varid{y}\mathbin{∷}\Varid{append}\;\Varid{x}\;\Varid{ys}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+One could argue that this fails because 'with' forgets where ys originally came from, as we have seen before. However, this is not the case: 
+
+%-- list-inspect example
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Relation}.\Conid{Binary}.PropositionalEquality}{}\<[E]%
+\\
+\>[B]{}\Varid{append2}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{append2}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}\mid \Varid{inspect}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{x})\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{append2}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mid [\mskip1.5mu \Varid{eq}\mskip1.5mu]\mathrel{=}\Conid{\Conid{Data}.List}\mathbin{\circ}[\mskip1.5mu \Varid{x}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{append2}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mid \Conid{Reveal\char95 }\mathbin{·\char95 }\Varid{is\char95 }\mathbin{\circ}[\mskip1.5mu \Varid{refl}\mskip1.5mu]\mathrel{=}\Varid{y}\mathbin{∷}(\Varid{append2}\;\Varid{x}\;\Varid{ys}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This is a proof that the 'with' construct in agda doens't interact well with Agda's termination checker. However, Having a structurally recursive dependent typing scheme actually works for this instance - in this case we will use Nat indexing, but this scheme will become more general in the implementation phase. We can extend the List data type and index it on the length, as seen before when we introduced dependent types:
+
+%-- vec example
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Vec}{}\<[E]%
+\\
+\>[B]{}\Varid{append3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mathbin{→}\Conid{Vec}\;\Conid{A}\;(\Varid{suc}\;\Varid{n}){}\<[E]%
+\\
+\>[B]{}\Varid{append3}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{append3}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mathrel{=}\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{append3}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mathrel{=}\Varid{y}\mathbin{∷}(\Varid{append3}\;\Varid{x}\;\Varid{ys}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Example - Nested Data Type} 
+As stated by Adam Chipala \cite{adm-ind}, there is no deep theoretical reason for which the termination checking should fail in the presence of such nested datatype, other that the termination checker is incomplete (refering to Coq, but is applicable in this context as well). As seen above, a simple solution to it is simply transfigurating the typing to a dependent one.
+
+This is the declaration of Nest, as seen before. 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Nest}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{nilN}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{Nest}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{consN}\mathbin{:}(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+In this case, I am artificially creating a function with the sole purpose of creating a smaller datatype. It essentially reduces the tree by performing a given operation which takes as argument the pairs present in the leaves of the tree. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{compact}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Nest}\;(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}(\Conid{A}\mathbin{×}\Conid{A}\mathbin{→}\Conid{A})\mathbin{→}\Conid{Nest}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{compact}\;\Varid{nilN}\;\Varid{op}\mathrel{=}\Varid{nilN}{}\<[E]%
+\\
+\>[B]{}\Varid{compact}\;(\Varid{consN}\;\Varid{p}\;\Varid{ns})\;\Varid{op}\mathrel{=}\Varid{consN}\;(\Varid{lift}\mathbin{-}\Varid{op}\;\Varid{op}\;\Varid{p})\;(\Varid{compact}\;\Varid{ns}\;(\Varid{lift}\mathbin{-}\Varid{op}\;\Varid{op})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+ 
+The lift operation is just a map operation on the Product type:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{lift}\mathbin{-}\Varid{op}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}(\Conid{A}\mathbin{×}\Conid{A}\mathbin{→}\Conid{A})\mathbin{→}((\Conid{A}\mathbin{×}\Conid{A})\mathbin{×}(\Conid{A}\mathbin{×}\Conid{A}))\mathbin{→}(\Conid{A}\mathbin{×}\Conid{A}){}\<[E]%
+\\
+\>[B]{}\Varid{lift}\mathbin{-}\Varid{op}\;\Varid{op}\;(\Varid{proj₁},\Varid{proj₂})\mathrel{=}(\Varid{op}\;\Varid{proj₁},\Varid{op}\;\Varid{proj₂}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We introduce, as we did in the case of CList, a flattened view, together with a function that can convert between the two:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{View}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{nilL}\mathbin{:}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{consL}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Nest}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{view}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;(\Conid{Var}\;\Varid{x})\mathrel{=}\Conid{NilV}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;\Conid{Nil}\mathrel{=}\Conid{NilV}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;(\Conid{RCons}\;\Varid{x}\;\Varid{cl})\mathrel{=}\Conid{ConsV}\;\Varid{x}\;(\Varid{csnoc}\;\Varid{x}\;\Varid{cl}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+It is not hard to infer, given the previous examples, that such a declaration would fail to pass the termination checker in case there is a recursive call. Therefore, we are modifying the code the same way we did with List, by declaring an index
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Varid{dNest}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{dnilN}\mathbin{:}\Varid{dNest}\;\Conid{A}\;\Varid{zero}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{dconsN}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Varid{dNest}\;(\Conid{A}\mathbin{×}\Conid{A})\;\Varid{n}\mathbin{→}\Varid{dNest}\;\Conid{A}\;(\Varid{suc}\;\Varid{n}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathbf{data}\;\Varid{dView}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{dnilV}\mathbin{:}\Varid{dView}\;\Conid{A}\;\Varid{zero}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{dconsV}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Varid{dNest}\;\Conid{A}\;\Varid{n}\mathbin{→}\Varid{dView}\;\Conid{A}\;(\Varid{suc}\;\Varid{n}){}\<[E]%
+\end{hscode}\resethooks
+
+
+However, in the presence of a nested type, the structural recursive indexing fails to satisfy the type-checker.
 
 \section{Well-foundedness}
 
--what is well-founded induction \\
--tb to larry paulson's paper: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.14.8921&rep=rep1&type=pdf \\
--agda's standard library provides the tools \\
+A well-founded relation is a relation R, (R ⊂ X×X) such that there is no infinite sequence x0, x1, x2, ... of elements of X such that xn+1 R xn. A less than
+relation with this property can be used to implement a terminating induction definition, since we know that we cannot ever have an infinite sequence of
+decreasing argument sizes in the call stack.
+Tools for proving that a relation is Well-Founded and helper functions for defining recursive definitions are present in the standard library.
+
+%think of a simple example to use the framework.
+%what is well-founded induction \\ tb to larry paulson's paper: http://citeseerx.ist.psu.edu/viewdoc/download %doi=10.1.1.14.8921&rep=rep1&type=pdf \\ agda's standard library provides the tools \\
 
 \chapter{Implementation}
+
+Data structure design in functional programming has been greately improved by the publications of Okasaki \cite{okasaki} and those of Ross Patterson and Ralph Hinze. These papers introduce a number of concepts which has made possible a great efficiency speed-up in functional algorithms. The observation that the construction of numbers is equivalent to the construction of containers that hold that number of elements \cite{numerical} \cite{okasaki} has also provided developers with a general way of designing such constructors. \\
+Most data structures presented in these papers are nested data types. 
+What this section is trying to achieve is to find a way to represent such data structure and their views in a way that would make recursive definition pass the termination checker. \\
+Failure to use certain techniques will be illustrated on relatively simple data structures, whereas an implementation of Finger Trees \cite{patterson} will be given to incorporate these ideas.
+
+
+\section{Numerical Representations} 
+
+The treatment of containers as natural numbers has been studied in depth\cite{okasaki}. The basic idea is that simple numerical operations correspond naturally to operations on containers. For example:
+
+\vspace{5mm} %5mm vertical space 
+\begin{tabular}{lcl}
+increasing a number & corresponds to & adding an element\\
+decreasing a number & corresponds to & removing an element \\
+adding two numbers & corresponds to & merging to containers \\
+\end{tabular} 
+\clearpage 
+
+This treatment of numbers, represented in various numerical basis, allows the constructions the obey the implicit recursive slowdown, presented by okasaki. This allows in lazy languages like Haskell, implementation of operations such as insertion and deletion in ammortised O(1) cost -- which represented a breakthrough in functional programming languages.
+
+\section{Random Access Sequences}
+
+In this section, I will present a data structure as implemented by Ralph Hinze\cite{numerical} and show the issues that could arrise because of the termination checker in more detail. 
+
+Consider the trivial implementation of a binary tree in a functional programming language:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{bush}\;\mathbf{where}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Bush}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Leaf}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Fork}\mathbin{:}\Conid{Bush}\;\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+In order to stay consistent with the original implementation, the data structure above will be split in two different types that represent the constructors \cite{numerical}.
+
+%-- constructors.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{ral}\;\mathbf{where}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Leaf}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{LEAF}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Leaf}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Fork}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{FORK}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{Fork}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+We can now refer to the Random Access Sequence implementation.
+They are a numerical representation based on base two of natural numbers, however, rather than the 0-1 system, the author prefers to use the 1-2 system for a number of effiency reasons.
+
+\begin{center}
+	\begin{tabular}{lcl}
+	$inc(\epsilon$) & = & $1$ \\
+	$inc(1a)$ & = & $2a$ \\ 
+	$inc(2a)$ & = & $1inc(a)$ \\
+	\end{tabular} 
+\end{center}
+
+This $inc$ operator should correspond analogously to the 'Cons' operators in the data structure:
+
+%--RAL
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\mathbf{data}\;\Conid{RandomAccessList}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Nil}\mathbin{:}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{One}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Two}\mathbin{:}(\Conid{Fork}\;\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+Now, by implemending the function $incr$, we can see the similarity between the adding an element to the left and the number representation 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{incr}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;\Conid{Nil}\mathrel{=}\Conid{One}\;\Varid{b}\;\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{Two}\;(\Conid{FORK}\;\Varid{b}\;\Varid{b₂})\;\Varid{ds}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{Two}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{One}\;\Varid{b}\;(\Varid{incr}\;\Varid{b₂}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We can finally declare a sequence, by using the definition of Leaf as a layer of abstraction.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{cons}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{cons}\;\Varid{a}\;\Varid{s}\mathrel{=}\Varid{incr}\;(\Conid{LEAF}\;\Varid{a})\;\Varid{s}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Example Method}
+
+Here is the implementations of a method that illustrates the sequences' use. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.List}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\Varid{fromList}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{fromList}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{fromList}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}\Varid{cons}\;\Varid{x}\;(\Varid{fromList}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\subsection{Defining a view} 
+
+We can then implement the $front$ method, which returns a view of the list in terms of the first element and a continutation. Our goal is to abstract away the intricacy of the type declaration, so we can implement methods  easily. First, we need to declare the return type, wrapped in a view data structure.
+
+%--View %--front
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Product}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\mathbf{data}\;\Conid{View}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Vnil}\mathbin{:}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{VCns}\mathbin{:}\Conid{A}\mathbin{×}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\Varid{front}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{front}\;\Conid{Nil}\mathrel{=}\Conid{Vnil}{}\<[E]%
+\\
+\>[5]{}\Varid{front}\;(\Conid{One}\;(\Conid{LEAF}\;\Varid{x})\;\Varid{ds})\mathrel{=}\Conid{VCns}\;(\Varid{x},\Varid{zero}\;\Varid{ds}){}\<[E]%
+\\
+\>[5]{}\Varid{front}\;(\Conid{Two}\;(\Conid{FORK}\;(\Conid{LEAF}\;\Varid{a})\;\Varid{b})\;\Varid{ds})\mathrel{=}\Conid{VCns}\;(\Varid{a},\Conid{One}\;\Varid{b}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The zero method is a restructuring method, as we will find in the Finger Tree implementation.
+
+%-zero 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{zero}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\mathbin{→}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;\Conid{Nil}\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;(\Conid{One}\;\Varid{b}\;\Varid{ds})\mathrel{=}\Conid{Two}\;\Varid{b}\;(\Varid{zero}\;\Varid{ds}){}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;(\Conid{Two}\;(\Conid{FORK}\;\Varid{b₁}\;\Varid{b₂})\;\Varid{ds})\mathrel{=}\Conid{Two}\;\Varid{b₁}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Example termination failure}
+
+Here, Agda termination checker will fail. We will try to implement an append function, which is a straightforward process given the methods previously declared:
+
+%-append
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{append}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\;\Varid{with}\;\Varid{front}\;\Varid{seq}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\mid \Conid{Vnil}\mathrel{=}\Varid{cons}\;\Varid{x}\;\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\mid \Conid{VCns}\;(\Varid{head},\Varid{tail})\mathrel{=}\Varid{cons}\;\Varid{head}\;(\Varid{append}\;\Varid{x}\;\Varid{tail}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Using sized types}
+
+Sized types are agda's response to fixing such issues. However, trying to come up with an implementation that type checks, even in this relatively simple case seems to be very difficult. The intuition in this case is that we need to convince agda that FORK a b is bigger than any individual a b in the context of the RAL constructors. However, sized types are only relative, not on an absolute scale.
+
+%-- size code, cannot be completed
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{31}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{35}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{ral}\mathbin{-}\Varid{sized}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{Size}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Leaf}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{LEAF}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Leaf}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Fork}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{FORK}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{Fork}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\\
+\>[5]{}\mathbf{data}\;\Conid{RandomAccessList}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Nil}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{One}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Two}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}(\Conid{Fork}\;\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Conid{IxSequence}\mathbin{:}\Conid{Set}\mathbin{→}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}\Conid{Set}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Conid{IxSequence}\mathrel{=}\Conid{RandomAccessList}\;\Conid{Leaf}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A}){}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;\Conid{Nil}\mathrel{=}\Conid{One}\;\Varid{b}\;\Conid{Nil}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{Two}\;(\Conid{FORK}\;\Varid{b}\;\Varid{b₂})\;\Varid{ds}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{Two}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\{\mskip1.5mu \mathbin{!}{}\<[31]%
+\>[31]{}\mathbin{!}\mskip1.5mu\}{}\<[35]%
+\>[35]{}\mbox{\onelinecomment  One b (incr b₂ ds)}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+Consider the implementation of \textit{incr}. The problem arises when we are recursively calling \textit{incr b ds} . This is where the complication of nested types arose in the first place. incr is a polymorphic function, so in the second interation it would be instantiated with 
+\begin{center}
+$ B' = FORK B$ \\
+$ A' = A $ \\
+\end{center}
+Now, it is obvious that inserting an element of type Fork B A should increase the size of the container by more than inserting an element of type A would. Under this polymorphism however, the two operations are equivalent.
+The solution to this problem would require a size scaled on the type, so that\textit{ size(Fork B A) > size(A)}. However, this needs to be hardcoded for specific type, as Agda has no way of differentiating between different types of type Set, so no general method is available.
+We will implement a custom-made size function by enhancing the type with a measurement, in the context of Finger Trees.
+
 
 \section{FingerTrees in general}
 
@@ -1011,8 +1620,8 @@ I will give an example of a proof done in both ways. The proof is the commutativ
 -without measurement - quite boring \\
 -with measurment \\
 -view from the left is not working because of termination check (pointer to coq paper) \\
--trying to get solve the issue by defining a well-founded induction \\
--use the measurement info, since it's there \\
+-trying to solve the issue by defining a well-founded induction \\
+-use the measurement info, since it's already there \\
 
 \section{Random Access Sequences as an easier example}
 
@@ -1021,6 +1630,32 @@ I will give an example of a proof done in both ways. The proof is the commutativ
 -boom, we fail because we didn't follow a dependently typed implementation \\
 
 \section{Dependently typed FingerTrees}
+
+- implementing dependently typed fingertrees ensures that there cannot be malformed trees in the program.
+- I will use the measurement V for the index, since it's mostly been implemented in the previous section. \\
+
+- defining a well founded induction on V will allow ordering trees as well, an therefore ensure termination
+checking on this recursion. \\
+
+- (all is well until node) \\
+
+- A full dependent implemenatation seemed harder to envision. By full, I mean that I move the measure
+labels from the nodes to the type as well. However, I don't see how we allow trees to have differently
+sized nodes since their constructor only takes an instance of Node A V {size}, size which must be
+specified in advanced. \\
+
+- I am cheating this using postulates. We can guarantee no bad nodes are added in the tree since the
+user never actually needs to call the constructor of the node, it should be a completely hidden
+concept. \\
+
+- The approach with the view doesn't work as expected, even when Agda can see that the types are
+becoming smaller. I am providing the examples in node2.agda \\
+
+- Complain about the with operator \\
+
+- All this to simplify recursion and inductive definitions on FingerTrees.
+
+\section {Random Access Sequences with dependently typed FingerTrees}
 
 
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.1.17)  21 JAN 2017 13:10
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.1.17)  8 FEB 2017 21:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -357,11 +357,6 @@ LaTeX Info: Redefining \- on input line 2746.
 ))
 \g__fontspec_family_DejaVuSans_int=\count122
 .................................................
-. fontspec info: "no-font-shape"
-. 
-. Could not resolve font DejaVu Sans/I (it probably doesn't exist).
-.................................................
-.................................................
 . fontspec info: "defining-font"
 . 
 . Font family 'DejaVuSans(0)' created for font 'DejaVu Sans' with options
@@ -372,17 +367,14 @@ LaTeX Info: Redefining \- on input line 2746.
 . Sans/OT:script=latn;language=DFLT;mapping=tex-text;"
 . - 'small caps'  (m/sc) with NFSS spec.: - 'bold' (bx/n) with NFSS spec.:
 . <->"DejaVu Sans/B/OT:script=latn;language=DFLT;mapping=tex-text;"
-. - 'bold small caps'  (bx/sc) with NFSS spec.: - 'bold italic' (bx/it) with
-. NFSS spec.: <->"DejaVu
+. - 'bold small caps'  (bx/sc) with NFSS spec.: - 'italic' (m/it) with NFSS
+. spec.: <->"DejaVu Sans/I/OT:script=latn;language=DFLT;mapping=tex-text;"
+. - 'italic small caps'  (m/itsc) with NFSS spec.: - 'bold italic' (bx/it)
+. with NFSS spec.: <->"DejaVu
 . Sans/BI/OT:script=latn;language=DFLT;mapping=tex-text;"
 . - 'bold italic small caps'  (bx/itsc) with NFSS spec.: 
 .................................................
 \g__fontspec_family_DejaVuSansMono_int=\count123
-.................................................
-. fontspec info: "no-font-shape"
-. 
-. Could not resolve font DejaVu Sans Mono/I (it probably doesn't exist).
-.................................................
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -399,6 +391,12 @@ LaTeX Info: Redefining \- on input line 2746.
 . - 'bold' (bx/n) with NFSS spec.: <->"DejaVu Sans
 . Mono/B/OT:script=latn;language=DFLT;"
 . - 'bold small caps'  (bx/sc) with NFSS spec.: 
+. and font adjustment code:
+. \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font =0\fontdimen 3\font
+. \fontdimen 4\font =0\fontdimen 4\font \fontdimen 7\font =0\fontdimen 2\font
+. - 'italic' (m/it) with NFSS spec.: <->"DejaVu Sans
+. Mono/I/OT:script=latn;language=DFLT;"
+. - 'italic small caps'  (m/itsc) with NFSS spec.: 
 . and font adjustment code:
 . \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font =0\fontdimen 3\font
 . \fontdimen 4\font =0\fontdimen 4\font \fontdimen 7\font =0\fontdimen 2\font
@@ -634,34 +632,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 408--410
 
 ]
 
-LaTeX Warning: Citation `birdmeertens' on page 2 undefined on input line 454.
+LaTeX Warning: Citation `circular' on page 2 undefined on input line 455.
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.456 ... in section (TODO implementation/section_
-                                                  nest_example).
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.457 
-      
-? 
+
+LaTeX Warning: Citation `birdmeertens' on page 2 undefined on input line 455.
+
 
 LaTeX Warning: Citation `birdmeertens' on page 2 undefined on input line 458.
 
-
-LaTeX Font Warning: Font shape `EU1/DejaVuSans(0)/m/sl' undefined
-(Font)              using `EU1/DejaVuSans(0)/m/n' instead on input line 460.
-
+LaTeX Font Info:    Font shape `EU1/DejaVuSans(0)/m/sl' in size <12> not availa
+ble
+(Font)              Font shape `EU1/DejaVuSans(0)/m/it' tried instead on input 
+line 460.
 [2]
 \openout3 = `diss.ptb'.
 
-
-
-LaTeX Font Warning: Font shape `EU1/DejaVuSans(0)/m/it' undefined
-(Font)              using `EU1/DejaVuSans(0)/m/n' instead on input line 475.
 
 
 LaTeX Warning: Citation `ulf' on page 3 undefined on input line 508.
@@ -674,8 +659,8 @@ LaTeX Warning: Citation `isabelle' on page 3 undefined on input line 511.
 
 [3]
 Underfull \hbox (badness 1194) in paragraph at lines 529--532
-\EU1/DejaVuSans(0)/m/sl/12 Data structures in agda follow the ADT (Algebraic Da
-ta Types)
+\EU1/DejaVuSans(0)/m/n/12 Data structures in agda follow the ADT (Algebraic Dat
+a Types)
  []
 
 \openout3 = `diss.ptb'.
@@ -788,8 +773,8 @@ LaTeX Warning: Citation `howard' on page 9 undefined on input line 765.
 
 
 Underfull \hbox (badness 1117) in paragraph at lines 764--768
-\EU1/DejaVuSans(0)/m/sl/12 theoretical underpinnings in Martin Lof’s theory [[]
-], as well as
+\EU1/DejaVuSans(0)/m/n/12 theoretical underpinnings in Martin Lof’s theory [[]]
+, as well as
  []
 
 
@@ -804,33 +789,29 @@ LaTeX Warning: Citation `viewfromtheleft' on page 9 undefined on input line 772
 
 LaTeX Warning: Citation `wadler' on page 9 undefined on input line 777.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 779--780
-
- []
+\openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
 [9]
-\openout3 = `diss.ptb'.
+
+LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 819.
 
 
-
-LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 821.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 821--822
+Underfull \hbox (badness 10000) in paragraph at lines 819--820
 
  []
 
 
-Overfull \hbox (43.21162pt too wide) in paragraph at lines 824--824
+Overfull \hbox (43.21162pt too wide) in paragraph at lines 822--822
 []\EU1/DejaVuSansMono(0)/m/n/12 If eqn : a ≡ b, where _≡_ is the builtin equali
 ty you can write 
  []
 
 
-LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 843.
+LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 841.
+
+\openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
@@ -841,127 +822,358 @@ LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 843.
 
 \openout3 = `diss.ptb'.
 
+ [11]
+Underfull \hbox (badness 10000) in paragraph at lines 967--969
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 974--977
+
+ []
+
+
+LaTeX Warning: Citation `wadler' on page 12 undefined on input line 980.
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 980--985
+\EU1/DejaVuSans(0)/m/n/12 The idea of a view was first introduced by Phil Wadle
+r [[]]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 980--985
+\EU1/DejaVuSans(0)/m/n/12 http://www.cs.tufts.edu/ nr/cs257/archive/phil-wadler
+/views.pdf .
+ []
+
 \openout3 = `diss.ptb'.
 
- [11]
-Underfull \hbox (badness 10000) in paragraph at lines 972--974
+[12]
+\openout3 = `diss.ptb'.
 
+
+
+LaTeX Warning: Citation `wadler' on page 13 undefined on input line 1036.
+
+
+LaTeX Warning: Citation `circular' on page 13 undefined on input line 1041.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+[13]
+\openout3 = `diss.ptb'.
+
+ [14]
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+
+
+LaTeX Warning: Citation `adm-ind' on page 15 undefined on input line 1177.
+
+\openout3 = `diss.ptb'.
+
+[15]
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+ [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 979--982
-
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+ [][] 
  []
 
 
-Overfull \hbox (7.26436pt too wide) in paragraph at lines 985--989
-\EU1/DejaVuSans(0)/m/sl/12 -introduction via wadler http://www.cs.tufts.edu/ nr
-/cs257/archive/phil-
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+ [][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1211--1218
+ [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 985--989
-
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1211--1218
+ [][] 
  []
 
+\openout3 = `diss.ptb'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 992--995
+\openout3 = `diss.ptb'.
 
- []
+\openout3 = `diss.ptb'.
 
-! Misplaced alignment tab character &.
-l.999 ....edu/viewdoc/download?doi=10.1.1.14.8921&
-                                                  rep=rep1&type=pdf \\
-? 
-! Misplaced alignment tab character &.
-l.999 ...doc/download?doi=10.1.1.14.8921&rep=rep1&
-                                                  type=pdf \\
-? 
-
-Overfull \hbox (271.03877pt too wide) in paragraph at lines 998--1001
-\EU1/DejaVuSans(0)/m/sl/12 -tb to larry paulson’s paper: http://citeseerx.ist.p
-su.edu/viewdoc/download?doi=10.1.1.14.8921rep=rep1type=pdf 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 998--1001
-
- []
-
-[12] [13]
+[16] [17]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1006--1008
-
- []
+LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1289.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1016
-
- []
+LaTeX Warning: Citation `numerical' on page 18 undefined on input line 1289.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1019--1022
-
- []
+LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1289.
 
 
-Underfull \hbox (badness 4940) in paragraph at lines 1029--1032
-\EU1/DejaVuSans(0)/m/sl/12 Verbatim text can be included using []\EU1/DejaVuSan
-sMono(0)/m/n/12 \begin{verbatim} \EU1/DejaVuSans(0)/m/sl/12 and
- []
+LaTeX Warning: Citation `patterson' on page 18 undefined on input line 1292.
 
-[14
+
+LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1297.
+
+[18
 
 ]
-Overfull \hbox (9.97823pt too wide) in paragraph at lines 1040--1040
+
+LaTeX Warning: Citation `numerical' on page 19 undefined on input line 1311.
+
+\openout3 = `diss.ptb'.
+
+
+LaTeX Warning: Citation `numerical' on page 19 undefined on input line 1334.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+[19
+
+]
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+ [20]
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+ [21]
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][] 
+ []
+
+
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+ [][][][][][][][] 
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1615--1617
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1620--1625
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1628--1631
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1636
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 1637--1639
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1640--1641
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1646
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1647--1650
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1651--1653
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1654--1655
+
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 1664--1667
+\EU1/DejaVuSans(0)/m/n/12 Verbatim text can be included using []\EU1/DejaVuSans
+Mono(0)/m/n/12 \begin{verbatim} \EU1/DejaVuSans(0)/m/n/12 and
+ []
+
+[24]
+Overfull \hbox (9.97823pt too wide) in paragraph at lines 1675--1675
 []                        \EU1/DejaVuSansMono(0)/m/n/10.95 ELSE { LET poss = al
 l & ~(ld | row | rd)[] 
  []
 
 
-Overfull \hbox (16.57071pt too wide) in paragraph at lines 1044--1044
+Overfull \hbox (16.57071pt too wide) in paragraph at lines 1679--1679
 []                                 \EU1/DejaVuSansMono(0)/m/n/10.95 try(ld+p <<
  1, row+p, rd+p >> 1)[] 
  []
 
 
-Overfull \hbox (23.16321pt too wide) in paragraph at lines 1052--1052
+Overfull \hbox (23.16321pt too wide) in paragraph at lines 1687--1687
 []    \EU1/DejaVuSansMono(0)/m/n/10.95 writef("Number of solutions to %i2-queen
 s is %i5*n", i, count)[] 
  []
 
-[15] [16]
+[25] [26
+
+]
 Chapter 4.
 
-Underfull \hbox (badness 4752) in paragraph at lines 1113--1117
-[]\EU1/DejaVuSans(0)/m/it/12 Submitted postscript introduces more potential pro
-blems.
+Underfull \hbox (badness 4752) in paragraph at lines 1748--1752
+[]\EU1/DejaVuSans(0)/m/n/12 Submitted postscript introduces more potential prob
+lems.
  []
 
-[17
+[27
 
-
-] [18]
+] [28]
 Chapter 5.
-[19
+[29
 
 
 ] (./diss.aux)
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 14674 strings out of 495536
- 285996 string characters out of 6186181
- 275808 words of memory out of 5000000
- 17817 multiletter control sequences out of 15000+600000
- 14018 words of font info for 93 fonts, out of 8000000 for 9000
+ 14712 strings out of 495536
+ 287008 string characters out of 6186181
+ 279363 words of memory out of 5000000
+ 17843 multiletter control sequences out of 15000+600000
+ 14098 words of font info for 103 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,11n,61p,10369b,338s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,11n,61p,10369b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss.pdf (27 pages).
+Output written on diss.pdf (37 pages).

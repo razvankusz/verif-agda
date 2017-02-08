@@ -6,8 +6,8 @@ module Entry where
   data Entry {a}(A : Set a) : Set a where
     entry : (x : A) → Entry A
 
-  m : ∀ {a}{A : Set a} → Entry A → SizeW {a}
-  m (entry x) = SizeW.size 1
+  m : ∀ {a}{A : Set a} → (x : Entry A) → SizeW {a}
+  m x = SizeW.size 1
 
   getEntry : ∀{a}{A : Set a} → Entry A → A
   getEntry (entry x) = x

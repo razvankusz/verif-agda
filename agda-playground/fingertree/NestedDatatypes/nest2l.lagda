@@ -14,7 +14,6 @@ open import Data.List
 data Nest {a : Level} (A : Set a) : Set a where
   nilN  : Nest A
   consN : (A × A) → Nest (A × A) → Nest A
-
 \end{code}
 
 \begin{code}
@@ -22,27 +21,29 @@ data View {a : Level} (A : Set a) : Set a where
   nilL : View A
   consL : A → Nest A → View A
 \end{code}
-\begin{code}
 
+\begin{code}
 lift-op : ∀ {a : Level} {A : Set a} → (A × A → A) → ((A × A) × (A × A)) → (A × A)
 lift-op op (proj₁ , proj₂) = (op proj₁ , op proj₂)
 
+\end{code}
+
+\begin{code}
 compact : ∀ {a : Level} {A : Set a} → Nest (A × A) → (A × A → A) → Nest A
 compact nilN op = nilN
 compact (consN p ns) op = consN (lift-op op p) (compact ns (lift-op op))
--- this operation was created to generate a structurally smaller nest, it doesn't
--- have any practical opperation at all.
+\end{code}
 
+\begin{code}
 view : ∀ {a : Level} {A : Set a} → (A × A → A) → Nest A → View A
 view op nilN = nilL
 view op (consN x ns) = consL (op x) (compact ns op)
+\end{code}
 --
 -- toList-nest : ∀ {a : Level} {A : Set a} → (A × A → A) → Nest A → List A
 -- toList-nest op ns with view op ns
 -- toList-nest op ns | nilL = []
 -- toList-nest op ns | consL x x₁ = x ∷ (toList-nest op x₁)
-
-\end{code}
 
 -- I have tried to overcome the termination problem by making the types dependent, so Agda
 -- can see that terms actually become smaller as was suggested in the work of Ross Patterson et al.
@@ -69,6 +70,8 @@ dview {n = zero} op ns = dnilV
 dview {n = suc zero} op (dconsN x ns) = dconsV (op x) dnilN
 dview {n = suc (suc n)} op (dconsN x ns) = dconsV (op x) (dcompact ns op)
 
+\end{code}
+
 open import DependentPair using (Σ'; _,_)
 open import Induction.WellFounded
 
@@ -86,32 +89,26 @@ Nest-pair {a} A = Σ' {a = a} ℕ (dNest A)
 
 
 
-\end{code}
 
 \begin{code}
--- you might want to compare this approach with this very simple reimplementation of
--- append on lists vs vec
---
--- append : ∀ {a} {A : Set a} → A → List A → List A
--- append x xs with xs
--- append x xs | [] = Data.List.[ x ]
--- append x xs | y ∷ ys = y ∷ append x ys
---
--- this should work but it doesn't, even if you remember agda where y ∷ ys actually came from
 
+append : ∀ {a} {A : Set a} → A → List A → List A
+append x xs with xs
+append x xs | [] = Data.List.[ x ]
+append x xs | y ∷ ys = y ∷ append x ys
+
+\end{code}
+\begin{code}
 open import Relation.Binary.PropositionalEquality
--- append2 : ∀ {a} {A : Set a} → A → List A → List A
--- append2 x xs with xs | inspect (λ x → x) xs
--- append2 x xs | [] | [ eq ] = Data.List.[ x ]
--- append2 x xs | y ∷ ys | Reveal_·_is_.[ refl ] = y ∷ (append2 x ys)
-
--- however, implementing it with dependent types (i.e. Vec) it suddenly works.
-
+append2 : ∀ {a} {A : Set a} → A → List A → List A
+append2 x xs with xs | inspect (λ x → x) xs
+append2 x xs | [] | [ eq ] = Data.List.[ x ]
+append2 x xs | y ∷ ys | Reveal_·_is_.[ refl ] = y ∷ (append2 x ys)
+\end{code}
+\begin{code}
 open import Data.Vec
 append3 : ∀ {a} {A : Set a} {n : ℕ} → A → Vec A n → Vec A (suc n)
 append3 x xs with xs
 append3 x xs | [] = x ∷ []
 append3 x xs | y ∷ ys = y ∷ (append3 x ys)
-
-
 \end{code}

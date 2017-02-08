@@ -6,26 +6,26 @@ open import Data.List
 open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 
-module RandomAccessSequence-size where
+module RandomAccessSequence-size2 {a} {A : Set a} where
 
     open import SizeW using (size-monoid; SizeW; getSize; size; _<ᵗ_)
     open import Entry using (entry-measure; getEntry; Entry; entry)
 
-    Seq : ∀ {a}(A : Set a) SizeW → Set a
-    Seq {a} A s = FingerTree (Entry A) (SizeW {a}) {s}
+    Seq : SizeW {a} → Set a
+    Seq s = FingerTree (Entry A) (SizeW {a}) {s}
 
-    length-seq : ∀ {a}{A : Set a}{s : SizeW} → Seq A s → ℕ
+    length-seq : {s : SizeW} → Seq s → ℕ
     length-seq {s = s} ft = getSize s
 
-    _!_ : ∀ {a}{A : Set a}{s : SizeW} → Seq A s → ℕ → Maybe A
+    _!_ : ∀ {s : SizeW} → Seq s → ℕ → Maybe A
     seq ! n with split-Tree (λ x → size n SizeW.<ˢ x) SizeW.ε seq
     seq ! n | just (split-d _ x _) = just (getEntry x)
     seq ! n | nothing = nothing
 
-
-    big-seq : (n : ℕ) → Seq ℕ (size n)
-    big-seq zero = Empty
-    big-seq (suc n) = (entry n) ◁ (big-seq n)
+    --
+    -- big-seq : (n : ℕ) → Seq ℕ (size n)
+    -- big-seq zero = Empty
+    -- big-seq (suc n) = (entry n) ◁ (big-seq n)
 
     open import IO.Primitive
     open import Data.String
@@ -36,38 +36,18 @@ module RandomAccessSequence-size where
     show-maybe : Maybe ℕ → String
     show-maybe (just x) = Data.Nat.Show.show x
     show-maybe nothing = "nothing"
-    main : IO ℕ
-
-    main = (putStrLn (toCostring "Hello") >>=
-            (λ x → return (big-seq 10000) >>=
-            (λ x → putStrLn (toCostring (show-maybe(x ! 2)))) >>=
-            (λ x → return 1)))
+    -- main : IO ℕ
+    -- --
+    -- main = (putStrLn (toCostring "Hello") >>=
+    --         (λ x → return (big-seq 10000) >>=
+    --         (λ x → putStrLn (toCostring (show-maybe(x ! 2)))) >>=
+    --         (λ x → return 1)))
 
 
     open import Induction
     open import Induction.WellFounded as WF
     open import Level using (Lift)
-
-    Rec : ∀ l → RecStruct (SizeW {l}) l l
-    Rec l P (size zero) = Lift ⊤
-    Rec l P (size (suc n)) = P (size n)
-
-    rec-builder : ∀ {l} → RecursorBuilder (Rec l)
-    rec-builder P f (size zero) = Lift.lift tt
-    rec-builder P f (size (suc n)) = f (size n) (rec-builder P f (size n))
-
-    rec : ∀ {l} → Recursor (Rec l)
-    rec = build rec-builder
-
     open import Function
-
-    data argTuple {a} (A : Set a) : Set a where
-      atuple : (μ : SizeW) → (ft : Seq A μ) → (v : ViewL (Entry A) (SizeW {a})) → (v ≡ viewL ft) → argTuple A
-
-    getsz : ∀ {a} {A : Set a} → (argTuple A) → SizeW {a}
-    getsz (atuple μ ft v x) = μ
-
-
     open import Data.Empty
     open import DependentPair
     open import AlgebraStructures
@@ -108,7 +88,7 @@ module RandomAccessSequence-size where
 
     open import FingerTree-measure-size using (_▷_)
 
-    data _<<_ {a} : SizeW {a} → SizeW {a} → Set a where
+    data _<<_ : SizeW {a} → SizeW {a} → Set a where
       cmp : ∀ n m → (n < m) → (size n) << (size m)
 
     <-trans : ∀ n m p → n < m → m < p → n < p
@@ -133,16 +113,16 @@ module RandomAccessSequence-size where
     ≤-to-< (suc n) zero = λ ()
     ≤-to-< (suc n) (suc m) = s≤s
 
-    <<-trans : ∀ {a} (σ τ μ : SizeW {a}) → σ << τ → τ << μ → σ << μ
+    <<-trans : ∀ (σ τ μ : SizeW {a}) → σ << τ → τ << μ → σ << μ
     <<-trans (size n) (size n₁) (size n₂) (cmp .n .n₁ x) (cmp .n₁ .n₂ y) = cmp n n₂ (<-trans n n₁ n₂ x y)
 
-    <<-trans2 : ∀ {a} (σ : SizeW {a}) → (n m : ℕ) → (σ << size (suc m)) → (suc m ≤ n) → (σ << size n)
+    <<-trans2 : (σ : SizeW {a}) → (n m : ℕ) → (σ << size (suc m)) → (suc m ≤ n) → (σ << size n)
     <<-trans2 σ zero zero p1 ()
     <<-trans2 σ zero (suc m) p1 ()
     <<-trans2 .(size s) (suc n) zero (cmp s .1 x) p2 = cmp s (suc n) (<-trans2 s 1 (suc n) x p2)
     <<-trans2 .(size s) (suc n) (suc m) (cmp s .(suc (suc m)) x) p2 = cmp s (suc n) (<-trans2 s (suc (suc m)) (suc n) x p2)
 
-    <<-trans3 : ∀ {a} (σ : SizeW {a}) → (m n : ℕ) → (σ << size m) → (m ≤ n) → (σ << size n)
+    <<-trans3 : (σ : SizeW {a}) → (m n : ℕ) → (σ << size m) → (m ≤ n) → (σ << size n)
     <<-trans3 .(size s) zero n (cmp s .0 ()) p2
     <<-trans3 σ (suc m) zero p1 ()
     <<-trans3 .(size s) (suc m) (suc n) (cmp s .(suc m) x) p2 = cmp s (suc n) (<-trans2 s (suc m) (suc n) x p2)
@@ -161,57 +141,72 @@ module RandomAccessSequence-size where
 
 
 
-    <<-Rec : ∀ {a} → RecStruct (SizeW {a}) a a
+    <<-Rec : RecStruct (SizeW {a}) a a
     <<-Rec = WfRec _<<_
 
     mutual
-      <<-WF : ∀ {a} → Well-founded (_<<_ {a})
+      <<-WF : Well-founded (_<<_ )
       <<-WF n = acc (<<-WF' n)
 
-      <<-WF' : ∀ {a} → (n : SizeW {a}) → <<-Rec (Acc _<<_) n
+      <<-WF' : (n : SizeW {a}) → <<-Rec (Acc _<<_) n
       <<-WF' (size zero) .(size m) (cmp m .0 ())
       <<-WF' (size (suc n)) .(size m) (cmp m .(suc n) (s≤s x)) = acc (λ o o<m → <<-WF' (size n) o (<<-trans3 o m n o<m x))
 
-    Seq-pair : ∀ {a} (A : Set a) → Set a
-    Seq-pair {a} A = Σ (SizeW {a}) (Seq A)
+    Seq-pair : Set a
+    Seq-pair = Σ (SizeW {a}) Seq
 
-    to-size : ∀ {a} {A : Set a} → Seq-pair A → SizeW {a}
+    to-size : Seq-pair → SizeW {a}
     to-size (x , y) = x
 
-    _⋖_ : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A → Set a
+    _⋖_ : Seq-pair → Seq-pair → Set a
     _⋖_ = _<<_ on to-size
 
     -- from Larry Paulson's paper -- Inverse image
 
-    inverse-accessible : ∀ {a} {A : Set a} {x : Seq-pair A} → Acc _<<_ (to-size x) → Acc (_<<_ on to-size) x
-    inverse-accessible (acc rs) = acc (λ y fy<fx → inverse-accessible (rs (to-size y) fy<fx))
+    open Inverse-image
+      {A = Seq-pair}
+      {_<_ = _<<_}
+      to-size
+      renaming (well-founded to <<-⋖-wf)
 
-    inverse-wf : ∀ {a} {A : Set a} → Well-founded (_<<_ {a}) → Well-founded (_<<_ {a} on to-size {A = A})
-    inverse-wf wf = λ x → inverse-accessible (wf (to-size x))
+    ⋖-wf = <<-⋖-wf <<-WF
 
-    ⋖-WF : ∀ {a} → {A : Set a} → Well-founded (_⋖_ {a} {A})
-    ⋖-WF = inverse-wf <<-WF
-  --
-  --   wfRec-builder : RecursorBuilder (WfRec _<_ {ℓ = ℓ})
-  -- wfRec-builder P f x = Some.wfRec-builder P f x (wf x)
-  --
-  -- wfRec : Recursor (WfRec _<_)
-  -- wfRec = build wfRec-builder
+    open WF.All (⋖-wf)
+      renaming (wfRec to ⋖rec)
 
-    wfRec-builder : ∀ {a} → {A : Set a} → RecursorBuilder (WfRec (_⋖_ {a} {A}) {a})
-    wfRec-builder P f x = Some.wfRec-builder P f x (⋖-WF x)
-
-    ⋖-rec : ∀ {a} {A : Set a} → Recursor (WfRec (_⋖_ {a} {A}) {a})
-    ⋖-rec = build wfRec-builder
-
-    rev : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A
-    rev (μ , seq) with viewL seq
-    rev (.(size 0) , seq) | NilL = (size 0 , seq)
-    rev {a} {A} (_ , seq) | ConsL x xs = {! ⋖-rec _ _ go {a = a} {A = A}  !}
+    _▷'_ : (x : Entry A) → (seq : Seq-pair) → (Seq-pair)
+    x ▷' (m , ft) = (measure-tree xft , xft)
       where
-      go : ∀ {a} {A : Set a} (s : Seq-pair A) → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
-      go arg rec = {!   !}
-    -- ⋖-WF : ∀ {a} {A : Set a} → (π : Seq-pair A) → AccP π
+        xft = x ▷ ft
+
+    ≤-axiom : ∀ n → (n ≤ n)
+    ≤-axiom zero = z≤n
+    ≤-axiom (suc n) = s≤s (≤-axiom n)
+
+    <<-axiom0 : ∀ n → (size n) << (size (suc n))
+    <<-axiom0 zero = cmp zero (suc zero) (s≤s z≤n)
+    <<-axiom0 (suc n) = cmp (suc n) (suc (suc n)) (s≤s (s≤s (≤-axiom n)))
+
+    <<-axiom1 : ∀ z → (x : Entry A) → (z << (Entry.m x SizeW.∙ z))
+    <<-axiom1 (size n) x with (Measured.∥_∥ entry-measure) (entry (x))
+    <<-axiom1 (size n) x | mv = <<-axiom0 n
+
+    rev : Seq-pair → Seq-pair
+    rev π = ⋖rec a _ go π
+      where
+      go : ∀ s → (∀ p → p ⋖ s → Seq-pair) → Seq-pair
+      go (m , seq) rec with viewL seq
+      go (.(size 0) , seq) rec | NilL = π
+      go (_ , seq) rec | ConsL x xs = x ▷' (rec (measure-tree xs , xs) ((<<-axiom1 (measure-tree xs) x)))
+
+
+    -- rev (μ , seq) with viewL seq
+    -- rev (.(size 0) , seq) | NilL = (size 0 , seq)
+    -- rev {a} {A} (_ , seq) | ConsL x xs = {! ⋖-rec _ _ go {a = a} {A = A}  !}
+    --   where
+    --   go : ∀ {a} {A : Set a} (s : Seq-pair A) → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
+    --   go arg rec = {!   !}
+    -- -- ⋖-WF : ∀ {a} {A : Set a} → (π : Seq-pair A) → AccP π
     -- ⋖-WF {a} {A} π = acc (go π)
     --   where
     --   go : ∀ {a} {A : Set a} (π : Seq-pair A) (ρ : Seq-pair A) → ρ ⋖ π → AccP ρ

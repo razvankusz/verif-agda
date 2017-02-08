@@ -1,0 +1,520 @@
+-- Higher order nested datatypes
+
+
+-- All taken from this paper:
+--  http://web.comlab.ox.ac.uk/oucl/work/ralf.hinze/publications/IAI-TR-98-12.ps.gz
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\enskip\{-\# OPTIONS --sized-types  \#-\}\enskip}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathbf{module}\;\Varid{ralnestl}\;\mathbf{where}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{bush}\;\mathbf{where}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Bush}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Leaf}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Fork}\mathbin{:}\Conid{Bush}\;\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}\mathbin{→}\Conid{Bush}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{ral}\;\mathbf{where}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Leaf}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{LEAF}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Leaf}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Fork}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{FORK}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{Fork}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\mathbf{data}\;\Conid{RandomAccessList}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Nil}\mathbin{:}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{One}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Two}\mathbin{:}(\Conid{Fork}\;\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Conid{IxSequence}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}{}\<[E]%
+\\
+\>[5]{}\Conid{IxSequence}\mathrel{=}\Conid{RandomAccessList}\;\Conid{Leaf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{incr}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;\Conid{Nil}\mathrel{=}\Conid{One}\;\Varid{b}\;\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{Two}\;(\Conid{FORK}\;\Varid{b}\;\Varid{b₂})\;\Varid{ds}{}\<[E]%
+\\
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{Two}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{One}\;\Varid{b}\;(\Varid{incr}\;\Varid{b₂}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{cons}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{cons}\;\Varid{a}\;\Varid{s}\mathrel{=}\Varid{incr}\;(\Conid{LEAF}\;\Varid{a})\;\Varid{s}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.List}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\Varid{fromList}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{fromList}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{fromList}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}\Varid{cons}\;\Varid{x}\;(\Varid{fromList}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{zero}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\mathbin{→}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;\Conid{Nil}\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;(\Conid{One}\;\Varid{b}\;\Varid{ds})\mathrel{=}\Conid{Two}\;\Varid{b}\;(\Varid{zero}\;\Varid{ds}){}\<[E]%
+\\
+\>[5]{}\Varid{zero}\;(\Conid{Two}\;(\Conid{FORK}\;\Varid{b₁}\;\Varid{b₂})\;\Varid{ds})\mathrel{=}\Conid{Two}\;\Varid{b₁}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Product}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\mathbf{data}\;\Conid{View}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Vnil}\mathbin{:}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{VCns}\mathbin{:}\Conid{A}\mathbin{×}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[5]{}\Varid{front}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{front}\;\Conid{Nil}\mathrel{=}\Conid{Vnil}{}\<[E]%
+\\
+\>[5]{}\Varid{front}\;(\Conid{One}\;(\Conid{LEAF}\;\Varid{x})\;\Varid{ds})\mathrel{=}\Conid{VCns}\;(\Varid{x},\Varid{zero}\;\Varid{ds}){}\<[E]%
+\\
+\>[5]{}\Varid{front}\;(\Conid{Two}\;(\Conid{FORK}\;(\Conid{LEAF}\;\Varid{a})\;\Varid{b})\;\Varid{ds})\mathrel{=}\Conid{VCns}\;(\Varid{a},\Conid{One}\;\Varid{b}\;\Varid{ds}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{append}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}\mathbin{→}\Conid{IxSequence}\;\Conid{A}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\;\Varid{with}\;\Varid{front}\;\Varid{seq}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\mid \Conid{Vnil}\mathrel{=}\Varid{cons}\;\Varid{x}\;\Conid{Nil}{}\<[E]%
+\\
+\>[5]{}\Varid{append}\;\Varid{x}\;\Varid{seq}\mid \Conid{VCns}\;(\Varid{head},\Varid{tail})\mathrel{=}\Varid{cons}\;\Varid{head}\;(\Varid{append}\;\Varid{x}\;\Varid{tail}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{31}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{35}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{module}\;\Varid{ral}\mathbin{-}\Varid{sized}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mbox{\onelinecomment  binary tree}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{open}\;\mathbf{import}\;\Conid{Size}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Leaf}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{LEAF}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Leaf}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{Fork}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{FORK}\mathbin{:}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}\Conid{Fork}\;\Conid{B}\;\Conid{A}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{data}\;\Conid{RandomAccessList}\;(\Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set})\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Nil}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{One}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\Conid{Two}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}(\Conid{Fork}\;\Conid{B}\;\Conid{A})\mathbin{→}(\Conid{RandomAccessList}\;(\Conid{Fork}\;\Conid{B})\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Conid{IxSequence}\mathbin{:}\Conid{Set}\mathbin{→}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}\Conid{Set}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Conid{IxSequence}\mathrel{=}\Conid{RandomAccessList}\;\Conid{Leaf}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\mathbin{:}\{\mskip1.5mu \Conid{B}\mathbin{:}\Conid{Set}\mathbin{→}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{Size}\mskip1.5mu\}\mathbin{→}(\Conid{B}\;\Conid{A}){}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}\Conid{RandomAccessList}\;\Conid{B}\;\Conid{A}\;\{\mskip1.5mu \mathbin{↑}\Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;\Conid{Nil}\mathrel{=}\Conid{One}\;\Varid{b}\;\Conid{Nil}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{One}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\Conid{Two}\;(\Conid{FORK}\;\Varid{b}\;\Varid{b₂})\;\Varid{ds}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{incr}\;\Varid{b}\;(\Conid{Two}\;\Varid{b₂}\;\Varid{ds})\mathrel{=}\{\mskip1.5mu \mathbin{!}{}\<[31]%
+\>[31]{}\mathbin{!}\mskip1.5mu\}{}\<[35]%
+\>[35]{}\mbox{\onelinecomment  One b (incr b₂ ds)}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks

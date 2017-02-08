@@ -78,4 +78,3 @@ module functionalarray where
           (λ x → return (big-tree 10000 Leaf ) >>=
           (λ x → putStrLn (toCostring (show-maybe(repr 2 ! x)))) >>=
           (λ x → return 1)))
-          

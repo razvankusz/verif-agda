@@ -6,6 +6,7 @@ data Nest {a : Level} (A : Set a) : Set a where
   nilN  : Nest A
   consN : A → Nest (A × A) → Nest A
 
+
 foldl-pair : ∀ {a} {B : Set a} {A : Set a} → (f : B → A → B) → (z : B) → (A × A) → B
 foldl-pair f z (x , y) = f (f z x) y
 

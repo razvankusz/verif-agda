@@ -1,0 +1,402 @@
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{Level}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathbf{module}\;\Varid{clistl}\;\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Nat}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Maybe}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.List}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  data Clist (A : Set a) : Set a  where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment     Var : A → Clist A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment     Nil : Clist A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment     RCons : ℕ → Clist (Maybe A) → Clist A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{6}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{data}\;\Conid{Clist}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{Var}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{Nil}\mathbin{:}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{RCons}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;(\Conid{Maybe}\;\Conid{A})\mathbin{→}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{6}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathbf{data}\;\Conid{View}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{NilV}\mathbin{:}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\hsindent{3}{}\<[6]%
+\>[6]{}\Conid{ConsV}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{clist1}\mathbin{:}\Conid{Clist}\mathbin{⊥}{}\<[E]%
+\\
+\>[3]{}\Varid{clist1}\mathrel{=}\Conid{RCons}\;\mathrm{1}\;(\Conid{RCons}\;\mathrm{2}\;(\Conid{RCons}\;\mathrm{3}\;(\Conid{Var}\;(\Varid{just}\;(\Varid{nothing}))))){}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{shift}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{Clist}\;(\Conid{Maybe}\;\Conid{A}){}\<[E]%
+\\
+\>[3]{}\Varid{shift}\;(\Conid{Var}\;\Varid{x})\mathrel{=}\Conid{Var}\;(\Varid{just}\;\Varid{x}){}\<[E]%
+\\
+\>[3]{}\Varid{shift}\;\Conid{Nil}\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[3]{}\Varid{shift}\;(\Conid{RCons}\;\Varid{x}\;\Varid{xs})\mathrel{=}\Conid{RCons}\;\Varid{x}\;(\Varid{shift}\;\Varid{xs}){}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{ccons}\mathbin{:}\Conid{ℕ}\mathbin{→}\Conid{Clist}\mathbin{⊥}\mathbin{→}\Conid{Clist}\mathbin{⊥}{}\<[E]%
+\\
+\>[3]{}\Varid{ccons}\;\Varid{x}\;\Varid{xs}\mathrel{=}\Conid{RCons}\;\Varid{x}\;(\Varid{shift}\;\Varid{xs}){}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{chead}\mathbin{:}\Conid{Clist}\mathbin{⊥}\mathbin{→}\Conid{Maybe}\;\Conid{ℕ}{}\<[E]%
+\\
+\>[3]{}\Varid{chead}\;(\Conid{Var}\;()){}\<[E]%
+\\
+\>[3]{}\Varid{chead}\;\Conid{Nil}\mathrel{=}\Varid{nothing}{}\<[E]%
+\\
+\>[3]{}\Varid{chead}\;(\Conid{RCons}\;\Varid{x}\;\Varid{c})\mathrel{=}\Varid{just}\;\Varid{x}{}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{csnoc}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;(\Conid{Maybe}\;\Conid{A})\mathbin{→}\Conid{Clist}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\Varid{csnoc}\;\Varid{y}\;(\Conid{Var}\;(\Varid{just}\;\Varid{x}))\mathrel{=}\Conid{Var}\;\Varid{x}{}\<[E]%
+\\
+\>[3]{}\Varid{csnoc}\;\Varid{y}\;(\Conid{Var}\;\Varid{nothing})\mathrel{=}\Conid{RCons}\;\Varid{y}\;(\Conid{Var}\;\Varid{nothing}){}\<[E]%
+\\
+\>[3]{}\Varid{csnoc}\;\Varid{y}\;\Conid{Nil}\mathrel{=}\Conid{Nil}{}\<[E]%
+\\
+\>[3]{}\Varid{csnoc}\;\Varid{y}\;(\Conid{RCons}\;\Varid{x}\;\Varid{c})\mathrel{=}\Conid{RCons}\;\Varid{x}\;(\Varid{csnoc}\;\Varid{y}\;\Varid{c}){}\<[E]%
+\\[\blanklineskip]%
+\>[3]{}\Varid{ctail}\mathbin{:}\Conid{Clist}\mathbin{⊥}\mathbin{→}\Conid{Maybe}\;(\Conid{Clist}\mathbin{⊥}){}\<[E]%
+\\
+\>[3]{}\Varid{ctail}\;(\Conid{Var}\;()){}\<[E]%
+\\
+\>[3]{}\Varid{ctail}\;\Conid{Nil}\mathrel{=}\Varid{nothing}{}\<[E]%
+\\
+\>[3]{}\Varid{ctail}\;(\Conid{RCons}\;\Varid{x}\;\Varid{c})\mathrel{=}\Varid{just}\;(\Varid{csnoc}\;\Varid{x}\;\Varid{c}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{view}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{View}\;\Conid{A}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;(\Conid{Var}\;\Varid{x})\mathrel{=}\Conid{NilV}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;\Conid{Nil}\mathrel{=}\Conid{NilV}{}\<[E]%
+\\
+\>[3]{}\Varid{view}\;(\Conid{RCons}\;\Varid{x}\;\Varid{cl})\mathrel{=}\Conid{ConsV}\;\Varid{x}\;(\Varid{csnoc}\;\Varid{x}\;\Varid{cl}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{unwind}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Clist}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{ℕ}{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;\Varid{\Conid{ℕ}.zero}\;\Varid{c}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\;\Varid{with}\;\Varid{view}\;\Varid{c}{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\mid \Conid{NilV}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{unwind}\;(\Varid{\Conid{ℕ}.suc}\;\Varid{n})\;\Varid{c}\mid \Conid{ConsV}\;\Varid{x}\;\Varid{x₁}\mathrel{=}\Varid{x}\mathbin{∷}\Varid{unwind}\;\Varid{n}\;\Varid{x₁}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks

@@ -16,18 +16,29 @@
 \contentsline {subsection}{\numberline {2.1.4}Equivalence-Reasoning, , inspect}{10}
 \contentsline {subsection}{\numberline {2.1.5}instance arguments}{12}
 \contentsline {section}{\numberline {2.2}Views}{12}
-\contentsline {section}{\numberline {2.3}Termination checking}{12}
-\contentsline {section}{\numberline {2.4}Well-foundedness}{13}
-\contentsline {chapter}{\numberline {3}Implementation}{14}
-\contentsline {section}{\numberline {3.1}FingerTrees in general}{14}
-\contentsline {section}{\numberline {3.2}FingerTrees in Agda}{14}
-\contentsline {section}{\numberline {3.3}Random Access Sequences as an easier example}{14}
-\contentsline {section}{\numberline {3.4}Dependently typed FingerTrees}{15}
-\contentsline {section}{\numberline {3.5}Verbatim text}{15}
-\contentsline {section}{\numberline {3.6}Tables}{15}
-\contentsline {section}{\numberline {3.7}Simple diagrams}{16}
-\contentsline {chapter}{\numberline {4}Evaluation}{17}
-\contentsline {section}{\numberline {4.1}Printing and binding}{17}
-\contentsline {subsection}{\numberline {4.1.1}Things to note}{17}
-\contentsline {section}{\numberline {4.2}Further information}{18}
-\contentsline {chapter}{\numberline {5}Conclusion}{19}
+\contentsline {subsection}{\numberline {2.2.1}Example - Natural Numberss}{12}
+\contentsline {subsection}{\numberline {2.2.2}Induction with views}{13}
+\contentsline {section}{\numberline {2.3}Termination checking}{14}
+\contentsline {subsection}{\numberline {2.3.1}Example - Regular Data Type}{15}
+\contentsline {subsection}{\numberline {2.3.2}Example - Nested Data Type}{15}
+\contentsline {section}{\numberline {2.4}Well-foundedness}{17}
+\contentsline {chapter}{\numberline {3}Implementation}{18}
+\contentsline {section}{\numberline {3.1}Numerical Representations}{18}
+\contentsline {section}{\numberline {3.2}Random Access Sequences}{19}
+\contentsline {subsection}{\numberline {3.2.1}Example Method}{20}
+\contentsline {subsection}{\numberline {3.2.2}Defining a view}{20}
+\contentsline {subsection}{\numberline {3.2.3}Example termination failure}{21}
+\contentsline {subsection}{\numberline {3.2.4}Using sized types}{21}
+\contentsline {section}{\numberline {3.3}FingerTrees in general}{23}
+\contentsline {section}{\numberline {3.4}FingerTrees in Agda}{23}
+\contentsline {section}{\numberline {3.5}Random Access Sequences as an easier example}{23}
+\contentsline {section}{\numberline {3.6}Dependently typed FingerTrees}{23}
+\contentsline {section}{\numberline {3.7}Random Access Sequences with dependently typed FingerTrees}{24}
+\contentsline {section}{\numberline {3.8}Verbatim text}{24}
+\contentsline {section}{\numberline {3.9}Tables}{25}
+\contentsline {section}{\numberline {3.10}Simple diagrams}{25}
+\contentsline {chapter}{\numberline {4}Evaluation}{27}
+\contentsline {section}{\numberline {4.1}Printing and binding}{27}
+\contentsline {subsection}{\numberline {4.1.1}Things to note}{27}
+\contentsline {section}{\numberline {4.2}Further information}{28}
+\contentsline {chapter}{\numberline {5}Conclusion}{29}
