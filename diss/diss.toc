@@ -13,7 +13,7 @@
 \contentsline {subsection}{\numberline {2.1.1}Some Agda Examples}{7}
 \contentsline {subsection}{\numberline {2.1.2}Curry-Howard Isomorphism}{9}
 \contentsline {subsection}{\numberline {2.1.3}with, rewrite}{9}
-\contentsline {subsection}{\numberline {2.1.4}Equivalence-Reasoning, , inspect}{10}
+\contentsline {subsection}{\numberline {2.1.4}Equivalence-Reasoning, inspect}{10}
 \contentsline {subsection}{\numberline {2.1.5}instance arguments}{12}
 \contentsline {section}{\numberline {2.2}Views}{12}
 \contentsline {subsection}{\numberline {2.2.1}Example - Natural Numberss}{12}
@@ -21,24 +21,29 @@
 \contentsline {section}{\numberline {2.3}Termination checking}{14}
 \contentsline {subsection}{\numberline {2.3.1}Example - Regular Data Type}{15}
 \contentsline {subsection}{\numberline {2.3.2}Example - Nested Data Type}{15}
-\contentsline {section}{\numberline {2.4}Well-foundedness}{17}
+\contentsline {section}{\numberline {2.4}Well-Founded relations and Induction}{17}
 \contentsline {chapter}{\numberline {3}Implementation}{18}
-\contentsline {section}{\numberline {3.1}Numerical Representations}{18}
-\contentsline {section}{\numberline {3.2}Random Access Sequences}{19}
-\contentsline {subsection}{\numberline {3.2.1}Example Method}{20}
-\contentsline {subsection}{\numberline {3.2.2}Defining a view}{20}
-\contentsline {subsection}{\numberline {3.2.3}Example termination failure}{21}
-\contentsline {subsection}{\numberline {3.2.4}Using sized types}{21}
-\contentsline {section}{\numberline {3.3}FingerTrees in general}{23}
-\contentsline {section}{\numberline {3.4}FingerTrees in Agda}{23}
-\contentsline {section}{\numberline {3.5}Random Access Sequences as an easier example}{23}
-\contentsline {section}{\numberline {3.6}Dependently typed FingerTrees}{23}
-\contentsline {section}{\numberline {3.7}Random Access Sequences with dependently typed FingerTrees}{24}
-\contentsline {section}{\numberline {3.8}Verbatim text}{24}
-\contentsline {section}{\numberline {3.9}Tables}{25}
-\contentsline {section}{\numberline {3.10}Simple diagrams}{25}
-\contentsline {chapter}{\numberline {4}Evaluation}{27}
-\contentsline {section}{\numberline {4.1}Printing and binding}{27}
-\contentsline {subsection}{\numberline {4.1.1}Things to note}{27}
-\contentsline {section}{\numberline {4.2}Further information}{28}
-\contentsline {chapter}{\numberline {5}Conclusion}{29}
+\contentsline {section}{\numberline {3.1}Finger Trees - Introduction}{18}
+\contentsline {section}{\numberline {3.2}Previous work on Finger Trees}{19}
+\contentsline {section}{\numberline {3.3}Finger Trees - Implementation}{20}
+\contentsline {subsection}{\numberline {3.3.1}Data type declaration}{20}
+\contentsline {subsection}{\numberline {3.3.2}\textit {Cons} and \textit {Snoc}}{22}
+\contentsline {section}{\numberline {3.4}Numerical Representations -- Move these guys at the end of implementation -- since they are extra stuff anyway}{23}
+\contentsline {section}{\numberline {3.5}Random Access Sequences -- move this lower}{25}
+\contentsline {subsection}{\numberline {3.5.1}Example Method}{26}
+\contentsline {subsection}{\numberline {3.5.2}Defining a view}{26}
+\contentsline {subsection}{\numberline {3.5.3}Example termination failure}{27}
+\contentsline {subsection}{\numberline {3.5.4}Using sized types}{27}
+\contentsline {section}{\numberline {3.6}FingerTrees in general}{29}
+\contentsline {section}{\numberline {3.7}FingerTrees in Agda}{29}
+\contentsline {section}{\numberline {3.8}Random Access Sequences as an easier example}{29}
+\contentsline {section}{\numberline {3.9}Dependently typed FingerTrees}{30}
+\contentsline {section}{\numberline {3.10}Random Access Sequences with dependently typed FingerTrees}{31}
+\contentsline {section}{\numberline {3.11}Verbatim text}{31}
+\contentsline {section}{\numberline {3.12}Tables}{31}
+\contentsline {section}{\numberline {3.13}Simple diagrams}{32}
+\contentsline {chapter}{\numberline {4}Evaluation}{33}
+\contentsline {section}{\numberline {4.1}Printing and binding}{33}
+\contentsline {subsection}{\numberline {4.1.1}Things to note}{33}
+\contentsline {section}{\numberline {4.2}Further information}{34}
+\contentsline {chapter}{\numberline {5}Conclusion}{35}

@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.1.17)  8 FEB 2017 21:51
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  20 FEB 2017 23:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **diss.tex
 (./diss.tex
 LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 5 language(s) loaded.
+Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
@@ -823,26 +823,21 @@ LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 841.
 \openout3 = `diss.ptb'.
 
  [11]
-Underfull \hbox (badness 10000) in paragraph at lines 967--969
+Underfull \hbox (badness 10000) in paragraph at lines 969--972
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 974--977
-
- []
+LaTeX Warning: Citation `wadler' on page 12 undefined on input line 975.
 
 
-LaTeX Warning: Citation `wadler' on page 12 undefined on input line 980.
-
-
-Underfull \hbox (badness 3679) in paragraph at lines 980--985
+Underfull \hbox (badness 3679) in paragraph at lines 975--980
 \EU1/DejaVuSans(0)/m/n/12 The idea of a view was first introduced by Phil Wadle
 r [[]]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 980--985
+Underfull \hbox (badness 10000) in paragraph at lines 975--980
 \EU1/DejaVuSans(0)/m/n/12 http://www.cs.tufts.edu/ nr/cs257/archive/phil-wadler
 /views.pdf .
  []
@@ -854,10 +849,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 980--985
 
 
 
-LaTeX Warning: Citation `wadler' on page 13 undefined on input line 1036.
+LaTeX Warning: Citation `wadler' on page 13 undefined on input line 1031.
 
 
-LaTeX Warning: Citation `circular' on page 13 undefined on input line 1041.
+LaTeX Warning: Citation `circular' on page 13 undefined on input line 1036.
 
 \openout3 = `diss.ptb'.
 
@@ -875,7 +870,7 @@ LaTeX Warning: Citation `circular' on page 13 undefined on input line 1041.
 
 
 
-LaTeX Warning: Citation `adm-ind' on page 15 undefined on input line 1177.
+LaTeX Warning: Citation `adm-ind' on page 15 undefined on input line 1172.
 
 \openout3 = `diss.ptb'.
 
@@ -883,29 +878,29 @@ LaTeX Warning: Citation `adm-ind' on page 15 undefined on input line 1177.
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
  [][] 
  []
 
 
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
  [][] 
  []
 
 
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1198--1207
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
  [][] 
  []
 
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (63.90016pt too wide) in paragraph at lines 1211--1218
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1206--1213
  [][] 
  []
 
 
-Overfull \hbox (63.90016pt too wide) in paragraph at lines 1211--1218
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1206--1213
  [][] 
  []
 
@@ -918,36 +913,235 @@ Overfull \hbox (63.90016pt too wide) in paragraph at lines 1211--1218
 [16] [17]
 Chapter 3.
 
-LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1289.
+LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1284.
 
 
-LaTeX Warning: Citation `numerical' on page 18 undefined on input line 1289.
+LaTeX Warning: Citation `numerical' on page 18 undefined on input line 1284.
 
 
-LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1289.
+LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1284.
 
 
-LaTeX Warning: Citation `patterson' on page 18 undefined on input line 1292.
+Underfull \hbox (badness 10000) in paragraph at lines 1284--1285
+
+ []
 
 
-LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1297.
+LaTeX Warning: Citation `rpat' on page 18 undefined on input line 1286.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1291--1293
+
+ []
 
 [18
 
 ]
 
-LaTeX Warning: Citation `numerical' on page 19 undefined on input line 1311.
+LaTeX Warning: Citation `coq' on page 19 undefined on input line 1317.
 
-\openout3 = `diss.ptb'.
-
-
-LaTeX Warning: Citation `numerical' on page 19 undefined on input line 1334.
-
+[19] [20]
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
-[19
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][][][][][][][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][][][][][][][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][] 
+ []
+
+
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1401--1434
+ [][] 
+ []
+
+[21]
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1446--1460
+ [][] 
+ []
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1446--1460
+ [][] 
+ []
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1446--1460
+ [][][][] 
+ []
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1446--1460
+ [][][][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1487--1500
+ [][] 
+ []
+
+
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1487--1500
+ [][][][] 
+ []
+
+
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1487--1500
+ [][][][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1504--1563
+ [][][][] 
+ []
+
+[22]
+Underfull \hbox (badness 2401) in paragraph at lines 1586--1586
+[]\EU1/DejaVuSans(0)/bx/n/17.28 Numerical Representations – Move
+ []
+
+
+LaTeX Warning: Citation `okasaki' on page 23 undefined on input line 1587.
+
+
+Overfull \hbox (386.90747pt too wide) has occurred while \output is active
+\EU1/DejaVuSans(0)/m/it/12 3.4.  NUMERICAL REPRESENTATIONS – MOVE THESE GUYS AT
+ THE END OF IMPLEMENTATION – SINCE THEY ARE EXTRA STUFF ANYWAY \EU1/DejaVuSans(
+0)/m/n/12 23
+ []
+
+[23] [24]
+Underfull \hbox (badness 1221) in paragraph at lines 1599--1599
+[]\EU1/DejaVuSans(0)/bx/n/17.28 Random Access Sequences – move
+ []
+
+
+LaTeX Warning: Citation `numerical' on page 25 undefined on input line 1601.
+
+\openout3 = `diss.ptb'.
+
+
+LaTeX Warning: Citation `numerical' on page 25 undefined on input line 1624.
+
+\openout3 = `diss.ptb'.
+
+[25
 
 ]
 \openout3 = `diss.ptb'.
@@ -956,210 +1150,217 @@ LaTeX Warning: Citation `numerical' on page 19 undefined on input line 1334.
 
 \openout3 = `diss.ptb'.
 
- [20]
+\openout3 = `diss.ptb'.
+
+ [26]
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
- [21]
+ [27]
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 1530--1600
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 1820--1890
  [][][][][][][][] 
  []
 
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 1615--1617
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1905--1907
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1620--1625
+Underfull \hbox (badness 10000) in paragraph at lines 1910--1915
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1628--1631
+Underfull \hbox (badness 10000) in paragraph at lines 1918--1921
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1634--1636
+Underfull \hbox (badness 10000) in paragraph at lines 1924--1926
 
  []
 
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 1637--1639
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1640--1641
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 1927--1929
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1642--1646
+Underfull \hbox (badness 10000) in paragraph at lines 1930--1931
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1647--1650
+Underfull \hbox (badness 10000) in paragraph at lines 1932--1936
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1651--1653
+Underfull \hbox (badness 10000) in paragraph at lines 1937--1940
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1654--1655
+Underfull \hbox (badness 10000) in paragraph at lines 1941--1943
 
  []
 
 
-Underfull \hbox (badness 4940) in paragraph at lines 1664--1667
+Underfull \hbox (badness 10000) in paragraph at lines 1944--1945
+
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 1954--1957
 \EU1/DejaVuSans(0)/m/n/12 Verbatim text can be included using []\EU1/DejaVuSans
 Mono(0)/m/n/12 \begin{verbatim} \EU1/DejaVuSans(0)/m/n/12 and
  []
 
-[24]
-Overfull \hbox (9.97823pt too wide) in paragraph at lines 1675--1675
+[30]
+Overfull \hbox (9.97823pt too wide) in paragraph at lines 1965--1965
 []                        \EU1/DejaVuSansMono(0)/m/n/10.95 ELSE { LET poss = al
 l & ~(ld | row | rd)[] 
  []
 
 
-Overfull \hbox (16.57071pt too wide) in paragraph at lines 1679--1679
+Overfull \hbox (16.57071pt too wide) in paragraph at lines 1969--1969
 []                                 \EU1/DejaVuSansMono(0)/m/n/10.95 try(ld+p <<
  1, row+p, rd+p >> 1)[] 
  []
 
 
-Overfull \hbox (23.16321pt too wide) in paragraph at lines 1687--1687
+Overfull \hbox (23.16321pt too wide) in paragraph at lines 1977--1977
 []    \EU1/DejaVuSansMono(0)/m/n/10.95 writef("Number of solutions to %i2-queen
 s is %i5*n", i, count)[] 
  []
 
-[25] [26
 
-]
+Overfull \hbox (71.97746pt too wide) has occurred while \output is active
+\EU1/DejaVuSans(0)/m/it/12 3.10.  RANDOM ACCESS SEQUENCES WITH DEPENDENTLY TYPE
+D FINGERTREES \EU1/DejaVuSans(0)/m/n/12 31
+ []
+
+[31] [32]
 Chapter 4.
 
-Underfull \hbox (badness 4752) in paragraph at lines 1748--1752
+Underfull \hbox (badness 4752) in paragraph at lines 2038--2042
 []\EU1/DejaVuSans(0)/m/n/12 Submitted postscript introduces more potential prob
 lems.
  []
 
-[27
+[33
 
-] [28]
+
+] [34]
 Chapter 5.
-[29
+[35
 
 
 ] (./diss.aux)
@@ -1168,12 +1369,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 14712 strings out of 495536
- 287008 string characters out of 6186181
- 279363 words of memory out of 5000000
- 17843 multiletter control sequences out of 15000+600000
- 14098 words of font info for 103 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
+ 14754 strings out of 493638
+ 287683 string characters out of 6146797
+ 287261 words of memory out of 5000000
+ 18008 multiletter control sequences out of 15000+600000
+ 14106 words of font info for 104 fonts, out of 8000000 for 9000
+ 1328 hyphenation exceptions out of 8191
  48i,11n,61p,10369b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss.pdf (37 pages).
+Output written on diss.pdf (43 pages).

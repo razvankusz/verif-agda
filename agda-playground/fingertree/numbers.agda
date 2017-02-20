@@ -66,3 +66,13 @@ module numbers where
       xs ++ (ys ++ zs) ≡ (xs ++ ys) ++ zs
   ++assoc [] ys zs = refl
   ++assoc (x ∷ xs) ys zs = cong (_∷_ x) (++assoc xs ys zs)
+
+  open import AlgebraStructures
+
+  sum-monoid : Monoid ℕ
+  sum-monoid = Monoid.monoid zero (_+_) 0+ +0 +assoc _≤_
+
+  list-monoid : ∀ {a} (A : Set a) → Monoid (List A)
+  list-monoid A = Monoid.monoid [] (_++_) []+ +[] ++assoc (λ _ _₁ → A)
+  list-measure : ∀ {a} (A : Set a) → Measured A (List A)
+  list-measure = λ {a} A → measured (λ x → x ∷ [])

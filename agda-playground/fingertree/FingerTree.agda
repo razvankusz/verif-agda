@@ -168,7 +168,7 @@ tail (Four a b c d) = just (Three b c d)
 ------------------------------------------------------------------------
 -- The view, headL and tailL
 
-data ViewL {i : Size}{a : Level}(A : Set a) : Set a where
+data ViewL {i : Size}{a}(A : Set a) : Set a where
   nilL : ViewL A
   consL : A → FingerTree A → ViewL A
 
@@ -384,7 +384,10 @@ lemma0n (Deep (Four x x₁ x₂ x₃) t x₄) m  =
 
 ρL = reducelFingerTree (reducelNode _+_)
 
-
+reverse : ∀{a} {A : Set a} → FingerTree A → FingerTree A
+reverse ft with viewL ft
+reverse ft | nilL = ft
+reverse ft | consL x xs = (reverse xs) ▷ x
 
 -- this is clearly an issue here. I am thinking of solving the problem by introducing a Node1 constructor and use it
 -- to give a result for an associative and commutative reduction function on NodeA

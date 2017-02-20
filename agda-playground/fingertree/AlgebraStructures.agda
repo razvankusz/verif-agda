@@ -13,7 +13,6 @@ module AlgebraStructures where
      ε-right : ∀ (v : V) → v ∙ ε ≡ v
      ∙-assoc : ∀ (a b c : V) → a ∙ (b ∙ c) ≡ (a ∙ b) ∙ c
      _≲_ : V → V → Set a
-     ∙-comm : ∀ (a b : V) → ((a ∙ b ≡ b ∙ a))
 
   record Measured {a}(A : Set a)(V : Set a) : Set a where
     constructor measured

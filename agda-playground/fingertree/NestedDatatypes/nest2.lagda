@@ -89,6 +89,8 @@ Nest-pair {a} A = Σ' {a = a} ℕ (dNest A)
 \end{code}
 
 \begin{code}
+
+
 -- you might want to compare this approach with this very simple reimplementation of
 -- append on lists vs vec
 --
@@ -113,5 +115,7 @@ append3 x xs with xs
 append3 x xs | [] = x ∷ []
 append3 x xs | y ∷ ys = y ∷ (append3 x ys)
 
+-- apply technique to de brujin index
+-- and nest2 ^
 
 \end{code}

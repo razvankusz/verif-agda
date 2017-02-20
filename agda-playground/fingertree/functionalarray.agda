@@ -6,6 +6,7 @@ module functionalarray where
 
 -- we can also add the bird and meertens concepts here, but it makes implementation harder
 
+
   data Repr : ℕ → Set where
     z   : Repr 0
     2*_ : ∀ {n : ℕ} → Repr n → Repr (n * 2)

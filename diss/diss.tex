@@ -831,7 +831,7 @@ instead of
 -rewrite explained as a sequence of with statements\\
 -rewrite example with +-com
 
-\subsection{Equivalence-Reasoning, , inspect}
+\subsection{Equivalence-Reasoning, inspect}
 
 In order to obtain a proof of a more complex nature, you need to chain quite o few rewrite statements, and checking goal
 types in their presence is not always as illuminating as one would imagine, because it is quite hard to keep track of
@@ -962,11 +962,6 @@ I will give an example of a proof done in both ways. The proof is the commutativ
   for the moment and come back to it later.
   In this case, you can just introduce a hole in the ≡⟨ {!   !} ⟩ operator, and continue the main proof,
   filling in side lemmas at the end.
-
-
--show the syntax mostly\\
--reason behind inspect\\
-
 
 
 \subsection{instance arguments}
@@ -1274,7 +1269,7 @@ It is not hard to infer, given the previous examples, that such a declaration wo
 
 However, in the presence of a nested type, the structural recursive indexing fails to satisfy the type-checker.
 
-\section{Well-foundedness}
+\section{Well-Founded relations and Induction}
 
 A well-founded relation is a relation R, (R ⊂ X×X) such that there is no infinite sequence x0, x1, x2, ... of elements of X such that xn+1 R xn. A less than
 relation with this property can be used to implement a terminating induction definition, since we know that we cannot ever have an infinite sequence of
@@ -1286,14 +1281,309 @@ Tools for proving that a relation is Well-Founded and helper functions for defin
 
 \chapter{Implementation}
 
-Data structure design in functional programming has been greately improved by the publications of Okasaki \cite{okasaki} and those of Ross Patterson and Ralph Hinze. These papers introduce a number of concepts which has made possible a great efficiency speed-up in functional algorithms. The observation that the construction of numbers is equivalent to the construction of containers that hold that number of elements \cite{numerical} \cite{okasaki} has also provided developers with a general way of designing such constructors. \\
-Most data structures presented in these papers are nested data types. 
-What this section is trying to achieve is to find a way to represent such data structure and their views in a way that would make recursive definition pass the termination checker. \\
-Failure to use certain techniques will be illustrated on relatively simple data structures, whereas an implementation of Finger Trees \cite{patterson} will be given to incorporate these ideas.
+Data structure design in functional programming has been greately improved by the publications of Okasaki \cite{okasaki} and those of Ross Patterson and Ralph Hinze. These papers introduce a number of concepts which has made possible a great efficiency speed-up in functional algorithms. The observation that the construction of numbers is equivalent to the construction of containers that hold that number of elements \cite{numerical} \cite{okasaki} has also provided developers with a general way of designing such constructors. However, implementing such data structures and proving correctness at the same time introduce some difficulties\\
+
+In this section, I will present a dependently typed implementation of the Finger Tree\cite{rpat} and prove correctness of some methods. I will then instantiate the data structure to allow more specific uses. Next, I will point out the issues caused by the incomplete termination checker and provide a solution. Finally, I will 
+bring Finger Trees into a larger context and show how these problems are not specific.    
+
+\section{Finger Trees - Introduction} 
+
+Finger Trees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
+Initially meant as a double ended queue with constant amortized time append, their structure, together with the cached measurements, allow specialization to Random Access Sequences, or Priority Queues by simple instantiation. \\ 
+
+%FIGURE 
+
+The efficiency is achieved by keeping two invariants on the data structure:
+\begin{itemize}
+	\item The tree is full and all the leaves occur on the last level. 
+	\item The measurements are correct\footnote{•}
+\end{itemize}
+
+Working in Agda, a dependently typed language, which moreover allows the use of nested types, we can keep these invariants soley in the type of the Finger Tree. More specifically,
+\begin{itemize}
+	\item The nested typing will ensure fullness of the tree.
+	\item Choosing measurements as the type index ensures their correctness.  
+\end{itemize} 
+
+Moreover, the measurement as a type index greatly simplifies proofs when the measurement function is chosen carefully.
+
+\section{Previous work on Finger Trees} 
+Finger Trees have been previously implemented and proved correct. I will outline some previous results, as well as their limitations, providing more incentives for this dissertation. I have included all related implementations I could find and I do not guarantee they are the only ones.
+
+\begin{itemize}
+\item Basic Implementation in Agda. \\
+This version can be found on GitHub\footnote{•}. Its mentioned intention is to closely follow the original paper. It also uses introduces the idea of Sizing, although only in the type declaration (and constructors). Since the constraints are not present in functions that modify the data type, they do not really aid correctness proofs. It has no proofs associated with it, and it didn't type check on my machine.
+\item Implementation in Coq. \\
+This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for '.i forgot what it's called.', a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by its small caveat, onto which I will return at the end of this chapter. Although a full and working implementation, I argue that this dissertation is valuable in its own, given my aforementioned reasons for choosing Agda as the programming language, and providing a solution to some caveats.
+\item Implementation in Isabelle. \\
+Another working implementation has been done in Isabelle. However, this implementation diverges from the original specification of the data structure, removing the nesting. The two invariants that I have mentioned are maintained explicitly. The paper follows an external verification paradigm, whereas I aimed for an internally verified one.\\ 
+The implementation of this data structure in both Coq and Isabelle, two established theorem provers might argue both for the complexity involved, and for its interesting particularities.
+\end{itemize}
+
+\section{Finger Trees - Implementation}
+
+This is the main section, where implementation of key points is presented and discussed\footnote{For a full implementation refer to the Appendix}
 
 
-\section{Numerical Representations} 
+\subsection{Data type declaration} 
 
+The Finger Tree is originally polymorphic in two types:
+\begin{itemize}
+
+\item \textbf{A} : this is the type of the elements that are contained in the Finger Tree 
+\item \textbf{V} : this is the type of the measures of the elements. 
+
+\end{itemize} 
+
+
+In the attempt to mimic Haskell's typeclasses, I have carried around, for each A and V, two constructs:
+
+\begin{itemize} 
+\item \textbf{Monoid\footnote{see AlgebraStructures.agda} V}: which contains a neutral element(\textbf{ε}), a binary operator(\textbf{∙}), and the monoid axioms.
+\item \textbf{Measured A V} : which consists solely on a norm function  :  \textbf{$\Vert \Vert : \nolinebreak A \rightarrow V$}
+\end{itemize} 
+
+
+\textbf{Node} corresponds to nodes in the underlying 2-3 tree implementation, having two constructors that contain two and respectively three items. Moreover, \textbf{Node}s can only be constructed if provided with a measurement tag and a correctness proof.
+  
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Node}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Node2}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Node3}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{z}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+ 
+\textbf{Digit}s were in presented in the original paper as lists, but this definition limits them to have one to four elements.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Digit}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{One}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Two}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Three}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Four}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Finally, the \textbf{FingerTree} is a family of types, indexed by a measurement $\mu$. The measurement's correctness is enforced in all the constructors. Note the nested type and the universal quantification over possible sizes for the recursive call. Apart from the measurement addition, the rest corresponds to the original paper.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{10E}{@{}l@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{59}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{FingerTree}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[59]%
+\>[59]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Empty}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Single}\mathbin{:}{}\<[13]%
+\>[13]{}(\Varid{e}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{e}\mathbin{∥}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Deep}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[13]{}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A})\mathbin{→}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[13]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\subsection{\textit{Cons} and \textit{Snoc}}
+
+The dependent typing allows a fine intertwining between coding and proofs, and this is an example where Agda's simplicity is best seen.
+
+ 
+Implementing a cons(\textbf{◁})\footnote{appends an element to the left of the Finger Tree} operator is also accompanied by a proof that the result's measure will be equal to the sum of the argument's measure.
+
+I will give the type declaration and some necessary axioms\footnote{the full implementation is in the Appendix}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{infixr}\;\mathrm{5}\;\anonymous \mathbin{◁\char95 }{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{◁\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{s}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+As in the Vec example, the type is indicative of what the function is doing, and a function of this signature
+ensures that the output will have the correct measure. We can further prove that it also contains the expected elements, and I will do this in the Evaluation as an external verification procedure.
+
+By performing a case split on the FingerTree, and further on the prefix Digit (in the Deep constructor), we have to implement the function for six cases. I will show the implementation of a simple case and that of the recursive case in detail.
+
+
+-- cons-deep-one
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{One}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}\;\Varid{rewrite}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The result of this computation is identical to the one in the original paper. However, in order for it to type check, I had to include a proof of correctness, in the form of a rewrite statement, by using the associativity   property of the monoid.
+
+-- cons--deep-four
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Four}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e})\;\Varid{ft}\;\Varid{sf}\;\Varid{rewrite}\;{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\Varid{assoc}\mathbin{-}\Varid{lemma2}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;((\Varid{node3}\;\Varid{c}\;\Varid{d}\;\Varid{e})\mathbin{◁}\Varid{ft})\;\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This case is the recursive case, and the proof in this case turned out to be more verbose
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{16}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{assoc}\mathbin{-}\Varid{lemma2}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{a}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{b}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{c}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{d}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{e}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{s}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{f}\mathbin{:}\Conid{V})\mathbin{→}{}\<[E]%
+\\
+\>[9]{}\hsindent{2}{}\<[11]%
+\>[11]{}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{a})\;{}\<[E]%
+\\
+\>[11]{}\hsindent{4}{}\<[15]%
+\>[15]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}{}\<[E]%
+\\
+\>[15]{}\hsindent{2}{}\<[17]%
+\>[17]{}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{b}){}\<[E]%
+\\
+\>[15]{}\hsindent{2}{}\<[17]%
+\>[17]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{c}){}\<[E]%
+\\
+\>[11]{}\hsindent{4}{}\<[15]%
+\>[15]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{d})\;(\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{e})))){}\<[E]%
+\\
+\>[11]{}\hsindent{2}{}\<[13]%
+\>[13]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}\Varid{s})\;\Varid{f})){}\<[E]%
+\\
+\>[11]{}\hsindent{2}{}\<[13]%
+\>[13]{}\mathbin{≡}{}\<[E]%
+\\
+\>[9]{}\hsindent{2}{}\<[11]%
+\>[11]{}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{a})\;(\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{b}))\;{}\<[E]%
+\\
+\>[11]{}\hsindent{4}{}\<[15]%
+\>[15]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}{}\<[E]%
+\\
+\>[15]{}\hsindent{1}{}\<[16]%
+\>[16]{}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}{}\<[E]%
+\\
+\>[16]{}\hsindent{1}{}\<[17]%
+\>[17]{}(\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{c}){}\<[E]%
+\\
+\>[16]{}\hsindent{1}{}\<[17]%
+\>[17]{}((\Varid{mo}\mathbin{\Conid{Monoid}.∙}\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{d})\;(\mathbin{\Conid{Measured}.∥}\Varid{m}\mathbin{∥}\Varid{e}))){}\<[E]%
+\\
+\>[15]{}\hsindent{1}{}\<[16]%
+\>[16]{}\Varid{s}){}\<[E]%
+\\
+\>[11]{}\hsindent{4}{}\<[15]%
+\>[15]{}\Varid{f}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+A lot of the textual complexity can be reduced by using infix notation. The reason I have left it like this is because the type signature has been generated by Agda. If left without the rewrite statement, Agda prompts us with an error, which is also what remains to be proved. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Numerical Representations -- Move these guys at the end of implementation -- since they are extra stuff anyway}
 The treatment of containers as natural numbers has been studied in depth\cite{okasaki}. The basic idea is that simple numerical operations correspond naturally to operations on containers. For example:
 
 \vspace{5mm} %5mm vertical space 
@@ -1306,9 +1596,9 @@ adding two numbers & corresponds to & merging to containers \\
 
 This treatment of numbers, represented in various numerical basis, allows the constructions the obey the implicit recursive slowdown, presented by okasaki. This allows in lazy languages like Haskell, implementation of operations such as insertion and deletion in ammortised O(1) cost -- which represented a breakthrough in functional programming languages.
 
-\section{Random Access Sequences}
+\section{Random Access Sequences -- move this lower}
 
-In this section, I will present a data structure as implemented by Ralph Hinze\cite{numerical} and show the issues that could arrise because of the termination checker in more detail. 
+In this section, I will present a data structure as implemented by Ralph Hinze\cite{numerical} and show the issues that could arise because of the termination checker in more detail. 
 
 Consider the trivial implementation of a binary tree in a functional programming language:
 

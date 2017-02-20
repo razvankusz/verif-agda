@@ -3,7 +3,8 @@ module Terms2 where
 
 open import Level using (Level)
 open import Size using (Size;↑_)
-open import Data.Nat 
+open import Data.Nat
+
 data Incr {a : Level} (A : Set a) : Set a where
   Zero : Incr A
   Succ : A  → Incr A
@@ -12,12 +13,10 @@ mapI : ∀ {a : Level} {A : Set a} {B : Set a} → (A → B) → Incr A → Incr
 mapI f Zero     = Zero
 mapI f (Succ x) = Succ (f x)
 
-
 data Term {a : Level} (A : Set a) : {_ : Size} → Set a where
   Var : ∀ {i : Size} → A → Term A {↑ i}
   App : ∀ {i : Size} → Term A {i} → Term A {i} → Term A {↑ i}
   Lam : ∀ {i : Size} → Term (Incr A) {i} → Term A {↑ i}
-
 
 mapT : ∀ {a : Level} {i : Size} {A : Set a} {B : Set a} → (A → B) → Term A {i} → Term B {i}
 mapT f (Var {i} x)   = Var  (f x)
