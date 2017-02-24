@@ -28,22 +28,24 @@
 \contentsline {section}{\numberline {3.3}Finger Trees - Implementation}{20}
 \contentsline {subsection}{\numberline {3.3.1}Data type declaration}{20}
 \contentsline {subsection}{\numberline {3.3.2}\textit {Cons} and \textit {Snoc}}{22}
-\contentsline {section}{\numberline {3.4}Numerical Representations -- Move these guys at the end of implementation -- since they are extra stuff anyway}{23}
-\contentsline {section}{\numberline {3.5}Random Access Sequences -- move this lower}{25}
-\contentsline {subsection}{\numberline {3.5.1}Example Method}{26}
-\contentsline {subsection}{\numberline {3.5.2}Defining a view}{26}
-\contentsline {subsection}{\numberline {3.5.3}Example termination failure}{27}
-\contentsline {subsection}{\numberline {3.5.4}Using sized types}{27}
-\contentsline {section}{\numberline {3.6}FingerTrees in general}{29}
-\contentsline {section}{\numberline {3.7}FingerTrees in Agda}{29}
-\contentsline {section}{\numberline {3.8}Random Access Sequences as an easier example}{29}
-\contentsline {section}{\numberline {3.9}Dependently typed FingerTrees}{30}
-\contentsline {section}{\numberline {3.10}Random Access Sequences with dependently typed FingerTrees}{31}
-\contentsline {section}{\numberline {3.11}Verbatim text}{31}
-\contentsline {section}{\numberline {3.12}Tables}{31}
-\contentsline {section}{\numberline {3.13}Simple diagrams}{32}
-\contentsline {chapter}{\numberline {4}Evaluation}{33}
-\contentsline {section}{\numberline {4.1}Printing and binding}{33}
-\contentsline {subsection}{\numberline {4.1.1}Things to note}{33}
-\contentsline {section}{\numberline {4.2}Further information}{34}
-\contentsline {chapter}{\numberline {5}Conclusion}{35}
+\contentsline {subsection}{\numberline {3.3.3}Deconstructing sequences -- Views}{23}
+\contentsline {subsection}{\numberline {3.3.4}Splitting}{24}
+\contentsline {section}{\numberline {3.4}Numerical Representations -- Move these guys at the end of implementation -- since they are extra stuff anyway}{27}
+\contentsline {section}{\numberline {3.5}Random Access Sequences -- move this lower}{28}
+\contentsline {subsection}{\numberline {3.5.1}Example Method}{29}
+\contentsline {subsection}{\numberline {3.5.2}Defining a view}{29}
+\contentsline {subsection}{\numberline {3.5.3}Example termination failure}{30}
+\contentsline {subsection}{\numberline {3.5.4}Using sized types}{30}
+\contentsline {section}{\numberline {3.6}FingerTrees in general}{32}
+\contentsline {section}{\numberline {3.7}FingerTrees in Agda}{32}
+\contentsline {section}{\numberline {3.8}Random Access Sequences as an easier example}{32}
+\contentsline {section}{\numberline {3.9}Dependently typed FingerTrees}{33}
+\contentsline {section}{\numberline {3.10}Random Access Sequences with dependently typed FingerTrees}{34}
+\contentsline {section}{\numberline {3.11}Verbatim text}{34}
+\contentsline {section}{\numberline {3.12}Tables}{34}
+\contentsline {section}{\numberline {3.13}Simple diagrams}{35}
+\contentsline {chapter}{\numberline {4}Evaluation}{37}
+\contentsline {section}{\numberline {4.1}Printing and binding}{37}
+\contentsline {subsection}{\numberline {4.1.1}Things to note}{37}
+\contentsline {section}{\numberline {4.2}Further information}{38}
+\contentsline {chapter}{\numberline {5}Conclusion}{39}

@@ -41,6 +41,7 @@ gmn (Node2 x node node₁) = x
 gmn (Node3 x node node₁ node₂) = x
 
 open Monoid {{...}} public
+
 gmd : ∀ {a} {A : Set a} {V : Set a} ⦃ m : Monoid V ⦄ → Digit A V → V
 gmd (One x) = gmn x
 gmd (Two x x₁) = gmn x ∙ gmn x₁
@@ -73,5 +74,5 @@ is-leveln-tree n (Deep x x₁ ft x₂) = (is-leveln-digit n x₁) ∧ (is-leveln
 
 is-measured-node : ∀ {a} {A : Set a} {V : Set a} ⦃ m : Monoid V ⦄ → (Node A V) → Bool
 is-measured-node (Tip x x₁) = true
-is-measured-node (Node2 x n n₁) = {! (is-measured-node n) ∧ (is-measured-node n₁) ∧ (x == n ∙ n₁)  !}
+is-measured-node (Node2 x n n₁) = {! (is-measured-node n) ∧ (is-measured-node n₁) ∧ (x == (gmn n) ∙ (gmn n₁))  !}
 is-measured-node (Node3 x n n₁ n₂) = {!   !}

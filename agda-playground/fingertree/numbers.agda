@@ -72,7 +72,7 @@ module numbers where
   sum-monoid : Monoid ℕ
   sum-monoid = Monoid.monoid zero (_+_) 0+ +0 +assoc _≤_
 
-  list-monoid : ∀ {a} (A : Set a) → Monoid (List A)
+  instance list-monoid : ∀ {a} (A : Set a) → Monoid (List A)
   list-monoid A = Monoid.monoid [] (_++_) []+ +[] ++assoc (λ _ _₁ → A)
   list-measure : ∀ {a} (A : Set a) → Measured A (List A)
   list-measure = λ {a} A → measured (λ x → x ∷ [])

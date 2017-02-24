@@ -458,3 +458,242 @@
 \>[15]{}\Varid{f}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{▷\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mathbin{∙}\mathbin{∥}\Varid{x}\mathbin{∥}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+
+--ViewL
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{ViewL}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{NilL}\mathbin{:}{}\<[11]%
+\>[11]{}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{ConsL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{z}\mathbin{:}\Conid{V}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{z}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+--viewL
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{viewL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{deepL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}(\Varid{pr}\mathbin{:}\Conid{Maybe}\;(\Conid{Digit}\;\Conid{A}))\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{maybe}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+--split
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Split}\mathbin{-}\Varid{d}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{split}\mathbin{-}\Varid{d}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{μ₁}\mathbin{:}\Conid{V}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{μ₂}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₂}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mathbin{∙}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{μ₂}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+--split-main
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{33}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  type class information}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  predicate and inital value}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\})\mathbin{→}\Conid{Maybe}\;(\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  argument and proof that the split has the same size}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;\Conid{Empty}\mathrel{=}\Varid{nothing}{}\<[33]%
+\>[33]{}\mbox{\onelinecomment  cannot split an empty tree}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\Varid{p}\;\Varid{i}\;(\Conid{Single}\;\Varid{e})\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{single}\;\Varid{p}\;\Varid{i}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf})\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{vpr}\;\Varid{refl}\;\Varid{vft}\;\Varid{refl}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vpr}\mathrel{=}\Varid{p}\;(\Varid{i}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vft}\mathrel{=}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  type class information}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  predicate and initial value}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  flattened deep constructor}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{vpr}\mathbin{:}\Conid{Bool})\mathbin{→}(\Varid{vpr}\mathbin{≡}\Varid{p}\;(\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}))\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  passing the cummulated value at the prefix + proof of not cheating}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}(\Varid{vft}\mathbin{:}\Conid{Bool})\mathbin{→}(\Varid{vft}\mathbin{≡}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})))\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  passing the cummulated value at the suffix + proof of not cheating}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu (\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{μ}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf})\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mbox{\onelinecomment  giving back the correct-sized split}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{false}\;\Varid{pr1}\;\Varid{false}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree2}\;\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}))\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mbox{\onelinecomment  case2 : predicate becomes true in suffix or it doesn't become true at all}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{false}\;\Varid{pr1}\;\Varid{true}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree3}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;(\Varid{sym}\;\Varid{pr1})\;(\Varid{sym}\;\Varid{pr2}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mbox{\onelinecomment  case3 : predicate becomes true in tree}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{true}\;\Varid{pr1}\;\Varid{vft}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree1}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mbox{\onelinecomment  case1 : predicate becomes true in prefix}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
