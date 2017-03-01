@@ -67,6 +67,13 @@ module numbers where
   ++assoc [] ys zs = refl
   ++assoc (x ∷ xs) ys zs = cong (_∷_ x) (++assoc xs ys zs)
 
+
+  list-foldl-lemma : ∀ {a} {A : Set a} {W : Set a} → (xs : List A) → (ys : List A) →
+      (f : W → A → W) → (σ : W) → (foldl f σ (xs ++ ys) ≡ foldl f (foldl f σ xs) ys)
+  list-foldl-lemma [] ys f σ = refl
+  list-foldl-lemma (x ∷ xs) ys f σ = list-foldl-lemma xs ys f (f σ x)
+
+
   open import AlgebraStructures
 
   sum-monoid : Monoid ℕ

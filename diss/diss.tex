@@ -387,6 +387,18 @@ appreciated.
 
 \chapter{Introduction}
 
+\section{Verified Programming}
+
+Formal verification is a way of proving correctness of program, by using a formal mathematical method. This can come in many flavours, from taking code that is already written and showing that it preserves some invariants in another language (as in Hoare logic) to writing mathematical proofs. The former process can greatly benefit from developing computer software that can aid and verify the proving process. There are a lot of such systems, form which one can mention Coq, Isabelle/HOL or Agda.
+
+These environments differ in a number of ways, and for the purpose of this project I have decided to use Agda. 
+
+Firstly, Isabelle is limited to performing 'external' verification, which refers to a clear separation between the code - subject of the proof and the proof itself. This provides a great advantage for readability and code extraction. However, for this project I was particularly interested in the way in which the typing constraints can enforce correctness.
+
+On the other hand, Coq and Agda are both examples of programming languages with dependent types. They are based on Martin Lof intuitionistic type theory. Coq was originally designed as a theorem prover, and is much older than Agda. My initial argument for picking Agda is its relative simplicity and steeper learning curve. By using it, I have also discovered some other advantages, such as allowing mutual definitions, mixfix syntax, and the overall results of building it while regarding interactivity. Coq is however a more powerful environment, as it allows the use of tactics, while in Agda they have to be implemented (I provide an example in Section - - - )
+
+
+
 \section{Functional Datastructures}
 
 There has always been an imballance between the use of functional programming versus imperative programming both in

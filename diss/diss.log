@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  21 FEB 2017 20:11
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  28 FEB 2017 17:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -613,52 +613,52 @@ LaTeX Warning: Citation `moore95' on page vi undefined on input line 375.
 
 [6]
 Chapter 1.
-
-LaTeX Warning: Citation `landin' on page 1 undefined on input line 395.
-
-
-LaTeX Warning: Citation `oka' on page 1 undefined on input line 399.
-
-
-LaTeX Warning: Citation `achipala' on page 1 undefined on input line 404.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 408--410
-
- []
-
 [1
 
 
 ]
 
-LaTeX Warning: Citation `circular' on page 2 undefined on input line 455.
+LaTeX Warning: Citation `landin' on page 2 undefined on input line 407.
 
 
-LaTeX Warning: Citation `birdmeertens' on page 2 undefined on input line 455.
+LaTeX Warning: Citation `oka' on page 2 undefined on input line 411.
 
 
-LaTeX Warning: Citation `birdmeertens' on page 2 undefined on input line 458.
+LaTeX Warning: Citation `achipala' on page 2 undefined on input line 416.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 420--422
+
+ []
 
 LaTeX Font Info:    Font shape `EU1/DejaVuSans(0)/m/sl' in size <12> not availa
 ble
 (Font)              Font shape `EU1/DejaVuSans(0)/m/it' tried instead on input 
-line 460.
+line 435.
 [2]
+
+LaTeX Warning: Citation `circular' on page 3 undefined on input line 467.
+
+
+LaTeX Warning: Citation `birdmeertens' on page 3 undefined on input line 467.
+
+
+LaTeX Warning: Citation `birdmeertens' on page 3 undefined on input line 470.
+
 \openout3 = `diss.ptb'.
 
-
-
-LaTeX Warning: Citation `ulf' on page 3 undefined on input line 508.
-
-
-LaTeX Warning: Citation `coq' on page 3 undefined on input line 511.
-
-
-LaTeX Warning: Citation `isabelle' on page 3 undefined on input line 511.
-
 [3]
-Underfull \hbox (badness 1194) in paragraph at lines 529--532
+
+LaTeX Warning: Citation `ulf' on page 4 undefined on input line 520.
+
+
+LaTeX Warning: Citation `coq' on page 4 undefined on input line 523.
+
+
+LaTeX Warning: Citation `isabelle' on page 4 undefined on input line 523.
+
+[4]
+Underfull \hbox (badness 1194) in paragraph at lines 541--544
 \EU1/DejaVuSans(0)/m/n/12 Data structures in agda follow the ADT (Algebraic Dat
 a Types)
  []
@@ -666,56 +666,59 @@ a Types)
 \openout3 = `diss.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 548--551
+Underfull \hbox (badness 10000) in paragraph at lines 560--563
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 552--554
-
- []
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 567--569
-
- []
-
-\openout3 = `diss.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 577--579
-
- []
-
-\openout3 = `diss.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 606--609
+Underfull \hbox (badness 10000) in paragraph at lines 564--566
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 610--611
+Underfull \hbox (badness 10000) in paragraph at lines 579--581
 
  []
 
 \openout3 = `diss.ptb'.
 
 
-LaTeX Warning: Citation `typeclasses' on page 6 undefined on input line 636.
+Underfull \hbox (badness 10000) in paragraph at lines 589--591
 
-
-LaTeX Warning: Citation `instanceargs' on page 6 undefined on input line 639.
-
-[6]
-Chapter 2.
-
-LaTeX Warning: Citation `martinlof' on page 7 undefined on input line 652.
+ []
 
 \openout3 = `diss.ptb'.
 
-[7
 
+Underfull \hbox (badness 10000) in paragraph at lines 618--621
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 622--623
+
+ []
+
+[6]
+\openout3 = `diss.ptb'.
+
+
+
+LaTeX Warning: Citation `typeclasses' on page 7 undefined on input line 648.
+
+
+LaTeX Warning: Citation `instanceargs' on page 7 undefined on input line 651.
+
+[7] [8
+
+]
+Chapter 2.
+
+LaTeX Warning: Citation `martinlof' on page 9 undefined on input line 664.
+
+\openout3 = `diss.ptb'.
+
+[9
 
 ]
 \openout3 = `diss.ptb'.
@@ -725,222 +728,222 @@ LaTeX Warning: Citation `martinlof' on page 7 undefined on input line 652.
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][][][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][][][][][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
 
-Overfull \hbox (138.02228pt too wide) in paragraph at lines 722--747
+Overfull \hbox (138.02228pt too wide) in paragraph at lines 734--759
  [][] 
  []
 
-[8]
+[10]
 
-LaTeX Warning: Citation `martinlof' on page 9 undefined on input line 764.
-
-
-LaTeX Warning: Citation `howard' on page 9 undefined on input line 765.
+LaTeX Warning: Citation `martinlof' on page 11 undefined on input line 776.
 
 
-Underfull \hbox (badness 1117) in paragraph at lines 764--768
+LaTeX Warning: Citation `howard' on page 11 undefined on input line 777.
+
+
+Underfull \hbox (badness 1117) in paragraph at lines 776--780
 \EU1/DejaVuSans(0)/m/n/12 theoretical underpinnings in Martin Lof’s theory [[]]
 , as well as
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 764--768
+Underfull \hbox (badness 10000) in paragraph at lines 776--780
 
  []
 
 
-LaTeX Warning: Citation `viewfromtheleft' on page 9 undefined on input line 772
-.
+LaTeX Warning: Citation `viewfromtheleft' on page 11 undefined on input line 78
+4.
 
 
-LaTeX Warning: Citation `wadler' on page 9 undefined on input line 777.
+LaTeX Warning: Citation `wadler' on page 11 undefined on input line 789.
 
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
-[9]
+[11]
 
-LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 819.
+LaTeX Warning: Citation `agdadoc' on page 12 undefined on input line 831.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--820
+Underfull \hbox (badness 10000) in paragraph at lines 831--832
 
  []
 
 
-Overfull \hbox (43.21162pt too wide) in paragraph at lines 822--822
+Overfull \hbox (43.21162pt too wide) in paragraph at lines 834--834
 []\EU1/DejaVuSansMono(0)/m/n/12 If eqn : a ≡ b, where _≡_ is the builtin equali
 ty you can write 
  []
 
 
-LaTeX Warning: Citation `agdadoc' on page 10 undefined on input line 841.
+LaTeX Warning: Citation `agdadoc' on page 12 undefined on input line 853.
 
 \openout3 = `diss.ptb'.
-
-\openout3 = `diss.ptb'.
-
-[10]
-\openout3 = `diss.ptb'.
-
-\openout3 = `diss.ptb'.
-
-\openout3 = `diss.ptb'.
-
- [11]
-Underfull \hbox (badness 10000) in paragraph at lines 969--972
-
- []
-
-
-LaTeX Warning: Citation `wadler' on page 12 undefined on input line 975.
-
-
-Underfull \hbox (badness 3679) in paragraph at lines 975--980
-\EU1/DejaVuSans(0)/m/n/12 The idea of a view was first introduced by Phil Wadle
-r [[]]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 975--980
-\EU1/DejaVuSans(0)/m/n/12 http://www.cs.tufts.edu/ nr/cs257/archive/phil-wadler
-/views.pdf .
- []
 
 \openout3 = `diss.ptb'.
 
 [12]
 \openout3 = `diss.ptb'.
 
-
-
-LaTeX Warning: Citation `wadler' on page 13 undefined on input line 1031.
-
-
-LaTeX Warning: Citation `circular' on page 13 undefined on input line 1036.
-
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
-[13]
+ [13]
+Underfull \hbox (badness 10000) in paragraph at lines 981--984
+
+ []
+
+
+LaTeX Warning: Citation `wadler' on page 14 undefined on input line 987.
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 987--992
+\EU1/DejaVuSans(0)/m/n/12 The idea of a view was first introduced by Phil Wadle
+r [[]]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 987--992
+\EU1/DejaVuSans(0)/m/n/12 http://www.cs.tufts.edu/ nr/cs257/archive/phil-wadler
+/views.pdf .
+ []
+
 \openout3 = `diss.ptb'.
 
- [14]
-\openout3 = `diss.ptb'.
-
-\openout3 = `diss.ptb'.
-
+[14]
 \openout3 = `diss.ptb'.
 
 
 
-LaTeX Warning: Citation `adm-ind' on page 15 undefined on input line 1172.
+LaTeX Warning: Citation `wadler' on page 15 undefined on input line 1043.
+
+
+LaTeX Warning: Citation `circular' on page 15 undefined on input line 1048.
+
+\openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
 [15]
 \openout3 = `diss.ptb'.
 
-
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
- [][] 
- []
-
-
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
- [][] 
- []
-
-
-Overfull \hbox (62.08682pt too wide) in paragraph at lines 1193--1202
- [][] 
- []
-
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (63.90016pt too wide) in paragraph at lines 1206--1213
- [][] 
- []
-
-
-Overfull \hbox (63.90016pt too wide) in paragraph at lines 1206--1213
- [][] 
- []
-
+ [16]
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
-[16] [17]
+
+
+LaTeX Warning: Citation `adm-ind' on page 17 undefined on input line 1184.
+
+\openout3 = `diss.ptb'.
+
+[17]
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1205--1214
+ [][] 
+ []
+
+
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1205--1214
+ [][] 
+ []
+
+
+Overfull \hbox (62.08682pt too wide) in paragraph at lines 1205--1214
+ [][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1218--1225
+ [][] 
+ []
+
+
+Overfull \hbox (63.90016pt too wide) in paragraph at lines 1218--1225
+ [][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+\openout3 = `diss.ptb'.
+
+[18] [19]
 Chapter 3.
 
-LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1284.
+LaTeX Warning: Citation `okasaki' on page 20 undefined on input line 1296.
 
 
-LaTeX Warning: Citation `numerical' on page 18 undefined on input line 1284.
+LaTeX Warning: Citation `numerical' on page 20 undefined on input line 1296.
 
 
-LaTeX Warning: Citation `okasaki' on page 18 undefined on input line 1284.
+LaTeX Warning: Citation `okasaki' on page 20 undefined on input line 1296.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1284--1285
-
- []
-
-
-LaTeX Warning: Citation `rpat' on page 18 undefined on input line 1286.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1291--1293
+Underfull \hbox (badness 10000) in paragraph at lines 1296--1297
 
  []
 
-[18
+
+LaTeX Warning: Citation `rpat' on page 20 undefined on input line 1298.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1303--1305
+
+ []
+
+[20
 
 ]
 
-LaTeX Warning: Citation `coq' on page 19 undefined on input line 1317.
+LaTeX Warning: Citation `coq' on page 21 undefined on input line 1329.
 
-[19] [20]
+[21] [22]
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
@@ -948,296 +951,79 @@ LaTeX Warning: Citation `coq' on page 19 undefined on input line 1317.
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][][][][][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][][][][][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][] 
  []
 
 
-Overfull \hbox (31.33398pt too wide) in paragraph at lines 1404--1437
+Overfull \hbox (31.33398pt too wide) in paragraph at lines 1417--1450
  [][] 
  []
-
-[21]
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1449--1463
- [][] 
- []
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1449--1463
- [][] 
- []
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1449--1463
- [][][][] 
- []
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1449--1463
- [][][][] 
- []
-
-\openout3 = `diss.ptb'.
-
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (16.77933pt too wide) in paragraph at lines 1490--1503
- [][] 
- []
-
-
-Overfull \hbox (16.77933pt too wide) in paragraph at lines 1490--1503
- [][][][] 
- []
-
-
-Overfull \hbox (16.77933pt too wide) in paragraph at lines 1490--1503
- [][][][] 
- []
-
-[22]
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-
-Overfull \hbox (30.29211pt too wide) in paragraph at lines 1507--1566
- [][][][] 
- []
-
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1573--1585
- [][] 
- []
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1573--1585
- [][][][] 
- []
-
-
-Overfull \hbox (48.18243pt too wide) in paragraph at lines 1573--1585
- [][][][] 
- []
-
-
-LaTeX Warning: Citation `wadler' on page 23 undefined on input line 1589.
 
 [23]
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (70.24988pt too wide) in paragraph at lines 1591--1612
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1462--1476
  [][] 
  []
 
 
-Overfull \hbox (70.24988pt too wide) in paragraph at lines 1591--1612
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1462--1476
+ [][] 
+ []
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1462--1476
  [][][][] 
  []
 
 
-Overfull \hbox (70.24988pt too wide) in paragraph at lines 1591--1612
- [][][][][][] 
- []
-
-
-Overfull \hbox (70.24988pt too wide) in paragraph at lines 1591--1612
- [][][][] 
- []
-
-
-Overfull \hbox (70.24988pt too wide) in paragraph at lines 1591--1612
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1462--1476
  [][][][] 
  []
 
 \openout3 = `diss.ptb'.
 
-
-Overfull \hbox (55.21906pt too wide) in paragraph at lines 1617--1626
- [][] 
- []
-
-
-Overfull \hbox (55.21906pt too wide) in paragraph at lines 1617--1626
- [][][][] 
- []
-
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1503--1516
  [][] 
  []
 
 
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1503--1516
  [][][][] 
  []
 
 
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
- [][][][] 
- []
-
-
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
- [][][][] 
- []
-
-
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
- [][][][] 
- []
-
-
-Overfull \hbox (57.58624pt too wide) in paragraph at lines 1630--1651
- [][][][] 
- []
-
-\openout3 = `diss.ptb'.
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][][][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][][][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][][][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][][][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
- [][][][] 
- []
-
-
-Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
+Overfull \hbox (16.77933pt too wide) in paragraph at lines 1503--1516
  [][][][] 
  []
 
@@ -1245,234 +1031,451 @@ Overfull \hbox (83.71532pt too wide) in paragraph at lines 1661--1687
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+
+Overfull \hbox (30.29211pt too wide) in paragraph at lines 1520--1579
+ [][][][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1586--1598
  [][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
- [][] 
- []
-
-
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1586--1598
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
+Overfull \hbox (48.18243pt too wide) in paragraph at lines 1586--1598
  [][][][] 
  []
 
 
-Overfull \hbox (77.49773pt too wide) in paragraph at lines 1704--1750
- [][][][] 
- []
+LaTeX Warning: Citation `wadler' on page 25 undefined on input line 1602.
 
 [25]
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (70.24988pt too wide) in paragraph at lines 1604--1625
  [][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (70.24988pt too wide) in paragraph at lines 1604--1625
  [][][][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (70.24988pt too wide) in paragraph at lines 1604--1625
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (70.24988pt too wide) in paragraph at lines 1604--1625
  [][][][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (70.24988pt too wide) in paragraph at lines 1604--1625
  [][][][] 
  []
 
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
+\openout3 = `diss.ptb'.
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (55.21906pt too wide) in paragraph at lines 1630--1639
  [][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (55.21906pt too wide) in paragraph at lines 1630--1639
  [][][][] 
  []
 
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][][][] 
- []
+\openout3 = `diss.ptb'.
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
  [][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
  [][][][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
  [][][][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
- [][] 
- []
-
-
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
  [][][][] 
  []
 
 
-Overfull \hbox (98.83636pt too wide) in paragraph at lines 1754--1831
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
+ [][][][] 
+ []
+
+
+Overfull \hbox (57.58624pt too wide) in paragraph at lines 1643--1664
  [][][][] 
  []
 
 [26]
-Underfull \hbox (badness 2401) in paragraph at lines 1867--1867
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+
+Overfull \hbox (83.71532pt too wide) in paragraph at lines 1674--1700
+ [][][][] 
+ []
+
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+
+Overfull \hbox (77.49773pt too wide) in paragraph at lines 1717--1763
+ [][][][] 
+ []
+
+[27]
+\openout3 = `diss.ptb'.
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+
+Overfull \hbox (98.83636pt too wide) in paragraph at lines 1767--1844
+ [][][][] 
+ []
+
+[28]
+Underfull \hbox (badness 2401) in paragraph at lines 1884--1884
 []\EU1/DejaVuSans(0)/bx/n/17.28 Numerical Representations – Move
  []
 
 
-LaTeX Warning: Citation `okasaki' on page 27 undefined on input line 1868.
+LaTeX Warning: Citation `okasaki' on page 29 undefined on input line 1885.
 
 
 Overfull \hbox (386.90747pt too wide) has occurred while \output is active
 \EU1/DejaVuSans(0)/m/it/12 3.4.  NUMERICAL REPRESENTATIONS – MOVE THESE GUYS AT
  THE END OF IMPLEMENTATION – SINCE THEY ARE EXTRA STUFF ANYWAY \EU1/DejaVuSans(
-0)/m/n/12 27
+0)/m/n/12 29
  []
 
-[27]
-Underfull \hbox (badness 1221) in paragraph at lines 1880--1880
+[29]
+Underfull \hbox (badness 1221) in paragraph at lines 1897--1897
 []\EU1/DejaVuSans(0)/bx/n/17.28 Random Access Sequences – move
  []
 
 
-LaTeX Warning: Citation `numerical' on page 28 undefined on input line 1882.
+LaTeX Warning: Citation `numerical' on page 30 undefined on input line 1899.
 
 \openout3 = `diss.ptb'.
 
 
-LaTeX Warning: Citation `numerical' on page 28 undefined on input line 1905.
+LaTeX Warning: Citation `numerical' on page 30 undefined on input line 1922.
 
 \openout3 = `diss.ptb'.
 
-[28
+[30
 
 ]
 \openout3 = `diss.ptb'.
@@ -1483,158 +1486,133 @@ LaTeX Warning: Citation `numerical' on page 28 undefined on input line 1905.
 
 \openout3 = `diss.ptb'.
 
- [29]
+ [31]
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
 \openout3 = `diss.ptb'.
 
- [30]
+ [32]
 \openout3 = `diss.ptb'.
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][] 
  []
 
 
-Overfull \hbox (47.9981pt too wide) in paragraph at lines 2101--2171
+Overfull \hbox (47.9981pt too wide) in paragraph at lines 2118--2188
  [][][][][][][][] 
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 2186--2188
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 2203--2205
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2191--2196
+Underfull \hbox (badness 10000) in paragraph at lines 2208--2213
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2199--2202
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2205--2207
-
- []
-
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 2208--2210
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2211--2212
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2213--2217
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2218--2221
+Underfull \hbox (badness 10000) in paragraph at lines 2216--2219
 
  []
 
@@ -1643,50 +1621,75 @@ Underfull \hbox (badness 10000) in paragraph at lines 2222--2224
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2225--2226
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 2225--2227
 
  []
 
 
-Underfull \hbox (badness 4940) in paragraph at lines 2235--2238
+Underfull \hbox (badness 10000) in paragraph at lines 2228--2229
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2230--2234
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2235--2238
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2239--2241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2242--2243
+
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 2252--2255
 \EU1/DejaVuSans(0)/m/n/12 Verbatim text can be included using []\EU1/DejaVuSans
 Mono(0)/m/n/12 \begin{verbatim} \EU1/DejaVuSans(0)/m/n/12 and
  []
 
-[33]
-Overfull \hbox (9.97823pt too wide) in paragraph at lines 2246--2246
+[35]
+Overfull \hbox (9.97823pt too wide) in paragraph at lines 2263--2263
 []                        \EU1/DejaVuSansMono(0)/m/n/10.95 ELSE { LET poss = al
 l & ~(ld | row | rd)[] 
  []
 
 
-Overfull \hbox (16.57071pt too wide) in paragraph at lines 2250--2250
+Overfull \hbox (16.57071pt too wide) in paragraph at lines 2267--2267
 []                                 \EU1/DejaVuSansMono(0)/m/n/10.95 try(ld+p <<
  1, row+p, rd+p >> 1)[] 
  []
 
 
-Overfull \hbox (23.16321pt too wide) in paragraph at lines 2258--2258
+Overfull \hbox (23.16321pt too wide) in paragraph at lines 2275--2275
 []    \EU1/DejaVuSansMono(0)/m/n/10.95 writef("Number of solutions to %i2-queen
 s is %i5*n", i, count)[] 
  []
 
-[34] [35] [36
+[36] [37] [38
 
 ]
 Chapter 4.
 
-Underfull \hbox (badness 4752) in paragraph at lines 2319--2323
+Underfull \hbox (badness 4752) in paragraph at lines 2336--2340
 []\EU1/DejaVuSans(0)/m/n/12 Submitted postscript introduces more potential prob
 lems.
  []
 
-[37
-
-] [38]
-Chapter 5.
 [39
+
+] [40]
+Chapter 5.
+[41
 
 
 ] (./diss.aux)
@@ -1697,10 +1700,10 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  14759 strings out of 493638
  287755 string characters out of 6146797
- 286261 words of memory out of 5000000
+ 288261 words of memory out of 5000000
  18013 multiletter control sequences out of 15000+600000
  14106 words of font info for 104 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  48i,11n,61p,10369b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss.pdf (47 pages).
+Output written on diss.pdf (49 pages).
