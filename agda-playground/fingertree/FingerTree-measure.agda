@@ -762,7 +762,7 @@ sym== f1 f2 (leq .f1 .f2 x) = leq f2 f1 (sym x)
 
 -- -- TESTING ---------------------------------------------------------------------------
 open import numbers
--- 
+--
 -- instance nat : Monoid ℕ
 -- nat = monoid 0 _+_ 0+ +0 +assoc
 --

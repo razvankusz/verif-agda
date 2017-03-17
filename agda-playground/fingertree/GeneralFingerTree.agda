@@ -13,7 +13,12 @@ module GeneralFingerTree
   open import Relation.Binary.PropositionalEquality
   open ≡-Reasoning
 
-  pair-equality : ∀ {a} {A : Set a} {B : Set a} → (m n : A) → (x y : B) → (m ≡ n) → (x ≡ y) → (m , x) ≡ (n , y)
+  pair-equality : ∀ {a} {A : Set a} {B : Set a} →
+                  (m n : A) →
+                  (x y : B) →
+                  (m ≡ n) →
+                  (x ≡ y) →
+                  (m , x) ≡ (n , y)
   pair-equality m₁ .m₁ x .x refl refl = refl
 
   pair-monoid : ∀ {a} {A : Set a} {B : Set a} → Monoid A → Monoid B → Monoid (A × B)
