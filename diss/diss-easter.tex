@@ -1,0 +1,1637 @@
+\documentclass[12pt,twoside,notitlepage]{report}
+
+\usepackage{a4}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{subfig}
+\setmainfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+%%% HERE I PUT THE LAGDA THINGY
+
+
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \_}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode".
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray
+% environment. It is supposed to be used only inside math mode
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+%%% HERE IT ENDS
+
+
+
+\input{epsf}                            % to allow postscript inclusions
+% On thor and CUS read top of file:
+%     /opt/TeX/lib/texmf/tex/dvips/epsf.sty
+% On CL machines read:
+%     /usr/lib/tex/macros/dvips/epsf.tex
+
+
+
+\raggedbottom                           % try to avoid widows and orphans
+\sloppy
+\clubpenalty1000%
+\widowpenalty1000%
+
+\addtolength{\oddsidemargin}{2mm}       % adjust margins
+\addtolength{\evensidemargin}{-4mm}
+
+\renewcommand{\baselinestretch}{1.1}    % adjust line spacing to make
+                                        % more readable
+
+%%%% TIKZ%%%%%
+
+
+\usetikzlibrary{arrows}
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_n/.style = {treenode, circle, black, font=\sffamily\bfseries, draw=black,
+    fill=white, text width=1.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, draw=red, 
+    text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, rectangle, draw=black,
+    minimum width=0.5em, minimum height=0.7em},% arbre rouge noir, nil
+  deep/.style = {treenode, circle, red, draw=red,
+  	minimum width=0.5em, minimum height=0.7em, fill=red},
+  node/.style = {treenode, circle, green, draw=green,
+  	minimum width=0.5em, minimum height=0.7em, fill=green},
+  digit/.style = {treenode, white, draw=blue, 
+  	minimum width=0.4em, minimum height=0.4em, fill=blue},
+  leaf/.style = {treenode, white, draw = blue, 
+  	circle, minimum width = 0.4em, minimum height = 0.4em, fill=blue}
+}
+
+
+\usepackage{tkz-graph}
+
+\tikzset{
+  LabelStyle/.style = { rectangle, rounded corners, draw,
+                        minimum width = 2em, fill = yellow!50,
+                        text = red, font = \bfseries },
+  VertexStyle/.append style = { inner sep=5pt,
+                                font = \Large\bfseries},
+  EdgeStyle/.append style = {->, bend left} 
+}
+
+
+%%%%%%% END TIKS %%%%%
+
+
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title
+
+
+\pagestyle{empty}
+
+\hfill{\LARGE \bf Razvan Kusztos}
+
+\vspace*{60mm}
+\begin{center}
+\Huge
+{\bf Verified functional datastructures in Agda} \\
+\vspace*{5mm}
+Diploma in Computer Science \\
+\vspace*{5mm}
+Girton College \\
+\vspace*{5mm}
+\today  % today's date
+\end{center}
+
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Proforma, table of contents and list of figures
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+\pagestyle{plain}
+
+\chapter*{Proforma}
+
+{\large
+\begin{tabular}{ll}
+Name:               & \bf Razvan Kusztos                       \\
+College:            & \bf Girton College                     \\
+Project Title:      & \bf Verified functional datasturcures and algorithm in Agda \\
+Examination:        & \bf Part II Project        \\
+Word Count:         & \bf 0\footnotemark[1]
+(well less than the 12000 limit) \\
+Project Originator: & Dr Timothy Griffin                    \\
+Supervisor:         & Dr Timothy Griffin                    \\
+\end{tabular}
+}
+\footnotetext[1]{This word count was computed
+by {\tt detex diss.tex | tr -cd '0-9A-Za-z $\tt\backslash$n' | wc -w}
+}
+\stepcounter{footnote}
+
+\newpage
+\section*{Declaration}
+
+I, [Name] of [College], being a candidate for Part II of the Computer
+Science Tripos [or the Diploma in Computer Science], hereby declare
+that this dissertation and the work described in it are my own work,
+unaided except as may be specified below, and that the dissertation
+does not contain material that has already been used to any substantial
+extent for a comparable purpose.
+
+\bigskip
+\leftline{Signed [signature]}
+
+\medskip
+\leftline{Date [date]}
+
+\cleardoublepage
+
+\tableofcontents
+
+\listoffigures
+
+\newpage
+\section*{Acknowledgements}
+
+This document owes much to an earlier version written by Simon Moore
+\cite{moore95}.  His help, encouragement and advice was greatly
+appreciated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% now for the chapters
+
+\cleardoublepage        % just to make sure before the page numbering
+                        % is changed
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{headings}
+
+\chapter{Introduction}
+
+\section{Verified Programming}
+
+Verification of program correctness is paramount for any successful application. There are many ways and paradigms used in industry that enforce this ideas. Most commonly, hard-coded tests are run against the program. In this project I will focus on formal verification, that is, checking that a program is correct under some formal, mathematical modeling, rather than through its behaviour.
+	
+Formal verification has had successful application in areas such as  cryptography (Criptol), hardware specification (The verification system in Verilog) or compiler construction (CompCert). 
+A more general approach implies verifying arbitrary software programs. Automated theorem provers such as Coq, Isabelle or Agda achieve this goal. Although their principles have been around for (..), their industrial application remains still niche (CompCert is an example project using Coq). Isabelle’s open archive of proofs contains mainly proofs concerned with mathematical objects, with very few example of algorithms or data structures \footnote{https://www.isa-afp.org}. 
+	
+Languages like Agda have been designed first and foremost as general programming languages, with formal verification capacities on the side. Their development is in a relatively early stage, and are mainly employed for research. 
+
+\section{Functional Data Structures}
+
+Functional data structures have been long thought to be inefficient and belonging solely to academia. Solving past constraints are however turning the tides, with multicores and lots of memory easily accessible. The work of Okasaki \cite{okasaki}, namely his book,“Purely Functional Data Structures”, has gone a great way in solving the imbalance between functional data structures and the vast collection of efficient imperative structures. His discussion of implicit recursive slowdown and numerical representations of types has inspired the advent of many data structure. An example at which I will come back later is the Finger Tree.
+
+The main constraint that functional data structure have imposed on them is that they are persistent. That is, any destructive operation, such as updating an element in a list is expected to preserve in memory both the previous version and the new version. This constraint is not de facto in many imperative implementation (consider updating an element in a C array). Solutions for achieving this goal in an imperative environment are tedious and incur and extra cost. By working functionally, we need to work on top of this constraint – point where the implicit recursive slowdown comes at the rescue.
+
+Having tackled the problem of efficiency that has been long believed to be an argument against functional programming, the obvious advantage of the lack of side effects can be fully appreciated. The lack of side effects makes reasoning about functions a more tractable problem, and therefore aids coming up with verified programs.
+
+\section{Dependent Types}
+
+In traditional functional programming languages such as SML, Ocaml or Haskell, there is a clear barrier between types and values. In a dependently typed programming language, such as Agda, Coq or Idris, this distinctions fades away. Types and values are placed under the same grammar, introducing general terms. Whereas before types could depend on other types (i.e. parametric polymorphism), types can now also depend on values.
+
+Careful use of this expressive power can aid the user by reducing much of the run-time checks needed to ensure proper execution of the program. 
+
+Consider, for example, the case of performing the sum of two n-dimensional vectors. In a non-dependent setting, all the vectors would have the same time, regardless of their size. Implementing a correct summation method would entail checking at run-time whether the vectors have the same length. With a dependent typed language, we can enforce this in the type.
+
+Traditionally, proofs about the programs are presented in a separate environment, most commonly pen and paper. Since we allow types to depend on values, we can reason about both code and proofs in the same environment (under the Curry Howard isomorphism – see Section whatever)
+
+
+\section{Summary}
+
+In the next section I will introduce Agda, explain how logic reasoning fits tightly with the theoretical basis of Agda and the FingerTree data structure. 
+
+In the implementation section I will present an implementation of FingerTree, made possible by dependent typing, which ensures correctness, as well as proofs related to this data structure. 
+I will show how specializations of the FingerTree to other data-structures, such as Random Access Sequences or ... maintain the correctness properties. This can be seen as a software engineering approach using dependent types. 
+Finally, I will outline some difficulties which arise because of Agda’s totality and show some ways of overcoming them.
+
+In the evaluation section, I will ....
+ 
+\chapter{Preparation}
+
+\section{Agda}
+
+Agda is a dependently typed programming language based on the predicative Martin Lof type theory. It was introduced in Ulf Norell’s phd thesis, as a bridge between practical programming and the world of well-established automated theorem provers (like Coq). 
+
+I have chosen to implement this project in Agda for a number of reasons: 
+\begin{itemize}
+
+\item dependent types.
+\item simplicity, both in available features and the syntax.
+\item a suitable learning curve.
+\item lack of predefined tactics, which makes it easier to observe patterns in programming, errors or issues.\footnote{one is free to define their tactics, using reflection  – an example is in using the monoid solver}
+\item specifically for implementing Finger Trees, for reasons that I will come back to in section whatever.
+\end{itemize}
+
+\section{Curry Howard Isomorphism}
+
+The main mechanism employed in computer assisted proofs with dependent types is the observation (due to Curry) that there exists a one-to-one correspondence between propositions in formal logic and types. The original example, given by Howard is the bijection between the intuitionistic natural deduction and the simply typed lambda calculus.
+Using this principle, the predicative quantifier $\forall$ corresponds to a dependent product
+\cite{hindely_milner} , enabled by dependent types.
+
+
+\begin{table}[h!]
+\centering 
+	\begin{tabular}{l r} 
+	\hline
+	Type system & Logic \\
+	\hline 
+	Simply Typed LC  & Gentzen Natural Deduction (Gentzen) \\
+	PLC & Second Order Propositional Logic \\
+	%	system F\omega – ??
+	CoC &  Higher Order Predicate Logic \footnote{Without the ability to prove induction} \\
+	ITT & Higher Order Predicate Logic - basis of Agda \\ 
+	CiC & Higher Order Predicate Logic - basis of Coq \\   
+	\hline 
+	\end{tabular}
+\caption{Curry Howard Relation between various systems}
+\end{table}
+
+Althugh a comparison between CiC and ITT would be interesting, I could not find any literature on this topic. The development of Coq was influenced by Martin Lof’s theory through the presence of inductive types\cite{coq_inductive}. A notable difference is that Coq’s sort system differentiates between Prop (the type of propositions) and Type(i), whereas Agda only has a family Set(i).
+
+In Agda, the Curry Howard relations introduce the following recipes for generating proofs.
+
+\begin{table}[h!]
+\centering
+	\begin{tabular}{r r r} 
+	\hline 
+	Logic Formula & ITT Notation & Agda Notation \\
+	\hline
+	⊥  & ∅  & ⊥ \\
+	% T  = 1        what does he mean by these?
+	A ∨ B & A + B &   A ⊎ B \\
+	A ∧ B & A × B &   A × B \\
+	A ⊃ B & A → B &   A → B \\ 
+	∃x : A.B & Σx : A.B & Σ A B \\
+	∀x : A.B & Πx : A.B & (x : A) →  B\\ 
+	\hline
+	\end{tabular}
+\caption{Curry Howard Relation in Agda}
+\end{table} 
+
+The proof of a proposition in this logic is equivalent to building a term that has the corresponding type.
+
+\subsection{Some example proofs in Agda.}
+
+A very important family of types in Agda is the propositional equality. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{Level}{}\<[E]%
+\\
+\>[B]{}\mathbf{data}\;\anonymous \mathbin{≡\char95}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{:}\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{refl}\mathbin{:}\Varid{x}\mathbin{≡}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Having a single constructor, it corresponds to the proposition that two elements of the same type can only be equal if they are in fact the same element. 
+
+\subparagraph{Associativity of Natural Numbers.}
+Consider proving some properties of the natural numbers, such as associativity: \\
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbin{+}\Varid{assoc}\mathbin{:}\mathbin{∀}(\Varid{a}\;\Varid{b}\;\Varid{c}\mathbin{:}\Conid{ℕ})\mathbin{→}\Varid{a}\mathbin{+}(\Varid{b}\mathbin{+}\Varid{c})\mathbin{≡}(\Varid{a}\mathbin{+}\Varid{b})\mathbin{+}\Varid{c}{}\<[E]%
+\\
+\>[B]{}\mathbin{+}\Varid{assoc}\;\Varid{zero}\;\Varid{b}\;\Varid{c}\mathrel{=}\Varid{refl}{}\<[E]%
+\\
+\>[B]{}\mathbin{+}\Varid{assoc}\;(\Varid{suc}\;\Varid{a})\;\Varid{b}\;\Varid{c}\mathrel{=}\Varid{cong}\;\Varid{suc}\;(\mathbin{+}\Varid{assoc}\;\Varid{a}\;\Varid{b}\;\Varid{c}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The type indicates what is being proved, whereas the definition consists of an example proof.
+
+\subparagraph{List reverse properties}
+Consider the following implementation of reverse, using a helper function: 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  helper function}{}\<[E]%
+\\
+\>[B]{}\Varid{rev'}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}(\Conid{List}\;\Conid{A})\mathbin{→}(\Conid{List}\;\Conid{A})\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{rev'}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{ys}\mathrel{=}\Varid{ys}{}\<[E]%
+\\
+\>[B]{}\Varid{rev'}\;(\Varid{x}\mathbin{∷}\Varid{xs})\;\Varid{ys}\mathrel{=}\Varid{rev'}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}\Varid{ys}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{rev}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{rev}\;\Varid{xs}\mathrel{=}\Varid{rev'}\;\Varid{xs}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The main goal of this exercise is to prove that $\forall xs : List A, rev (rev (xs)) \equiv xs$. We first need to prove some helper statements about reverse, of which I have included the type declarations\footnote{full implementation is in the appendix}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{rev'}\mathbin{-}\Varid{rev}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Conid{A}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{ys}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Varid{rev'}\;\Varid{xs}\;\Varid{ys}\mathbin{≡}(\Varid{rev}\;\Varid{xs})\plus \Varid{ys}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{rev}\mathbin{-}\Varid{app}\mathbin{-}\Varid{lemma}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ys}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Varid{rev}\;(\Varid{xs}\plus \Varid{ys})\mathbin{≡}(\Varid{rev}\;\Varid{ys})\plus (\Varid{rev}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Finally, the main proof is presented using the Equational Reasoning module, which aids writing more readable proofs. This is the format in which most proofs are written throughout the dissertation.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Varid{rev}\;(\Varid{rev}\;\Varid{xs})\mathbin{≡}\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\Varid{refl}{}\<[E]%
+\\
+\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{begin}\;{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rev}\;(\Varid{rev'}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbin{≡⟨}\Varid{cong}\;\Varid{rev}\;(\Varid{rev'}\mathbin{-}\Varid{rev}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]))\mathbin{⟩}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rev}\;((\Varid{rev}\;\Varid{xs})\plus \Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbin{≡⟨}\Varid{rev}\mathbin{-}\Varid{app}\mathbin{-}\Varid{lemma}\;(\Varid{rev}\;\Varid{xs})\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])\mathbin{⟩}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{x}\mathbin{∷}\Varid{rev}\;(\Varid{rev}\;\Varid{xs}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbin{≡⟨}\Varid{cong}\;(\Varid{λ}\;\Varid{a}\mathbin{→}\Varid{x}\mathbin{∷}\Varid{a})\;(\Varid{rev}\mathbin{-}\Varid{lemma}\;\Varid{xs})\mathbin{⟩}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{x}\mathbin{∷}\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbin{∎}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+It is worth emphasizing the dual use of the typing system, both for proving correctness and providing abstraction. The type declaration is many times sufficient for understanding the purpose of the implementation.
+
+\subsection{Induction}
+
+As in the previous example, we can see that induction is a key means of proof. In this example, we perform a structural induction on the possible constructor of \textit{a} as a natural number. In the second case, we also perform a natural mathematical induction step. Assuming that \textit{+assoc a b c} holds for some a, b and c, we want to show that \textit{+assoc (a + 1) b c} holds.
+
+\section{Totality}
+
+Agda and Coq are both examples of total function programming languages. This constrains all the defined functions to be total. 
+
+
+\textbf{In a mathematical sense}, this means that they must be defined for all inputs. Consider the declaration of the head of a list.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{head}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{head}\;\Varid{x}\mathbin{∷}\Varid{xs}\mathrel{=}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Although this function is acceptable in Haskell, it will not type check in Agda. To mitigate this inconvenience, it is straightforward to use the Maybe monad.
+
+\textbf{In a computational sense} however, functions must also be strongly terminating on all the inputs. This has to do with the logical consistency. We trade off the Turing completeness for ensuring that all constructed terms correspond to valid proofs.
+
+However, due to a well known result, termination checking is an undecidable problem. For this reason, Agda (and Coq) have to use heuristics to determine whether recursive calls will eventually terminate.
+
+The way Agda deals with this problem is by ensuring that with every call to the function in a recursion stack, its argument becomes structurally smaller \cite{str_smaller} \footnote{http://www2.tcs.ifi.lmu.de/~abel/foetuswf.pdf}. The ordering relation is recursively defined by \begin{align*}
+\forall i : \mathbb{N}.\forall w : Set_i. w < C(...,w,...)\\
+\end{align*}
+where C is an inductive data type constructor.
+
+\subsection{Sized types}
+
+One can very simply imagine operations that hide this structural less-than relation. For this reason, the concept of 'Sized types' has been introduced. Under this paradigm, the data structure should be indexed by a type for which the structural relation is obvious at all times. Such examples are Nat or Size present in the standard library. 
+
+The difficulty of using either of these will become apparent in the context of Finger Trees. However, it is worth noting here that the incompleteness \cite{adam_chipala}  of the termination checker is making programming unnecessarily hard in some cases. 
+
+\section{Correct Data Structures in Agda}
+
+Much of the effort in programming goes to preserving invariants, i.e. facts the programmer needs to ensure about data structures in order for them to behave as expected. 
+That is, we need to make sure that the following statements hold:
+\begin{itemize}
+\item the constructors can only produce correct\footnote{i.e. correct with respect to the invariants} instances
+\item any function that takes as input a correct instance can only output a correct instance
+\end{itemize}
+
+If the type of the data structure ensures the invariants we want, both these propositions become true via the Curry Howard isomorphism.
+
+\subparagraph{Sorting Lists.}
+
+Consider, for example, implementing a function that sorts lists. That is, the input is a normal list and the output should be a sorted list containing all the elements in the argument list.
+We can provide a type encoding of what it means to be a sorted list containing some set of elements. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{SortedList}\mathbin{:}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{SortedList}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \anonymous \mskip1.5mu]\mathbin{:}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}\Conid{SortedList}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{ys}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{zs}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{SortedList}\;\Varid{ys}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{all}\;(\Varid{λ}\;\Varid{a}\mathbin{→}\Varid{x}\mathbin{≤}\Varid{a})\;\Varid{ys}\mathbin{≡}\Varid{true}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{x}\;\Varid{ins}\;\Varid{ys}\mathbin{≡}\Varid{zs}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Conid{SortedList}\;\Varid{zs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Here, the \textit{all} function tests whether a predicate holds in the entirety of a list, and the \textit{\_ins\_$\equiv$\_} operator should be read as: If x ins xs $\equiv$ ys, then I can insert x somewehre in xs to obtain ys.
+
+In order to define a correct sorting function, we assign the following type signature \footnote{I have encoded the lists as length-indexed vectors in order to ensure that the termination checker accepts my definitions. It would not have worked by simply using Lists.}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{sort}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n})\mathbin{→}(\Conid{SortedList}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This definition can be read in two ways: From a \textbf{logical} point of view, it is a proof that all lists can be sorted. However, from a \textbf{computational} point of view, it represents the type signature of all sorting functions that can be coded in Agda. \footnote{I have implemented, as an example, the selection sort which is present in the appendix}
+
+This example should prove the expressiveness that dependent typing makes available, as well as its capacity for abstraction. In implementing the Finger Trees, I will aim for a similar verification method.
+
+\subsection{Nested Types}
+
+In order to move on to the Finger Trees, I first have to introduce an alternative way through which a certain family of invariants could be kept true, without using dependent types. 
+
+Nested types\cite{nested_types}, also known as irregular types or polymorphic recursions, can aid in enforcing structure in data types, such as full binary trees, cyclic structures \cite{cyclic} or square matrices \cite{okasaki_matrix}. The idea is that when declaring an inductive data structure, occurrences of the type on the right hand side are allowed to appear with different type parameters.
+
+Agda is particularly expressive since it allows declaring functions on such data types, as opposed to SML and older versions of Haskell.
+
+\textit{List} is an example of a \textbf{regular} data type. The recursive call to List is restricted to the type parameter A
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{List}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+A slight modification, which recursively calls Lists with the type parameter A x A is used to represent a full binary tree (this has been introduced as Nest \cite{nested_types}).
+
+\begin{hscode}\SaveRestoreHook
+	\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+	\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+	\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+	\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+	\>[3]{}\mathbf{data}\;\Conid{Nest}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+	\\
+	\>[3]{}\hsindent{2}{}\<[5]%
+	\>[5]{}\Conid{Nil}\mathbin{:}\Conid{Nest}\;\Conid{A}{}\<[E]%
+	\\
+	\>[3]{}\hsindent{2}{}\<[5]%
+	\>[5]{}\Conid{Cons}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Nest}\;(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;\Conid{A}{}\<[E]%
+	\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+	\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+	\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+	\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+	\>[3]{}\Varid{ex}\mathbin{:}\Conid{Nest}\;\Conid{ℕ}{}\<[E]%
+	\\
+	\>[3]{}\Varid{ex}\mathrel{=}\Conid{Cons}\;\mathrm{1}\;(\Conid{Cons}\;(\mathrm{2},\mathrm{3})\;(\Conid{Cons}\;((\mathrm{4},\mathrm{5}),(\mathrm{6},\mathrm{7}))\;\Conid{Nil})){}\<[E]%
+	\ColumnHook
+\end{hscode}\resethooks
+
+\begin{center}
+
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 5cm, level distance = 1.5cm},
+						  level 2/.style = {sibling distance = 3cm}]
+	\node [arn_n] {1}
+	 child{ node [arn_n] {2} 
+	            child{node [arn_n] {4}} 
+	            child{node [arn_n] {5}}	
+	      }
+	 child{node [arn_n] {3} 
+	            child{node [arn_n] {6}} 
+	            child{node [arn_n] {7}}	
+	      };
+	\end{tikzpicture}
+
+\end{center} 
+
+The same principles apply in the case of Finger Trees, which is based on a full 2-3 tree, with labels in the leafs only.
+
+
+\chapter{Implementation}
+
+\section{FingerTrees - Introduction} 
+	Finger Trees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
+Initially meant as a double ended queue with constant amortized time append, their structure, together with the cached measurements, allow specialization to Random Access Sequences, or Priority Queues by simple instantiation. \\ 
+ 
+ 	The underlying structure is that of a full 2-3 tree, with labels solely at the leafs. For efficient insertion and deletions, the tree is surrounded by buffers at each level, which amortize the cost of appending at either end. Furthermore, the data structure is accompanied by a measurement function and a binary operator, such that the reduced measures of all nodes in a subtree is cached in all the joints. These are necessary for searching or splitting.
+ 		
+\begin{figure} 
+	\centering
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {∙ ∙ ∙} 	
+		      }
+		 child{node [deep] {}
+		 		child{node [node] {}
+		 				child{node [digit] {∙ ∙ ∙ ∙}}
+		 				child{node [digit] {∙}}
+		 			}
+			 	child{node [deep] {}
+			 			child{node [leaf] {}}
+			 		}
+		 		child{node [node] {}
+		 				child{node [digit] {∙ ∙}}
+		 				child{node [digit] {∙}} 
+		 				child{node [digit] {∙ ∙ ∙}}
+		 			}
+		 	 } 
+		 child{node [digit] {∙ ∙}	
+		      };
+	\end{tikzpicture}
+	\caption{Example finger tree}
+	\label{fig:ftex1}
+\end{figure} 
+
+\subsection{Invariants}
+
+The efficiency is achieved by keeping two invariants on the data structure:
+\begin{itemize}
+	\item The tree is full and all the leaves occur on the last level. 
+	\item The measurements are correct\footnote{•}
+\end{itemize}
+
+Working in Agda, a dependently typed language, which moreover allows the use of nested types, we can keep these invariants soley in the type of the Finger Tree. More specifically,
+\begin{itemize}
+	\item The nested typing will ensure fullness of the tree.
+	\item Choosing measurements as the type index ensures their correctness.  
+\end{itemize} 
+
+\subsection{Previous Work}
+
+Finger Trees have been previously implemented and proved correct. I will outline some previous results, as well as their limitations, providing more incentives for this dissertation. I have included all related implementations I could find and I do not guarantee they are the only ones.
+
+\begin{itemize}
+\item Basic Implementation in Agda. \\
+This version can be found on GitHub\footnote{•}. Its mentioned intention is to closely follow the original paper. It also uses introduces the idea of Sizing, although only in the type declaration (and constructors). Since the constraints are not present in functions that modify the data type, they do not really aid correctness proofs. It has no proofs associated with it, and it didn't type check on my machine.
+\item Implementation in Coq. \\
+This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for Russell, a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by its small caveat, onto which I will return at the end of this chapter. Although a full and working implementation, I argue that this dissertation is valuable in its own, given my aforementioned reasons for choosing Agda as the programming language, and providing a solution to some caveats.
+\item Implementation in Isabelle. \\
+Another working implementation has been done in Isabelle. However, this implementation diverges from the original specification of the data structure, removing the nesting. The two invariants that I have mentioned are maintained explicitly, due to the lack of dependent types.\\ 
+The implementation of this data structure in both Coq and Isabelle, two established theorem provers might argue both for the complexity involved, and for its interesting particularities.
+\end{itemize}
+
+\section{Finger Trees - Implementation}
+
+\subsection{Data type declaration}
+
+The Finger Tree is originally polymorphic in two types:
+\begin{itemize}
+\item \textbf{A} : this is the type of the elements that are contained in the Finger Tree 
+\item \textbf{V} : this is the type of measures. 
+\end{itemize} 
+
+
+In order to to mimic Haskell's typeclasses, I have carried around, for each A and V, two constructs:
+
+\begin{itemize} 
+\item \textbf{Monoid\footnote{see AlgebraStructures.agda} V}: which contains a neutral element(\textbf{ε}), a binary operator(\textbf{∙}), and the monoid axioms, and a comparison operator.
+\item \textbf{Measured A V} : which consists of a norm function  :  \textbf{$\Vert\_\Vert : \nolinebreak A \rightarrow V$}
+\end{itemize} 
+
+
+\textbf{Node} corresponds to nodes in the underlying 2-3 tree implementation, having two constructors that contain two and respectively three items. Moreover, \textbf{Node}s can only be constructed if provided with a measurement tag and a correctness proof.
+  
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Node}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Node2}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Node3}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{z}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+ 
+\textbf{Digit}s were in presented in the original paper as lists, but this definition limits them to have one to four elements.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Digit}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{One}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Two}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Three}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Four}{}\<[9]%
+\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Finally, the \textbf{FingerTree} is a family of types, indexed by a measurement $\mu$. The measurement's correctness is enforced in all the constructors. Note the nested type and the universal quantification over possible sizes for the recursive call. Apart from the measurement addition, the rest corresponds to the original paper.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{10E}{@{}l@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{FingerTree}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Empty}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Single}\mathbin{:}{}\<[13]%
+\>[13]{}(\Varid{e}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{e}\mathbin{∥}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Deep}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[13]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[13]{}\mathbin{→}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[13]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[13]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subparagraph{Smart Constructors}
+We also build smart constructors that fill in the measurement, provided with the appropriate number of elements
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{node2}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\Varid{node2}\;\Varid{x}\;\Varid{y}\mathrel{=}\Conid{Node2}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{refl}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{node3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\Varid{node3}\;\Varid{x}\;\Varid{y}\;\Varid{z}\mathrel{=}\Conid{Node3}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{z}\;\Varid{refl}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+
+
+\subsection{Graphical example}
+
+Considering Figure, \ref{fig:ftex1}, I have colour-coded the nodes as follows:
+\begin{table}[h!]
+\centering
+\begin{tabular}{c c}
+Symbol & Constructor \\ 
+\hline
+\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm}]		  
+		\node [deep] {};
+\end{tikzpicture} & Deep \\
+ 
+\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm}]		  
+		\node [node] {};
+\end{tikzpicture} & Node \\
+\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm}]		  
+		\node [digit] {∙ ∙ ∙};
+\end{tikzpicture} & Digit (of various lengths) \\
+
+\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm}]		  
+		\node [leaf] {};
+\end{tikzpicture} & A \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Indexing on the measurement}
+
+The reason for indexing on the measurement is twofold. Firstly, we index on the measurement in order to verify the correctness of the measurement in operations such as appending an element or splitting. Secondly, the index was chosen in order to allow implementing a 'size' that depends on all elements in the finger tree. 
+
+Consider a sizing that would take into account the shape of the tree only (as it is the case of Size described previously). 
+
+\begin{figure}[h!]
+\centering 
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {∙ ∙ ∙ ∙} 	
+		      }
+		 child{node [leaf] {}}
+		 child{node [digit] {∙ ∙ ∙ ∙}	
+		      };
+	\end{tikzpicture}
+	\caption{Bigger Finger Tree}
+	\label{fig:ftex2}
+	\vspace{3mm}
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {∙} 	
+		      }
+		 child{node [deep] {}
+		 		child{node [node] {}
+		 				child{node [digit] {∙}}
+		 				child{node [digit] {∙}}
+		 			}
+			 	child{node [leaf] {}}
+		 		child{node [node] {}
+		 				child{node [digit] {∙}} 
+		 				child{node [digit] {∙}}
+		 			}
+		 	 } 
+		 child{node [digit] {∙}	
+		      };
+	\end{tikzpicture}
+	\caption{Smaller finger Tree}
+	\label{fig:ftex3}
+\end{figure} 
+
+In Figures \ref{fig:ftex2} and \ref{fig:ftex3}, it is an ambiguous question which of the two trees should be considered to have a bigger size. \textit{Size} implements a partial order between data types, with no definite reference points, whereas here we are concerned with an absolute order. \\
+As suggested by Matthew Souzeau \cite{coq_finger_tree}, a sizing that reflects the number of elements is ideal. We can use the already existing measurement index to achive this goal.
+
+\subsection{\textit{Cons} and \textit{Snoc}}
+
+\textit{Cons} is the operator that appends an element to the left of the finger tree. 
+
+The implementation is straight forward if there is room in the left-most digit. Otherwise, we have to recursively insert and reform parts of the finger tree.
+
+Ultimately, for the correctness part, we are concerned whether the output tree is a correct finger tree (enforced by the type) with a correct measurement. 
+\begin{align*}
+\intertext{That is, by inserting an element x,}
+	\Vert x \triangleleft ft \Vert = \Vert x \Vert \cdot \Vert ft \Vert
+\end{align*}
+\begin{figure}[h!]
+\centering 
+\subfloat[Before Cons]
+{
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 2cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {1, 2, 3, 4} 	
+		      }
+		 child{node [node] {}
+				child {node [leaf] {5}}
+				child {node [leaf] {6}}
+				child {node [leaf] {7}}
+		}
+		 child{node [digit] {8}	
+		      };
+	\end{tikzpicture}
+}
+\qquad
+\subfloat[After Cons]
+{
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 1cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {0, 1} 	
+		      }
+		 child{node [deep] {}
+		 		child{node [node] {}
+		 				child{node [leaf] {2}}
+		 				child{node [leaf] {3}}
+		 				child{node [leaf] {4}}
+		 			}
+			 	child{node [node] {}
+		 				child{node [leaf] {5}} 
+		 				child{node [leaf] {6}}
+		 				child{node [leaf] {7}}
+		 			}
+		 	 } 
+		 child{node [digit] {8}	
+		      };
+	\end{tikzpicture}
+}
+	\caption{Recursive cons operation}
+	\label{fig:ftex3}
+\end{figure}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{◁\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{s}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Each case in the definition is accompanied by a proof that the measurement of the output finger tree is correct with respect to the topmost definition. These proofs are all derived from monoid properties imposed on the operation.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\Varid{a}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo})\mathbin{∥}\Varid{a}\mathbin{∥}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Single}\;\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{\circ}(\mathbin{∥}\Varid{e}\mathbin{∥})\mskip1.5mu\}\;\Varid{a}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{a}\;\Varid{e}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{One}\;\Varid{a})\;\Conid{Empty}\;(\Conid{One}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{One}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Two}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{a}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Three}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{d}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Four}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Four}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma2}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;((\Varid{node3}\;\Varid{c}\;\Varid{d}\;\Varid{e})\mathbin{◁}\Varid{ft})\;\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The Finger Tree operations are symmetric on the middle, so the construction of the snoc operator is exactly dual. It's implementation is provided in the source code.
+
+\subsection{toList}
+
+We will need to prove properties of the finger trees with respect to the elements they contain and their relative position. Therefore, it is handy to be able to transform them to lists, as they encode these properties simply.
+
+
+This is the conversion between a finger tree and a list\footnote{
+toList-dig is a straightforward conversion.}\footnote{flatten-list transforms a list of Nodes into a list of As.}
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{29}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;\Conid{Empty}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Single}\;\Varid{x})\mathrel{=}\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Deep}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₁})\plus {}\<[E]%
+\\
+\>[B]{}\hsindent{29}{}\<[29]%
+\>[29]{}(\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}))\plus {}\<[E]%
+\\
+\>[B]{}\hsindent{29}{}\<[29]%
+\>[29]{}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₂}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Proving correctness of the cons operator}
+
+Assuming that the implementation of list is correct, we can define the correctness of the cons operator as follows\footnote{An example term of this type is in the appendix}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{cons}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Varid{x}\mathbin{◁}\Varid{ft})\mathbin{≡}(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])\plus (\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{View from the Left/Right}
+
+As suggested in the original paper, the structure of the finger tree is complicated and users can benefit from a higher level representation. Furthermore, we have no mechanism yet of 'deconstructing' a sequence.
+
+In this case, we will 'view' each finger tree as the product between an element and the remaining finger tree. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{ViewL}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{NilL}\mathbin{:}{}\<[11]%
+\>[11]{}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{ConsL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{z}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}){}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{z}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+This data type also enforces the correctness of the measurement, being indexed in the same way as the finger tree. 
+
+We need to implement a procedure that transforms between the two.
+
+As it is the case of the Cons operator, most cases are superfluous. The complicated case arises when the leftmost digit contains a single entry.
+
+\begin{figure}[h!]
+\centering 
+\qquad
+\subfloat[Before ViewL]
+{
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 1cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {1} 	
+		      }
+		 child{node [deep] {}
+		 		child{node [node] {}
+		 				child{node [leaf] {2}}
+		 				child{node [leaf] {3}}
+		 				child{node [leaf] {4}}
+		 			}
+			 	child{node [node] {}
+		 				child{node [leaf] {5}} 
+		 				child{node [leaf] {6}}
+		 				child{node [leaf] {7}}
+		 			}
+		 	 } 
+		 child{node [digit] {8}	
+		      };
+	\end{tikzpicture}
+}
+\qquad
+\subfloat[After ViewL]
+{
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 2cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {2, 3, 4} 	
+		      }
+		 child{node [node] {}
+				child {node [leaf] {5}}
+				child {node [leaf] {6}}
+				child {node [leaf] {7}}
+		}
+		 child{node [digit] {8}	
+		      };
+	\end{tikzpicture}
+}
+
+	\caption{ViewL operation (only included the tails)}
+	\label{fig:ftex4}
+\end{figure}
+
+As you can see, the composition of cons and viewL is not a no-op, but they both preserve the order of the elements.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mutual}\;{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\;\Conid{Empty}\mathrel{=}\Conid{NilL}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Single}\;\Varid{x}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{sym}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo}\mathbin{∥}\Varid{x}\mathbin{∥}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{ConsL}\;\Varid{x}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{measure}\mathbin{-}\Varid{digit}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{ConsL}\;(\Varid{head}\mathbin{-}\Varid{dig}\;\Varid{pr})\;(\Varid{deepL}\;(\Varid{tails}\mathbin{-}\Varid{dig}\;\Varid{pr})\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Maybe}\;(\Conid{Digit}\;\Conid{A})){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{maybe}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  deepL pr ft sf = {!   !}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;(\Varid{just}\;\Varid{x})\;\Varid{ft}\;\Varid{sf}\mathrel{=}\Conid{Deep}\;\Varid{x}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\;\Varid{with}\;\Varid{viewL}\;\Varid{ft}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{NilL}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{ε}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid (\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Varid{toTree}\mathbin{-}\Varid{dig}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node2}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{r})\;\Varid{x₃}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma3}\;\Varid{x₁}\;\Varid{x₂}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₃})\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{x₁}\;\Varid{x₂})\;\Varid{x₃}\;\Varid{sf}\mbox{\onelinecomment  Deep (Two x₁ x₂) x₃ sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node3}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;\Varid{r})\;\Varid{x₄}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma4}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₄})\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃})\;\Varid{x₄}\;\Varid{sf}\mbox{\onelinecomment  Deep (Three x₁ x₂ x₃) x₄ sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Proving Correctness of ViewL}
+
+We can proceed in an analogous way to the correctness of cons, by constructing an appropriate to-list conversion for views, and then proving that the list representations coincide.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{viewL}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{toList}\mathbin{-}\Varid{view}\;(\Varid{viewL}\;\Varid{ft})\mathbin{≡}\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+
+
+
+\subsection{Splitting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+\end{document}

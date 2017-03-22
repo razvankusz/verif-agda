@@ -1,178 +1,353 @@
 %include polycode.fmt
 %include lhs2TeX.fmt
 
-
-
--- node11
 \begin{code}
-data Node {a} (A : Set a)(V : Set a)
-          ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : Set a where
-  Node2 : (v : V) → (x : A) → (y : A) →
-          (v ≡ ∥ x ∥ ∙ ∥ y ∥) → Node A V
-  Node3 : (v : V) → (x : A) → (y : A) → (z : A) →
-          (v ≡ ∥ x ∥ ∙ ∥ y ∥ ∙ ∥ z ∥) → Node A V
+open import Data.List
+open import Data.Maybe
+open import Data.Nat
+open import Relation.Binary.PropositionalEquality
+open ≡-Reasoning
 \end{code}
 
--- digit11
 \begin{code}
-
-data Digit {a} (A : Set a): Set a where
-  One   : A → Digit A
-  Two   : A → A → Digit A
-  Three : A → A → A → Digit A
-  Four  : A → A → A → A → Digit A
-
+data List (A : Set) : Set where
+  [] : List A
+  _∷_ : A → List A → List A
 \end{code}
 
--- FingerTree
+\begin{code}
+sort : ∀ {n : ℕ} → (xs : Vec A n) → (SortedList xs)
+\end{code}
+
+\begin{code}
+data SortedList : {n : ℕ} → Vec A n → Set where
+  [] : SortedList []
+  [_] : (x : A) → SortedList (x ∷ [])
+  _∷_ : ∀ {n : ℕ} {ys : Vec A n} {zs}
+        → (x : A)
+        → (xs : SortedList ys)
+        → (all (λ a → x ≤ a) ys ≡ true)
+        → (x ins ys ≡ zs)
+        → (SortedList zs)
+\end{code}
+
+
+
+\begin{code}
+head : ∀ {A} → List A → A
+head x ∷ xs = x
+\end{code}
+
+
+-- \begin{code}
+-- +assoc : ∀ (a b c : ℕ) → a + (b + c) ≡ (a + b) + c
+-- +assoc zero b c = refl
+-- +assoc (suc a) b c = cong suc (+assoc a b c)
+-- \end{code}
+
+-- -- node11
+-- \begin{code}
+-- data Node {a} (A : Set a)(V : Set a)
+--           ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : Set a where
+--   Node2 : (v : V) → (x : A) → (y : A) →
+--           (v ≡ ∥ x ∥ ∙ ∥ y ∥) → Node A V
+--   Node3 : (v : V) → (x : A) → (y : A) → (z : A) →
+--           (v ≡ ∥ x ∥ ∙ ∥ y ∥ ∙ ∥ z ∥) → Node A V
+-- \end{code}
+--
+-- -- digit11
+-- \begin{code}
+--
+-- data Digit {a} (A : Set a): Set a where
+--   One   : A → Digit A
+--   Two   : A → A → Digit A
+--   Three : A → A → A → Digit A
+--   Four  : A → A → A → A → Digit A
+--
+-- \end{code}
+--
+-- -- FingerTree
 \begin{code}
 data FingerTree {a} (A : Set a)(V : Set a)
-                ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :  {μ : V} → Set a where
+                ⦃ mo : Monoid V ⦄
+                ⦃ m : Measured A V ⦄ :
+                {μ : V} → Set a where
   Empty  :  FingerTree A V {ε}
   Single :  (e : A) → FingerTree A V {∥ e ∥}
-  Deep   :  {s : V} →
-            (pr : Digit A) → FingerTree (Node A V) V {s} → (sf : Digit A) →
-            FingerTree A V {measure-digit pr ∙ s ∙ measure-digit sf}
+  Deep   :  {s : V}
+            → (pr : Digit A)
+            → FingerTree (Node A V) V {s}
+            → (sf : Digit A)
+            → FingerTree A V {measure-digit pr ∙ s ∙ measure-digit sf}
+\end{code}
+
+-- smartc onstructors
+\begin{code}
+node2 : ∀ {a} {A : Set a}{V : Set a }
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        → A → A → Node A V
+node2 x y = Node2 (∥ x ∥ ∙ ∥ y ∥) x y refl
+
+node3 : ∀ {a} {A : Set a}{V : Set a }
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        → A → A → A → Node A V
+node3 x y z = Node3 (∥ x ∥ ∙ ∥ y ∥ ∙ ∥ z ∥) x y z refl
+
+\end{code}
+-- -- cons
+\begin{code}
+_◁_ : ∀ {a} {A : Set a} {V : Set a}
+      ⦃ mo : Monoid V ⦄
+      ⦃ m : Measured A V ⦄
+      {s : V}
+      → (x : A)
+      → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s}
+      → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {∥ x ∥ ∙ s}
+\end{code}
+
+\begin{code}
+_◁_ {l} {A} {V} ⦃ mo ⦄ a Empty
+  rewrite (Monoid.ε-right mo) ∥ a ∥
+  = Single {l}{A}{V} a
+_◁_ {l} {A} {V} ⦃ mo ⦄ ⦃ m ⦄ {.(∥ e ∥)} a (Single e)
+  rewrite assoc-lemma1 ⦃ mo ⦄ ⦃ m ⦄ a e
+  = Deep (One a) Empty (One e)
+a ◁ Deep (One b) ft sf
+  rewrite ∙-assoc (∥ a ∥) (∥ b ∥) (measure-tree ft ∙ measure-digit sf)
+  = Deep (Two a b) ft sf
+a ◁ Deep (Two b c) ft sf
+  rewrite ∙-assoc (∥ a ∥) (∥ b ∥ ∙ ∥ c ∥) (measure-tree ft ∙ measure-digit sf)
+  = Deep (Three a b c) ft sf
+a ◁ Deep (Three b c d) ft sf
+  rewrite ∙-assoc (∥ a ∥) (∥ b ∥ ∙ ∥ c ∥ ∙ ∥ d ∥) (measure-tree ft ∙ measure-digit sf)
+  = Deep (Four a b c d) ft sf
+a ◁ Deep (Four b c d e) ft sf
+  rewrite assoc-lemma2 a b c d e (measure-tree ft) (measure-digit sf)
+  = Deep (Two a b) ((node3 c d e) ◁ ft) sf
 \end{code}
 
 
--- cons
-
+-- to list
 \begin{code}
-infixr 5 _◁_
-_◁_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-      {s : V} → (x : A) → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s} →
-      FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {∥ x ∥ ∙ s}
+toList-ft : ∀ {a}{A : Set a}{V : Set a }
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄ {s : V}
+          → FingerTree A V {s}
+          → List A
+toList-ft Empty = []
+toList-ft (Single x) = x ∷ []
+toList-ft (Deep x₁ ft x₂) = (toList-dig x₁) ++
+                            (flatten-list (toList-ft ft)) ++
+                            (toList-dig x₂)
 \end{code}
 
--- cons-deep-one
+-- cons correct
 \begin{code}
-a ◁ Deep (One b) ft sf rewrite
-      ∙-assoc (∥ a ∥) (∥ b ∥) (measure-tree ft ∙ measure-digit sf)
-        = Deep (Two a b) ft sf
+cons-correct : ∀ {a}{A : Set a}{V : Set a }
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        {v : V} →
+        (x : A) →
+        (ft : FingerTree A V {v}) →
+        toList-ft (x ◁ ft) ≡ (x ∷ []) ++ (toList-ft ft)
 \end{code}
 
--- cons--deep-four
+-- view left
 \begin{code}
-a ◁ Deep (Four b c d e) ft sf rewrite
-      assoc-lemma2 a b c d e (measure-tree ft) (measure-digit sf)
-        = Deep (Two a b) ((node3 c d e) ◁ ft) sf
-\end{code}
-
--- assoc-lemma2
-\begin{code}
-assoc-lemma2 : ∀ {a}{A : Set a}{V : Set a}
-        ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-        (a : A) → (b : A) → (c : A) → (d : A) → (e : A) → (s : V) → (f : V) →
-          (mo Monoid.∙ Measured.∥ m ∥ a)
-              ((mo Monoid.∙
-                (mo Monoid.∙ Measured.∥ m ∥ b)
-                ((mo Monoid.∙ Measured.∥ m ∥ c)
-              ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e))))
-            ((mo Monoid.∙ s) f))
-            ≡
-          (mo Monoid.∙ (mo Monoid.∙ Measured.∥ m ∥ a) (Measured.∥ m ∥ b))
-              ((mo Monoid.∙
-               (mo Monoid.∙
-                (mo Monoid.∙ Measured.∥ m ∥ c)
-                ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e)))
-               s)
-              f)
-\end{code}
-
-
-\begin{code}
-_▷_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-        {s : V} → (x : A) → FingerTree A V {s} →
-        FingerTree A V {s ∙ ∥ x ∥}
-\end{code}
-
-
-
---ViewL
-
-\begin{code}
-data ViewL {a}(A : Set a)(V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :
-            {s : V} → Set a where
+data ViewL {a}(A : Set a)(V : Set a)
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄ :
+          {s : V} → Set a where
   NilL :  ViewL A V {ε}
-  ConsL : ∀ {z : V} (x : A) → (xs : FingerTree A V {z}) →
-          ViewL A V {∥ x ∥ ∙ z}
+  ConsL : ∀ {z}
+          (x : A)
+          → (xs : FingerTree A V {z})
+          → ViewL A V {∥ x ∥ ∙ z}
 \end{code}
 
-
---viewL
+-- viewl and deepL
 
 \begin{code}
-viewL : ∀ {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-            {i : V} → FingerTree A V {i} → ViewL A V {i}
+mutual
+  viewL : ∀ {a} {A : Set a}{V : Set a }
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {i : V} → FingerTree A V {i}
+          → ViewL A V {i}
+  viewL Empty = NilL
+  viewL ⦃ mo ⦄ ⦃ m ⦄ (Single x)
+    rewrite sym (Monoid.ε-right mo ∥ x ∥)
+    = ConsL x Empty
+  viewL ⦃ mo ⦄ ⦃ m ⦄ (Deep pr ft sf)
+    rewrite measure-digit-lemma1 ⦃ mo ⦄ ⦃ m ⦄ pr ft sf
+    = ConsL (head-dig pr) (deepL (tails-dig pr) ft sf)
+
+  deepL : ∀ {a}{A : Set a}{V : Set a }
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        {s : V}
+        → (pr : Maybe (Digit A))
+        → (ft : FingerTree (Node A V) V {s})
+        → (sf : Digit A)
+        → FingerTree A V {measure-maybe-digit pr ∙ s ∙ measure-digit sf}
+  -- deepL pr ft sf = {!   !}
+  deepL (just x) ft sf = Deep x ft sf
+  deepL nothing ft sf with viewL ft
+  deepL ⦃ mo ⦄ ⦃ m ⦄ nothing ft sf | NilL
+    rewrite (Monoid.ε-left mo) (ε ∙ measure-digit sf)
+          | (Monoid.ε-left mo) (measure-digit sf)
+    = toTree-dig sf
+  deepL nothing ft sf | ConsL (Node2 x x₁ x₂ r) x₃
+    rewrite r
+          | assoc-lemma3 x₁ x₂ (measure-tree x₃) sf
+    = Deep (Two x₁ x₂) x₃ sf -- Deep (Two x₁ x₂) x₃ sf
+  deepL nothing ft sf | ConsL (Node3 x x₁ x₂ x₃ r) x₄
+    rewrite r
+          | assoc-lemma4 x₁ x₂ x₃ (measure-tree x₄) sf
+    = Deep (Three x₁ x₂ x₃) x₄ sf -- Deep (Three x₁ x₂ x₃) x₄ sf
+
 \end{code}
 
+-- viewl correct
 \begin{code}
-deepL : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-      {s : V} →
-      (pr : Maybe (Digit A)) →
-      (ft : FingerTree (Node A V) V {s}) →
-      (sf : Digit A) →
-      FingerTree A V {measure-maybe-digit pr ∙ s ∙ measure-digit sf}
+viewL-correct : ∀ {a}{A : Set a} {V : Set a}
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → {v : V}
+              → (ft : FingerTree A V {v})
+              → (toList-view (viewL ft) ≡ toList-ft ft)
 \end{code}
 
---split
-
-\begin{code}
-data Split-d {a} (A : Set a) (V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :
-          {μ : V} → Set a where
-  split-d : ∀ {μ₁ : V} {μ₂ : V} →
-            (FingerTree A V {μ₁}) →
-            (x : A) →
-            (FingerTree A V {μ₂}) →
-            Split-d A V {μ₁ ∙ ∥ x ∥ ∙ μ₂}
-\end{code}
-
---split-main
-
-\begin{code}
-
-split-Tree : ∀ {a} {A : Set a} {V : Set a}
-            ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-            -- type class information
-            {μ : V} →
-            (p : V → Bool) → (i : V) →
-            -- predicate and inital value
-            (ft : FingerTree A V {μ}) → Maybe (Split-d A V {μ})
-            -- argument and proof that the split has the same size
-split-Tree p i Empty = nothing  -- cannot split an empty tree
-split-Tree ⦃ mo ⦄ p i (Single e) = just (split-Tree-single p i e)
-split-Tree p i (Deep pr ft sf) = just (split-Tree-if p i pr ft sf vpr refl vft refl)
-  where
-    vpr = p (i ∙ (measure-digit pr))
-    vft = p ((i ∙ measure-digit pr) ∙ measure-tree ft)
-\end{code}
-
-
-\begin{code}
-split-Tree-if : ∀ {a} {A : Set a} {V : Set a}
-            ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-            -- type class information
-            {μ : V} →
-            (p : V → Bool) → (i : V) →
-            -- predicate and initial value
-            (pr : Digit A) →
-            (ft : FingerTree (Node A V) V {μ}) →
-            (sf : Digit A) →
-            -- flattened deep constructor
-            (vpr : Bool) → (vpr ≡ p (i ∙ measure-digit pr)) →
-            -- passing the cummulated value at the prefix + proof of not cheating
-            (vft : Bool) → (vft ≡ p ((i ∙ measure-digit pr) ∙ (measure-tree ft))) →
-            -- passing the cummulated value at the suffix + proof of not cheating
-            Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)}
-            -- giving back the correct-sized split
-split-Tree-if p i pr ft sf false pr1 false pr2
-  = split-Tree2 p ((i ∙ measure-digit pr) ∙ (measure-tree ft)) pr ft sf
-    -- case2 : predicate becomes true in suffix or it doesn't become true at all
-split-Tree-if p i pr ft sf false pr1 true pr2
-  = split-Tree3 p i pr ft sf (sym pr1) (sym pr2)
-    -- case3 : predicate becomes true in tree
-split-Tree-if p i pr ft sf true pr1 vft pr2
-  = split-Tree1 p i pr ft sf
-    -- case1 : predicate becomes true in prefix
-\end{code}
+-- -- cons-deep-one
+-- \begin{code}
+-- a ◁ Deep (One b) ft sf rewrite
+--       ∙-assoc (∥ a ∥) (∥ b ∥) (measure-tree ft ∙ measure-digit sf)
+--         = Deep (Two a b) ft sf
+-- \end{code}
+--
+-- -- cons--deep-four
+-- \begin{code}
+-- a ◁ Deep (Four b c d e) ft sf rewrite
+--       assoc-lemma2 a b c d e (measure-tree ft) (measure-digit sf)
+--         = Deep (Two a b) ((node3 c d e) ◁ ft) sf
+-- \end{code}
+--
+-- -- assoc-lemma2
+-- \begin{code}
+-- assoc-lemma2 : ∀ {a}{A : Set a}{V : Set a}
+--         ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+--         (a : A) → (b : A) → (c : A) → (d : A) → (e : A) → (s : V) → (f : V) →
+--           (mo Monoid.∙ Measured.∥ m ∥ a)
+--               ((mo Monoid.∙
+--                 (mo Monoid.∙ Measured.∥ m ∥ b)
+--                 ((mo Monoid.∙ Measured.∥ m ∥ c)
+--               ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e))))
+--             ((mo Monoid.∙ s) f))
+--             ≡
+--           (mo Monoid.∙ (mo Monoid.∙ Measured.∥ m ∥ a) (Measured.∥ m ∥ b))
+--               ((mo Monoid.∙
+--                (mo Monoid.∙
+--                 (mo Monoid.∙ Measured.∥ m ∥ c)
+--                 ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e)))
+--                s)
+--               f)
+-- \end{code}
+-- --
+--
+-- \begin{code}
+-- _▷_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--         {s : V} → (x : A) → FingerTree A V {s} →
+--         FingerTree A V {s ∙ ∥ x ∥}
+-- \end{code}
+--
+--
+--
+-- --ViewL
+--
+-- \begin{code}
+-- data ViewL {a}(A : Set a)(V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :
+--             {s : V} → Set a where
+--   NilL :  ViewL A V {ε}
+--   ConsL : ∀ {z : V} (x : A) → (xs : FingerTree A V {z}) →
+--           ViewL A V {∥ x ∥ ∙ z}
+-- \end{code}
+--
+--
+-- --viewL
+--
+-- \begin{code}
+-- viewL : ∀ {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--             {i : V} → FingerTree A V {i} → ViewL A V {i}
+-- \end{code}
+--
+-- \begin{code}
+-- deepL : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--       {s : V} →
+--       (pr : Maybe (Digit A)) →
+--       (ft : FingerTree (Node A V) V {s}) →
+--       (sf : Digit A) →
+--       FingerTree A V {measure-maybe-digit pr ∙ s ∙ measure-digit sf}
+-- \end{code}
+--
+-- --split
+--
+-- \begin{code}
+-- data Split-d {a} (A : Set a) (V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :
+--           {μ : V} → Set a where
+--   split-d : ∀ {μ₁ : V} {μ₂ : V} →
+--             (FingerTree A V {μ₁}) →
+--             (x : A) →
+--             (FingerTree A V {μ₂}) →
+--             Split-d A V {μ₁ ∙ ∥ x ∥ ∙ μ₂}
+-- \end{code}
+--
+-- --split-main
+--
+-- ̱̱̱\begin{code}
+--
+-- split-Tree : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--             -- type class information
+--             {μ : V} →
+--             (p : V → Bool) → (i : V) →
+--             -- predicate and inital value
+--             (ft : FingerTree A V {μ}) → Maybe (Split-d A V {μ})
+--             -- argument and proof that the split has the same size
+-- split-Tree p i Empty = nothing  -- cannot split an empty tree
+-- split-Tree ⦃ mo ⦄ p i (Single e) = just (split-Tree-single p i e)
+-- split-Tree p i (Deep pr ft sf) = just (split-Tree-if p i pr ft sf vpr refl vft refl)
+--   where
+--     vpr = p (i ∙ (measure-digit pr))
+--     vft = p ((i ∙ measure-digit pr) ∙ measure-tree ft)
+-- \end{code}
+--
+--
+-- \begin{code}
+-- split-Tree-if : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--             -- type class information
+--             {μ : V} →
+--             (p : V → Bool) → (i : V) →
+--             -- predicate and initial value
+--             (pr : Digit A) →
+--             (ft : FingerTree (Node A V) V {μ}) →
+--             (sf : Digit A) →
+--             -- flattened deep constructor
+--             (vpr : Bool) → (vpr ≡ p (i ∙ measure-digit pr)) →
+--             -- passing the cummulated value at the prefix + proof of not cheating
+--             (vft : Bool) → (vft ≡ p ((i ∙ measure-digit pr) ∙ (measure-tree ft))) →
+--             -- passing the cummulated value at the suffix + proof of not cheating
+--             Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)}
+--             -- giving back the correct-sized split
+-- split-Tree-if p i pr ft sf false pr1 false pr2
+--   = split-Tree2 p ((i ∙ measure-digit pr) ∙ (measure-tree ft)) pr ft sf
+--     -- case2 : predicate becomes true in suffix or it doesn't become true at all
+-- split-Tree-if p i pr ft sf false pr1 true pr2
+--   = split-Tree3 p i pr ft sf (sym pr1) (sym pr2)
+--     -- case3 : predicate becomes true in tree
+-- split-Tree-if p i pr ft sf true pr1 vft pr2
+--   = split-Tree1 p i pr ft sf
+--     -- case1 : predicate becomes true in prefix
+-- \end{code}

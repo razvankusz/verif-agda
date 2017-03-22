@@ -287,8 +287,8 @@
 \clubpenalty1000%
 \widowpenalty1000%
 
-\addtolength{\oddsidemargin}{6mm}       % adjust margins
-\addtolength{\evensidemargin}{-8mm}
+\addtolength{\oddsidemargin}{2mm}       % adjust margins
+\addtolength{\evensidemargin}{-4mm}
 
 \renewcommand{\baselinestretch}{1.1}    % adjust line spacing to make
                                         % more readable
@@ -1454,7 +1454,6 @@ Finally, the \textbf{FingerTree} is a family of types, indexed by a measurement 
 
 The dependent typing allows a fine intertwining between coding and proofs, and this is an example where Agda's simplicity is best seen.
 
- 
 Implementing a cons(\textbf{◁})\footnote{appends an element to the left of the Finger Tree} operator is also accompanied by a proof that the result's measure will be equal to the sum of the argument's measure.
 
 I will give the type declaration and some necessary axioms\footnote{the full implementation is in the Appendix}

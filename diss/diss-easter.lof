@@ -1,0 +1,12 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Example finger tree\relax }}{12}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bigger Finger Tree\relax }}{17}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Smaller finger Tree\relax }}{17}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Recursive cons operation\relax }}{17}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{17}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{17}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces ViewL operation (only included the tails)\relax }}{20}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{20}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{20}
