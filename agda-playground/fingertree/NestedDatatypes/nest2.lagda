@@ -94,11 +94,11 @@ Nest-pair {a} A = Σ' {a = a} ℕ (dNest A)
 -- you might want to compare this approach with this very simple reimplementation of
 -- append on lists vs vec
 --
--- append : ∀ {a} {A : Set a} → A → List A → List A
--- append x xs with xs
--- append x xs | [] = Data.List.[ x ]
--- append x xs | y ∷ ys = y ∷ append x ys
---
+append : ∀ {a} {A : Set a} → A → List A → List A
+append x xs with xs
+append x xs | [] = Data.List.[ x ]
+append x xs | y ∷ ys = y ∷ append x ys
+
 -- this should work but it doesn't, even if you remember agda where y ∷ ys actually came from
 
 open import Relation.Binary.PropositionalEquality

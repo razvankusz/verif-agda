@@ -8,6 +8,9 @@
 \usepackage{subfig}
 \setmainfont{DejaVu Sans}
 \setmonofont{DejaVu Sans Mono}
+
+\usepackage{xcolor}
+
 %%% HERE I PUT THE LAGDA THINGY
 
 
@@ -46,8 +49,10 @@
 \newcommand{\Sp}{\hskip.33334em\relax}
 
 
+\newcommand{\FunName}[1]{\textcolor{blue}{\mathbf{#1}}}
 \newcommand{\Conid}[1]{\mathit{#1}}
 \newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\Varidemph}[1]{\textcolor{red}{\mathbf{#1}}}
 \newcommand{\anonymous}{\kern0.06em \_}
 \newcommand{\plus}{\mathbin{+\!\!\!+}}
 \newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
@@ -74,7 +79,7 @@
 
 \resethooks
 
-\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\onelinecommentchars}{\color{gray} \quad-{}- }
 \newcommand{\commentbeginchars}{\enskip\{-}
 \newcommand{\commentendchars}{-\}\enskip}
 
@@ -1667,35 +1672,42 @@ Their use could not be avoided in the implementation of operators that act on in
 The same situation arises in the proofs about correctness of the measure semantics. We have to provide the proof. Due to the nature of the \textit{Builtin.Equality} relation, I could not find a way to expand the functions appropriately, as suggested in the documentation \footnote{http://agda.readthedocs.io/en/latest/language/with-abstraction.html}
 
 
+\subparagraph{Discussion about \textit{with}.}There is a number of issues related to the \textit{with} statement that I have stumbled upon.
 
+\begin{itemize}
+\item Computing terms that are hidden behind a \textit{with} statement requires recomputation of the expression present in the \textit{with} clause. In the \textit{FingerTree} case, this occurs because of the \textit{rewrite} statements present throughout the implementation of \textit{cons}, \textit{viewL}, \textit{deepL} etc. This causes a mild inconvenience by having to reiterate the same \textit{rewrite}s whenever one writes proofs about those definitions.
 
+\item Whenever an argument of a function is hidden by a \textit{with abstraction}, the definition of that function cannot use further with statement containing the abstracted expression of the argument. This is discussed in the documentation: Ill-typed with-abstraction \footnote{https://agda.readthedocs.io/en/v2.5.2/language/with-abstraction.html} \\
+This is the reason proving correctness of ViewL seemed complicated.
 
+\item The type of terms hidden by \textit{with abstraction} is not available, as the feature of type checking in this conditions has not been implemented.
 
+\item There are cases in which the termination-checker is confused in the presence of \textit{with}
 
+Consider this example, where we try to append an element at the end of a list.
 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{\Conid{Data}.List}\mathbin{.}[\mskip1.5mu \Varid{x}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mathrel{=}\Varid{y}\mathbin{∷}\Varid{append}\;\Varid{x}\;\Varid{ys}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
+\end{itemize}
 
+Taking this issues into account, I have tried to come up with solutions to some of them. I will present them after finishing the main implementation of the Finger Tree.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+I should note here that the proofs that I am making are still providing a powerful verification, since
+\begin{itemize}
+\item The FingerTree maintains all invariants
+\item The measurement semantics are preserved an used sanely.
+\end{itemize}
 
 \subsection{Folding}
 
@@ -1857,6 +1869,207 @@ Furthermore, fold-left has some interesting properties when it comes to its rela
 \end{hscode}\resethooks
 
 \subsection{Splitting}
+
+Splitting is an extension of the ViewL paradigm, by allowing extraction of elements arbitrarily deep in the FingerTree. It consists of a left side, a middle element, and a right side.\footnote{the sides are correct FingerTrees}
+
+The same issues occur, as it was the case of viewL. I have tried in this implementation to keep the usage of \textit{with} at a minimum. This turned out to be a very difficult task, so correctness of this method can only be provided in terms of its measure, which is being taken care of by the indexing.
+
+The split is done over a boolean predicate, $p \in V \to Bool$ and a starting value, $i \in V$. The method iterates through the FingerTree, element by element, at each step increasing $i$ by the measure of the current element, $\Vert x \Vert$. The split is done when the value of the predicate $p(i) = True$, and the element at which this change occurs becomes the middle.
+
+
+As with ViewL, we create an additional data-type that will represent the result. It is indexed by the measurement, ensuring correctness.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{36}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Split}\mathbin{-}\Varid{d}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{split}\mathbin{-}\Varid{d}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{μ₁}\mathbin{:}\Conid{V}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{μ₂}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mskip1.5mu\}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  left side}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  middle}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₂}\mskip1.5mu\}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  right side}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mathbin{∙}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{μ₂}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Since this implementation is long a full of necessary proofs about the types, I will only provide the most important snippets.
+
+\subparagraph{Discussion} This implementation was also made difficult because of the partiality of the function in the original paper. Wrapping things in the Maybe monad can confuse the type-checker at times.
+
+\subparagraph{The main procedure} pattern matches on the constructors for the Finger Tree provided as argument. Notice that the typing already maintains the invariant.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{46}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{50}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{56}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{58}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{64}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[50]%
+\>[50]{}\mbox{\onelinecomment  type class information}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V}){}\<[46]%
+\>[46]{}\mbox{\onelinecomment  predicate and inital value}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[64]%
+\>[64]{}\mbox{\onelinecomment  argument}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}\Conid{Maybe}\;(\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{nothing}{}\<[46]%
+\>[46]{}\mbox{\onelinecomment  cannot split an empty tree}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{single}\;\Varid{p}\;\Varid{i}\;\Varid{e}){}\<[56]%
+\>[56]{}\mbox{\onelinecomment  superfluous case}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{vpr}\;\Varid{refl}\;\Varid{vft}\;\Varid{refl}){}\<[58]%
+\>[58]{}\mbox{\onelinecomment  recursive case}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vpr}\mathrel{=}\Varid{p}\;(\Varid{i}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vft}\mathrel{=}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+The \textbf{split-Tree-if} function splits the computation in three cases, depending where the predicate changes to \textit{True}. This could happen after the during the prefix \textbf{pr}, during the nested finger tree \textbf{ft} or during the suffix \textbf{sf} 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{42}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{44}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\FunName{split-Tree-if}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V})\mathbin{→}\mbox{\onelinecomment  predicate and initial value}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[44]%
+\>[44]{}\mbox{\onelinecomment  prefix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\})\mbox{\onelinecomment  nested tree}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  suffix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{:}\Conid{Bool}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  value of predicate after prefix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{≡}\Varid{p}\;(\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}))\mbox{\onelinecomment  correctness check}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{:}\Conid{Bool}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  value of predicate after tree}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{≡}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})))\mbox{\onelinecomment  check}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu (\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{μ}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf})\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{false}\;\Varid{pr1}\;\Varidemph{false}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree2}\;\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}))\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case2 : predicate becomes true in suffix or it doesn't become true at all}{}\<[E]%
+\\
+\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{false}\;\Varid{pr1}\;\Varidemph{true}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree3}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;(\Varid{sym}\;\Varid{pr1})\;(\Varid{sym}\;\Varid{pr2}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case3 : predicate becomes true in tree}{}\<[E]%
+\\
+\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{true}\;\Varid{pr1}\;\Varid{vft}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree1}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case1 : predicate becomes true in prefix}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The full implementation requires more advanced agda syntax, as well as the implementation of the ViewR and deepR. It is present in the Appendix.
+
+ 
+
+
+
+
 
 
 

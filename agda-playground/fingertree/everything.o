@@ -989,6 +989,198 @@
 \ColumnHook
 \end{hscode}\resethooks
 
+-- append-fail2
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{\Conid{Data}.List}\mathbin{\circ}[\mskip1.5mu \Varid{x}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mathrel{=}\Varid{y}\mathbin{∷}\Varid{append}\;\Varid{x}\;\Varid{ys}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- split
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{36}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Split}\mathbin{-}\Varid{d}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{split}\mathbin{-}\Varid{d}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{μ₁}\mathbin{:}\Conid{V}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{μ₂}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mskip1.5mu\}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  left side}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  middle}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₂}\mskip1.5mu\}){}\<[36]%
+\>[36]{}\mbox{\onelinecomment  right side}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mathbin{∙}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{μ₂}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- main split
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{46}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{50}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{56}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{58}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{64}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[50]%
+\>[50]{}\mbox{\onelinecomment  type class information}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V}){}\<[46]%
+\>[46]{}\mbox{\onelinecomment  predicate and inital value}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[64]%
+\>[64]{}\mbox{\onelinecomment  argument}{}\<[E]%
+\\
+\>[B]{}\hsindent{13}{}\<[13]%
+\>[13]{}\mathbin{→}\Conid{Maybe}\;(\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{nothing}{}\<[46]%
+\>[46]{}\mbox{\onelinecomment  cannot split an empty tree}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{single}\;\Varid{p}\;\Varid{i}\;\Varid{e}){}\<[56]%
+\>[56]{}\mbox{\onelinecomment  superfluous case}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{vpr}\;\Varid{refl}\;\Varid{vft}\;\Varid{refl}){}\<[58]%
+\>[58]{}\mbox{\onelinecomment  recursive case}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vpr}\mathrel{=}\Varid{p}\;(\Varid{i}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{vft}\mathrel{=}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- if --
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{42}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{44}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V})\mathbin{→}\mbox{\onelinecomment  predicate and initial value}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[44]%
+\>[44]{}\mbox{\onelinecomment  prefix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\})\mbox{\onelinecomment  nested tree}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  suffix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{:}\Conid{Bool}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  value of predicate after prefix}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{≡}\Varid{p}\;(\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}))\mbox{\onelinecomment  correctness check}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{:}\Conid{Bool}){}\<[42]%
+\>[42]{}\mbox{\onelinecomment  value of predicate after tree}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{≡}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})))\mbox{\onelinecomment  check}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu (\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{μ}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf})\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{false}\;\Varid{pr1}\;\Varid{false}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree2}\;\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}))\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case2 : predicate becomes true in suffix or it doesn't become true at all}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{false}\;\Varid{pr1}\;\Varid{true}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree3}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;(\Varid{sym}\;\Varid{pr1})\;(\Varid{sym}\;\Varid{pr2}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case3 : predicate becomes true in tree}{}\<[E]%
+\\
+\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\mathbf{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{true}\;\Varid{pr1}\;\Varid{vft}\;\Varid{pr2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree1}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  case1 : predicate becomes true in prefix}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 -- -- cons-deep-one
 -- \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%

@@ -559,9 +559,9 @@ data Split-d {a} (A : Set a) (V : Set a)
             ⦃ m : Measured A V ⦄ :
             {μ : V} → Set a where
   split-d : ∀ {μ₁ : V} {μ₂ : V}
-          → (FingerTree A V {μ₁})
-          → (x : A)
-          → (FingerTree A V {μ₂})
+          → (FingerTree A V {μ₁})  -- left side
+          → (x : A)                -- middle
+          → (FingerTree A V {μ₂})  -- right side
           → Split-d A V {μ₁ ∙ ∥ x ∥ ∙ μ₂}
 
 -- the journey of a thousand miles begins with one step
@@ -617,12 +617,19 @@ mutual
   split-Tree-single ⦃ mo ⦄ p i e rewrite sym (Monoid.ε-right mo (∥ e ∥)) |
                                   sym (Monoid.ε-left mo (∥ e ∥ ∙ ε)) = split-d Empty e Empty
 
-  split-Tree : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ : V} → -- type class information
-              (p : V → Bool) → (i : V) → -- predicate and inital value
-              (ft : FingerTree A V {μ}) → Maybe (Split-d A V {μ}) -- argument and proof that the split has the same size
-  split-Tree p i Empty = nothing  -- cannot split an empty tree
-  split-Tree ⦃ mo ⦄ p i (Single e) = just (split-Tree-single p i e) -- this annoying case where agda cannot figure out implicit types
-  split-Tree p i (Deep pr ft sf) = just (split-Tree-if p i pr ft sf vpr refl vft refl) -- fantastic beasts and where to find them
+  split-Tree : ∀ {a} {A : Set a} {V : Set a}
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              {μ : V} -- type class information
+              → (p : V → Bool) → (i : V) -- predicate and inital value
+              → (ft : FingerTree A V {μ}) -- argument
+              → Maybe (Split-d A V {μ})
+  split-Tree p i Empty
+    = nothing  -- cannot split an empty tree
+  split-Tree p i (Single e)
+    = just (split-Tree-single p i e) -- superfluous case
+  split-Tree p i (Deep pr ft sf)
+    = just (split-Tree-if p i pr ft sf vpr refl vft refl) -- recursive case
     where
       vpr = p (i ∙ (measure-digit pr))
       vft = p ((i ∙ measure-digit pr) ∙ measure-tree ft)
