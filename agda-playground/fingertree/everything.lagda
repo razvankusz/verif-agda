@@ -220,6 +220,90 @@ viewL-correct : ∀ {a}{A : Set a} {V : Set a}
               → (toList-view (viewL ft) ≡ toList-ft ft)
 \end{code}
 
+-- flatten-list
+\begin{code}
+
+flatten-list : ∀ {a}{A : Set a}{V : Set a }
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → List (Node A V)
+              → List A
+flatten-list [] = []
+flatten-list (x ∷ xs) = (toList-node x) ++ (flatten-list xs)
+
+\end{code}
+
+-- foldl
+\begin{code}
+foldl : ∀ {a} {A : Set a} {V : Set a}
+        {W : Set a}
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        {s : V}
+        → (W → A → W)
+        → W
+        → FingerTree A V {s}
+        → W
+foldl f i Empty = i
+foldl f i (Single e) = f i e
+foldl {W = W} f i (Deep pr ft sf) =
+  foldl-dig f
+            (foldl (foldl-node f)
+                   (foldl-dig f i pr)
+                   ft
+            )
+            sf
+\end{code}
+
+
+-- fold-correct
+\begin{code}
+foldl-correct : ∀ {a} {A : Set a}{V : Set a}
+              {W : Set a}
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → {s : V}
+              → (f : W → A → W)
+              → (σ : W)
+              → (ft : FingerTree A V {s})
+              → (foldl f σ ft ≡ Data.List.foldl f σ (toList-ft ft))
+\end{code}
+
+-- fold-lemma
+\begin{code}
+foldl-lemma0 : ∀ {a} {A : Set a} {V : Set a}
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → {s : V}
+              → (v : V)
+              → (ft : FingerTree A V {s})
+              → (foldl foldfun v ft ≡ v ∙ s)
+\end{code}
+
+-- viewL-example
+\begin{code}
+view-lemma3 : ∀ {a}{A : Set a} {V : Set a }
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → (ft : FingerTree A V)
+              → (viewL ft ≡ NilL)
+              → (ft ≡ Empty)
+view-lemma3 Empty p = refl
+view-lemma3 (Single x) ()
+view-lemma3 (Deep x x₁ ft x₂) ()
+\end{code}
+
+
+-- append-fail
+\begin{code}
+append : ∀ {a n m} → {A : Set a}
+        → Vec A n
+        → Vec A m
+        → Vec A (m + n)
+append [] ys = ys
+append (x ∷ xs) ys = x ∷ (append xs ys)
+\end{code}
+
 -- -- cons-deep-one
 -- \begin{code}
 -- a ◁ Deep (One b) ft sf rewrite

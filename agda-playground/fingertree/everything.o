@@ -1,0 +1,1248 @@
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.List}{}\<[E]%
+\\
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Maybe}{}\<[E]%
+\\
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Data}.Nat}{}\<[E]%
+\\
+\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{\Conid{Relation}.\Conid{Binary}.PropositionalEquality}{}\<[E]%
+\\
+\>[B]{}\Varid{open}\mathbin{≡-}\Conid{Reasoning}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{List}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{sort}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n})\mathbin{→}(\Conid{SortedList}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{SortedList}\mathbin{:}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{SortedList}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}[\mskip1.5mu \anonymous \mskip1.5mu]\mathbin{:}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}\Conid{SortedList}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{ys}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{zs}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{SortedList}\;\Varid{ys}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{all}\;(\Varid{λ}\;\Varid{a}\mathbin{→}\Varid{x}\mathbin{≤}\Varid{a})\;\Varid{ys}\mathbin{≡}\Varid{true}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{x}\;\Varid{ins}\;\Varid{ys}\mathbin{≡}\Varid{zs}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Conid{SortedList}\;\Varid{zs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{head}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{head}\;\Varid{x}\mathbin{∷}\Varid{xs}\mathrel{=}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  +assoc : ∀ (a b c : ℕ) → a + (b + c) ≡ (a + b) + c}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  +assoc zero b c = refl}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  +assoc (suc a) b c = cong suc (+assoc a b c)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- -- node11
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  data Node {a} (A : Set a)(V : Set a)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ : Set a where}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    Node2 : (v : V) → (x : A) → (y : A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            (v ≡ ∥ x ∥ ∙ ∥ y ∥) → Node A V}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    Node3 : (v : V) → (x : A) → (y : A) → (z : A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            (v ≡ ∥ x ∥ ∙ ∥ y ∥ ∙ ∥ z ∥) → Node A V}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- -- digit11
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  data Digit {a} (A : Set a): Set a where}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    One   : A → Digit A}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    Two   : A → A → Digit A}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    Three : A → A → A → Digit A}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    Four  : A → A → A → A → Digit A}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- -- FingerTree
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{10E}{@{}l@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{FingerTree}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{17}{}\<[17]%
+\>[17]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Empty}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Single}\mathbin{:}{}\<[13]%
+\>[13]{}(\Varid{e}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{e}\mathbin{∥}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{Deep}{}\<[10]%
+\>[10]{}\mathbin{:}{}\<[10E]%
+\>[13]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[13]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[13]{}\mathbin{→}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[13]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[13]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- smartc onstructors
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{node2}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\Varid{node2}\;\Varid{x}\;\Varid{y}\mathrel{=}\Conid{Node2}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{refl}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{node3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\\
+\>[B]{}\Varid{node3}\;\Varid{x}\;\Varid{y}\;\Varid{z}\mathrel{=}\Conid{Node3}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{z}\;\Varid{refl}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+-- -- cons
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{◁\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{7}{}\<[7]%
+\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{s}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\Varid{a}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo})\mathbin{∥}\Varid{a}\mathbin{∥}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Single}\;\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{\circ}(\mathbin{∥}\Varid{e}\mathbin{∥})\mskip1.5mu\}\;\Varid{a}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{a}\;\Varid{e}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{One}\;\Varid{a})\;\Conid{Empty}\;(\Conid{One}\;\Varid{e}){}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{One}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Two}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{a}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Three}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{d}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Four}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Four}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma2}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;((\Varid{node3}\;\Varid{c}\;\Varid{d}\;\Varid{e})\mathbin{◁}\Varid{ft})\;\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- to list
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{29}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;\Conid{Empty}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Single}\;\Varid{x})\mathrel{=}\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Deep}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₁})\plus {}\<[E]%
+\\
+\>[B]{}\hsindent{29}{}\<[29]%
+\>[29]{}(\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}))\plus {}\<[E]%
+\\
+\>[B]{}\hsindent{29}{}\<[29]%
+\>[29]{}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₂}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- cons correct
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{cons}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Varid{x}\mathbin{◁}\Varid{ft})\mathbin{≡}(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])\plus (\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- view left
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{ViewL}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{NilL}\mathbin{:}{}\<[11]%
+\>[11]{}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Conid{ConsL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{z}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}){}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{z}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- viewl and deepL
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mutual}\;{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{8}{}\<[11]%
+\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\;\Conid{Empty}\mathrel{=}\Conid{NilL}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Single}\;\Varid{x}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{sym}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo}\mathbin{∥}\Varid{x}\mathbin{∥}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{ConsL}\;\Varid{x}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{measure}\mathbin{-}\Varid{digit}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{ConsL}\;(\Varid{head}\mathbin{-}\Varid{dig}\;\Varid{pr})\;(\Varid{deepL}\;(\Varid{tails}\mathbin{-}\Varid{dig}\;\Varid{pr})\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Maybe}\;(\Conid{Digit}\;\Conid{A})){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\\
+\>[3]{}\hsindent{6}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{maybe}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mbox{\onelinecomment  deepL pr ft sf = {!   !}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;(\Varid{just}\;\Varid{x})\;\Varid{ft}\;\Varid{sf}\mathrel{=}\Conid{Deep}\;\Varid{x}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\;\Varid{with}\;\Varid{viewL}\;\Varid{ft}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{NilL}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{ε}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid (\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Varid{toTree}\mathbin{-}\Varid{dig}\;\Varid{sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node2}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{r})\;\Varid{x₃}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma3}\;\Varid{x₁}\;\Varid{x₂}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₃})\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{x₁}\;\Varid{x₂})\;\Varid{x₃}\;\Varid{sf}\mbox{\onelinecomment  Deep (Two x₁ x₂) x₃ sf}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node3}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;\Varid{r})\;\Varid{x₄}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma4}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₄})\;\Varid{sf}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃})\;\Varid{x₄}\;\Varid{sf}\mbox{\onelinecomment  Deep (Three x₁ x₂ x₃) x₄ sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- viewl correct
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{viewL}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{toList}\mathbin{-}\Varid{view}\;(\Varid{viewL}\;\Varid{ft})\mathbin{≡}\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- flatten-list
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{List}\;(\Conid{Node}\;\Conid{A}\;\Conid{V}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{node}\;\Varid{x})\plus (\Varid{flatten}\mathbin{-}\Varid{list}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- foldl
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{20}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}(\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;\Conid{Empty}\mathrel{=}\Varid{i}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;(\Conid{Single}\;\Varid{e})\mathrel{=}\Varid{f}\;\Varid{i}\;\Varid{e}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\{\mskip1.5mu \Conid{W}\mathrel{=}\Conid{W}\mskip1.5mu\}\;\Varid{f}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf})\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}(\Varid{foldl}\;(\Varid{foldl}\mathbin{-}\Varid{node}\;\Varid{f})\;{}\<[E]%
+\\
+\>[13]{}\hsindent{7}{}\<[20]%
+\>[20]{}(\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;\Varid{i}\;\Varid{pr})\;{}\<[E]%
+\\
+\>[13]{}\hsindent{7}{}\<[20]%
+\>[20]{}\Varid{ft}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- fold-correct
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{f}\mathbin{:}\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{σ}\mathbin{:}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{f}\;\Varid{σ}\;\Varid{ft}\mathbin{≡}\Varid{\Conid{Data}.\Conid{List}.foldl}\;\Varid{f}\;\Varid{σ}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- fold-lemma
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{-}\Varid{lemma0}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{v}\mathbin{:}\Conid{V}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{foldfun}\;\Varid{v}\;\Varid{ft}\mathbin{≡}\Varid{v}\mathbin{∙}\Varid{s}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- viewL-example
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{viewL}\;\Varid{ft}\mathbin{≡}\Conid{NilL}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{≡}\Conid{Empty}){}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;\Conid{Empty}\;\Varid{p}\mathrel{=}\Varid{refl}{}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Single}\;\Varid{x})\;(){}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Deep}\;\Varid{x}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\;(){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- append-fail
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\;\Varid{n}\;\Varid{m}\mskip1.5mu\}\mathbin{→}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{m}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;(\Varid{m}\mathbin{+}\Varid{n}){}\<[E]%
+\\
+\>[B]{}\Varid{append}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{ys}\mathrel{=}\Varid{ys}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;(\Varid{x}\mathbin{∷}\Varid{xs})\;\Varid{ys}\mathrel{=}\Varid{x}\mathbin{∷}(\Varid{append}\;\Varid{xs}\;\Varid{ys}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- -- cons-deep-one
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  a ◁ Deep (One b) ft sf rewrite}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        ∙-assoc (∥ a ∥) (∥ b ∥) (measure-tree ft ∙ measure-digit sf)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          = Deep (Two a b) ft sf}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- -- cons--deep-four
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  a ◁ Deep (Four b c d e) ft sf rewrite}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        assoc-lemma2 a b c d e (measure-tree ft) (measure-digit sf)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          = Deep (Two a b) ((node3 c d e) ◁ ft) sf}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- -- assoc-lemma2
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  assoc-lemma2 : ∀ {a}{A : Set a}{V : Set a}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          (a : A) → (b : A) → (c : A) → (d : A) → (e : A) → (s : V) → (f : V) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            (mo Monoid.∙ Measured.∥ m ∥ a)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                ((mo Monoid.∙}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                  (mo Monoid.∙ Measured.∥ m ∥ b)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                  ((mo Monoid.∙ Measured.∥ m ∥ c)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e))))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              ((mo Monoid.∙ s) f))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              ≡}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            (mo Monoid.∙ (mo Monoid.∙ Measured.∥ m ∥ a) (Measured.∥ m ∥ b))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                ((mo Monoid.∙}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                 (mo Monoid.∙}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                  (mo Monoid.∙ Measured.∥ m ∥ c)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                  ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e)))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                 s)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment                f)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+-- --
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  _▷_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          {s : V} → (x : A) → FingerTree A V {s} →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment          FingerTree A V {s ∙ ∥ x ∥}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+--
+--
+-- --ViewL
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  data ViewL {a}(A : Set a)(V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              {s : V} → Set a where}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    NilL :  ViewL A V {ε}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    ConsL : ∀ {z : V} (x : A) → (xs : FingerTree A V {z}) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            ViewL A V {∥ x ∥ ∙ z}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+--
+-- --viewL
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  viewL : ∀ {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              {i : V} → FingerTree A V {i} → ViewL A V {i}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  deepL : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        {s : V} →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        (pr : Maybe (Digit A)) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        (ft : FingerTree (Node A V) V {s}) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        (sf : Digit A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment        FingerTree A V {measure-maybe-digit pr ∙ s ∙ measure-digit sf}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- --split
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  data Split-d {a} (A : Set a) (V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ :}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment            {μ : V} → Set a where}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    split-d : ∀ {μ₁ : V} {μ₂ : V} →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (FingerTree A V {μ₁}) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (x : A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (FingerTree A V {μ₂}) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              Split-d A V {μ₁ ∙ ∥ x ∥ ∙ μ₂}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+-- --split-main
+--
+-- ̱̱̱\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree : ∀ {a} {A : Set a} {V : Set a}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- type class information}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              {μ : V} →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (p : V → Bool) → (i : V) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- predicate and inital value}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (ft : FingerTree A V {μ}) → Maybe (Split-d A V {μ})}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- argument and proof that the split has the same size}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree p i Empty = nothing  -- cannot split an empty tree}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree ⦃ mo ⦄ p i (Single e) = just (split-Tree-single p i e)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree p i (Deep pr ft sf) = just (split-Tree-if p i pr ft sf vpr refl vft refl)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    where}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment      vpr = p (i ∙ (measure-digit pr))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment      vft = p ((i ∙ measure-digit pr) ∙ measure-tree ft)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+--
+--
+-- \begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  split-Tree-if : ∀ {a} {A : Set a} {V : Set a}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- type class information}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              {μ : V} →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (p : V → Bool) → (i : V) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- predicate and initial value}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (pr : Digit A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (ft : FingerTree (Node A V) V {μ}) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (sf : Digit A) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- flattened deep constructor}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (vpr : Bool) → (vpr ≡ p (i ∙ measure-digit pr)) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- passing the cummulated value at the prefix + proof of not cheating}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              (vft : Bool) → (vft ≡ p ((i ∙ measure-digit pr) ∙ (measure-tree ft))) →}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- passing the cummulated value at the suffix + proof of not cheating}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)}}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment              -- giving back the correct-sized split}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree-if p i pr ft sf false pr1 false pr2}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    = split-Tree2 p ((i ∙ measure-digit pr) ∙ (measure-tree ft)) pr ft sf}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment      -- case2 : predicate becomes true in suffix or it doesn't become true at all}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree-if p i pr ft sf false pr1 true pr2}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    = split-Tree3 p i pr ft sf (sym pr1) (sym pr2)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment      -- case3 : predicate becomes true in tree}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  split-Tree-if p i pr ft sf true pr1 vft pr2}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment    = split-Tree1 p i pr ft sf}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment      -- case1 : predicate becomes true in prefix}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks

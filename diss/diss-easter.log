@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  22 MAR 2017 23:08
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  29 MAR 2017 16:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1013,31 +1013,30 @@ Overfull \hbox (197.77118pt too wide) in paragraph at lines 375--390
 
 [1
 
-] [2] (./diss-easter.toc)
+] [2] (./diss-easter.toc [3
+
+
+])
 \tf@toc=\write5
 \openout5 = `diss-easter.toc'.
 
- [3
-
-
-] (./diss-easter.lof)
+ [4] (./diss-easter.lof)
 \tf@lof=\write6
 \openout6 = `diss-easter.lof'.
 
- [4
+ [5
 
 ]
 
-LaTeX Warning: Citation `moore95' on page v undefined on input line 417.
+LaTeX Warning: Citation `moore95' on page vi undefined on input line 417.
 
-[5] [6
-
-]
+[6]
 Chapter 1.
 
 LaTeX Warning: Citation `okasaki' on page 1 undefined on input line 443.
 
 [1
+
 
 ]
 LaTeX Font Info:    Font shape `EU1/DejaVuSans(0)/m/sl' in size <12> not availa
@@ -1523,10 +1522,32 @@ Overfull \hbox (67.24065pt too wide) in paragraph at lines 1453--1567
  [][][][] 
  []
 
-[20]
+[20] [21]
 \openout4 = `diss-easter.ptb'.
 
- [21] [22] (./diss-easter.aux)
+
+
+LaTeX Warning: Citation `heterogeneous_equality' on page 22 undefined on input 
+line 1634.
+
+
+LaTeX Warning: Citation `viewfromtheleft' on page 22 undefined on input line 16
+40.
+
+[22]
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+ [23]
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+ [24]
+\openout4 = `diss-easter.ptb'.
+
+ [25] (./diss-easter.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1535,12 +1556,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 28010 strings out of 493638
- 561189 string characters out of 6146797
+ 28017 strings out of 493638
+ 561302 string characters out of 6146797
  564490 words of memory out of 5000000
- 31007 multiletter control sequences out of 15000+600000
+ 31014 multiletter control sequences out of 15000+600000
  14041 words of font info for 103 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,16n,87p,10371b,1489s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss-easter.pdf (30 pages).
+Output written on diss-easter.pdf (33 pages).

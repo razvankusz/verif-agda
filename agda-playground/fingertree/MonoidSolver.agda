@@ -73,11 +73,14 @@ module MonoidSolver {l : Level} (A : Set l) (M : Monoid A) where
   import Relation.Binary.Reflection as R
 
 
+
   open R (setoid A) var ⟦_⟧ ⟦_⇓⟧ correct using (prove; close; solve; solve₁; _⊜_)
 
   -- assoc-lemma0 = solve 4 (λ a b c d → ((a ⊙ b ⊙ ξ) ⊙ ξ ⊙ (ξ ⊙ c ⊙ d)) ⊜ (a ⊙ (b ⊙ (c ⊙ d)))) refl
-  -- assoc-lemma0 : 
+  -- assoc-lemma0 :
   assoc-lemma0 = solve 4 (λ a b c d → (((a ⊙ b) ⊙ c) ⊙ d) ⊜ (a ⊙ (b ⊙ (c ⊙ d)))) refl
+  assoc-lemma-5v = solve 5 (λ a b c d e → ((((a ⊙ b) ⊙ c) ⊙ d) ⊙ e) ⊜ (a ⊙ (b ⊙ (c ⊙ (d ⊙ e))))) refl
+
 
   --
   -- postulate assoc-lemma0 : Set

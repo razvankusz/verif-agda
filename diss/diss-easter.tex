@@ -1570,11 +1570,42 @@ As you can see, the composition of cons and viewL is not a no-op, but they both 
 
 We can proceed in an analogous way to the correctness of cons, by constructing an appropriate to-list conversion for views, and then proving that the list representations coincide.
 
+%\begin{hscode}\SaveRestoreHook
+%\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+%\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+%\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+%\>[B]{}\Varid{viewL}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+%\\
+%\>[B]{}\hsindent{15}{}\<[15]%
+%\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+%\\
+%\>[B]{}\hsindent{15}{}\<[15]%
+%\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+%\\
+%\>[B]{}\hsindent{15}{}\<[15]%
+%\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+%\\
+%\>[B]{}\hsindent{15}{}\<[15]%
+%\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\}){}\<[E]%
+%\\
+%\>[B]{}\hsindent{15}{}\<[15]%
+%\>[15]{}\mathbin{→}(\Varid{toList}\mathbin{-}\Varid{view}\;(\Varid{viewL}\;\Varid{ft})\mathbin{≡}\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+%\ColumnHook
+%\end{hscode}\resethooks
+
+However, we stumble upon simple property that is unnecessarily hard to prove.
+
+That is, we would like to prove that $viewL(ft)\equiv NilL \iff ft \equiv Empty$. This fact is obvious given the associated definitions. Unfortunately, \textit{Propositional Equality} cannot allow a term of this form, since for an arbitrary $\sigma \in V$, \textit{FingerTree A V} \{$\sigma$\} does not have the same type as Empty. (i.e. \textit{FingerTree A V} \{$\epsilon$\})
+
+Changing the statement of the problem slightly to $\forall$ \textit{ft : FingerTree A V} \{$\epsilon$\} $viewL(ft) \equiv NilL \iff ft \equiv Empty$ allows the definition. However, the typechecker will get stuck in trying to pattern match on ft. The reason is that it cannot find terms in \textit{V} to satisfy the constrained indexing.
+
+Indeed, if we try to prove this statement on a simpler version of \textit{FingerTree} that is indexed by Size \footnote{so that Empty can assume any size as long as it is smaller than its FingerTree derivatives (such as Deep sf Empty pr)}, it is a straightforward exercise: 
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{15}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{viewL}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
 \\
 \>[B]{}\hsindent{15}{}\<[15]%
 \>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
@@ -1583,19 +1614,247 @@ We can proceed in an analogous way to the correctness of cons, by constructing a
 \>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
 \\
 \>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}){}\<[E]%
 \\
 \>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\}){}\<[E]%
+\>[15]{}\mathbin{→}(\Varid{viewL}\;\Varid{ft}\mathbin{≡}\Conid{NilL}){}\<[E]%
 \\
 \>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{toList}\mathbin{-}\Varid{view}\;(\Varid{viewL}\;\Varid{ft})\mathbin{≡}\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{≡}\Conid{Empty}){}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;\Conid{Empty}\;\Varid{p}\mathrel{=}\Varid{refl}{}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Single}\;\Varid{x})\;(){}\<[E]%
+\\
+\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Deep}\;\Varid{x}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\;(){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
 
+A solution to this issue was suggested by McKinna\cite{heterogeneous_equality}, using an alternate implemenation of equality -- \textit{Heterogeneous Equality}, which works across types. 
+
+Using heterogeneous equality, we can now write the type of the original statement in Agda, as well as pattern-match on the finger tree. However, some problems related to the \textit{with} construct resurface.
+
+\subsection{With and rewrite}
+
+The implementation abounds in use of \textit{with} and \textit{rewrite} statements. \textit{with} allows, inspired by the work of McBride and McKinna \cite{viewfromtheleft}, to pattern match on an intermediate computation. \textit{rewrite} replaces an expression on the left hand side, by making use of a supplied equality relation.
+
+Their use could not be avoided in the implementation of operators that act on indexed data types. As part of the type checking, Agda has to unify the expected type of the result and the actual type of the result. 
+
+\subparagraph{Example.} Consider the implementation of append on Vectors, but with a slight difference in terms of the index of the result. We return a vector of size $m + n$ instead of $n + m$. The type-checker cannot prove that  $+$ commutes, since it is not superfluous. This does not type-check.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\;\Varid{n}\;\Varid{m}\mskip1.5mu\}\mathbin{→}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{m}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;(\Varid{m}\mathbin{+}\Varid{n}){}\<[E]%
+\\
+\>[B]{}\Varid{append}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{ys}\mathrel{=}\Varid{ys}{}\<[E]%
+\\
+\>[B]{}\Varid{append}\;(\Varid{x}\mathbin{∷}\Varid{xs})\;\Varid{ys}\mathrel{=}\Varid{x}\mathbin{∷}(\Varid{append}\;\Varid{xs}\;\Varid{ys}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The same situation arises in the proofs about correctness of the measure semantics. We have to provide the proof. Due to the nature of the \textit{Builtin.Equality} relation, I could not find a way to expand the functions appropriately, as suggested in the documentation \footnote{http://agda.readthedocs.io/en/latest/language/with-abstraction.html}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Folding}
+
+We can further implement the fold operation and show its correctness. I will only present, as an example the fold-left implementation.
+
+On lists, foldl f s [x, y, z] = f (f (f s x) y) z. We can extend this to FingerTrees. Defining folds on \textbf{Node} and \textbf{Digit} is trivial, since they are just length constrained lists.
+
+We also introduce an operation to flatten a list of nodes: 
+
+-- flatten-list
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{List}\;(\Conid{Node}\;\Conid{A}\;\Conid{V}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{node}\;\Varid{x})\plus (\Varid{flatten}\mathbin{-}\Varid{list}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We can then implement the foldl on finger trees as:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{20}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}(\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;\Conid{Empty}\mathrel{=}\Varid{i}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;(\Conid{Single}\;\Varid{e})\mathrel{=}\Varid{f}\;\Varid{i}\;\Varid{e}{}\<[E]%
+\\
+\>[B]{}\Varid{foldl}\;\{\mskip1.5mu \Conid{W}\mathrel{=}\Conid{W}\mskip1.5mu\}\;\Varid{f}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf})\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}(\Varid{foldl}\;(\Varid{foldl}\mathbin{-}\Varid{node}\;\Varid{f})\;{}\<[E]%
+\\
+\>[13]{}\hsindent{7}{}\<[20]%
+\>[20]{}(\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;\Varid{i}\;\Varid{pr})\;{}\<[E]%
+\\
+\>[13]{}\hsindent{7}{}\<[20]%
+\>[20]{}\Varid{ft}{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{10}{}\<[13]%
+\>[13]{}\Varid{sf}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Proving correctness of Fold Left}
+
+Next, we will show that the previous implementation is sane, by seeing whether folding over a finger tree is equivalent to folding over its list representation.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{f}\mathbin{:}\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{σ}\mathbin{:}\Conid{W}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{f}\;\Varid{σ}\;\Varid{ft}\mathbin{≡}\Varid{\Conid{Data}.\Conid{List}.foldl}\;\Varid{f}\;\Varid{σ}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Furthermore, fold-left has some interesting properties when it comes to its relation to the measurement. We can prove that if we fold over the finger tree using the \textbf{Monoid} and the \textbf{Measure}\footnote{foldfun v x = v ∙ ∥ x ∥} over which it is instantiated, we obtain the same result as the measure. This result is important as a sanity check of the measure semantics we are trying to preserve throughout the implementation:
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{foldl}\mathbin{-}\Varid{lemma0}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{v}\mathbin{:}\Conid{V}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{foldfun}\;\Varid{v}\;\Varid{ft}\mathbin{≡}\Varid{v}\mathbin{∙}\Varid{s}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
 \subsection{Splitting}
 

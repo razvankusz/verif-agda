@@ -29,3 +29,8 @@
 \contentsline {subsection}{\numberline {3.2.6}Proving correctness of the cons operator}{19}
 \contentsline {subsection}{\numberline {3.2.7}View from the Left/Right}{19}
 \contentsline {subsection}{\numberline {3.2.8}Proving Correctness of ViewL}{21}
+\contentsline {subsection}{\numberline {3.2.9}With and rewrite}{22}
+\contentsline {subparagraph}{Example.}{23}
+\contentsline {subsection}{\numberline {3.2.10}Folding}{23}
+\contentsline {subsection}{\numberline {3.2.11}Proving correctness of Fold Left}{24}
+\contentsline {subsection}{\numberline {3.2.12}Splitting}{25}

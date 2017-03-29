@@ -349,6 +349,13 @@ digit-reduce (Three x x₁ x₂) fun z assoc comm rewrite assoc+comm3 x x₁ x�
 digit-reduce (Four x x₁ x₂ x₃) fun z assoc comm rewrite assoc+comm4 x x₁ x₂ x₃ z fun assoc comm = refl
 
 
+
+viewl-lemma : ∀ {a : Level}{A : Set a}(ft : FingerTree A)
+    → (viewL ft ≡ nilL)
+    → (ft ≡ Empty)
+viewl-lemma Empty prop = refl
+viewl-lemma (Single x) ()
+viewl-lemma (Deep x ft x₁) ()
 -- (Deep {i} pr m sf) z = pr ⤙′ (m ⤙″ (sf ⤙′ z))
 -- (reducerDigit fun) x (reducerFingerTree (reducerNode fun) ft ((reducerDigit fun) x₁ z))
 fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →
@@ -384,10 +391,10 @@ lemma0n (Deep (Four x x₁ x₂ x₃) t x₄) m  =
 
 ρL = reducelFingerTree (reducelNode _+_)
 
-reverse : ∀{a} {A : Set a} → FingerTree A → FingerTree A
-reverse ft with viewL ft
-reverse ft | nilL = ft
-reverse ft | consL x xs = (reverse xs) ▷ x
+-- reverse : ∀{a} {A : Set a} → FingerTree A → FingerTree A
+-- reverse ft with viewL ft
+-- reverse ft | nilL = ft
+-- reverse ft | consL x xs = (reverse xs) ▷ x
 
 -- this is clearly an issue here. I am thinking of solving the problem by introducing a Node1 constructor and use it
 -- to give a result for an associative and commutative reduction function on NodeA
