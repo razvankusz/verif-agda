@@ -22,7 +22,6 @@ module RandomAccessSequence-size where
     seq ! n | just (split-d _ x _) = just (getEntry x)
     seq ! n | nothing = nothing
 
-
     big-seq : (n : ℕ) → Seq ℕ (size n)
     big-seq zero = Empty
     big-seq (suc n) = (entry n) ◁ (big-seq n)
@@ -176,45 +175,7 @@ module RandomAccessSequence-size where
     Seq-pair {a} A = Σ (SizeW {a}) (Seq A)
 
     to-size : ∀ {a} {A : Set a} → Seq-pair A → SizeW {a}
-    to-size (x , y) = x
+    to-size ⟨ fst , snd ⟩ = fst
 
     _⋖_ : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A → Set a
     _⋖_ = _<<_ on to-size
-
-    -- from Larry Paulson's paper -- Inverse image
-
-    inverse-accessible : ∀ {a} {A : Set a} {x : Seq-pair A} → Acc _<<_ (to-size x) → Acc (_<<_ on to-size) x
-    inverse-accessible (acc rs) = acc (λ y fy<fx → inverse-accessible (rs (to-size y) fy<fx))
-
-    inverse-wf : ∀ {a} {A : Set a} → Well-founded (_<<_ {a}) → Well-founded (_<<_ {a} on to-size {A = A})
-    inverse-wf wf = λ x → inverse-accessible (wf (to-size x))
-
-    ⋖-WF : ∀ {a} → {A : Set a} → Well-founded (_⋖_ {a} {A})
-    ⋖-WF = inverse-wf <<-WF
-  --
-  --   wfRec-builder : RecursorBuilder (WfRec _<_ {ℓ = ℓ})
-  -- wfRec-builder P f x = Some.wfRec-builder P f x (wf x)
-  --
-  -- wfRec : Recursor (WfRec _<_)
-  -- wfRec = build wfRec-builder
-
-    wfRec-builder : ∀ {a} → {A : Set a} → RecursorBuilder (WfRec (_⋖_ {a} {A}) {a})
-    wfRec-builder P f x = Some.wfRec-builder P f x (⋖-WF x)
-
-    ⋖-rec : ∀ {a} {A : Set a} → Recursor (WfRec (_⋖_ {a} {A}) {a})
-    ⋖-rec = build wfRec-builder
-
-    rev : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A
-    rev (μ , seq) with viewL seq
-    rev (.(size 0) , seq) | NilL = (size 0 , seq)
-    rev {a} {A} (_ , seq) | ConsL x xs = {! ⋖-rec _ _ go {a = a} {A = A}  !}
-      where
-      go : ∀ {a} {A : Set a} (s : Seq-pair A) → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
-      go arg rec = {!   !}
-    -- ⋖-WF : ∀ {a} {A : Set a} → (π : Seq-pair A) → AccP π
-    -- ⋖-WF {a} {A} π = acc (go π)
-    --   where
-    --   go : ∀ {a} {A : Set a} (π : Seq-pair A) (ρ : Seq-pair A) → ρ ⋖ π → AccP ρ
-    --   go
-    -- rev : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A
-    -- rev i = i

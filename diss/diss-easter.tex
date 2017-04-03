@@ -1,6 +1,15 @@
 \documentclass[12pt,twoside,notitlepage]{report}
 
 \usepackage{a4}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage[dvipsnames]{xcolor}
 \usepackage{verbatim}
 \usepackage{tikz}
 \usepackage{fontspec}
@@ -9,7 +18,6 @@
 \setmainfont{DejaVu Sans}
 \setmonofont{DejaVu Sans Mono}
 
-\usepackage{xcolor}
 
 %%% HERE I PUT THE LAGDA THINGY
 
@@ -225,11 +233,13 @@
 \RequirePackage{calc}
 
 \newenvironment{framedhscode}%
-  {\parskip=\abovedisplayskip\par\noindent
+  {
+   \color{Bittersweet}
+   \parskip=\abovedisplayskip\par\noindent
    \hscodestyle
    \arrayrulewidth=\codeframewidth
    \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
-   \hline\framedhslinecorrect\\{-1.5ex}%
+   \hline\framedhslinecorrect\\{-2.5ex}%
    \let\endoflinesave=\\
    \let\\=\@normalcr
    \(\pboxed}%
@@ -243,6 +253,7 @@
   {#1[#2]}
 
 \newcommand{\framedhs}{\sethscode{framedhscode}}
+\framedhs
 
 % The inlinehscode environment is an experimental environment
 % that can be used to typeset displayed code inline.
@@ -313,14 +324,14 @@
     text width=1.5em, very thick},% arbre rouge noir, noeud rouge
   arn_x/.style = {treenode, rectangle, draw=black,
     minimum width=0.5em, minimum height=0.7em},% arbre rouge noir, nil
-  deep/.style = {treenode, circle, red, draw=red,
-  	minimum width=0.5em, minimum height=0.7em, fill=red},
-  node/.style = {treenode, circle, green, draw=green,
-  	minimum width=0.5em, minimum height=0.7em, fill=green},
-  digit/.style = {treenode, white, draw=blue, 
-  	minimum width=0.4em, minimum height=0.4em, fill=blue},
-  leaf/.style = {treenode, white, draw = blue, 
-  	circle, minimum width = 0.4em, minimum height = 0.4em, fill=blue}
+  deep/.style = {treenode, circle, red, draw=Brown,
+  	minimum width=0.5em, minimum height=0.7em, fill=Brown},
+  node/.style = {treenode, circle, green, draw=Peach,
+  	minimum width=0.5em, minimum height=0.7em, fill=Peach},
+  digit/.style = {treenode, white, draw=Cerulean, 
+  	minimum width=0.4em, minimum height=0.4em, fill=Cerulean},
+  leaf/.style = {treenode, white, draw = Cerulean, 
+  	circle, minimum width = 0.4em, minimum height = 0.4em, fill=Cerulean}
 }
 
 
@@ -1108,10 +1119,10 @@ Consider a sizing that would take into account the shape of the tree only (as it
 		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
 		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
 		\node [deep] {}
-		 child{node [digit] {∙ ∙ ∙ ∙} 	
+		 child{node [digit] {+ + + +} 	
 		      }
 		 child{node [leaf] {}}
-		 child{node [digit] {∙ ∙ ∙ ∙}	
+		 child{node [digit] {+ + + +}	
 		      };
 	\end{tikzpicture}
 	\caption{Bigger Finger Tree}
@@ -1121,20 +1132,20 @@ Consider a sizing that would take into account the shape of the tree only (as it
 		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
 		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
 		\node [deep] {}
-		 child{node [digit] {∙} 	
+		 child{node [digit] {+} 	
 		      }
 		 child{node [deep] {}
 		 		child{node [node] {}
-		 				child{node [digit] {∙}}
-		 				child{node [digit] {∙}}
+		 				child{node [digit] {+}}
+		 				child{node [digit] {+}}
 		 			}
 			 	child{node [leaf] {}}
 		 		child{node [node] {}
-		 				child{node [digit] {∙}} 
-		 				child{node [digit] {∙}}
+		 				child{node [digit] {+}} 
+		 				child{node [digit] {+}}
 		 			}
 		 	 } 
-		 child{node [digit] {∙}	
+		 child{node [digit] {+}	
 		      };
 	\end{tikzpicture}
 	\caption{Smaller finger Tree}
@@ -1163,14 +1174,14 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 		level 2/.style = {sibling distance = 2cm, level distance = 1.5cm},
 		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
 		\node [deep] {}
-		 child{node [digit] {1, 2, 3, 4} 	
+		 child{node [digit] {$|$1, 2, 3, 4$|$} 	
 		      }
 		 child{node [node] {}
 				child {node [leaf] {5}}
 				child {node [leaf] {6}}
 				child {node [leaf] {7}}
 		}
-		 child{node [digit] {8}	
+		 child{node [digit] {$|$8$|$}	
 		      };
 	\end{tikzpicture}
 }
@@ -1181,7 +1192,7 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
 		level 3/.style = {sibling distance = 1cm, level distance = 1.5cm}]
 		\node [deep] {}
-		 child{node [digit] {0, 1} 	
+		 child{node [digit] {$|$0, 1$|$} 	
 		      }
 		 child{node [deep] {}
 		 		child{node [node] {}
@@ -1195,7 +1206,7 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 		 				child{node [leaf] {7}}
 		 			}
 		 	 } 
-		 child{node [digit] {8}	
+		 child{node [digit] {$|$8$|$}	
 		      };
 	\end{tikzpicture}
 }
@@ -1287,7 +1298,7 @@ Each case in the definition is accompanied by a proof that the measurement of th
 
 The Finger Tree operations are symmetric on the middle, so the construction of the snoc operator is exactly dual. It's implementation is provided in the source code.
 
-\subsection{toList}
+\subsection{\textit{toList}}
 
 We will need to prove properties of the finger trees with respect to the elements they contain and their relative position. Therefore, it is handy to be able to transform them to lists, as they encode these properties simply.
 
@@ -1327,7 +1338,7 @@ toList-dig is a straightforward conversion.}\footnote{flatten-list transforms a 
 \ColumnHook
 \end{hscode}\resethooks
 
-\subsection{Proving correctness of the cons operator}
+\subsection{Proving correctness of the \textit{cons} operator}
 
 Assuming that the implementation of list is correct, we can define the correctness of the cons operator as follows\footnote{An example term of this type is in the appendix}
 
@@ -1571,7 +1582,7 @@ As you can see, the composition of cons and viewL is not a no-op, but they both 
 \ColumnHook
 \end{hscode}\resethooks
 
-\subsection{Proving Correctness of ViewL}
+\subsection{Proving Correctness of \textit{viewL}}
 
 We can proceed in an analogous way to the correctness of cons, by constructing an appropriate to-list conversion for views, and then proving that the list representations coincide.
 
@@ -1640,7 +1651,7 @@ A solution to this issue was suggested by McKinna\cite{heterogeneous_equality}, 
 
 Using heterogeneous equality, we can now write the type of the original statement in Agda, as well as pattern-match on the finger tree. However, some problems related to the \textit{with} construct resurface.
 
-\subsection{With and rewrite}
+\subsection{\textit{with} and \textit{rewrite}}
 
 The implementation abounds in use of \textit{with} and \textit{rewrite} statements. \textit{with} allows, inspired by the work of McBride and McKinna \cite{viewfromtheleft}, to pattern match on an intermediate computation. \textit{rewrite} replaces an expression on the left hand side, by making use of a supplied equality relation.
 
@@ -1868,6 +1879,7 @@ Furthermore, fold-left has some interesting properties when it comes to its rela
 \ColumnHook
 \end{hscode}\resethooks
 
+
 \subsection{Splitting}
 
 Splitting is an extension of the ViewL paradigm, by allowing extraction of elements arbitrarily deep in the FingerTree. It consists of a left side, a middle element, and a right side.\footnote{the sides are correct FingerTrees}
@@ -2065,10 +2077,173 @@ The \textbf{split-Tree-if} function splits the computation in three cases, depen
 
 The full implementation requires more advanced agda syntax, as well as the implementation of the ViewR and deepR. It is present in the Appendix.
 
+
+\section{Random Access Sequences}
+
+By proper instantiation of the measurement function and monoid, we can specialize the Finger Tree to various data structures. The first suggested on is the Random Access Sequence.
+
+The measurement function will assign the value of 1 to any element, and the monoid is simply that of the natural numbers with addition. For convenience, I will wrap both the size and the entries is special types, to aid with the use of instance arguments.
+
+\subsection{SizeW and Entry}
+
+The \textit{SizeW} is simply a wrapper around \textit{Nat}\footnote{for compatibility with the rest of the implementation, I had to assign an arbitrary universe level \textit{a}} 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{25}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{:}\Conid{Set}\;\Varid{a}\;{}\<[25]%
+\>[25]{}\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{size}\mathbin{:}\mathbin{∀}(\Varid{n}\mathbin{:}\Conid{ℕ})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{ε}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{ε}\mathrel{=}\Varid{size}\;\mathrm{0}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\anonymous \mathbin{∙\char95 }\mathbin{:}{}\<[8]%
+\>[8]{}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{size}\;\Varid{n}\mathbin{∙}\Varid{size}\;\Varid{m}\mathrel{=}\Varid{size}\;(\Varid{n}\mathbin{+}\Varid{m}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The properties of the \textit{Nat} carries directly to\textit{SizeW}, so that we can populate a \textit{Monoid SizeW}
+
+\textit{Entry A} is a wrapper around elements of type A, given by the constructor \textit{entry}.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  assign a constant value of 1 to any entry.}{}\<[E]%
+\\
+\>[B]{}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{measure}\;\Varid{x}\mathrel{=}\Varid{\Conid{SizeW}.size}\;\mathrm{1}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  by using the instance keyword, the methods that require an argument}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  of this type, specified by ⦃\_⦄, will be able to access it.}{}\<[E]%
+\\
+\>[B]{}\mathbf{instance}\;\Varid{entry}\mathbin{-}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Measured}\;(\Conid{Entry}\;\Conid{A})\;\Conid{SizeW}{}\<[E]%
+\\
+\>[B]{}\Varid{entry}\mathbin{-}\Varid{measure}\mathrel{=}\Varid{measured}\;\Varid{measure}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathbf{instance}\;\Varid{size}\mathbin{-}\Varid{monoid}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Monoid}\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\Varid{size}\mathbin{-}\Varid{monoid}\mathrel{=}\mathbin{...}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection{Seq Instance}
+
+The Sequence instance is simply an alias for a Finger Tree, instantiated with an arbitrarily typed Entry and the SizeW monoid.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Conid{Seq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;\Conid{SizeW}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Conid{Seq}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\Conid{A}\;\Varid{s}\mathrel{=}\Conid{FingerTree}\;(\Conid{Entry}\;\Conid{A})\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\paragraph{Retrieving the nth element} \mbox{} \\ 
+The naive implementation would simply call the \textit{viewL} n times, yielding an amortized linear cost.
+
+However, we can find an $\mathcal{O}(log(n))$ implementation, by using \textit{split}. The predicate checks whether the current value is smaller than n, and we will start iterating from 0.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{!\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Maybe}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\anonymous \;\Varid{x}\;\anonymous )\mathrel{=}\Varid{just}\;(\Varid{getEntry}\;\Varid{x}){}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{nothing}\mathrel{=}\Varid{nothing}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The call to split allows us to view the nth element, as well as the sequences that remain to the left and to the right.
+
+\paragraph{Setting an element} \mbox{} \\
+This also suggests a possible implementation for setting an element, which is rather inefficient, but provided for completeness, using Finger Tree concatenation.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{19}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{set}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\Varid{left}\;\Varid{x}\;\Varid{right}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{left})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{16}{}\<[19]%
+\>[19]{}(\Varid{size}\;\mathrm{1})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{16}{}\<[19]%
+\>[19]{}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{right}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{concat}\;((\Varid{entry}\;\Varid{y})\mathbin{▷}\Varid{left})\;\Varid{right}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{nothing}\mathrel{=}\Varid{seq}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\section{Writing recursive definitions}
+
+As mentioned in section whatever, the use of \textit{with} can sometimes confuse the termination checker. This, combined with the nature of the \textit{viewL}, makes it hard to make us of the abstraction brought by deconstructing FingerTrees as we would deconstruct normal Linked Lists.
+
+In fact, Agda's termination checker cannot prove that, for any finger tree \textit{ft}, viewL (x \textit{cons} ft) is structurally bigger than ft. The reason is that the \textit{cons} operator has to be performed before the call to viewL.
  
+It has been suggested in Matthiew Souzeau's paper \cite{coq} that to overcome this problem, one must find a suitable indexing that reflects the number of elements in the Finger Tree. This is exactly what the Random Access Sequence achieves.
+
+\subsection{Well founded induction}
+
+In order to write a recursive definition against these constraints, we need to convert an arbitrary well founded relation to a structural less-than relation. This way, Agda's termination checker will pass recursive definitions.
+
+In this case, concerning \textit{SizeW}, the well founded relation comes free from the natural ordering of Nat. 
+
+According to the definition used in this context \footnote{http://adam.chlipala.net/cpdt/html/GeneralRec.html}. We call a less-than binary relation to be well founded if all elements in the carrier set are Accessible. For an element to be Accessible, we require inductively that all the smaller elements are themselves Accessible.
+
+By implementing the accessibility relation in Agda, we transform any given order into the structural order which Agda recognizes.
+
+\subsection{Packing the Sequence}
+
+In this case, we impose an order on the Seq given by the order of their sizes, so that removing an element from a Finger Tree necessarily creates a smaller Finger Tree.
+
+In this case, we can use Larry Paulson's results \footnote{also implemented in the standard library} to construct a Well-Founded relation on Sequences it is sufficient to have a Well-Founded relation on the Sizes.
 
 
 
+
+\subsection{Notes}
+
+- why pack the sequences
+ -- that is, we won't be able to prove anything at all.
+ -- make it very difficult
+ -- defeats the point of using viewL in the first place (i.e. abstraction)
+ -- this packing also provides a means of abstracting the dependent typing.
+ 
+- implementing reverse - explain why it's recursive
+- show the proof about the measurement
+- try maybe to prove some other property about reverse
+
+- add concatenation in the finger tree implementation, with all the proofs
+
+- put code in some colorful rectangle
 
 
 

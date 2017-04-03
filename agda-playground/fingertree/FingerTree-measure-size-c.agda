@@ -23,17 +23,12 @@ open ≅-Reasoning renaming (begin_ to hbegin_) renaming (_≡⟨_⟩_ to _≅�
 open import Data.Empty using (⊥)
 open import Relation.Nullary.Negation
 
-
 open import AlgebraStructures
-
-
 
 open Measured {{...}} public
 open Monoid {{...}} public
 
-
 open import Relation.Binary.PropositionalEquality.TrustMe using (trustMe)
-
 
 ------------------------------------------------------------------------
 
@@ -337,16 +332,16 @@ assoc-lemma4 x₁ x₂ x₃ z sf = begin
 
 mutual
 
-  viewL-single : ∀ {a} {A : Set a}{V : Set a }
-          ⦃ mo : Monoid V ⦄
-          ⦃ m : Measured A V ⦄
-          {i : V}
-          → (x : A)
-          → (v : V)
-          → (v ≡ ∥ x ∥)
-          → ((Monoid.ε mo) ∙ v ≡ v)
-          → (ViewL A V {∥ x ∥})
-  viewL-single {A = A} {V = V} x .(∥ x ∥) refl proof2 = {! ConsL x (Empty {A = A} {V = V}) !}
+  -- viewL-single : ∀ {a} {A : Set a}{V : Set a }
+  --         ⦃ mo : Monoid V ⦄
+  --         ⦃ m : Measured A V ⦄
+  --         {i : V}
+  --         → (x : A)
+  --         → (v : V)
+  --         → (v ≡ ∥ x ∥)
+  --         → ((Monoid.ε mo) ∙ v ≡ v)
+  --         → (ViewL A V {∥ x ∥})
+  -- viewL-single {A = A} {V = V} x .(∥ x ∥) refl proof2 = {! ConsL x (Empty {A = A} {V = V}) !}
 
   viewL : ∀ {a} {A : Set a}{V : Set a }
           ⦃ mo : Monoid V ⦄
@@ -356,7 +351,7 @@ mutual
   viewL Empty = NilL
   viewL ⦃ mo ⦄ ⦃ m ⦄ (Single x)
     rewrite sym (Monoid.ε-right mo ∥ x ∥)
-    = {!!}
+    = ConsL x Empty
   viewL ⦃ mo ⦄ ⦃ m ⦄ (Deep pr ft sf)
     rewrite measure-digit-lemma1 ⦃ mo ⦄ ⦃ m ⦄ pr ft sf
     = ConsL (head-dig pr) (deepL (tails-dig pr) ft sf)
@@ -661,15 +656,28 @@ mutual
   split-Tree3 p i pr ft sf eq1 eq2 | nothing | [ eq ] | ()
 
 
-  split-Tree-if : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ : V} →
-              (p : V → Bool) → (i : V) → -- predicate and initial value
-              (pr : Digit A) → (ft : FingerTree (Node A V) V {μ}) → (sf : Digit A) → -- flattened deep constructor
-              (vpr : Bool) → (vpr ≡ p (i ∙ measure-digit pr)) → -- passing the first digit + proof we're not cheating
-              (vft : Bool) → (vft ≡ p ((i ∙ measure-digit pr) ∙ (measure-tree ft))) → -- passing the tree + proof we're not cheating
-              Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)} -- giving back the correct-sized split
-  split-Tree-if p i pr ft sf false pr1 false pr2 = split-Tree2 p ((i ∙ measure-digit pr) ∙ (measure-tree ft)) pr ft sf -- case2 : predicate becomes true in suffix or it doesn't become true at all
-  split-Tree-if p i pr ft sf false pr1 true pr2 = split-Tree3 p i pr ft sf (sym pr1) (sym pr2)  -- case3 : predicate becomes true in tree
-  split-Tree-if p i pr ft sf true pr1 vft pr2 = split-Tree1 p i pr ft sf -- case1 : predicate becomes true in prefix
+  split-Tree-if : ∀ {a} {A : Set a} {V : Set a}
+                ⦃ mo : Monoid V ⦄
+                ⦃ m : Measured A V ⦄
+                {μ : V}
+                → (p : V → Bool) → (i : V)  -- predicate and initial value
+                → (pr : Digit A)             -- prefix
+                → (ft : FingerTree (Node A V) V {μ}) -- nested tree
+                → (sf : Digit A)           -- suffix
+                → (vpr : Bool)             -- value of predicate after prefix
+                → (vpr ≡ p (i ∙ measure-digit pr)) -- correctness check
+                → (vft : Bool)             -- value of predicate after tree
+                → (vft ≡ p ((i ∙ measure-digit pr) ∙ (measure-tree ft))) -- check
+                → Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)}
+  split-Tree-if p i pr ft sf false pr1 false pr2
+    = split-Tree2 p ((i ∙ measure-digit pr) ∙ (measure-tree ft)) pr ft sf
+    -- case2 : predicate becomes true in suffix or it doesn't become true at all
+  split-Tree-if p i pr ft sf false pr1 true pr2
+    = split-Tree3 p i pr ft sf (sym pr1) (sym pr2)
+    -- case3 : predicate becomes true in tree
+  split-Tree-if p i pr ft sf true pr1 vft pr2
+    = split-Tree1 p i pr ft sf
+    -- case1 : predicate becomes true in prefix
 
 
   -- agda limitation: in the presence of rewrite, the typechecker gets a bit muddled. This is the reason why I am avoiding it at all
@@ -746,12 +754,12 @@ mutual
 
 -- would be amazing to prove that foldl is measure.
 
-foldr-dig : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-      → (A → V → V) → V → Digit A → V
-foldr-dig f i (One x) = f x i
-foldr-dig f i (Two x x₁) = f x (f x₁ i)
-foldr-dig f i (Three x x₁ x₂) = f x (f x₁ (f x₂ i))
-foldr-dig f i (Four x x₁ x₂ x₃) = f x (f x₁ (f x₂ (f x₃ i)))
+foldr-dig : ∀ {a} {A : Set a} {V : Set a}
+      → (A → V → V) → Digit A → V → V
+foldr-dig f (One x) i = f x i
+foldr-dig f (Two x x₁) i = f x (f x₁ i)
+foldr-dig f (Three x x₁ x₂) i = f x (f x₁ (f x₂ i))
+foldr-dig f (Four x x₁ x₂ x₃) i = f x (f x₁ (f x₂ (f x₃ i)))
 
 foldl-dig : ∀ {a} {A : Set a} {W : Set a}
       → (W → A → W) → W → Digit A → W
@@ -766,15 +774,15 @@ foldl-node f i (Node2 v x y x₁) = f (f i x) y
 foldl-node f i (Node3 v x y z x₁) = f (f (f i x) y) z
 
 foldr-node : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-      → (A → V → V) → V → Node A V → V
-foldr-node f i (Node2 v x y x₁) = f x (f y i)
-foldr-node f i (Node3 v x y z x₁) = f x (f y (f z i))
+      → (A → V → V) → Node A V → V → V
+foldr-node f (Node2 v x y x₁) i = f x (f y i)
+foldr-node f (Node3 v x y z x₁) i = f x (f y (f z i))
 
 foldr : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-        {s : V} → (A → V → V) → V → FingerTree A V {s} → V
-foldr f i Empty = i
-foldr f i (Single e) = f e i
-foldr f i (Deep pr ft sf) = {! foldr-dig f (foldr (foldr-node f) (foldr-dig f i sf) ft)) pr !}
+        {s : V} → (A → V → V) → FingerTree A V {s} → V → V
+foldr f Empty i = i
+foldr f (Single e) i = f e i
+foldr f (Deep pr ft sf) i = foldr-dig f pr (foldr (foldr-node f) ft (foldr-dig f sf i))
 
 foldfun : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
   (v : V) → (x : A) → V
@@ -799,8 +807,7 @@ foldl {W = W} f i (Deep pr ft sf) =
   foldl-dig f
             (foldl (foldl-node f)
                    (foldl-dig f i pr)
-                   ft
-            )
+                   ft)
             sf
 
 
@@ -821,6 +828,14 @@ assoc-lemma6 {V = V} ⦃ mo ⦄ = assoc-lemma6'
    where
       open MonoidSolver V mo
       assoc-lemma6' = assoc-lemma-5v
+
+assoc-lemma7 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄
+            → (a : V) → (b : V)
+            → (ε ∙ a) ∙ b ≡ (a ∙ ε) ∙ b
+assoc-lemma7 {V = V} ⦃ mo ⦄ = assoc-lemma7'
+  where
+    open MonoidSolver V mo
+    assoc-lemma7' = assoc-lemma-7
 
 foldl-node-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
         → (v : V) → (node : Node A V) → (foldl-node foldfun v node) ≡ (v ∙ measure-node node)
@@ -977,11 +992,6 @@ toList1 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured
       {μ : V} → (ft : FingerTree A V {μ}) → (List A)
 toList1 ft = foldl foldfun-list [] ft
 
-pack : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-    {v : V} → FingerTree A V {v} → Σ V (λ v → FingerTree A V {v})
-pack ft = ⟨ measure-tree ft , ft ⟩
-
-
 cons-correct : ∀ {a}{A : Set a}{V : Set a }
         ⦃ mo : Monoid V ⦄
         ⦃ m : Measured A V ⦄
@@ -1013,43 +1023,45 @@ cons-correct x (Deep (Four a b c d) ft sf)
   ∎
 
 
-viewl-single-lemma : ∀ {a} {A : Set a} {V : Set a}
-            ⦃ mo : Monoid V ⦄
-            ⦃ m : Measured A V ⦄
-            → (e : A)
-            → (viewL {A = A} {V = V} (Single e) ≇ NilL {A = A} {V = V})
-viewl-single-lemma ⦃ mo ⦄ ⦃ m ⦄ e with viewL (Single e) | sym (Monoid.ε-right mo ∥ e ∥)
-... | v | r = {!   !}
-
-viewl-empty-lemma : ∀ {a} {A : Set a} {V : Set a}
-            ⦃ mo : Monoid V ⦄
-            ⦃ m : Measured A V ⦄
-            → {v : V}
-            → (ft : FingerTree A V {v})
-            → (viewL ft ≅ NilL {A = A} {V = V})
-            → (ft ≅ Empty {A = A} {V = V})
-viewl-empty-lemma Empty prop = {!   !}
-viewl-empty-lemma {V = V}⦃ mo ⦄ ⦃ m ⦄{v = .(∥ e ∥)} (Single e) prop = {!  !}
-viewl-empty-lemma (Deep pr ft sf) prop = {!   !}
-
-
-toList-deepL-lemma : ∀ {a} {A : Set a}{V : Set a}
-            ⦃ mo : Monoid V ⦄
-            ⦃ m : Measured A V ⦄
-            → {v : V}
-            → (pr : Maybe (Digit A))
-            → (ft : FingerTree (Node A V) V {v})
-            → (sf : Digit A)
-            → toList-ft (deepL pr ft sf) ≡ toList-maybe-dig pr
-                                          ++ (flatten-list (toList-ft ft))
-                                          ++ toList-dig sf
-toList-deepL-lemma (just x) ft sf = refl
-toList-deepL-lemma nothing ft sf with viewL ft
-toList-deepL-lemma ⦃ mo ⦄ nothing ft sf
-  | NilL rewrite (Monoid.ε-left mo) (ε ∙ measure-digit sf)
-           | (Monoid.ε-left mo) (measure-digit sf)
-  = {!   !}
-toList-deepL-lemma nothing ft sf | ConsL x xs = {!   !}
+-- VIEWL PROOFS THAT FAILED
+--
+-- viewl-single-lemma : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → (e : A)
+--             → (viewL {A = A} {V = V} (Single e) ≇ NilL {A = A} {V = V})
+-- viewl-single-lemma ⦃ mo ⦄ ⦃ m ⦄ e with viewL (Single e) | sym (Monoid.ε-right mo ∥ e ∥)
+-- ... | v | r = {!   !}
+--
+-- viewl-empty-lemma : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {v : V}
+--             → (ft : FingerTree A V {v})
+--             → (viewL ft ≅ NilL {A = A} {V = V})
+--             → (ft ≅ Empty {A = A} {V = V})
+-- viewl-empty-lemma Empty prop = {!   !}
+-- viewl-empty-lemma {V = V}⦃ mo ⦄ ⦃ m ⦄{v = .(∥ e ∥)} (Single e) prop = {!  !}
+-- viewl-empty-lemma (Deep pr ft sf) prop = {!   !}
+--
+--
+-- toList-deepL-lemma : ∀ {a} {A : Set a}{V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {v : V}
+--             → (pr : Maybe (Digit A))
+--             → (ft : FingerTree (Node A V) V {v})
+--             → (sf : Digit A)
+--             → toList-ft (deepL pr ft sf) ≡ toList-maybe-dig pr
+--                                           ++ (flatten-list (toList-ft ft))
+--                                           ++ toList-dig sf
+-- toList-deepL-lemma (just x) ft sf = refl
+-- toList-deepL-lemma nothing ft sf with viewL ft
+-- toList-deepL-lemma ⦃ mo ⦄ nothing ft sf
+--   | NilL rewrite (Monoid.ε-left mo) (ε ∙ measure-digit sf)
+--            | (Monoid.ε-left mo) (measure-digit sf)
+--   = {!   !}
+-- toList-deepL-lemma nothing ft sf | ConsL x xs = {!   !}
 
 
 viewl-to-ft : ∀ {a} {A : Set a} {V : Set a}
@@ -1079,24 +1091,143 @@ viewl-correct : ∀ {a}{A : Set a} {V : Set a}
 viewl-correct NilL = refl
 viewl-correct (ConsL x xs) = sym (cons-correct x xs)
 
-viewL-correct : ∀ {a}{A : Set a} {V : Set a}
-              ⦃ mo : Monoid V ⦄
-              ⦃ m : Measured A V ⦄
-              → {v : V}
-              → (ft : FingerTree A V {v})
-              → (toList-view (viewL ft) ≡ toList-ft ft)
-viewL-correct Empty = refl
-viewL-correct ⦃ mo = mo ⦄ (Single e)
-  rewrite sym (Monoid.ε-right mo (∥ e ∥))
-  = refl
-viewL-correct (Deep pr ft sf)
-  rewrite measure-digit-lemma1 pr ft sf
-  = {!   !}
+-- viewL-correct : ∀ {a}{A : Set a} {V : Set a}
+--               ⦃ mo : Monoid V ⦄
+--               ⦃ m : Measured A V ⦄
+--               → {v : V}
+--               → (ft : FingerTree A V {v})
+--               → (toList-view (viewL ft) ≡ toList-ft ft)
+-- viewL-correct Empty = refl
+-- viewL-correct ⦃ mo = mo ⦄ (Single e)
+--   rewrite sym (Monoid.ε-right mo (∥ e ∥))
+--   = refl
+-- viewL-correct (Deep pr ft sf)
+--   rewrite measure-digit-lemma1 pr ft sf
+--   = {!   !}
 
 
+measure-list : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → List A
+          → V
+measure-list [] = ε
+measure-list (x ∷ xs) = ∥ x ∥ ∙ (measure-list xs)
+
+foldfun-lemma : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (x : V)
+          → (y : A)
+          → (x ∙ (foldfun ε y) ≡ foldfun x y)
+foldfun-lemma x y =
+  begin
+    x ∙ (foldfun ε y)
+  ≡⟨ refl ⟩
+    x ∙ (ε ∙ ∥ y ∥)
+  ≡⟨ ∙-assoc x ε (∥ y ∥) ⟩
+    (x ∙ ε) ∙ ∥ y ∥
+  ≡⟨ (cong (_∙ ∥ y ∥) (ε-right x)) ⟩
+    x ∙ ∥ y ∥
+  ∎
+
+fold-monoid-lemma : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (x : V)
+          → (xs : List A)
+          → (x ∙ Data.List.foldl foldfun ε xs ≡ Data.List.foldl foldfun x xs)
+fold-monoid-lemma x [] = ε-right x
+fold-monoid-lemma x (y ∷ xs) =
+  begin
+    x ∙ (Data.List.foldl foldfun (foldfun ε y) xs)
+  ≡⟨ cong (x ∙_) (sym (fold-monoid-lemma (foldfun ε y) xs)) ⟩
+    x ∙ (foldfun ε y) ∙ (Data.List.foldl foldfun ε xs)
+  ≡⟨ ∙-assoc x (foldfun ε y) (Data.List.foldl foldfun ε xs) ⟩
+    (x ∙ (foldfun ε y)) ∙ (Data.List.foldl foldfun ε xs)
+  ≡⟨ cong (_∙ (Data.List.foldl foldfun ε xs)) (foldfun-lemma x y) ⟩
+    (foldfun x y) ∙ (Data.List.foldl foldfun ε xs)
+  ≡⟨ fold-monoid-lemma (foldfun x y) xs ⟩
+    Data.List.foldl foldfun (foldfun x y) xs
+  ∎
+
+measure-list-lemma : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (xs : List A)
+          → (measure-list xs ≡ Data.List.foldl foldfun (Monoid.ε mo) xs)
+measure-list-lemma [] = refl
+measure-list-lemma (x ∷ xs) =
+  begin
+    ∥ x ∥ ∙ (measure-list xs)
+  ≡⟨ cong (∥ x ∥ ∙_) (measure-list-lemma xs) ⟩
+    ∥ x ∥ ∙ (Data.List.foldl foldfun ε xs)
+  ≡⟨ fold-monoid-lemma (∥ x ∥) xs ⟩
+    Data.List.foldl foldfun ∥ x ∥ xs
+  ≡⟨ cong (λ a → Data.List.foldl foldfun a xs) (sym (ε-left ∥ x ∥)) ⟩
+    Data.List.foldl foldfun (ε ∙ ∥ x ∥) xs
+  ≡⟨ cong (λ a → Data.List.foldl foldfun a xs) refl ⟩
+    Data.List.foldl foldfun (foldfun ε x) xs
+  ∎
+
+append-measure-lemma :  ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (μ : V)
+          → (x : A)
+          → (xs : List A)
+          → (μ ∙ (measure-list (x ∷ xs)) ≡
+             (μ ∙ ∥ x ∥) ∙ (measure-list xs))
+append-measure-lemma μ x xs =
+  begin
+    μ ∙ (measure-list (x ∷ xs))
+  ≡⟨ cong (μ ∙_) refl ⟩
+    (μ ∙ ((∥ x ∥) ∙ (measure-list xs)))
+  ≡⟨ ∙-assoc μ (∥ x ∥) (measure-list xs) ⟩
+    (μ ∙ ∥ x ∥) ∙ (measure-list xs)
+  ∎
+
+toList-ft-measure-correct : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {μ : V}
+          → (xs : FingerTree A V {μ})
+          → (measure-list (toList-ft xs) ≡ measure-tree xs)
+toList-ft-measure-correct xs =
+  begin
+    measure-list (toList-ft xs)
+  ≡⟨ measure-list-lemma (toList-ft xs) ⟩
+    Data.List.foldl foldfun ε (toList-ft xs)
+  ≡⟨ sym (foldl-correct foldfun ε xs) ⟩
+    foldl foldfun ε xs
+  ≡⟨ foldl-lemma0 ε xs ⟩
+    ε ∙ (measure-tree xs)
+  ≡⟨ ε-left (measure-tree xs) ⟩
+    measure-tree xs
+  ∎
 
 
+append : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {μ : V}
+          → FingerTree A V {μ}
+          → (ys : List A)
+          → FingerTree A V {μ ∙ (measure-list ys)}
+append xs [] rewrite ε-right (measure-tree xs)
+      = xs
+append xs (y ∷ ys) rewrite (append-measure-lemma (measure-tree xs) y ys)
+      = append (y ▷ xs) ys
 
+concat :  ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {μ : V} {σ : V}
+          → FingerTree A V {μ}
+          → FingerTree A V {σ}
+          → FingerTree A V {μ ∙ σ}
+concat xs ys rewrite sym (toList-ft-measure-correct ys)
+      = append xs (toList-ft ys)
 
 open import numbers
 

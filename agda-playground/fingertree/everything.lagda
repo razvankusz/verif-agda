@@ -370,6 +370,61 @@ split-Tree-if p i pr ft sf true pr1 vft pr2
   = split-Tree1 p i pr ft sf
   -- case1 : predicate becomes true in prefix
 \end{code}
+
+
+-- sizeW
+\begin{code}
+data SizeW {a} : Set a  where
+  size : ∀ (n : ℕ) → SizeW {a}
+
+ε : ∀ {a : Level} → SizeW {a}
+ε = size 0
+
+_∙_ :  ∀ {a} → SizeW {a} → SizeW {a} → SizeW {a}
+size n ∙ size m = size (n + m)
+\end{code}
+
+-- monoid and measure c
+\begin{code}
+-- assign a constant value of 1 to any entry.
+measure : ∀ {a}{A : Set a} → (x : Entry A) → SizeW {a}
+measure x = SizeW.size 1
+
+-- by using the instance keyword, the methods that require an argument
+-- of this type, specified by ⦃_⦄, will be able to access it.
+instance entry-measure : ∀{a}{A : Set a} → Measured (Entry A) SizeW
+entry-measure = measured measure
+
+instance size-monoid : ∀ {a} → Monoid (SizeW {a})
+size-monoid = ...
+\end{code}
+
+-- seq instance
+\begin{code}
+Seq : ∀ {a}(A : Set a) SizeW → Set a
+Seq {a} A s = FingerTree (Entry A) (SizeW {a}) {s}
+\end{code}
+
+
+-- tab
+\begin{code}
+_!_ : ∀ {a}{A : Set a}{s : SizeW} → Seq A s → ℕ → Maybe A
+seq ! n with split-Tree (λ x → size n SizeW.< x) SizeW.ε seq
+seq ! n | just (split-d _ x _) = just (getEntry x)
+seq ! n | nothing = nothing
+\end{code}
+
+-- set
+\begin{code}
+set : ∀ {a}{A : Set a}{s : SizeW} → Seq A s → ℕ → A → Seq A s
+set seq n y with split-Tree (λ x → size n SizeW.< x) SizeW.ε seq
+set seq n y | just (split-d left x right)
+  rewrite ∙-assoc (measure-tree left)
+                  (size 1)
+                  (measure-tree right)
+  = concat ((entry y) ▷ left) right
+set seq n y | nothing = seq
+\end{code}
 -- -- cons-deep-one
 -- \begin{code}
 -- a ◁ Deep (One b) ft sf rewrite

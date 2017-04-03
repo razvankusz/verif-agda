@@ -35,19 +35,6 @@ data FingerTree {a : Level} (A : Set a)(V : Set a ) : {i : Size} → Set a where
   Single : ∀ {i : Size} → A → FingerTree A V {↑ i}
   Deep   : ∀ {i : Size} → V → Digit A → FingerTree (Node A V) V {i} → Digit A →
            FingerTree A V {↑ i}
-
--- data Digit {a : Level} (A : Set a) : {i : ℕ} → Set a where
---   One   : A → Digit A {1}
---   Two   : A → A → Digit A {2}
---   Three : A → A → A → Digit A {3}
---   Four  : A → A → A → A → Digit A {4}
---
--- data FingerTree {a : Level} (A : Set a)(V : Set a ) : {i : ℕ} → Set a where
---   Empty  : FingerTree A V {0}
---   Single : A → FingerTree A V {1}
---   Deep   : ∀ {n m p : ℕ} → V → Digit A {n} → FingerTree (Node A V) V {m} → Digit A {p} →
---            FingerTree A V {n + m + p}
-
 open import AlgebraStructures
 
 open Measured {{...}} public
@@ -618,8 +605,12 @@ measureList : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measu
 measureList xs = Data.List.foldr (λ x r → ∥ x ∥ ∙ r) ε xs
 
 
-view-lemma3 : ∀ {a}{A : Set a} {V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
-            (viewL ft ≡ NilL) → (ft ≡ Empty)
+view-lemma3 : ∀ {a}{A : Set a} {V : Set a }
+              ⦃ mo : Monoid V ⦄
+              ⦃ m : Measured A V ⦄
+              → (ft : FingerTree A V)
+              → (viewL ft ≡ NilL)
+              → (ft ≡ Empty)
 view-lemma3 Empty p = refl
 view-lemma3 (Single x) ()
 view-lemma3 (Deep x x₁ ft x₂) ()
@@ -656,20 +647,20 @@ toTree-measure-lemma0 ⦃ mo ⦄ (x ∷ xs) = begin
                                           ∥ x ∥ ∙ (measure-tree (toTree xs))
                                          ≡⟨ sym (measure-lemma5 x (toTree xs)) ⟩
                                           measure-tree (toTree (x ∷ xs)) ∎
-
--- this is not true in general, same fallacy caused by the fact that our data structure is NOT dependently typed. There's no guarantee that the correct constructors are in use.
-toList-measure-lemma0 : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
-  (measure-tree ft ≡ (measureList (toList-ft ft)))
-toList-measure-lemma0 ft = {!   !}
-
--- same goes for this one. I can enforce equality to constraint the measure, in which case I get this for free.
-measure-equal-lemma0 :  ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (f1 : FingerTree A V) → (f2 : FingerTree A V) →
-                  (f1 == f2) → (measure-tree f1 ≡ measure-tree f2)
-measure-equal-lemma0 f1 f2 (leq .f1 .f2 x) = {!   !}
-
-toList-view-lemma0 : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : A) → (f : FingerTree A V)
-                → (ft : FingerTree A V) → (viewL ft ≡ ConsL x f) → (∥ x ∥ ∙ measure-tree f ≡ measure-tree ft)
-toList-view-lemma0 x f ft pr = {!   !}
+--
+-- -- this is not true in general, same fallacy caused by the fact that our data structure is NOT dependently typed. There's no guarantee that the correct constructors are in use.
+-- toList-measure-lemma0 : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (ft : FingerTree A V) →
+--   (measure-tree ft ≡ (measureList (toList-ft ft)))
+-- toList-measure-lemma0 ft = {!   !}
+--
+-- -- same goes for this one. I can enforce equality to constraint the measure, in which case I get this for free.
+-- measure-equal-lemma0 :  ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (f1 : FingerTree A V) → (f2 : FingerTree A V) →
+--                   (f1 == f2) → (measure-tree f1 ≡ measure-tree f2)
+-- measure-equal-lemma0 f1 f2 (leq .f1 .f2 x) = {!   !}
+--
+-- toList-view-lemma0 : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : A) → (f : FingerTree A V)
+--                 → (ft : FingerTree A V) → (viewL ft ≡ ConsL x f) → (∥ x ∥ ∙ measure-tree f ≡ measure-tree ft)
+-- toList-view-lemma0 x f ft pr = {!   !}
  -- measure-lemma5 x Empty =
 --         begin ∥ x ∥ ≡⟨ sym (ε-right ∥ x ∥) ⟩ ∥ x ∥ ∙ ε ∎
 -- measure-lemma5 x (Single y) =
