@@ -356,6 +356,7 @@ viewl-lemma : ∀ {a : Level}{A : Set a}(ft : FingerTree A)
 viewl-lemma Empty prop = refl
 viewl-lemma (Single x) ()
 viewl-lemma (Deep x ft x₁) ()
+
 -- (Deep {i} pr m sf) z = pr ⤙′ (m ⤙″ (sf ⤙′ z))
 -- (reducerDigit fun) x (reducerFingerTree (reducerNode fun) ft ((reducerDigit fun) x₁ z))
 fingertree-reduce : ∀  {A} (ft : FingerTree A) → (fun : A → A → A) → (base : A) →

@@ -98,21 +98,33 @@ node3 x y z = Node3 (∥ x ∥ ∙ ∥ y ∥ ∙ ∥ z ∥) x y z refl
 measure-tree : ∀ {a}{A : Set a}{V : Set a}{s : V}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → FingerTree A V {s} → V
 measure-tree {_}{_}{_}{s} ft = s
 
-measure-lemma0 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x : V) → (y : V) →
-            (x ∙ ε ∙ y) ≡ x ∙ y
-measure-lemma0 x y = begin
-                        x ∙ ε ∙ y ≡⟨ ∙-assoc x ε y ⟩
-                     (x ∙ ε) ∙ y ≡⟨ cong (λ z → z ∙ y) (ε-right x) ⟩ x ∙ y ∎
+measure-lemma0 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+              → (x : V)
+              → (y : V)
+              → (x ∙ ε ∙ y) ≡ x ∙ y
+measure-lemma0 x y =
+  begin
+    x ∙ ε ∙ y
+  ≡⟨ ∙-assoc x ε y ⟩
+    (x ∙ ε) ∙ y
+  ≡⟨ cong (λ z → z ∙ y) (ε-right x) ⟩
+    x ∙ y
+  ∎
 
-measure-lemma1 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (b : A) → ((mo Monoid.∙ Monoid.ε mo) (measure-digit (One b)) ≡ Measured.∥ m ∥ b)
-measure-lemma1 ⦃ mo ⦄ ⦃ m ⦄ b = begin (mo Monoid.∙ Monoid.ε mo) (measure-digit (One b))
-                                  ≡⟨ ε-left (measure-digit (One b)) ⟩
-                                  ∥ b ∥  ∎
+measure-lemma1 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+              → (b : A)
+              → ((mo Monoid.∙ Monoid.ε mo) (measure-digit (One b)) ≡ Measured.∥ m ∥ b)
+measure-lemma1 ⦃ mo ⦄ ⦃ m ⦄ b =
+  begin
+    (mo Monoid.∙ Monoid.ε mo) (measure-digit (One b))
+  ≡⟨ ε-left (measure-digit (One b)) ⟩
+    ∥ b ∥
+  ∎
 
-
-assoc-lemma1 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (a : A) → (e : A) →
-              (mo Monoid.∙ Measured.∥ m ∥ a) (Measured.∥ m ∥ e) ≡ (mo Monoid.∙ Measured.∥ m ∥ a)
-     ((mo Monoid.∙ Monoid.ε mo) (Measured.∥ m ∥ e))
+assoc-lemma1 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+              → (a : A)
+              → (e : A) →
+              (mo Monoid.∙ Measured.∥ m ∥ a) (Measured.∥ m ∥ e) ≡ (mo Monoid.∙ Measured.∥ m ∥ a) ((mo Monoid.∙ Monoid.ε mo) (Measured.∥ m ∥ e))
 assoc-lemma1 a e = cong (λ x → ∥ a ∥ ∙ x) (sym (ε-left ∥ e ∥))
 
 assoc-lemma2 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (a : A) → (b : A) → (c : A) → (d : A) → (e : A) → (s : V) → (f : V)
@@ -123,14 +135,16 @@ assoc-lemma2 : ∀ {a}{A : Set a}{V : Set a}⦃ mo : Monoid V ⦄ ⦃ m : Measur
           ((mo Monoid.∙ Measured.∥ m ∥ d) (Measured.∥ m ∥ e)))
          s)
         f)
-assoc-lemma2 a b c d e s f = begin ∥ a ∥ ∙ ((∥ b ∥ ∙ ∥ c ∥ ∙ ∥ d ∥ ∙ ∥ e ∥) ∙ (s ∙ f))
-                            ≡⟨ cong (λ x → ∥ a ∥ ∙ x) (sym (∙-assoc (∥ b ∥) (∥ c ∥ ∙ ∥ d ∥ ∙ ∥ e ∥) (s ∙ f))) ⟩ ∥ a ∥ ∙ (∥ b ∥ ∙ (( ∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)))
-                            ≡⟨ ∙-assoc (∥ a ∥) (∥ b ∥) (( ∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)) ⟩ (∥ a ∥ ∙ ∥ b ∥) ∙ (∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)
-                            ≡⟨ cong (λ x → (∥ a ∥ ∙ ∥ b ∥) ∙ x) ((∙-assoc (∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) s f)) ⟩ refl
-
-
-
-
+assoc-lemma2 a b c d e s f =
+  begin
+    ∥ a ∥ ∙ ((∥ b ∥ ∙ ∥ c ∥ ∙ ∥ d ∥ ∙ ∥ e ∥) ∙ (s ∙ f))
+  ≡⟨ cong (λ x → ∥ a ∥ ∙ x) (sym (∙-assoc (∥ b ∥) (∥ c ∥ ∙ ∥ d ∥ ∙ ∥ e ∥) (s ∙ f))) ⟩
+    ∥ a ∥ ∙ (∥ b ∥ ∙ (( ∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)))
+  ≡⟨ ∙-assoc (∥ a ∥) (∥ b ∥) (( ∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)) ⟩
+    (∥ a ∥ ∙ ∥ b ∥) ∙ (∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) ∙ (s ∙ f)
+  ≡⟨ cong (λ x → (∥ a ∥ ∙ ∥ b ∥) ∙ x)
+    ((∙-assoc (∥ c ∥ ∙ (∥ d ∥ ∙ ∥ e ∥)) s f)) ⟩
+  refl
 
 infixr 5 _◁_
 _◁_ : ∀ {a} {A : Set a} {V : Set a}
@@ -169,8 +183,6 @@ list-monoid1 = Monoid.monoid [] (_++_) []+ +[] ++assoc (λ _ _₁ → ℕ)
 ex-ft : FingerTree ℕ (List ℕ)
 ex-ft = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ 6 ◁ 7 ◁ 8 ◁ Empty
 
-
-
 snoc-assoc-lemma1 : ∀ {a} {V : Set a} ⦃ mo : Monoid V ⦄ → (m : V) → (n : V) → (p : V) → (q : V) →
            ((m ∙ (n ∙ p)) ∙ q) ≡ (m ∙ (n ∙ (p ∙ q)))
 snoc-assoc-lemma1 m n p q = begin ((m ∙ (n ∙ p)) ∙ q)
@@ -183,32 +195,45 @@ snoc-assoc-lemma1 m n p q = begin ((m ∙ (n ∙ p)) ∙ q)
 
 snoc-assoc-lemma2 : ∀ {a} {V : Set a} ⦃ mo : Monoid V ⦄ → (m : V) → (n : V) → (p : V) → (q : V) → (r : V) →
           (m ∙ n ∙ (p ∙ q)) ∙ r ≡ (m ∙ (n ∙ p ∙ (q ∙ r)))
-snoc-assoc-lemma2 m n p q r = begin (m ∙ n ∙ (p ∙ q)) ∙ r
-                              ≡⟨ sym (∙-assoc m (n ∙ p ∙ q) r) ⟩
-                              m ∙ ((n ∙ p ∙ q) ∙ r)
-                              ≡⟨ cong (λ x → m ∙ x) (snoc-assoc-lemma1  n p q r) ⟩
-                              m ∙ n ∙ p ∙ q ∙ r ∎
+snoc-assoc-lemma2 m n p q r =
+  begin
+    (m ∙ n ∙ (p ∙ q)) ∙ r
+  ≡⟨ sym (∙-assoc m (n ∙ p ∙ q) r) ⟩
+    m ∙ ((n ∙ p ∙ q) ∙ r)
+  ≡⟨ cong (λ x → m ∙ x) (snoc-assoc-lemma1  n p q r) ⟩
+    m ∙ n ∙ p ∙ q ∙ r
+  ∎
 
 snoc-assoc-lemma3 : ∀ {a} {V : Set a} ⦃ mo : Monoid V ⦄ → (m : V) → (n : V) → (p : V) → (q : V) → (r : V) → (s : V) →
           (m ∙ n ∙ p ∙ (q ∙ r)) ∙ s ≡ (m ∙ (n ∙ (p ∙ (q ∙ (r ∙ s)))))
-snoc-assoc-lemma3 m n p q r s = begin (m ∙ n ∙ p ∙ q ∙ r) ∙ s
-                                ≡⟨ sym (∙-assoc m (n ∙ p ∙ q ∙ r) s) ⟩
-                                m ∙ (n ∙ p ∙ q ∙ r) ∙ s
-                                ≡⟨ cong (λ x → m ∙ x) (snoc-assoc-lemma2 n p q r s) ⟩
-                                m ∙ n ∙ p ∙ q ∙ r ∙ s ∎
+snoc-assoc-lemma3 m n p q r s =
+  begin
+    (m ∙ n ∙ p ∙ q ∙ r) ∙ s
+  ≡⟨ sym (∙-assoc m (n ∙ p ∙ q ∙ r) s) ⟩
+    m ∙ (n ∙ p ∙ q ∙ r) ∙ s
+  ≡⟨ cong (λ x → m ∙ x) (snoc-assoc-lemma2 n p q r s) ⟩
+    m ∙ n ∙ p ∙ q ∙ r ∙ s
+  ∎
 
 snoc-assoc-lemma4 :  ∀ {a} {V : Set a} ⦃ mo : Monoid V ⦄ → (m : V) → (n : V) → (p : V) → (q : V) → (r : V) → (s : V) → (t : V) →
           ((m ∙ n ∙ p ∙ q ∙ (r ∙ s))) ∙ t ≡ (m ∙ (n ∙ p ∙ q ∙ r) ∙ (s ∙ t))
-snoc-assoc-lemma4 m n p q r s t = begin ((m ∙ n ∙ p ∙ q ∙ (r ∙ s))) ∙ t
-                                  ≡⟨ sym (∙-assoc m (n ∙ p ∙ q ∙ r ∙ s) t) ⟩
-                                  m ∙ (n ∙ p ∙ q ∙ r ∙ s) ∙ t
-                                  ≡⟨ cong (λ x → m ∙ x ∙ t) (sym (snoc-assoc-lemma2 n p q r s)) ⟩
-                                  m ∙ ((n ∙ p ∙ q ∙ r) ∙ s) ∙ t
-                                  ≡⟨ (cong (λ x → m ∙ x) (sym (∙-assoc (n ∙ p ∙ q ∙ r) s t))) ⟩
-                                  m ∙ (n ∙ p ∙ q ∙ r) ∙ (s ∙ t) ∎
+snoc-assoc-lemma4 m n p q r s t =
+  begin
+    ((m ∙ n ∙ p ∙ q ∙ (r ∙ s))) ∙ t
+  ≡⟨ sym (∙-assoc m (n ∙ p ∙ q ∙ r ∙ s) t) ⟩
+    m ∙ (n ∙ p ∙ q ∙ r ∙ s) ∙ t
+  ≡⟨ cong (λ x → m ∙ x ∙ t) (sym (snoc-assoc-lemma2 n p q r s)) ⟩
+    m ∙ ((n ∙ p ∙ q ∙ r) ∙ s) ∙ t
+  ≡⟨ (cong (λ x → m ∙ x) (sym (∙-assoc (n ∙ p ∙ q ∙ r) s t))) ⟩
+    m ∙ (n ∙ p ∙ q ∙ r) ∙ (s ∙ t)
+  ∎
 
 infixl 5 _▷_
-_▷_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {s : V} → (x : A) → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s} → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s ∙ ∥ x ∥}
+_▷_ : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+      {s : V}
+      → (x : A)
+      → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s}
+      → FingerTree A V ⦃ mo ⦄ ⦃ m ⦄ {s ∙ ∥ x ∥}
 _▷_ {l} {A} {V} ⦃ mo ⦄ a Empty rewrite (Monoid.ε-left mo) ∥ a ∥ = Single {l}{A}{V} a
 _▷_ {l} {A} {V} ⦃ mo ⦄ ⦃ m ⦄ a (Single e) rewrite (cong (λ x → ∥ e ∥ ∙ x) (sym (Monoid.ε-left mo ∥ a ∥))) = Deep (One e) (Empty {l}{Node A V}{V}) (One a)
 a ▷ Deep pr ft (One b) rewrite (snoc-assoc-lemma1 (measure-digit pr) (measure-tree ft) (∥ b ∥) (∥ a ∥)) = Deep pr ft (Two b a)
@@ -250,7 +275,8 @@ toList-ft : ∀ {a}{A : Set a}{V : Set a }
 toList-ft Empty = []
 toList-ft (Single x) = x ∷ []
 toList-ft (Deep x₁ ft x₂) = (toList-dig x₁) ++
-                            (flatten-list (toList-ft ft)) ++ (toList-dig x₂)
+                            (flatten-list (toList-ft ft)) ++
+                            (toList-dig x₂)
 
 
 --- View from the left ------------
@@ -267,8 +293,9 @@ tails-dig (Two x x₁) = just (One x₁)
 tails-dig (Three x x₁ x₂) = just (Two x₁ x₂)
 tails-dig (Four x x₁ x₂ x₃) = just (Three x₁ x₂ x₃)
 
-measure-dig-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (d : Digit A) →
-      (∥ head-dig d ∥ ∙ measure-maybe-digit ⦃ mo ⦄ (tails-dig d) ≡ measure-digit d)
+measure-dig-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+                → (d : Digit A)
+                → (∥ head-dig d ∥ ∙ measure-maybe-digit ⦃ mo ⦄ (tails-dig d) ≡ measure-digit d)
 measure-dig-lemma0 (One a) = ε-right ∥ a ∥
 measure-dig-lemma0 (Two a b) = refl
 measure-dig-lemma0 (Three a b c) = refl
@@ -276,11 +303,14 @@ measure-dig-lemma0 (Four a b c d) = refl
 
 measure-digit-lemma1 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {s : V} → (pr : Digit A) → (ft : FingerTree (Node A V) V {s}) → (sf : Digit A) →
    ((measure-digit pr) ∙ (s ∙ measure-digit sf))  ≡ (∥ head-dig pr ∥ ∙ (measure-maybe-digit (tails-dig pr) ∙ (s ∙ measure-digit sf)))
-measure-digit-lemma1 {s = s} pr ft sf = begin ((measure-digit pr) ∙ (s ∙ measure-digit sf))
-                                        ≡⟨ cong (λ x → x ∙ (s ∙ measure-digit sf)) (sym (measure-dig-lemma0 pr)) ⟩
-                                        (∥ head-dig pr ∥ ∙ (measure-maybe-digit (tails-dig pr))) ∙ (s ∙ measure-digit sf)
-                                        ≡⟨ sym (∙-assoc (∥ head-dig pr ∥) (measure-maybe-digit (tails-dig pr)) (s ∙ measure-digit sf)) ⟩
-                                        (∥ head-dig pr ∥ ∙ (measure-maybe-digit (tails-dig pr) ∙ (s ∙ measure-digit sf))) ∎
+measure-digit-lemma1 {s = s} pr ft sf =
+  begin
+    ((measure-digit pr) ∙ (s ∙ measure-digit sf))
+  ≡⟨ cong (λ x → x ∙ (s ∙ measure-digit sf)) (sym (measure-dig-lemma0 pr)) ⟩
+    (∥ head-dig pr ∥ ∙ (measure-maybe-digit (tails-dig pr))) ∙ (s ∙ measure-digit sf)
+  ≡⟨ sym (∙-assoc (∥ head-dig pr ∥) (measure-maybe-digit (tails-dig pr)) (s ∙ measure-digit sf)) ⟩
+    (∥ head-dig pr ∥ ∙ (measure-maybe-digit (tails-dig pr) ∙ (s ∙ measure-digit sf)))
+  ∎
 
 -- rewrite ∙-assoc (∥ head-dig pr ∥) (measure-maybe-digit (tails-dig pr)) (measure-tree ft ∙ measure-digit sf) |
 --                                             cong (λ x → x ∙ (measure-tree ft) ∙ (measure-digit sf)) (measure-dig-lemma0 ⦃ mo ⦄ ⦃ m ⦄ pr)
@@ -309,8 +339,9 @@ data ViewL {a}(A : Set a)(V : Set a)
           → (xs : FingerTree A V {z})
           → ViewL A V {∥ x ∥ ∙ z}
 
-assoc-lemma3 : ∀  {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x₁ : A) → (x₂ : A) → (z : V) → (sf : Digit A) →
-  ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)) ≡ (∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ (z ∙ measure-digit sf)
+assoc-lemma3 : ∀  {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+              → (x₁ : A) → (x₂ : A) → (z : V) → (sf : Digit A) →
+              ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)) ≡ (∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ (z ∙ measure-digit sf)
 assoc-lemma3 x₁ x₂ z sf = begin
                               ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf))
                           ≡⟨ ε-left (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)) ⟩
@@ -331,17 +362,6 @@ assoc-lemma4 x₁ x₂ x₃ z sf = begin
 
 
 mutual
-
-  -- viewL-single : ∀ {a} {A : Set a}{V : Set a }
-  --         ⦃ mo : Monoid V ⦄
-  --         ⦃ m : Measured A V ⦄
-  --         {i : V}
-  --         → (x : A)
-  --         → (v : V)
-  --         → (v ≡ ∥ x ∥)
-  --         → ((Monoid.ε mo) ∙ v ≡ v)
-  --         → (ViewL A V {∥ x ∥})
-  -- viewL-single {A = A} {V = V} x .(∥ x ∥) refl proof2 = {! ConsL x (Empty {A = A} {V = V}) !}
 
   viewL : ∀ {a} {A : Set a}{V : Set a }
           ⦃ mo : Monoid V ⦄
@@ -380,27 +400,6 @@ mutual
           | assoc-lemma4 x₁ x₂ x₃ (measure-tree x₄) sf
     = Deep (Three x₁ x₂ x₃) x₄ sf -- Deep (Three x₁ x₂ x₃) x₄ sf
 
-
--- headL : ∀ {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
---         (i ≢ ε) → (ft : FingerTree A V {i}) → A
--- headL nempty ft with viewL ft
--- headL nempty ft | NilL with nempty refl
--- headL nempty ft | NilL | ()
--- headL nempty ft | ConsL x xs = x
---
---
--- tailL : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid  V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
---         (i ≢ ε) → (ft : FingerTree A V {i}) → Σ V (λ x → FingerTree A V {x})
--- tailL nempty ft with viewL ft
--- tailL nempty ft | NilL with nempty refl
--- tailL nempty ft | NilL | ()
--- tailL nempty ft | ConsL x xs = measure-tree xs , xs
-
--- I am trying to implement headL and tailL functions without the viewL datastructure..
--- this would simplify all the proofs next.
--- Will only do the implementation for non-empty trees.
-
-
 headL : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
           (i ≢ ε) → (ft : FingerTree A V {i}) → A
 headL nempty Empty with nempty refl
@@ -411,8 +410,6 @@ headL nempty (Deep (Two x x₁) ft sf) = x
 headL nempty (Deep (Three x x₁ x₂) ft sf) = x
 headL nempty (Deep (Four x x₁ x₂ x₃) ft sf) = x
 
-tailL : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
-         (i ≢ ε) → (ft : FingerTree A V {i}) → Σ V (λ x → FingerTree A V {x})
 -- the result is a dependent pair that holds both the size and the tree.
 -- this way I can change the return type based on the construction of ft without
 -- making further assumptions about i
@@ -420,6 +417,8 @@ tailL : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A 
 -- the first attempt is to return the result of deepL, see if that yields any result.
 -- note that deepL is itself using the construct we are trying to avoid, so it might
 -- not work :()
+tailL : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
+         (i ≢ ε) → (ft : FingerTree A V {i}) → Σ V (λ x → FingerTree A V {x})
 tailL nempty Empty with nempty refl
 tailL nempty Empty | ()
 tailL nempty (Single e) = ⟨ ε , Empty ⟩
@@ -472,6 +471,7 @@ data ViewR {a}(A : Set a)(V : Set a) ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V 
   ConsR : ∀ {z : V} (x : A) → (xs : FingerTree A V {z}) → ViewR A V {z ∙ ∥ x ∥}
 
 mutual
+
   viewR :  ∀ {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {i : V} →
         FingerTree A V {i} → ViewR A V {i}
   viewR Empty = NilR
@@ -546,7 +546,68 @@ splitDigit-size-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ �
               (l : Maybe (Digit A)) → (x : A) → (r : Maybe(Digit A)) → -- flattened split
               (splitDigit p i d ≡ split l x r) →  -- proof on the split
               (measure-maybe-digit ⦃ mo ⦄ l ∙ ∥ x ∥ ∙ (measure-maybe-digit r) ≡ measure-digit d) -- statement
-splitDigit-size-lemma0 p i d l x r q = trustMe
+splitDigit-size-lemma0 p i (One x) .nothing .x .nothing refl =
+  begin
+    ε ∙ ∥ x ∥ ∙ ε
+  ≡⟨ ε-left (∥ x ∥ ∙ ε) ⟩
+    ∥ x ∥ ∙ ε
+  ≡⟨ ε-right ∥ x ∥ ⟩
+    ∥ x ∥
+  ∎
+splitDigit-size-lemma0 p i (Two x x₁) l x₂ r q with p i
+splitDigit-size-lemma0 p i (Two x x₁) .(just (One x)) .x₁ .nothing refl | false =
+  begin
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ε
+  ≡⟨ cong (λ a → ∥ x ∥ ∙ a) (ε-right (∥ x₁ ∥) ) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥
+  ∎
+splitDigit-size-lemma0 p i (Two x x₁) .nothing .x .(just (One x₁)) refl | true =
+  begin
+    ε ∙ (∥ x ∥ ∙ ∥ x₁ ∥)
+  ≡⟨ ε-left (∥ x ∥ ∙ ∥ x₁ ∥) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥
+  ∎
+splitDigit-size-lemma0 p i (Three x x₁ x₂) l x₃ r q with p i
+splitDigit-size-lemma0 p i (Three x x₁ x₂) l x₃ r q | false with (p (i ∙ ∥ x ∥))
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (Two x x₁)) .x₂ .nothing refl | false | false =
+  begin
+    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥ ∙ ε
+  ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥) ∙ a) (ε-right ∥ x₂ ∥) ⟩
+    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥
+  ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥)) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
+  ∎
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (One x)) .x₁ .(just (One x₂)) refl | false | true = refl
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .nothing .x .(just (Two x₁ x₂)) refl | true =
+  begin
+    ε ∙ (∥ x ∥ ∙ (∥ x₁ ∥ ∙ ∥ x₂ ∥ ))
+  ≡⟨ ε-left (∥ x ∥ ∙ (∥ x₁ ∥ ∙ ∥ x₂ ∥ ))⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
+  ∎
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q with p i
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q | false with (p (i ∙ ∥ x ∥))
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q | false | false with (p ( i ∙ ∥ x ∥ ∙ ∥ x₁ ∥))
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Three x x₁ x₂)) .x₃ .nothing refl | false | false | false =
+  begin
+    (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥ ∙ ε
+  ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ a) (ε-right ∥ x₃ ∥) ⟩
+    (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥
+  ≡⟨ snoc-assoc-lemma1 (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥) (∥ x₃ ∥) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+  ∎
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Two x x₁)) .x₂ .(just (One x₃)) refl | false | false | true =
+  begin
+    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ (∥ x₂ ∥ ∙ ∥ x₃ ∥)
+  ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥ ∙ ∥ x₃ ∥)) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+  ∎
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (One x)) .x₁ .(just (Two x₂ x₃)) refl | false | true = refl
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .nothing .x .(just (Three x₁ x₂ x₃)) refl | true =
+  begin
+    ε ∙ ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+  ≡⟨ ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ⟩
+    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+  ∎
 -- now, defining a dependently typed split.
 
 data Split-d {a} (A : Set a) (V : Set a)
@@ -589,13 +650,31 @@ split-Tree1 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Meas
 split-Tree1 p i pr ft sf with splitDigit p i pr | inspect (splitDigit p i) pr
 split-Tree1 p i pr ft sf | split l x r | [ eq ] rewrite split-Tree1-measure-lemma p i pr ft sf l x r eq = split-d (toTree-maybe-dig l) x (deepL r ft sf)
 
+import MonoidSolver
+
+assoc-lemma8 : ∀ {l}{V : Set l} ⦃ mo : Monoid V ⦄
+            → (a : V) → (b : V) → (c : V) → (d : V) → (e : V) →
+            (a ∙ b ∙ c) ∙ d ∙ e ≡ a ∙ b ∙ (c ∙ d ∙ e)
+assoc-lemma8 {V = V} ⦃ mo ⦄ = assoc-lemma8'
+  where
+    open MonoidSolver V mo
+    assoc-lemma8' = assoc-lemma-8ms
+
+
 split-Tree2-measure-lemma : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ : V} →
               (p : V → Bool) → (i : V) → -- predicate and initial value
               (pr : Digit A) → (ft : FingerTree (Node A V) V {μ}) → (sf : Digit A) →  -- flattened deep constructor
               (l : Maybe (Digit A)) → (x : A) → (r : Maybe(Digit A)) → -- flattened split
               (splitDigit p i sf ≡ split l x r) →  -- proof on the split
               measure-digit ⦃ mo ⦄ pr ∙ μ ∙ measure-digit sf ≡ (measure-digit pr ∙ μ ∙ measure-maybe-digit l) ∙ ∥ x ∥ ∙ (measure-tree (toTree-maybe-dig r))
-split-Tree2-measure-lemma p i pr ft sf l x r eq = trustMe
+split-Tree2-measure-lemma p i pr ft sf l x r eq =
+  begin
+    measure-digit pr ∙ measure-tree ft ∙ measure-digit sf
+  ≡⟨ cong (λ a → measure-digit pr ∙ measure-tree ft ∙ a) (sym (splitDigit-size-lemma0 p i sf l x r eq)) ⟩
+    measure-digit pr ∙ measure-tree ft ∙ measure-maybe-digit l ∙ ∥ x ∥ ∙ measure-maybe-digit r
+  ≡⟨ sym (assoc-lemma8 (measure-digit pr) (measure-tree ft) (measure-maybe-digit l) (∥ x ∥) (measure-maybe-digit r)) ⟩
+    (measure-digit pr ∙ measure-tree ft ∙ measure-maybe-digit l) ∙ ∥ x ∥ ∙ measure-maybe-digit r
+  ∎
 
 split-Tree2 : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ : V} →
               (p : V → Bool) → (i : V) →
@@ -630,6 +709,24 @@ mutual
       vft = p ((i ∙ measure-digit pr) ∙ measure-tree ft)
 
 
+  measure-node-digit-lemma : ∀ {a} {A : Set a} {V : Set a}
+                            ⦃ mo : Monoid V ⦄
+                            ⦃ m : Measured A V ⦄
+                            → (n : Node A V)
+                            → (measure-node n ≡ measure-digit (toDigit n))
+  measure-node-digit-lemma (Node2 v x y p) = p
+  measure-node-digit-lemma (Node3 v x y z p) = p
+
+
+  assoc-lemma9 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄
+      → (a : V) → (b : V) → (c : V) → (d : V) → (e : V) → (f : V) → (g : V)
+      → (a ∙ b ∙ c) ∙ d ∙ (e ∙ f ∙ g) ≡ a ∙ (b ∙ (c ∙ d ∙ e) ∙ f) ∙ g
+  assoc-lemma9 {V = V} ⦃ mo ⦄ = assoc-lemma9'
+    where
+      open MonoidSolver V mo
+      assoc-lemma9' = assoc-lemma-9ms
+
+
   split-Tree3-measure-lemma : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ₁ : V}{μ₂ : V}→
                 (p : V → Bool) → (i : V) →
                 (pr : Digit A) → (sf : Digit A) →  -- flattened deep constructor
@@ -638,7 +735,21 @@ mutual
                 (splitDigit p (i ∙ measure-digit pr ∙ measure-tree ml) (toDigit mx) ≡ split l x r) → -- proof that the flattened split of mx is correct.
                 ((measure-digit pr ∙ (μ₁ ∙ (measure-node mx) ∙ μ₂) ∙ measure-digit sf) ≡
                 (measure-digit pr ∙ μ₁ ∙ measure-maybe-digit l) ∙ ∥ x ∥ ∙ (measure-maybe-digit r ∙ μ₂ ∙ measure-digit sf)) -- associativity lemma required
-  split-Tree3-measure-lemma p i pr sf ml mx mr l x r prf2 = trustMe
+  split-Tree3-measure-lemma p i pr sf ml mx mr l x r prf2 =
+      begin
+        (σpr ∙ (μ₁ ∙ (measure-node mx) ∙ μ₂) ∙ σsf)
+      ≡⟨ cong (λ a → σpr ∙ (μ₁ ∙ a ∙ μ₂) ∙ σsf) (measure-node-digit-lemma mx) ⟩
+        (σpr ∙ (μ₁ ∙ (measure-digit (toDigit mx)) ∙ μ₂) ∙ σsf)
+      ≡⟨ cong (λ a → σpr ∙ (μ₁ ∙ a ∙ μ₂) ∙ σsf) (sym (splitDigit-size-lemma0 p (i ∙ σpr ∙ μ₁) (toDigit mx) l x r prf2)) ⟩
+        σpr ∙ (μ₁ ∙ (measure-maybe-digit l ∙ ∥ x ∥ ∙ measure-maybe-digit r) ∙ μ₂) ∙ σsf
+      ≡⟨ sym (assoc-lemma9 σpr μ₁ (measure-maybe-digit l) (∥ x ∥) (measure-maybe-digit r) μ₂ σsf) ⟩
+        (σpr ∙ μ₁ ∙ (measure-maybe-digit l)) ∙ ∥ x ∥ ∙ (measure-maybe-digit r ∙ μ₂ ∙ σsf)
+      ∎
+      where
+        σpr = measure-digit pr
+        σsf = measure-digit sf
+        μ₁ = measure-tree ml
+        μ₂ = measure-tree mr
 
   split-Tree3 : ∀ {a} {A : Set a}{V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ {μ : V} →
                 (p : V → Bool) → (i : V) →
@@ -810,16 +921,13 @@ foldl {W = W} f i (Deep pr ft sf) =
                    ft)
             sf
 
-
-import MonoidSolver
-
 assoc-lemma5 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄ →
         (a : V) → (b : V) → (c : V) → (d : V)  →
         (((a ∙ b) ∙ c) ∙ d) ≡ a ∙ b ∙ c ∙ d
 assoc-lemma5 {l} {V} ⦃ mo ⦄ = assoc-lemma5'
   where
     open MonoidSolver V mo
-    assoc-lemma5' = assoc-lemma0
+    assoc-lemma5' = assoc-lemma0ms
 
 assoc-lemma6 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄
             → (a : V) → (b : V) → (c : V) → (d : V) → (e : V)
@@ -827,15 +935,15 @@ assoc-lemma6 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄
 assoc-lemma6 {V = V} ⦃ mo ⦄ = assoc-lemma6'
    where
       open MonoidSolver V mo
-      assoc-lemma6' = assoc-lemma-5v
+      assoc-lemma6' = assoc-lemma-5ms
 
 assoc-lemma7 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄
             → (a : V) → (b : V)
             → (ε ∙ a) ∙ b ≡ (a ∙ ε) ∙ b
 assoc-lemma7 {V = V} ⦃ mo ⦄ = assoc-lemma7'
-  where
-    open MonoidSolver V mo
-    assoc-lemma7' = assoc-lemma-7
+    where
+      open MonoidSolver V mo
+      assoc-lemma7' = assoc-lemma-7ms
 
 foldl-node-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
         → (v : V) → (node : Node A V) → (foldl-node foldfun v node) ≡ (v ∙ measure-node node)
@@ -1064,6 +1172,8 @@ cons-correct x (Deep (Four a b c d) ft sf)
 -- toList-deepL-lemma nothing ft sf | ConsL x xs = {!   !}
 
 
+-- VIEWL PROOFS ----------------------------------------------------------------
+
 viewl-to-ft : ∀ {a} {A : Set a} {V : Set a}
             ⦃ mo : Monoid V ⦄
             ⦃ m : Measured A V ⦄
@@ -1105,6 +1215,7 @@ viewl-correct (ConsL x xs) = sym (cons-correct x xs)
 --   rewrite measure-digit-lemma1 pr ft sf
 --   = {!   !}
 
+-- CONCAT ----------------------------------------------------------------------
 
 measure-list : ∀ {a} {A : Set a} {V : Set a}
           ⦃ mo : Monoid V ⦄
@@ -1229,13 +1340,121 @@ concat :  ∀ {a} {A : Set a} {V : Set a}
 concat xs ys rewrite sym (toList-ft-measure-correct ys)
       = append xs (toList-ft ys)
 
-open import numbers
+-- reverse ----
 
-instance nat : Monoid ℕ
-nat = monoid 0 _+_ 0+ +0 +assoc _<_
+rev-digit : ∀ {a} {A : Set a}
+          → (rv : A → A)
+          → Digit A
+          → Digit A
+rev-digit rv (One x) = One (rv x)
+rev-digit rv (Two x x₁) = Two (rv x₁) (rv x)
+rev-digit rv (Three x x₁ x₂) = Three (rv x₂) (rv x₁) (rv x)
+rev-digit rv (Four x x₁ x₂ x₃) = Four (rv x₃) (rv x₂) (rv x₁) (rv x)
 
-instance nat-measure : ∀ {A : Set} → Measured A ℕ
-nat-measure = measured (λ x → 1)
+rev-node : ∀ {a} {A : Set a} {V : Set a}
+           ⦃ m : Monoid V ⦄
+           ⦃ m : Measured A V ⦄
+          → (rv : A → A)
+          → Node A V
+          → Node A V
+rev-node rv (Node2 v x y x₁) = node2 (rv y) (rv x)
+rev-node rv (Node3 v x y z x₁) = node3 (rv z) (rv y) (rv x)
 
-ex-ft1 : FingerTree ℕ ℕ
-ex-ft1 = 0 ◁ 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ 6 ◁ 7 ◁ 8 ◁ Empty
+measure-rev-list : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (rv : A → A)
+          → (xs : List A)
+          → V
+measure-rev-list rv xs = Data.List.foldl foldfun ε (Data.List.reverse (Data.List.map rv xs))
+
+measure-rev : ∀ {a}{A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {μ : V}
+          → (rv : A → A)
+          → (xs : FingerTree A V {μ})
+          → V
+measure-rev rv xs = Data.List.foldl foldfun ε (Data.List.reverse (Data.List.map rv (toList-ft xs)))
+
+measure-digit-rev : ∀ {a}{A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (rv : A → A)
+          → (d : Digit A)
+          → V
+measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.List.map rv (toList-dig d)))
+--
+-- measure-rev-digit-lemma  : ∀ {a}{A : Set a}{V : Set a}
+--           ⦃ mo : Monoid V ⦄
+--           ⦃ m : Measured A V ⦄
+--           → (d : Digit A)
+--           → (measure-digit d ≡ measure-digit-rev {V = V} d)
+-- measure-rev-digit-lemma (One x) = begin
+--       ∥ x ∥ ≡⟨ sym (ε-left ∥ x ∥) ⟩
+--       ε ∙ ∥ x ∥
+--       ∎
+-- measure-rev-digit-lemma (Two x x₁) = {!   !}
+-- measure-rev-digit-lemma (Three x x₁ x₂) = {!   !}
+-- measure-rev-digit-lemma (Four x x₁ x₂ x₃) = {!   !}
+
+ε-comm : ∀ {a}{V : Set a}
+        ⦃ mo : Monoid V ⦄
+        → (x : V)
+        → (x ∙ ε ≡ ε ∙ x)
+ε-comm x =
+  begin
+    x ∙ ε ≡⟨ ε-right x ⟩
+    x ≡⟨ sym (ε-left x) ⟩
+    ε ∙ x
+  ∎
+
+
+open import Data.List.Properties using (reverse-involutive)
+open import list-fold-proof
+-- --
+-- measure-rev-lemma : ∀ {a} {A : Set a} {V : Set a}
+--           ⦃ mo : Monoid V ⦄
+--           ⦃ m : Measured A V ⦄
+--           → (xs : List A)
+--           → (ys : List A)
+--           → (zs : List A)
+--           → measure-rev-list {V = V} (xs ++ ys ++ zs) ≡ (measure-rev-list zs) ∙ (measure-rev-list ys) ∙ (measure-rev-list xs)
+-- measure-rev-lemma xs ys zs = {!   !}
+--
+-- -- revnew-measure-lemma : ∀ {a} {A : Set a} {V : Set a}
+-- --           ⦃ mo : Monoid V ⦄
+-- --           ⦃ m : Measured A V ⦄
+-- --           → (pr : Digit A)
+-- --           → (ft : FingerTree (Node A V) V)
+-- --           → (sf : Digit A)
+-- --           → (measure-rev-list (to-List dig ++ flatten-list (toList-ft ft) ++ toList-dig sf) ≡
+-- --             measure-digit (rev-digit rv sf)
+-- revnew : ∀ {a}{A : Set a} {V : Set a}
+--           ⦃ mo : Monoid V ⦄
+--           ⦃ m : Measured A V ⦄
+--           {μ : V}
+--           → (rv : A → A) → (xs : FingerTree A V {μ}) → FingerTree A V {measure-rev xs}
+-- revnew rv Empty = Empty
+-- revnew ⦃ mo ⦄ rv (Single e) rewrite (Monoid.ε-left mo) (∥ e ∥) = Single e
+-- revnew rv (Deep pr xs sf)  = {! (Deep (rev-digit rv sf) (revnew (rev-node rv) xs) (rev-digit rv pr))   !}
+-- --
+-- Data.List.foldl foldfun (Monoid.ε .mo)
+-- (Data.List.foldl (λ rev x → x ∷ rev) []
+--  (toList-dig pr ++ flatten-list (toList-ft xs) ++ toList-dig sf))
+--   actual: (.mo Monoid.∙ measure-digit (rev-digit rv sf))
+-- ((.mo Monoid.∙ measure-rev xs) (measure-digit (rev-digit rv pr)))
+--
+
+
+module test where
+  open import numbers
+
+  instance nat : Monoid ℕ
+  nat = monoid 0 _+_ 0+ +0 +assoc _<_
+
+  instance nat-measure : ∀ {A : Set} → Measured A ℕ
+  nat-measure = measured (λ x → 1)
+
+  ex-ft1 : FingerTree ℕ ℕ
+  ex-ft1 = 0 ◁ 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ 6 ◁ 7 ◁ 8 ◁ Empty

@@ -12,16 +12,17 @@ open import Data.Maybe
 open import Induction
 open import Induction.WellFounded as WF
 module SizeW where
+
   data SizeW {a} : Set a  where
     size : ∀ (n : ℕ) → SizeW {a}
 
-  -- proving the monoid properties of this datatype
   ε : ∀ {a : Level} → SizeW {a}
   ε = size 0
 
   _∙_ :  ∀ {a} → SizeW {a} → SizeW {a} → SizeW {a}
   size n ∙ size m = size (n + m)
 
+  -- proving the monoid properties of this datatype
   import numbers
 
   ∙-comm : ∀ {a} → (x : SizeW {a})→ (y : SizeW {a}) → (x ∙ y ≡ y ∙ x)
@@ -101,6 +102,9 @@ module SizeW where
     <<-axiom0 : ∀ n → (size n) << (size (suc n))
     <<-axiom0 zero = cmp zero (suc zero) (s≤s z≤n)
     <<-axiom0 (suc n) = cmp (suc n) (suc (suc n)) (s≤s (s≤s (≤-axiom n)))
+
+    one-step : ∀ (s : SizeW {a}) → (s << ((size 1) ∙ s))
+    one-step (size n) = <<-axiom0 n
 
     <<-Rec : RecStruct (SizeW {a}) a a
     <<-Rec = WfRec _<<_

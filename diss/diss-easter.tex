@@ -12,6 +12,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{verbatim}
 \usepackage{tikz}
+\usepackage{DejaVuSerifCondensed}
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{subfig}
@@ -1880,6 +1881,7 @@ Furthermore, fold-left has some interesting properties when it comes to its rela
 \end{hscode}\resethooks
 
 
+
 \subsection{Splitting}
 
 Splitting is an extension of the ViewL paradigm, by allowing extraction of elements arbitrarily deep in the FingerTree. It consists of a left side, a middle element, and a right side.\footnote{the sides are correct FingerTrees}
@@ -2226,27 +2228,120 @@ In this case, we impose an order on the Seq given by the order of their sizes, s
 
 In this case, we can use Larry Paulson's results \footnote{also implemented in the standard library} to construct a Well-Founded relation on Sequences it is sufficient to have a Well-Founded relation on the Sizes.
 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  comparing Seq-pairs is just comparing the size component}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{⋖\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{⋖\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\Varid{on}\;\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{open}\;\Conid{Inverse}\mathbin{-}\Varid{image}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\{\mskip1.5mu \anonymous \mathbin{<\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{renaming}\;(\Varid{well}\mathbin{-}\Varid{founded}\;\Varid{to}\mathbin{<<-<-}\Varid{wf}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  the comparison operation defined on the Seq-pair is well-founded}{}\<[E]%
+\\
+\>[B]{}\leftarrow \Conid{WF}\mathrel{=}\mathbin{<<-<-}\Varid{wf}\mathbin{<<-}\Conid{WF}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
+Having obtained a proof of the well-foundeness, we can proceed by creating a recursor object and writing a recursive definition.
+
+\subsection{Reversing}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\Conid{\Conid{WF}.All}\;(\leftarrow \Conid{WF})\;\Varid{renaming}\;(\Varid{wfRec}\;\Varid{to}\mathbin{<}\Varid{rec}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{rev}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{rev}\;\Varid{π}\mathrel{=}\mathbin{<}\Varid{rec}\;\Varid{a}\;\anonymous \;\Varid{go}\;\Varid{π}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{module}\;\Conid{Rev}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{:}\mathbin{∀}\Varid{s}\mathbin{→}(\mathbin{∀}\Varid{p}\mathbin{→}\Varid{p}\mathbin{⋖}\Varid{s}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A})\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\Varid{fst},\Varid{snd}\mathbin{⟩}\Varid{rec}\;\Varid{with}\;\Varid{viewL}\;\Varid{snd}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\mathbin{.}(\Varid{size}\;\mathrm{0}),\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{NilL}\mathrel{=}\Varid{pack}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\anonymous ,\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{ConsL}\;\Varid{x}\;\Varid{xs}\mathrel{=}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{rec}\;(\Varid{pack}\;(\Varid{xs}))\;(\Varid{one}\mathbin{-}\Varid{step}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{xs}))\mathbin{▷'}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+It is arguable whether this is actually a solution to the abstraction problem. We have indeed been able to write a definition of the reverse function using an abstract view. However, the solution itself is probably less readable than a solution that reverses directly on the Finger Tree.
+
+Furthermore, in this form, we no longer work with dependently typed functions, since the indexes have been covered up by the dependent pair. No correctness is enforced by the typing system. Trying to prove correctness of this function brings back the problems caused by \textit{with}. 
+In particular, we have an induction proving mechanism, but we are stopped by the inability to prove an inductive step on viewL.
+
+In Agda, consider defining a property: 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{property}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{property}\;\Varid{xs}\mathrel{=}\Varid{to}\mathbin{-}\Varid{size}\;(\Varid{rev}\;\Varid{xs})\mathbin{≡}\Varid{to}\mathbin{-}\Varid{size}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  example property}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+The problem that remains is proving the inductive step: 
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{inductive\char95 step}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{seq}\mathbin{:}\Conid{Seq}\;\Conid{A}\;((\Varid{size}\;\mathrm{1})\mathbin{∙}\Varid{s})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Seq}\;\Conid{A}\;\Varid{s}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{viewL}\;\Varid{seq}\mathbin{≡}\Conid{ConsL}\;\Varid{x}\;\Varid{xs}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{xs})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{seq})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
 
 \subsection{Notes}
 
-- why pack the sequences
- -- that is, we won't be able to prove anything at all.
- -- make it very difficult
- -- defeats the point of using viewL in the first place (i.e. abstraction)
- -- this packing also provides a means of abstracting the dependent typing.
- 
-- implementing reverse - explain why it's recursive
-- show the proof about the measurement
-- try maybe to prove some other property about reverse
-
-- add concatenation in the finger tree implementation, with all the proofs
-
-- put code in some colorful rectangle
-
-
-
+- add concatenation in the finger tree implementation, with all the proofs \\
+- start thinking about evaluation \\
+- implement reverse without viewl? 
 
 
 

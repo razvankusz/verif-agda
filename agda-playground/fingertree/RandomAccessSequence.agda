@@ -25,7 +25,7 @@ module RandomAccessSequence where
     _◀_ : ∀ {a} {A : Set a} → (x : A) → Seq A → Seq A
     x ◀ s = entry x ◁ s
 
-    seq-measure-lemma1 : ∀ {a} {A : Set a} → (x : A) → (s : SizeW) → (s <ᵗ ((Entry.m (entry x)) ∙ s))
+    seq-measure-lemma1 : ∀ {a} {A : Set a} → (x : A) → (s : SizeW) → (s <ᵗ ((Entry.measure (entry x)) ∙ s))
     seq-measure-lemma1 x (size n) = SizeW.unit-step
 
     seq-measure-lemma0 : ∀ {a} {A : Set a} → (x : A) → (s : Seq A) → (measure-tree s <ᵗ measure-tree (x ◀ s))
@@ -44,10 +44,8 @@ module RandomAccessSequence where
     show-maybe (just x) = Data.Nat.Show.show x
     show-maybe nothing = "nothing"
 
-    main : IO ℕ
-
     main = (putStrLn (toCostring "Hello") >>=
-            (λ x → return (big-seq 10000) >>=
+            (λ x → return (big-seq 1000) >>=
             (λ x → putStrLn (toCostring (show-maybe(x ! 2)))) >>=
             (λ x → return 1)))
 

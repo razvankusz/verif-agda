@@ -42,6 +42,7 @@ rev'-rev (x ∷ xs) (y ∷ ys) =
     rev' xs (x ∷ []) ++ y ∷ ys
   ∎
 
+
 rev-lemma0 : {A : Set}
             → (x : A)
             → (xs : List A)

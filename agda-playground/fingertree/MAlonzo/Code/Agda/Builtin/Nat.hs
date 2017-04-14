@@ -2,7 +2,11 @@
   ScopedTypeVariables, NoMonomorphismRestriction, Rank2Types #-}
 module MAlonzo.Code.Agda.Builtin.Nat where
 import MAlonzo.RTE (coe, erased)
+import qualified Control.Exception
+import qualified Data.Text
+import qualified Data.Text.IO
 import qualified MAlonzo.RTE
+import qualified System.IO
 import qualified Data.Text
 import qualified MAlonzo.Code.Agda.Builtin.Bool
 name6 = "Agda.Builtin.Nat.Nat"

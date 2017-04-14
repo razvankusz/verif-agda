@@ -8,16 +8,19 @@ import qualified Data.Text.IO
 import qualified MAlonzo.RTE
 import qualified System.IO
 import qualified Data.Text
+import qualified MAlonzo.Code.AlgebraStructures
 import qualified MAlonzo.Code.Data.Bool
 import qualified MAlonzo.Code.Data.List
+import qualified MAlonzo.Code.Data.List.Base
 import qualified MAlonzo.Code.Data.Nat
+import qualified MAlonzo.Code.Data.Nat.Base
 import qualified MAlonzo.Code.Relation.Binary.PropositionalEquality
 name4 = "numbers.0+"
 d4 = erased
-name10 = "numbers.+0"
-d10 = erased
-name24 = "numbers.+assoc"
-d24 = erased
+name14 = "numbers.+assoc"
+d14 = erased
+name32 = "numbers.+0"
+d32 = erased
 name44 = "numbers.+suc"
 d44 = erased
 name60 = "numbers.+comm"
@@ -52,11 +55,43 @@ d94 v0 v1
                               = coe ((Prelude.-) :: Integer -> Integer -> Integer) v1
                                   (1 :: Integer)
                           in coe d94 v2 v3
-name114 = "numbers.lemma++"
-d114 = erased
-name128 = "numbers.[]+"
-d128 = erased
-name138 = "numbers.+[]"
-d138 = erased
-name154 = "numbers.++assoc"
-d154 = erased
+name106 = "numbers.\8804-refl"
+d106 v0
+  = case coe v0 of
+        0 -> coe MAlonzo.Code.Data.Nat.Base.C10 (0 :: Integer)
+        _ -> let v1
+                   = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
+                       (1 :: Integer)
+               in coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe d106 v1)
+name120 = "numbers.lemma++"
+d120 = erased
+name134 = "numbers.[]+"
+d134 = erased
+name144 = "numbers.+[]"
+d144 = erased
+name160 = "numbers.++assoc"
+d160 = erased
+name188 = "numbers.list-foldl-lemma"
+d188 = erased
+name206 = "numbers.sum-monoid"
+d206
+  = coe MAlonzo.Code.AlgebraStructures.C56 (0 :: Integer)
+      ((Prelude.+) :: Integer -> Integer -> Integer)
+      erased
+      erased
+      erased
+      erased
+name212 = "numbers.list-monoid"
+d212 v0 v1 = du212 v1
+du212 v0
+  = coe MAlonzo.Code.AlgebraStructures.C56 (coe [])
+      (coe MAlonzo.Code.Data.List.Base.d18 erased erased)
+      erased
+      erased
+      erased
+      (\ v1 v2 -> v0)
+name224 = "numbers.list-measure"
+d224 v0 v1 = du224
+du224
+  = coe MAlonzo.Code.AlgebraStructures.C76
+      (\ v0 -> coe (:) v0 (coe []))

@@ -425,6 +425,55 @@ set seq n y | just (split-d left x right)
   = concat ((entry y) ▷ left) right
 set seq n y | nothing = seq
 \end{code}
+
+-- well-founded
+\begin{code}
+-- comparing Seq-pairs is just comparing the size component
+_⋖_ : ∀ {a} {A : Set a} → Seq-pair A → Seq-pair A → Set a
+_⋖_ = _<<_ on to-size
+
+open Inverse-image
+  {A = Seq-pair A}
+  {_<_ = _<<_}
+  to-size
+  renaming (well-founded to <<-<-wf)
+
+-- the comparison operation defined on the Seq-pair is well-founded
+<-WF = <<-<-wf <<-WF
+\end{code}
+
+-- reverse1
+\begin{code}
+open WF.All (<-WF) renaming (wfRec to <rec)
+
+rev : Seq-pair A → Seq-pair A
+rev π = <rec a _ go π
+  module Rev where
+  go : ∀ s → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
+  go ⟨ fst , snd ⟩ rec with viewL snd
+  go ⟨ .(size 0) , snd ⟩ rec | NilL = pack Empty
+  go ⟨ _ , snd ⟩ rec | ConsL x xs =
+      rec (pack (xs)) (one-step (measure-tree xs)) ▷ x
+\end{code}
+
+
+-- property
+\begin{code}
+property : Seq-pair A → Set a
+property xs = to-size (rev xs) ≡ to-size xs
+-- example property
+\end{code}
+-- induction
+\begin{code}
+inductive_step : ∀ {s : SizeW}
+          → (seq : Seq A ((size 1) ∙ s))
+          → (x : Entry A)
+          → (xs : Seq A s)
+          → (viewL seq ≡ ConsL x xs)
+          → (property (pack xs))
+          → (property (pack seq))
+\end{code}
+
 -- -- cons-deep-one
 -- \begin{code}
 -- a ◁ Deep (One b) ft sf rewrite

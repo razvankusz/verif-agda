@@ -635,14 +635,15 @@ mutual
   --     sz : ∀ (ft1 : FingerTree A V {μ}) (ft2 : FingerTree A V {σ}) → (μ ≲ σ) → ft1 << ft2
 
 
+module test where
 
-open import numbers
+  open import numbers
 
-instance nat : Monoid ℕ
-nat = monoid 0 _+_ 0+ +0 +assoc _<_
+  instance nat : Monoid ℕ
+  nat = monoid 0 _+_ 0+ +0 +assoc _<_
 
-instance nat-measure : ∀ {A : Set} →  Measured A ℕ
-nat-measure = measured (λ x → 1)
+  instance nat-measure : ∀ {A : Set} →  Measured A ℕ
+  nat-measure = measured (λ x → 1)
 
 
   -- i can apply it to other nested datatypes

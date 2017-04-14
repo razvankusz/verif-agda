@@ -45,4 +45,5 @@
 \contentsline {section}{\numberline {3.4}Writing recursive definitions}{24}
 \contentsline {subsection}{\numberline {3.4.1}Well founded induction}{24}
 \contentsline {subsection}{\numberline {3.4.2}Packing the Sequence}{25}
-\contentsline {subsection}{\numberline {3.4.3}Notes}{25}
+\contentsline {subsection}{\numberline {3.4.3}Reversing}{25}
+\contentsline {subsection}{\numberline {3.4.4}Notes}{26}

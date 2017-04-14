@@ -73,7 +73,6 @@ module numbers where
   list-foldl-lemma [] ys f σ = refl
   list-foldl-lemma (x ∷ xs) ys f σ = list-foldl-lemma xs ys f (f σ x)
 
-
   open import AlgebraStructures
 
   sum-monoid : Monoid ℕ
