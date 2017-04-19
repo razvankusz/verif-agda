@@ -605,3 +605,23 @@ inductive_step : ∀ {s : SizeW}
 --   = split-Tree1 p i pr ft sf
 --     -- case1 : predicate becomes true in prefix
 -- \end{code}
+
+
+-- reverse finger tree
+\begin{code}
+reverse-ft : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {s : V}
+          → (Σ V (λ v → FingerTree A V {v}))
+          → (Σ V (λ v → FingerTree A V {v}))
+reverse-ft {a} {A} {V} pair =
+  foldl-pair cons-pair (pack-ft {A = A} {V = V} Empty) pair
+\end{code}
+
+
+-- ssseq
+\begin{code}
+data Same-Size-Seq : (s : SizeW {a}) → Set a where
+  ssseq : ∀ {s} {z} → (Seq A s) → (Seq A z) → (s ≡ z) → Same-Size-Seq s
+\end{code}

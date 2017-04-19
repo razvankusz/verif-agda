@@ -16,9 +16,12 @@
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{subfig}
-\setmainfont{DejaVu Sans}
+\setmainfont{DejaVu Serif}
 \setmonofont{DejaVu Sans Mono}
 
+\setmathrm{DejaVu Sans}
+\setmathsf{DejaVu Sans}
+\setmathtt{DejaVu Sans}
 
 %%% HERE I PUT THE LAGDA THINGY
 
@@ -58,10 +61,10 @@
 \newcommand{\Sp}{\hskip.33334em\relax}
 
 
-\newcommand{\FunName}[1]{\textcolor{blue}{\mathbf{#1}}}
+\newcommand{\FunName}[1]{\mathbf{#1}}
 \newcommand{\Conid}[1]{\mathit{#1}}
 \newcommand{\Varid}[1]{\mathit{#1}}
-\newcommand{\Varidemph}[1]{\textcolor{red}{\mathbf{#1}}}
+\newcommand{\Varidemph}[1]{\mathbf{#1}}
 \newcommand{\anonymous}{\kern0.06em \_}
 \newcommand{\plus}{\mathbin{+\!\!\!+}}
 \newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
@@ -254,6 +257,7 @@
   {#1[#2]}
 
 \newcommand{\framedhs}{\sethscode{framedhscode}}
+
 \framedhs
 
 % The inlinehscode environment is an experimental environment
@@ -2079,6 +2083,66 @@ The \textbf{split-Tree-if} function splits the computation in three cases, depen
 
 The full implementation requires more advanced agda syntax, as well as the implementation of the ViewR and deepR. It is present in the Appendix.
 
+\section{Other recursive definitions}
+
+The difficulties of writing a recursive function that outputs a value of a type dependent on one of the arguments become apparent with the example of reversing.
+
+The implementation of reverse is straight-forward in terms of folding. We could, ideally, reverse a FingerTree simply by 
+
+\begin{center}
+\textit{reverse ft = foldl \_▷\_ Empty ft}
+\end{center}
+
+However, declaring this in this form is impossible because of two resons:
+
+\begin{itemize}
+\item \textbf{\_▷\_} is a dependent function, incompatible with our definition of \textbf{foldl} \footnote{https://nicolaspouillard.fr/publis/explore-iso.pdf}
+
+It is possible to implement an analogous dependent version of foldl. Doing so will however yield a specific solution to the reverse function of the FingerTree.
+Transforming the FingerTree first to a list and then folding it is another strategy for achieving a similar result. Unfortunately, this will incur an unnecessary computational cost.
+ 
+\item The index of the output FingerTree depends on the argument as well, yielding in this case 
+\begin{center}
+measure-ft (reverse ft) = foldl foldfun $\epsilon$ (List.reverse (toList-ft ft))
+\end{center}
+\end{itemize}
+
+In this example, the cost of dependent types becomes very clear, and can be avoided by providing a non-dependent interface.
+
+\subsection{Reverse}
+
+The non-dependent interface is constructed through a dependent pair. The function \textbf{pack} makes the transformation, and the \textbf{cons-pair} is simply the extension of \textbf{cons} to the pair.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\\
+\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{pair}\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{foldl}\mathbin{-}\Varid{pair}\;\Varid{cons}\mathbin{-}\Varid{pair}\;(\Varid{pack}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathrel{=}\Conid{V}\mskip1.5mu\}\;\Conid{Empty})\;\Varid{pair}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Note that this implementation no longer constrains the result to the argument. The only verified property of this is that the result will itself be a correctly constructed FingerTree.
 
 \section{Random Access Sequences}
 
@@ -2214,17 +2278,17 @@ It has been suggested in Matthiew Souzeau's paper \cite{coq} that to overcome th
 
 \subsection{Well founded induction}
 
-In order to write a recursive definition against these constraints, we need to convert an arbitrary well founded relation to a structural less-than relation. This way, Agda's termination checker will pass recursive definitions.
+In order to write a recursive definition against these constraints, we need to convert an arbitrary well founded relation to a structural less-than relation. 
 
 In this case, concerning \textit{SizeW}, the well founded relation comes free from the natural ordering of Nat. 
 
-According to the definition used in this context \footnote{http://adam.chlipala.net/cpdt/html/GeneralRec.html}. We call a less-than binary relation to be well founded if all elements in the carrier set are Accessible. For an element to be Accessible, we require inductively that all the smaller elements are themselves Accessible.
+According to the definition used in this context \footnote{http://adam.chlipala.net/cpdt/html/GeneralRec.html}, we say that a binary relation is well-founded if all elements in the carrier set are Accessible. For an element to be Accessible, we require inductively that all the smaller elements are themselves Accessible.
 
 By implementing the accessibility relation in Agda, we transform any given order into the structural order which Agda recognizes.
 
 \subsection{Packing the Sequence}
 
-In this case, we impose an order on the Seq given by the order of their sizes, so that removing an element from a Finger Tree necessarily creates a smaller Finger Tree.
+The ordering of the sizes naturally extends to an ordering of the Sequences, so that removing an element from a Sequence necessarily yields a smaller Sequence.
 
 In this case, we can use Larry Paulson's results \footnote{also implemented in the standard library} to construct a Well-Founded relation on Sequences it is sufficient to have a Well-Founded relation on the Sizes.
 
@@ -2260,7 +2324,9 @@ In this case, we can use Larry Paulson's results \footnote{also implemented in t
 
 Having obtained a proof of the well-foundeness, we can proceed by creating a recursor object and writing a recursive definition.
 
-\subsection{Reversing}
+\subsection{Reversing - Until a better example is found}
+
+We have already implemented the reverse for the FingerTree through the fold. 
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -2295,21 +2361,36 @@ Having obtained a proof of the well-foundeness, we can proceed by creating a rec
 
 It is arguable whether this is actually a solution to the abstraction problem. We have indeed been able to write a definition of the reverse function using an abstract view. However, the solution itself is probably less readable than a solution that reverses directly on the Finger Tree.
 
-Furthermore, in this form, we no longer work with dependently typed functions, since the indexes have been covered up by the dependent pair. No correctness is enforced by the typing system. Trying to prove correctness of this function brings back the problems caused by \textit{with}. 
-In particular, we have an induction proving mechanism, but we are stopped by the inability to prove an inductive step on viewL.
+Furthermore, in this form, we no longer work with dependently typed functions, since the indexes have been covered up by the dependent pair. No correctness is enforced by the typing system. Trying to prove correctness of this function brings back the problems caused by \textit{with}. In particular, we have an induction proving mechanism, but we are stopped by the inability to prove an inductive step on viewL.
+
+\subparagraph{For simple properties,} it is sufficient to output a new dependent type that enforces those property. As a concrete examples, we want to show that the size of the reversed sequence is equal to that of the original sequence.
+
+Let \textbf{Same-Size-Seq} be a family indexed by the \textbf{Seq-pair}, with a constructor enforcing this property. \footnote{At the time of implementation, I had not realized this trick yet. It would be an interesting extension to change the mechanism employed by the \textit{rewrite} to use something like this, and allow using Equality-Reasoning for type-level equality}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\mathbin{:}(\Varid{s}\mathbin{:}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{ssseq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{s})\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{z})\mathbin{→}(\Varid{s}\mathbin{≡}\Varid{z})\mathbin{→}\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\;\Varid{s}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Reimplementing the \textbf{rev} method with this output type is straight-forward and achieves the correctness goal. It is presented in the Appendix.
+
+\subparagraph{For arbitrary properties,} a powerful approach would be to make the induction process obvious
 
 In Agda, consider defining a property: 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{property}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
-\\
-\>[B]{}\Varid{property}\;\Varid{xs}\mathrel{=}\Varid{to}\mathbin{-}\Varid{size}\;(\Varid{rev}\;\Varid{xs})\mathbin{≡}\Varid{to}\mathbin{-}\Varid{size}\;\Varid{xs}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  example property}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-The problem that remains is proving the inductive step: 
+
+The problem that remains is proving the inductive step. This seemed impossible to me, because of the limitations of the \textit{view} operation.
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{11}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -2341,7 +2422,8 @@ The problem that remains is proving the inductive step:
 
 - add concatenation in the finger tree implementation, with all the proofs \\
 - start thinking about evaluation \\
-- implement reverse without viewl? 
+
+\chapter{Evaluation}
 
 
 

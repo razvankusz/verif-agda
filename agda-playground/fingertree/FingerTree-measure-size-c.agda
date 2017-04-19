@@ -329,6 +329,7 @@ measure-to-tree-maybe-dig-lemma : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoi
 measure-to-tree-maybe-dig-lemma d = refl
 
 -- view from the left ... ----------------------------------------------------------------------------
+
 data ViewL {a}(A : Set a)(V : Set a)
           ⦃ mo : Monoid V ⦄
           ⦃ m : Measured A V ⦄ :
@@ -342,22 +343,22 @@ data ViewL {a}(A : Set a)(V : Set a)
 assoc-lemma3 : ∀  {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
               → (x₁ : A) → (x₂ : A) → (z : V) → (sf : Digit A) →
               ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)) ≡ (∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ (z ∙ measure-digit sf)
-assoc-lemma3 x₁ x₂ z sf = begin
-                              ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf))
-                          ≡⟨ ε-left (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)) ⟩
-                              ((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ z) ∙ (measure-digit sf)
-                          ≡⟨ sym (∙-assoc (∥ x₁ ∥ ∙ ∥ x₂ ∥) z (measure-digit sf)) ⟩
-                              (∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ (z ∙ measure-digit sf)
+assoc-lemma3 x₁ x₂ v sf = begin
+                              ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ v) ∙ (measure-digit sf))
+                          ≡⟨ ε-left (((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ v) ∙ (measure-digit sf)) ⟩
+                              ((∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ v) ∙ (measure-digit sf)
+                          ≡⟨ sym (∙-assoc (∥ x₁ ∥ ∙ ∥ x₂ ∥) v (measure-digit sf)) ⟩
+                              (∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ (v ∙ measure-digit sf)
                           ∎
 
 assoc-lemma4 : ∀  {a} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → (x₁ : A) → (x₂ : A) → (x₃ : A) → (z : V) → (sf : Digit A) →
   ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ z) ∙ (measure-digit sf)) ≡ (∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥ ) ∙ (z ∙ measure-digit sf)
-assoc-lemma4 x₁ x₂ x₃ z sf = begin
-                              ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ z) ∙ (measure-digit sf))
-                          ≡⟨ ε-left (((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ z) ∙ (measure-digit sf)) ⟩
-                              ((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ z) ∙ (measure-digit sf)
-                          ≡⟨ sym (∙-assoc (∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) z (measure-digit sf)) ⟩
-                              (∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ (z ∙ measure-digit sf)
+assoc-lemma4 x₁ x₂ x₃ v sf = begin
+                              ε ∙ (((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ v) ∙ (measure-digit sf))
+                          ≡⟨ ε-left (((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ v) ∙ (measure-digit sf)) ⟩
+                              ((∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ v) ∙ (measure-digit sf)
+                          ≡⟨ sym (∙-assoc (∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) v (measure-digit sf)) ⟩
+                              (∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ∙ (v ∙ measure-digit sf)
                           ∎
 
 
@@ -889,11 +890,18 @@ foldr-node : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measu
 foldr-node f (Node2 v x y x₁) i = f x (f y i)
 foldr-node f (Node3 v x y z x₁) i = f x (f y (f z i))
 
-foldr : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-        {s : V} → (A → V → V) → FingerTree A V {s} → V → V
+foldr : ∀ {a} {A : Set a} {V : Set a}
+        ⦃ mo : Monoid V ⦄
+        ⦃ m : Measured A V ⦄
+        {s : V}
+        → (A → V → V)
+        → FingerTree A V {s}
+        → V
+        → V
 foldr f Empty i = i
 foldr f (Single e) i = f e i
-foldr f (Deep pr ft sf) i = foldr-dig f pr (foldr (foldr-node f) ft (foldr-dig f sf i))
+foldr f (Deep pr ft sf) i =
+  foldr-dig f pr (foldr (foldr-node f) ft (foldr-dig f sf i))
 
 foldfun : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
   (v : V) → (x : A) → V
@@ -915,11 +923,71 @@ foldl : ∀ {a} {A : Set a} {V : Set a}
 foldl f i Empty = i
 foldl f i (Single e) = f i e
 foldl {W = W} f i (Deep pr ft sf) =
-  foldl-dig f
-            (foldl (foldl-node f)
-                   (foldl-dig f i pr)
-                   ft)
-            sf
+  foldl-dig f (foldl (foldl-node f) (foldl-dig f i pr) ft) sf
+
+-- implementing reverse as foldl
+
+-- reverse-measure : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             {s : V}
+--             → (ft : FingerTree A V {s})
+--             → V
+-- reverse-measure ft = Data.List.foldl foldfun ε (Data.List.reverse (toList-ft ft))
+--
+-- swap-snoc : ∀ {a} {A : Set a} {V : Set a}
+--             ⦃ mo : Monoid  V ⦄
+--             ⦃ m : Measured A V ⦄
+--             {s : V}
+--             → (ft : FingerTree A V {s})
+--             → (x : A)
+--             → FingerTree A V {s ∙ ∥ x ∥}
+-- swap-snoc ft elem = elem ▷ ft
+--
+-- reverse-measure-lemma : ∀ {a} {A : Set a}{V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             {s : V}
+--             → (ft : FingerTree A V {s})
+--             → (measure-tree (foldl (swap-snoc {a} {A} {V} ⦃ mo ⦄ ⦃ m ⦄) (Empty {A = A} {V = V}) ft) ≡ reverse-measure ft)
+-- reverse-measure-lemma ft = ?
+--
+
+-- REVERSE !! ------------------------------------------------------------------
+
+pack-ft : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {s : V}
+          → (ft : FingerTree A V {s})
+          → (Σ V (λ v → FingerTree A V {v}))
+pack-ft ft = ⟨ measure-tree ft , ft ⟩
+
+foldl-pair : ∀ {a} {A : Set a} {V : Set a} {W : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → ( W → A → W)
+          → W
+          → (Σ V (λ v → FingerTree A V {v}))
+          → W
+foldl-pair f s ⟨ μ , ft ⟩ = foldl f s ft
+
+cons-pair : ∀ {a} {A : Set a}{V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          → (Σ V (λ v → FingerTree A V {v}))
+          → A
+          → (Σ V (λ v → FingerTree A V {v}))
+cons-pair ⟨ measure , ft ⟩ x = pack-ft (x ◁ ft)
+
+reverse-ft : ∀ {a} {A : Set a} {V : Set a}
+          ⦃ mo : Monoid V ⦄
+          ⦃ m : Measured A V ⦄
+          {s : V}
+          → (Σ V (λ v → FingerTree A V {v}))
+          → (Σ V (λ v → FingerTree A V {v}))
+reverse-ft {a} {A} {V} pair = foldl-pair cons-pair (pack-ft {A = A} {V = V} Empty) pair
+
 
 assoc-lemma5 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄ →
         (a : V) → (b : V) → (c : V) → (d : V)  →
@@ -1004,7 +1072,7 @@ flatten-fold-lemma f σ [] = refl
 flatten-fold-lemma f σ (x ∷ xs) =
   begin
     Data.List.foldl f σ (toList-node x ++ flatten-list xs)
-  ≡⟨ foldl-append f σ (toList-node x) (flatten-list xs) ⟩
+  ≡⟨ foldl-append-lemma f σ (toList-node x) (flatten-list xs) ⟩
     Data.List.foldl f (Data.List.foldl f σ (toList-node x)) (flatten-list xs)
   ≡⟨ cong (λ x → Data.List.foldl f x (flatten-list xs)) (sym (foldl-node-correct f σ x)) ⟩
     Data.List.foldl f (foldl-node f σ x) (flatten-list xs)
@@ -1044,7 +1112,7 @@ foldl-correct f σ (Deep pr ft sf) =
             (Data.List.foldl f σ (toList-dig pr))
         (flatten-list (toList-ft ft)))
       (toList-dig sf)
-    ≡⟨ sym (foldl-append2 f σ (toList-dig pr) (flatten-list (toList-ft ft)) (toList-dig sf)) ⟩
+    ≡⟨ sym (foldl-append-lemma2 f σ (toList-dig pr) (flatten-list (toList-ft ft)) (toList-dig sf)) ⟩
       Data.List.foldl f σ
       (toList-dig pr ++ flatten-list (toList-ft ft) ++ toList-dig sf)
     ∎
@@ -1385,6 +1453,74 @@ measure-digit-rev : ∀ {a}{A : Set a} {V : Set a}
           → V
 measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.List.map rv (toList-dig d)))
 --
+-- assoc-lemma20 : ∀ {a} {V : Set a} ⦃ m : Monoid V ⦄
+--               → (a : V) → (b : V) → (c : V) → (d : V)
+--               → (a ∙ b ∙ c ∙ d ≡ ((a ∙ b) ∙ c) ∙ d)
+-- assoc-lemma20 = {!   !}
+--
+-- assoc-lemma30 : ∀ {a} {V : Set a} ⦃ m : Monoid V ⦄
+--               → (a : V) → (b : V) → (c : V) → (d : V) → (e : V)
+--               → (a ∙ b ∙ c ∙ d ∙ e ≡ (((a ∙ b) ∙ c) ∙ d) ∙ e)
+-- assoc-lemma30 = {!   !}
+--
+-- foldl-dig-index : ∀ {a}{A : Set a}{V : Set a}{W : V → Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {μ : V}
+--             → ({σ : V} → W σ → (x : A) → W (∥ x ∥ ∙ σ))
+--             → W μ
+--             → (d : Digit A) → W (measure-digit d ∙ μ)
+-- foldl-dig-index f i (One x) = f i x
+-- foldl-dig-index {μ = μ} f i (Two x x₁)
+--   rewrite (∙-assoc (∥ x₁ ∥) (∥ x ∥) μ)
+--    = {! f (f i x) x₁  !}
+-- foldl-dig-index {μ = μ} f i (Three x x₁ x₂)
+--   rewrite assoc-lemma20 μ (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥) = {!   !} -- f (f (f i x) x₁) x₂
+-- foldl-dig-index {μ = μ} f i  (Four x x₁ x₂ x₃)
+--   rewrite assoc-lemma30 μ (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥) (∥ x₃ ∥) = {!   !} -- f (f (f (f i x) x₁) x₂) x₃
+--
+-- foldl-node-index : ∀ {a} {A : Set a}{V : Set a}{W : V → Set a}
+--                   ⦃ mo : Monoid V ⦄
+--                   ⦃ m : Measured A V ⦄
+--                   → {μ : V}
+--                   → ({σ : V} → W σ → (x : A) → W (σ ∙ ∥ x ∥))
+--                   → W μ → (n : Node A V) → W (μ ∙ measure-node n)
+-- foldl-node-index {μ = μ} f i (Node2 v x y x₁)
+--   rewrite x₁ | ∙-assoc μ (∥ x ∥) (∥ y ∥) = f (f i x) y
+-- foldl-node-index {μ = μ} f i (Node3 v x y z x₁)
+--   rewrite x₁ | assoc-lemma20 μ (∥ x ∥) (∥ y ∥) (∥ z ∥) = f (f (f i x) y) z
+-- --
+-- foldl-index : ∀ {a} {A : Set a}{V : Set a}{W : V → Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {μ : V} {s : V}
+--             → ({σ : V} → (W σ → (x : A) → W (σ ∙ ∥ x ∥)))
+--             → W μ → (ft : FingerTree A V {s}) → W (μ ∙ measure-tree ft)
+-- foldl-index {μ = μ} f i Empty rewrite ε-right μ = i
+-- foldl-index f i (Single e) = f i e
+-- foldl-index {W = W} {μ = μ} f i (Deep pr ft sf)
+-- --   rewrite assoc-lemma20 μ (measure-digit pr) (measure-tree ft) (measure-digit sf) = foldl-dig-index {W = W} f (foldl-index {W = W} (λ {σ} → foldl-node-index {W = W} {μ = σ} f) (foldl-dig-index {W = W} f i pr) ft) sf -- {! foldl-dig-index f (foldl-index (λ {σ} → foldl-node-index {μ = σ} f) (foldl-dig-index f i pr) ft) sf   !}
+--
+-- reverse-measure : ∀ {a} {A : Set a}{V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {μ : V}
+--             → (ft : FingerTree A V {μ})
+--             → V
+-- reverse-measure ft = Data.List.foldl foldfun ε (Data.List.reverse (toList-ft ft))
+--
+-- reverse-ft-index : ∀ {a} {A : Set a}{V : Set a}
+--             ⦃ mo : Monoid V ⦄
+--             ⦃ m : Measured A V ⦄
+--             → {μ : V}
+--             → (ft : FingerTree A V {μ})
+--             → FingerTree A V {reverse-measure ft}
+-- reverse-ft-index ft = {!   !}
+-- -- foldl f i Empty = i
+-- foldl f i (Single e) = f i e
+-- foldl {W = W} f i (Deep pr ft sf) =
+--   foldl-dig f (foldl (foldl-node f) (foldl-dig f i pr) ft) sf
+
 -- measure-rev-digit-lemma  : ∀ {a}{A : Set a}{V : Set a}
 --           ⦃ mo : Monoid V ⦄
 --           ⦃ m : Measured A V ⦄
@@ -1398,11 +1534,11 @@ measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.Lis
 -- measure-rev-digit-lemma (Three x x₁ x₂) = {!   !}
 -- measure-rev-digit-lemma (Four x x₁ x₂ x₃) = {!   !}
 
-ε-comm : ∀ {a}{V : Set a}
+ε-comm-lemma : ∀ {a}{V : Set a}
         ⦃ mo : Monoid V ⦄
         → (x : V)
         → (x ∙ ε ≡ ε ∙ x)
-ε-comm x =
+ε-comm-lemma x =
   begin
     x ∙ ε ≡⟨ ε-right x ⟩
     x ≡⟨ sym (ε-left x) ⟩

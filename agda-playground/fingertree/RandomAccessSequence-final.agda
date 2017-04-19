@@ -7,7 +7,6 @@ open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 open import Relation.Binary.HeterogeneousEquality renaming (refl to hrefl) renaming (sym to hsym) renaming (trans to htrans) renaming (cong to hcong) renaming (inspect to hinspect)
 
-
 module RandomAccessSequence-final where
 
     open import SizeW using (size-monoid; SizeW; getSize; size; _<ᵗ_)
@@ -47,17 +46,16 @@ module RandomAccessSequence-final where
     show-maybe : Maybe ℕ → String
     show-maybe (just x) = Data.Nat.Show.show x
     show-maybe nothing = "nothing"
-    main : IO ℕ
 
+    main : IO ℕ
     main = (putStrLn (toCostring "Hello") >>=
-            (λ x → return (big-seq 10000) >>=
-            (λ x → putStrLn (toCostring (show-maybe(x ! 2)))) >>=
+            (λ x → return (big-seq 1024) >>=
+            (λ x → putStrLn (toCostring (show-maybe(x ! 512)))) >>=
             (λ x → return 1)))
 
     open import Induction
     open import Induction.WellFounded as WF
     open import Level using (Lift)
-
     open import Data.Empty
     open import DependentPair
     open import AlgebraStructures
@@ -152,11 +150,11 @@ module RandomAccessSequence-final where
         go ⟨ fst , snd ⟩ rec with viewL snd
         go ⟨ .(size 0) , snd ⟩ rec | NilL = ssseq snd snd refl
         go ⟨ _ , snd ⟩ rec | ConsL x xs = snoc-ssq x
-          (rec (pack xs) (one-step (measure-tree xs)))
+          (rec (pack xs) (one-step-lemma (measure-tree xs)))
 
 
-      -- try merge sort?
-      -- better try binary search
+      -- trying binary search
+      open import numbers
 
       data compare? (A : Set a) : Set a where
         equal : A → A → compare? A
@@ -165,20 +163,25 @@ module RandomAccessSequence-final where
 
       -- to make recursion simpler to write, will just include the variable in a module
 
-      split-half : ∀ {s}
-                  → Seq A s
-                  → Maybe (Split-d (Entry A) (SizeW {a}) {s})
-      split-half seq = {!   !}
+      --
+      --
+      -- module BinSearch (cmp : A → A → compare? A) (x : A) where
+      --
+      --   bin-search : ∀ s → A → Seq A s → Maybe (SizeW {a})
+      --   bin-search (size n) x seq with repr n
+      --   bin-search (size .0) x seq | zr = nothing
+      --   bin-search (size _) x seq | 2* v with  split-Tree (SizeW._<ˢ_ (measure-tree seq)) ε seq
+      --   bin-search (size _) x₂ seq | 2* v | just x₁ = {! x₁  !}
+      --   bin-search (size _) x₁ seq | 2* v | nothing = {!   !}
+      --   bin-search (size _) x seq | 2* v +1 = {!   !}
 
-      module BinSearch (cmp : A → A → compare? A) (x : A) where
-
-        bin-search : (seq : Seq-pair A) → SizeW {a}
-        bin-search π = <rec a _ go π
-            module BS where
-            go : ∀ s
-                → (∀ p → p ⋖ s → SizeW {a})
-                → SizeW {a}
-            go ⟨ μ , xs ⟩ rec = {!   !}
+        -- bin-search : (seq : Seq-pair A) → SizeW {a}
+        -- bin-search π = <rec a _ go π
+        --     module BS where
+        --     go : ∀ s
+        --         → (∀ p → p ⋖ s → SizeW {a})
+        --         → SizeW {a}
+        --     go ⟨ size n , xs ⟩ rec = {!   !}
 
 
 
@@ -216,5 +219,6 @@ module RandomAccessSequence-final where
     test-seq-pair : Seq-pair ℕ
     test-seq-pair = pack test-seq
     --
+
     -- rev-seq-pair : Seq-pair ℕ
     -- rev-seq-pair = rev test-seq-pair

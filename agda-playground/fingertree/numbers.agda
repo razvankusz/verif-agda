@@ -1,4 +1,3 @@
-
 module numbers where
   open import Data.Nat
   open import Data.List
@@ -9,11 +8,9 @@ module numbers where
   0+ : (m : ℕ) → (0 + m) ≡ m
   0+ m = refl
 
-
   +assoc : ∀ (x y z : ℕ) → (x + (y + z)) ≡ ((x + y) + z)
   +assoc zero y z = refl
   +assoc (suc x) y z rewrite +assoc x y z = refl
-
 
   +0 : (m : ℕ) → (m + 0) ≡ m
   +0 zero = refl
@@ -80,5 +77,22 @@ module numbers where
 
   instance list-monoid : ∀ {a} (A : Set a) → Monoid (List A)
   list-monoid A = Monoid.monoid [] (_++_) []+ +[] ++assoc (λ _ _₁ → A)
+
   list-measure : ∀ {a} (A : Set a) → Measured A (List A)
   list-measure = λ {a} A → measured (λ x → x ∷ [])
+
+-- view as half -------------------------------------------------------------
+
+  data Repr : ℕ → Set where
+    zr   : Repr 0
+    2*_ : ∀ {n : ℕ} → Repr n → Repr (n * 2)
+    2*_+1 : ∀ {n : ℕ} → Repr n → Repr (suc (n * 2))
+
+  _+1 : ∀ {n : ℕ} → Repr n → Repr (suc n)
+  zr +1 = 2* zr +1
+  (2* m) +1 = 2* m +1
+  2* m +1 +1 = 2* (m +1)
+
+  repr : (n : ℕ) → Repr n
+  repr zero = zr
+  repr (suc n) = (repr n) +1

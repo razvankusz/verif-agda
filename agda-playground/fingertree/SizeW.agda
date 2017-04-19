@@ -103,8 +103,8 @@ module SizeW where
     <<-axiom0 zero = cmp zero (suc zero) (s≤s z≤n)
     <<-axiom0 (suc n) = cmp (suc n) (suc (suc n)) (s≤s (s≤s (≤-axiom n)))
 
-    one-step : ∀ (s : SizeW {a}) → (s << ((size 1) ∙ s))
-    one-step (size n) = <<-axiom0 n
+    one-step-lemma : ∀ (s : SizeW {a}) → (s << ((size 1) ∙ s))
+    one-step-lemma (size n) = <<-axiom0 n
 
     <<-Rec : RecStruct (SizeW {a}) a a
     <<-Rec = WfRec _<<_

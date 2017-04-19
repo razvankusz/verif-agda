@@ -1181,6 +1181,211 @@
 \>[3]{}\mbox{\onelinecomment  case1 : predicate becomes true in prefix}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+
+-- sizeW
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{25}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{:}\Conid{Set}\;\Varid{a}\;{}\<[25]%
+\>[25]{}\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{size}\mathbin{:}\mathbin{∀}(\Varid{n}\mathbin{:}\Conid{ℕ})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{ε}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{ε}\mathrel{=}\Varid{size}\;\mathrm{0}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\anonymous \mathbin{∙\char95 }\mathbin{:}{}\<[8]%
+\>[8]{}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{size}\;\Varid{n}\mathbin{∙}\Varid{size}\;\Varid{m}\mathrel{=}\Varid{size}\;(\Varid{n}\mathbin{+}\Varid{m}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- monoid and measure c
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  assign a constant value of 1 to any entry.}{}\<[E]%
+\\
+\>[B]{}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\Varid{measure}\;\Varid{x}\mathrel{=}\Varid{\Conid{SizeW}.size}\;\mathrm{1}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  by using the instance keyword, the methods that require an argument}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  of this type, specified by ⦃_⦄, will be able to access it.}{}\<[E]%
+\\
+\>[B]{}\mathbf{instance}\;\Varid{entry}\mathbin{-}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Measured}\;(\Conid{Entry}\;\Conid{A})\;\Conid{SizeW}{}\<[E]%
+\\
+\>[B]{}\Varid{entry}\mathbin{-}\Varid{measure}\mathrel{=}\Varid{measured}\;\Varid{measure}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathbf{instance}\;\Varid{size}\mathbin{-}\Varid{monoid}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Monoid}\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}){}\<[E]%
+\\
+\>[B]{}\Varid{size}\mathbin{-}\Varid{monoid}\mathrel{=}\mathbin{...}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- seq instance
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Conid{Seq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;\Conid{SizeW}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Conid{Seq}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\Conid{A}\;\Varid{s}\mathrel{=}\Conid{FingerTree}\;(\Conid{Entry}\;\Conid{A})\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- tab
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\anonymous \mathbin{!\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Maybe}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\anonymous \;\Varid{x}\;\anonymous )\mathrel{=}\Varid{just}\;(\Varid{getEntry}\;\Varid{x}){}\<[E]%
+\\
+\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{nothing}\mathrel{=}\Varid{nothing}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- set
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{19}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{set}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\Varid{left}\;\Varid{x}\;\Varid{right}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{left})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{16}{}\<[19]%
+\>[19]{}(\Varid{size}\;\mathrm{1})\;{}\<[E]%
+\\
+\>[3]{}\hsindent{16}{}\<[19]%
+\>[19]{}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{right}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathrel{=}\Varid{concat}\;((\Varid{entry}\;\Varid{y})\mathbin{▷}\Varid{left})\;\Varid{right}{}\<[E]%
+\\
+\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{nothing}\mathrel{=}\Varid{seq}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- well-founded
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mbox{\onelinecomment  comparing Seq-pairs is just comparing the size component}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{⋖\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\anonymous \mathbin{⋖\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\Varid{on}\;\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{open}\;\Conid{Inverse}\mathbin{-}\Varid{image}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\{\mskip1.5mu \anonymous \mathbin{<\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{renaming}\;(\Varid{well}\mathbin{-}\Varid{founded}\;\Varid{to}\mathbin{<<-<-}\Varid{wf}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  the comparison operation defined on the Seq-pair is well-founded}{}\<[E]%
+\\
+\>[B]{}\leftarrow \Conid{WF}\mathrel{=}\mathbin{<<-<-}\Varid{wf}\mathbin{<<-}\Conid{WF}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+-- reverse1
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{open}\;\Conid{\Conid{WF}.All}\;(\leftarrow \Conid{WF})\;\Varid{renaming}\;(\Varid{wfRec}\;\Varid{to}\mathbin{<}\Varid{rec}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{rev}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\Varid{rev}\;\Varid{π}\mathrel{=}\mathbin{<}\Varid{rec}\;\Varid{a}\;\anonymous \;\Varid{go}\;\Varid{π}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{module}\;\Conid{Rev}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{:}\mathbin{∀}\Varid{s}\mathbin{→}(\mathbin{∀}\Varid{p}\mathbin{→}\Varid{p}\mathbin{⋖}\Varid{s}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A})\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\Varid{fst},\Varid{snd}\mathbin{⟩}\Varid{rec}\;\Varid{with}\;\Varid{viewL}\;\Varid{snd}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\mathbin{\circ}(\Varid{size}\;\mathrm{0}),\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{NilL}\mathrel{=}\Varid{pack}\;\Conid{Empty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{go}\mathbin{⟨}\anonymous ,\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{ConsL}\;\Varid{x}\;\Varid{xs}\mathrel{=}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{rec}\;(\Varid{pack}\;(\Varid{xs}))\;(\Varid{one}\mathbin{-}\Varid{step}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{xs}))\mathbin{▷}\Varid{x}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- property
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{property}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{property}\;\Varid{xs}\mathrel{=}\Varid{to}\mathbin{-}\Varid{size}\;(\Varid{rev}\;\Varid{xs})\mathbin{≡}\Varid{to}\mathbin{-}\Varid{size}\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  example property}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+-- induction
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{inductive\char95 step}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{seq}\mathbin{:}\Conid{Seq}\;\Conid{A}\;((\Varid{size}\;\mathrm{1})\mathbin{∙}\Varid{s})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Seq}\;\Conid{A}\;\Varid{s}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{viewL}\;\Varid{seq}\mathbin{≡}\Conid{ConsL}\;\Varid{x}\;\Varid{xs}){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{xs})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{seq})){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
 -- -- cons-deep-one
 -- \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1436,5 +1641,49 @@
 \>[B]{}\mbox{\onelinecomment      -- case1 : predicate becomes true in prefix}{}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment  }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- reverse finger tree
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\\
+\>[B]{}\hsindent{11}{}\<[11]%
+\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\\
+\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{pair}\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{foldl}\mathbin{-}\Varid{pair}\;\Varid{cons}\mathbin{-}\Varid{pair}\;(\Varid{pack}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathrel{=}\Conid{V}\mskip1.5mu\}\;\Conid{Empty})\;\Varid{pair}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+-- ssseq
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\mathbin{:}(\Varid{s}\mathbin{:}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{ssseq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{s})\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{z})\mathbin{→}(\Varid{s}\mathbin{≡}\Varid{z})\mathbin{→}\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\;\Varid{s}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
