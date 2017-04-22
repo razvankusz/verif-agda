@@ -1,0 +1,43 @@
+\begin{code}%
+\>\AgdaComment{-- Wrapper for entries}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{AlgebraStructures}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{SizeW} \AgdaKeyword{using} \AgdaSymbol{(}\AgdaDatatype{SizeW}\AgdaSymbol{;} \AgdaFunction{getSize}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>\AgdaKeyword{module} \AgdaModule{Entry} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{data} \AgdaDatatype{Entry} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{entry} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Entry} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{getEntry} \AgdaSymbol{:} \AgdaSymbol{∀\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Entry} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{getEntry} \AgdaSymbol{(}\AgdaInductiveConstructor{entry} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{measure} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{measure} \AgdaBound{x} \AgdaSymbol{=} \AgdaInductiveConstructor{SizeW.size} \AgdaNumber{1}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{instance} \AgdaFunction{entry-measure} \AgdaSymbol{:} \AgdaSymbol{∀\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaRecord{Measured} \AgdaSymbol{(}\AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaDatatype{SizeW}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{entry-measure} \AgdaSymbol{=} \AgdaInductiveConstructor{measured} \AgdaFunction{measure}\<%
+\end{code}

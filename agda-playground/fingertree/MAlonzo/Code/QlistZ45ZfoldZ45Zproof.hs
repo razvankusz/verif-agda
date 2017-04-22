@@ -10,7 +10,7 @@ import qualified System.IO
 import qualified Data.Text
 import qualified MAlonzo.Code.Data.List
 import qualified MAlonzo.Code.Relation.Binary.PropositionalEquality
-name16 = "list-fold-proof.foldl-append"
+name16 = "list-fold-proof.foldl-append-lemma"
 d16 = erased
-name50 = "list-fold-proof.foldl-append2"
+name50 = "list-fold-proof.foldl-append-lemma2"
 d50 = erased

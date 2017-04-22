@@ -297,10 +297,12 @@ toDigit (Node3 x x₁ x₂ x₃) = Three x₁ x₂ x₃
 
 
 splitDigit : ∀ {a} {A : Set a} {V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-          (p : V → Bool) → V → Digit A → Split (Maybe (Digit A)) A
+  (p : V → Bool) → V → Digit A → Split (Maybe (Digit A)) A
 splitDigit p i (One x) = split nothing x nothing
 splitDigit p i (Two x x₁) =
   if (p i) then
+    (split nothing x (just (One x₁)))
+  else if (p (i ∙ ∥ x ∥)) then
     (split nothing x (just (One x₁)))
   else
     (split (just (One x)) x₁ nothing)
@@ -308,19 +310,23 @@ splitDigit p i (Three x x₁ x₂) =
   if (p i) then
     (split nothing x (just (Two x₁ x₂)))
   else if (p (i ∙ ∥ x ∥)) then
+    (split nothing x (just (Two x₁ x₂)))
+  else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥) ) then
     split (just (One x)) x₁ (just (One x₂))
   else
     split (just (Two x x₁)) x₂ nothing
-splitDigit p i (Four x x₁ x₂ x₃) = if (p i) then
+splitDigit p i (Four x x₁ x₂ x₃) =
+  if (p i) then
     (split nothing x (just (Three x₁ x₂ x₃)))
   else if (p (i ∙ ∥ x ∥)) then
-    split (just (One x)) x₁ (just (Two x₂ x₃))
+    (split nothing x (just (Three x₁ x₂ x₃)))
   else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥)) then
+    split (just (One x)) x₁ (just (Two x₂ x₃))
+  else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥)) then
     split (just (Two x x₁)) x₂ (just (One x₃))
   else
     split (just (Three x x₁ x₂)) x₃ nothing
---
-
+    
 data notEmpty {a} {A : Set a}{V : Set a} : FingerTree A V → Set a where
   nempty : ∀ (ft : FingerTree A V) → (ft ≢ Empty) → notEmpty ft
 

@@ -84,5 +84,5 @@ module MonoidSolver {l : Level} (A : Set l) (M : Monoid A) where
   assoc-lemma-8ms = solve 5 (λ a b c d e → ((a ⊙ (b ⊙ c)) ⊙ (d ⊙ e)) ⊜ (a ⊙ (b ⊙ (c ⊙ (d ⊙ e))))) refl
   assoc-lemma-9ms = solve 7 (λ a b c d e f g → ((a ⊙ (b ⊙ c)) ⊙ (d ⊙ (e ⊙ (f ⊙ g)))) ⊜ (a ⊙ ((b ⊙ ((c ⊙ (d ⊙ e)) ⊙ f)) ⊙ g))) refl
 
-  --
+
   -- postulate assoc-lemma0 : Set

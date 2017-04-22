@@ -44,44 +44,60 @@ du42 v0 v1
                       C10 v3 -> coe MAlonzo.Code.Qnumbers.d94 v2 v3
                       _ -> coe MAlonzo.RTE.mazUnreachableError
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name50 = "SizeW._<\7511_"
-d50 a0 a1 a2 = ()
+name50 = "SizeW._<=\738_"
+d50 v0 v1 v2 = du50 v1 v2
+du50 v0 v1
+  = case coe v0 of
+        C10 v2 -> case coe v1 of
+                      C10 v3 -> coe MAlonzo.Code.Qnumbers.d104 v2 v3
+                      _ -> coe MAlonzo.RTE.mazUnreachableError
+        _ -> coe MAlonzo.RTE.mazUnreachableError
+name58 = "SizeW._==\738_"
+d58 v0 v1 v2 = du58 v1 v2
+du58 v0 v1
+  = case coe v0 of
+        C10 v2 -> case coe v1 of
+                      C10 v3 -> coe MAlonzo.Code.Qnumbers.d84 v2 v3
+                      _ -> coe MAlonzo.RTE.mazUnreachableError
+        _ -> coe MAlonzo.RTE.mazUnreachableError
+name66 = "SizeW._<\7511_"
+d66 a0 a1 a2 = ()
 
-data T50 a0 a1 a2 = C58 a0 a1 a2
-name64 = "SizeW.unit-step"
-d64 v0 v1 = du64 v1
-du64 v0
-  = coe C58 v0
+data T66 a0 a1 a2 = C74 a0 a1 a2
+name80 = "SizeW.unit-step"
+d80 v0 v1 = du80 v1
+du80 v0
+  = coe C74 v0
       (coe ((Prelude.+) :: Integer -> Integer -> Integer) (1 :: Integer)
          v0)
       (coe MAlonzo.Code.Data.Nat.Base.C18 v0 v0
-         (coe MAlonzo.Code.Qnumbers.d106 v0))
-name72 = "SizeW.\8729\949"
-d72 = erased
-name80 = "SizeW.\949\8729"
-d80 = erased
-name92 = "SizeW.\8729-assoc"
-d92 = erased
-name102 = "SizeW.size-monoid"
-d102 v0 = du102
-du102
+         (coe MAlonzo.Code.Qnumbers.d116 v0))
+name88 = "SizeW.\8729\949"
+d88 = erased
+name96 = "SizeW.\949\8729"
+d96 = erased
+name108 = "SizeW.\8729-assoc"
+d108 = erased
+name118 = "SizeW.size-monoid"
+d118 v0 = du118
+du118
   = coe MAlonzo.Code.AlgebraStructures.C56 du14 (coe d18 erased)
       erased
       erased
       erased
       erased
-name106 = "SizeW.getSize"
-d106 v0
+name122 = "SizeW.getSize"
+d122 v0
   = case coe v0 of
         C10 v1 -> coe v1
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name114 = "SizeW.less-than._<<_"
-d114 a0 a1 a2 = ()
+name130 = "SizeW.less-than._<<_"
+d130 a0 a1 a2 = ()
 
-data T114 a0 a1 a2 = C120 a0 a1 a2
-name128 = "SizeW.less-than.<-trans"
-d128 v0 v1 v2 v3 v4 v5 = du128 v1 v2 v3 v4 v5
-du128 v0 v1 v2 v3 v4
+data T130 a0 a1 a2 = C136 a0 a1 a2
+name144 = "SizeW.less-than.<-trans"
+d144 v0 v1 v2 v3 v4 v5 = du144 v1 v2 v3 v4 v5
+du144 v0 v1 v2 v3 v4
   = case coe v0 of
         0 -> case coe v1 of
                  0 -> coe v4
@@ -117,7 +133,7 @@ du128 v0 v1 v2 v3 v4
                                                                                           MAlonzo.Code.Data.Nat.Base.C18
                                                                                           v0
                                                                                           v7
-                                                                                          (coe du128
+                                                                                          (coe du144
                                                                                              v5
                                                                                              v6
                                                                                              v7
@@ -126,9 +142,9 @@ du128 v0 v1 v2 v3 v4
                                                                        _ -> coe
                                                                               MAlonzo.RTE.mazUnreachableError
                        _ -> coe MAlonzo.RTE.mazUnreachableError
-name174 = "SizeW.less-than.<-trans2"
-d174 v0 v1 v2 v3 v4 v5 = du174 v1 v2 v3 v4 v5
-du174 v0 v1 v2 v3 v4
+name190 = "SizeW.less-than.<-trans2"
+d190 v0 v1 v2 v3 v4 v5 = du190 v1 v2 v3 v4 v5
+du190 v0 v1 v2 v3 v4
   = case coe v0 of
         0 -> let v5
                    = coe ((Prelude.-) :: Integer -> Integer -> Integer) v2
@@ -155,7 +171,7 @@ du174 v0 v1 v2 v3 v4
                                                                                           MAlonzo.Code.Data.Nat.Base.C18
                                                                                           v0
                                                                                           v7
-                                                                                          (coe du174
+                                                                                          (coe du190
                                                                                              v5
                                                                                              v6
                                                                                              v7
@@ -164,28 +180,28 @@ du174 v0 v1 v2 v3 v4
                                                                        _ -> coe
                                                                               MAlonzo.RTE.mazUnreachableError
                        _ -> coe MAlonzo.RTE.mazUnreachableError
-name218 = "SizeW.less-than.\8804-to-<"
-d218 v0 v1 v2 = du218 v1 v2
-du218 v0 v1
+name234 = "SizeW.less-than.\8804-to-<"
+d234 v0 v1 v2 = du234 v1 v2
+du234 v0 v1
   = case coe v0 of
         0 -> coe seq v1
                (coe MAlonzo.Code.Data.Nat.Base.C18 (0 :: Integer) v1)
         _ -> case coe v1 of
                  0 -> coe erased
                  _ -> coe MAlonzo.Code.Data.Nat.Base.C18 v0 v1
-name234 = "SizeW.less-than.<<-trans"
-d234 v0 v1 v2 v3 v4 v5 = du234 v1 v2 v3 v4 v5
-du234 v0 v1 v2 v3 v4
+name250 = "SizeW.less-than.<<-trans"
+d250 v0 v1 v2 v3 v4 v5 = du250 v1 v2 v3 v4 v5
+du250 v0 v1 v2 v3 v4
   = case coe v0 of
         C10 v5 -> case coe v1 of
                       C10 v6 -> case coe v2 of
                                     C10 v7 -> case coe v3 of
-                                                  C120 v8 v9 v10 -> case coe v4 of
-                                                                        C120 v11 v12 v13 -> coe C120
+                                                  C136 v8 v9 v10 -> case coe v4 of
+                                                                        C136 v11 v12 v13 -> coe C136
                                                                                               v5
                                                                                               v7
                                                                                               (coe
-                                                                                                 du128
+                                                                                                 du144
                                                                                                  v5
                                                                                                  v6
                                                                                                  v7
@@ -197,61 +213,61 @@ du234 v0 v1 v2 v3 v4
                                     _ -> coe MAlonzo.RTE.mazUnreachableError
                       _ -> coe MAlonzo.RTE.mazUnreachableError
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name252 = "SizeW.less-than.<<-trans2"
-d252 v0 v1 v2 v3 v4 v5 = du252 v2 v3 v4 v5
-du252 v0 v1 v2 v3
+name268 = "SizeW.less-than.<<-trans2"
+d268 v0 v1 v2 v3 v4 v5 = du268 v2 v3 v4 v5
+du268 v0 v1 v2 v3
   = coe seq v1
       (case coe v2 of
-           C120 v4 v5 v6 -> coe C120 v4 v0
-                              (coe du174 v4
+           C136 v4 v5 v6 -> coe C136 v4 v0
+                              (coe du190 v4
                                  (coe ((Prelude.+) :: Integer -> Integer -> Integer) (1 :: Integer)
                                     v1)
                                  v0
                                  v6
                                  v3)
            _ -> MAlonzo.RTE.mazUnreachableError)
-name288 = "SizeW.less-than.<<-trans3"
-d288 v0 v1 v2 v3 v4 v5 = du288 v2 v3 v4 v5
-du288 v0 v1 v2 v3
+name304 = "SizeW.less-than.<<-trans3"
+d304 v0 v1 v2 v3 v4 v5 = du304 v2 v3 v4 v5
+du304 v0 v1 v2 v3
   = case coe v2 of
-        C120 v4 v5 v6 -> coe C120 v4 v1 (coe du174 v4 v0 v1 v6 v3)
+        C136 v4 v5 v6 -> coe C136 v4 v1 (coe du190 v4 v0 v1 v6 v3)
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name314 = "SizeW.less-than.\8804-axiom"
-d314 v0 v1 = du314 v1
-du314 v0
+name330 = "SizeW.less-than.\8804-axiom"
+d330 v0 v1 = du330 v1
+du330 v0
   = case coe v0 of
         0 -> coe MAlonzo.Code.Data.Nat.Base.C10 (0 :: Integer)
         _ -> let v1
                    = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
                        (1 :: Integer)
-               in coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe du314 v1)
-name320 = "SizeW.less-than.<<-axiom0"
-d320 v0 v1 = du320 v1
-du320 v0
+               in coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe du330 v1)
+name336 = "SizeW.less-than.<<-axiom0"
+d336 v0 v1 = du336 v1
+du336 v0
   = case coe v0 of
-        0 -> coe C120 (0 :: Integer) (1 :: Integer)
+        0 -> coe C136 (0 :: Integer) (1 :: Integer)
                (coe MAlonzo.Code.Data.Nat.Base.C18 (0 :: Integer) (0 :: Integer)
                   (coe MAlonzo.Code.Data.Nat.Base.C10 (0 :: Integer)))
         _ -> let v1
                    = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
                        (1 :: Integer)
                in
-               coe C120 v0
+               coe C136 v0
                  (coe ((Prelude.+) :: Integer -> Integer -> Integer) (1 :: Integer)
                     v0)
                  (coe MAlonzo.Code.Data.Nat.Base.C18 v0 v0
-                    (coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe du314 v1)))
-name326 = "SizeW.less-than.one-step"
-d326 v0 v1 = du326 v1
-du326 v0
+                    (coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe du330 v1)))
+name342 = "SizeW.less-than.one-step-lemma"
+d342 v0 v1 = du342 v1
+du342 v0
   = case coe v0 of
-        C10 v1 -> coe du320 v1
+        C10 v1 -> coe du336 v1
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name330 = "SizeW.less-than.<<-Rec"
-d330 = erased
-name332 = "SizeW.less-than.<<-WF"
-d332 = erased
-name336 = "SizeW.less-than.<<-WF'"
-d336 = erased
-name1975 = "SizeW.less-than..absurdlambda"
-d1975 = erased
+name346 = "SizeW.less-than.<<-Rec"
+d346 = erased
+name348 = "SizeW.less-than.<<-WF"
+d348 = erased
+name352 = "SizeW.less-than.<<-WF'"
+d352 = erased
+name2047 = "SizeW.less-than..absurdlambda"
+d2047 = erased

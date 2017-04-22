@@ -33,9 +33,17 @@ module numbers where
   suc n == suc m = n == m
 
   _<-nat_ : ℕ → ℕ → Bool
-  zero <-nat m = true
+  zero <-nat zero = false
+  zero <-nat suc m = true
   suc n <-nat zero = false
   suc n <-nat suc m = n <-nat m
+
+  _<=nat_ : ℕ → ℕ → Bool
+  zero <=nat zero = true
+  suc n <=nat zero = false
+  zero <=nat suc m = true
+  suc n <=nat suc m = n <=nat m
+
 
   ≤-refl : ∀ (n : ℕ) → (n ≤ n)
   ≤-refl zero = z≤n

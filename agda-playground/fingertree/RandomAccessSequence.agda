@@ -45,8 +45,8 @@ module RandomAccessSequence where
     show-maybe nothing = "nothing"
 
     main = (putStrLn (toCostring "Hello") >>=
-            (λ x → return (big-seq 1000) >>=
-            (λ x → putStrLn (toCostring (show-maybe(x ! 2)))) >>=
+            (λ x → return (big-seq 33554432) >>=
+            (λ x → putStrLn (toCostring (show-maybe(x ! 16777216)))) >>=
             (λ x → return 1)))
 
     open import Function

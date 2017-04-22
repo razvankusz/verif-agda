@@ -44,7 +44,9 @@ d84 v0 v1
 name94 = "numbers._<-nat_"
 d94 v0 v1
   = case coe v0 of
-        0 -> coe True
+        0 -> case coe v1 of
+                 0 -> coe False
+                 _ -> coe True
         _ -> let v2
                    = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
                        (1 :: Integer)
@@ -55,43 +57,82 @@ d94 v0 v1
                               = coe ((Prelude.-) :: Integer -> Integer -> Integer) v1
                                   (1 :: Integer)
                           in coe d94 v2 v3
-name106 = "numbers.\8804-refl"
-d106 v0
+name104 = "numbers._<=nat_"
+d104 v0 v1
+  = case coe v0 of
+        0 -> coe seq v1 (coe True)
+        _ -> let v2
+                   = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
+                       (1 :: Integer)
+               in
+               case coe v1 of
+                   0 -> coe False
+                   _ -> let v3
+                              = coe ((Prelude.-) :: Integer -> Integer -> Integer) v1
+                                  (1 :: Integer)
+                          in coe d104 v2 v3
+name116 = "numbers.\8804-refl"
+d116 v0
   = case coe v0 of
         0 -> coe MAlonzo.Code.Data.Nat.Base.C10 (0 :: Integer)
         _ -> let v1
                    = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
                        (1 :: Integer)
-               in coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe d106 v1)
-name120 = "numbers.lemma++"
-d120 = erased
-name134 = "numbers.[]+"
-d134 = erased
-name144 = "numbers.+[]"
+               in coe MAlonzo.Code.Data.Nat.Base.C18 v1 v1 (coe d116 v1)
+name130 = "numbers.lemma++"
+d130 = erased
+name144 = "numbers.[]+"
 d144 = erased
-name160 = "numbers.++assoc"
-d160 = erased
-name188 = "numbers.list-foldl-lemma"
-d188 = erased
-name206 = "numbers.sum-monoid"
-d206
+name154 = "numbers.+[]"
+d154 = erased
+name170 = "numbers.++assoc"
+d170 = erased
+name198 = "numbers.list-foldl-lemma"
+d198 = erased
+name216 = "numbers.sum-monoid"
+d216
   = coe MAlonzo.Code.AlgebraStructures.C56 (0 :: Integer)
       ((Prelude.+) :: Integer -> Integer -> Integer)
       erased
       erased
       erased
       erased
-name212 = "numbers.list-monoid"
-d212 v0 v1 = du212 v1
-du212 v0
+name222 = "numbers.list-monoid"
+d222 v0 v1 = du222 v1
+du222 v0
   = coe MAlonzo.Code.AlgebraStructures.C56 (coe [])
       (coe MAlonzo.Code.Data.List.Base.d18 erased erased)
       erased
       erased
       erased
       (\ v1 v2 -> v0)
-name224 = "numbers.list-measure"
-d224 v0 v1 = du224
-du224
+name234 = "numbers.list-measure"
+d234 v0 v1 = du234
+du234
   = coe MAlonzo.Code.AlgebraStructures.C76
       (\ v0 -> coe (:) v0 (coe []))
+name242 = "numbers.Repr"
+d242 a0 = ()
+
+data T242 a0 a1 = C244
+                | C248 a0 a1
+                | C252 a0 a1
+name256 = "numbers._+1"
+d256 v0 v1 = du256 v1
+du256 v0
+  = case coe v0 of
+        C244 -> coe C252 (0 :: Integer) (coe C244)
+        C248 v1 v2 -> coe C252 v1 v2
+        C252 v1 v2 -> coe C248
+                        (coe ((Prelude.+) :: Integer -> Integer -> Integer) (1 :: Integer)
+                           v1)
+                        (coe du256 v2)
+        _ -> coe MAlonzo.RTE.mazUnreachableError
+name264 = "numbers.repr"
+d264 v0
+  = case coe v0 of
+        0 -> coe C244
+        _ -> let v1
+                   = coe ((Prelude.-) :: Integer -> Integer -> Integer) v0
+                       (1 :: Integer)
+               in coe du256 (coe d264 v1)

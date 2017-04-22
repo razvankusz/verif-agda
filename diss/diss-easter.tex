@@ -16,6 +16,9 @@
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{subfig}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{agda}
 \setmainfont{DejaVu Serif}
 \setmonofont{DejaVu Sans Mono}
 
@@ -386,6 +389,10 @@ Girton College \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Proforma, table of contents and list of figures
 
+\linespread{1.5}
+
+
+
 \setcounter{page}{1}
 \pagenumbering{roman}
 \pagestyle{plain}
@@ -447,6 +454,7 @@ appreciated.
 \setcounter{page}{1}
 \pagenumbering{arabic}
 \pagestyle{headings}
+
 
 \chapter{Introduction}
 
@@ -590,108 +598,98 @@ The type indicates what is being proved, whereas the definition consists of an e
 \subparagraph{List reverse properties}
 Consider the following implementation of reverse, using a helper function: 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mbox{\onelinecomment  helper function}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\Varid{rev'}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}(\Conid{List}\;\Conid{A})\mathbin{→}(\Conid{List}\;\Conid{A})\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\>\AgdaFunction{rev'} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
 \\
-\>[B]{}\Varid{rev'}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{ys}\mathrel{=}\Varid{ys}{}\<[E]%
+\>\AgdaFunction{rev'} \AgdaInductiveConstructor{[]} \AgdaBound{ys} \AgdaSymbol{=} \AgdaBound{ys}\<%
 \\
-\>[B]{}\Varid{rev'}\;(\Varid{x}\mathbin{∷}\Varid{xs})\;\Varid{ys}\mathrel{=}\Varid{rev'}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}\Varid{ys}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{rev}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\>\AgdaFunction{rev'} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaBound{ys} \AgdaSymbol{=} \AgdaFunction{rev'} \AgdaBound{xs} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{ys}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{rev}\;\Varid{xs}\mathrel{=}\Varid{rev'}\;\Varid{xs}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+%
+\\
+\>\AgdaFunction{rev} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{rev} \AgdaBound{xs} \AgdaSymbol{=} \AgdaFunction{rev'} \AgdaBound{xs} \AgdaInductiveConstructor{[]}\<%
+\\
+\end{code}
 
 The main goal of this exercise is to prove that $\forall xs : List A, rev (rev (xs)) \equiv xs$. We first need to prove some helper statements about reverse, of which I have included the type declarations\footnote{full implementation is in the appendix}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{rev'}\mathbin{-}\Varid{rev}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Conid{A}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\>\AgdaFunction{rev'-rev} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{ys}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}\Varid{rev'}\;\Varid{xs}\;\Varid{ys}\mathbin{≡}(\Varid{rev}\;\Varid{xs})\plus \Varid{ys}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ys} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaFunction{rev'} \AgdaBound{xs} \AgdaBound{ys} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)} \AgdaFunction{++} \AgdaBound{ys}\<%
+\\
+\end{code}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{rev}\mathbin{-}\Varid{app}\mathbin{-}\Varid{lemma}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\>\AgdaFunction{rev-app-lemma} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ys}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\Varid{rev}\;(\Varid{xs}\plus \Varid{ys})\mathbin{≡}(\Varid{rev}\;\Varid{ys})\plus (\Varid{rev}\;\Varid{xs}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ys} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaFunction{rev} \AgdaSymbol{(}\AgdaBound{xs} \AgdaFunction{++} \AgdaBound{ys}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{ys}\AgdaSymbol{)} \AgdaFunction{++} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 Finally, the main proof is presented using the Equational Reasoning module, which aids writing more readable proofs. This is the format in which most proofs are written throughout the dissertation.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\mathbin{:}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{List}\;\Conid{A}){}\<[E]%
+\>\AgdaFunction{rev-lemma} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}\Varid{rev}\;(\Varid{rev}\;\Varid{xs})\mathbin{≡}\Varid{xs}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\Varid{refl}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaFunction{rev} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaBound{xs}\<%
 \\
-\>[B]{}\Varid{rev}\mathbin{-}\Varid{lemma}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}{}\<[E]%
+\>\AgdaFunction{rev-lemma} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{begin}\;{}\<[E]%
+\>\AgdaFunction{rev-lemma} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rev}\;(\Varid{rev'}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{begin}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbin{≡⟨}\Varid{cong}\;\Varid{rev}\;(\Varid{rev'}\mathbin{-}\Varid{rev}\;\Varid{xs}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]))\mathbin{⟩}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{rev} \AgdaSymbol{(}\AgdaFunction{rev'} \AgdaBound{xs} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{))}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rev}\;((\Varid{rev}\;\Varid{xs})\plus \Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{≡⟨} \AgdaFunction{cong} \AgdaFunction{rev} \AgdaSymbol{(}\AgdaFunction{rev'-rev} \AgdaBound{xs} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{))} \AgdaFunction{⟩}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbin{≡⟨}\Varid{rev}\mathbin{-}\Varid{app}\mathbin{-}\Varid{lemma}\;(\Varid{rev}\;\Varid{xs})\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])\mathbin{⟩}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{rev} \AgdaSymbol{((}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)} \AgdaFunction{++} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{x}\mathbin{∷}\Varid{rev}\;(\Varid{rev}\;\Varid{xs}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{≡⟨} \AgdaFunction{rev-app-lemma} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{)} \AgdaFunction{⟩}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbin{≡⟨}\Varid{cong}\;(\Varid{λ}\;\Varid{a}\mathbin{→}\Varid{x}\mathbin{∷}\Varid{a})\;(\Varid{rev}\mathbin{-}\Varid{lemma}\;\Varid{xs})\mathbin{⟩}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaFunction{rev} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaBound{xs}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{x}\mathbin{∷}\Varid{xs}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{≡⟨} \AgdaFunction{cong} \AgdaSymbol{(λ} \AgdaBound{a} \AgdaSymbol{→} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{rev-lemma} \AgdaBound{xs}\AgdaSymbol{)} \AgdaFunction{⟩}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbin{∎}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{∎}\<%
+\\
+\end{code}
 It is worth emphasizing the dual use of the typing system, both for proving correctness and providing abstraction. The type declaration is many times sufficient for understanding the purpose of the implementation.
 
 \subsection{Induction}
@@ -746,50 +744,47 @@ If the type of the data structure ensures the invariants we want, both these pro
 
 Consider, for example, implementing a function that sorts lists. That is, the input is a normal list and the output should be a sorted list containing all the elements in the argument list.
 We can provide a type encoding of what it means to be a sorted list containing some set of elements. 
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{SortedList}\mathbin{:}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mathbin{→}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{SortedList}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{data} \AgdaDatatype{SortedList} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{n} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}[\mskip1.5mu \anonymous \mskip1.5mu]\mathbin{:}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}\Conid{SortedList}\;(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{[]} \AgdaSymbol{:} \AgdaDatatype{SortedList} \AgdaInductiveConstructor{[]}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{ys}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{zs}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{[\_]} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{SortedList} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{\_∷\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{ys} \AgdaSymbol{:} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{zs}\AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{SortedList}\;\Varid{ys}){}\<[E]%
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{all}\;(\Varid{λ}\;\Varid{a}\mathbin{→}\Varid{x}\mathbin{≤}\Varid{a})\;\Varid{ys}\mathbin{≡}\Varid{true}){}\<[E]%
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{SortedList} \AgdaBound{ys}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{x}\;\Varid{ins}\;\Varid{ys}\mathbin{≡}\Varid{zs}){}\<[E]%
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{all} \AgdaSymbol{(λ} \AgdaBound{a} \AgdaSymbol{→} \AgdaBound{x} \AgdaFunction{≤} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{ys} \AgdaDatatype{≡} \AgdaInductiveConstructor{true}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Conid{SortedList}\;\Varid{zs}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaDatatype{ins} \AgdaBound{ys} \AgdaDatatype{≡} \AgdaBound{zs}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{SortedList} \AgdaBound{zs}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 Here, the \textit{all} function tests whether a predicate holds in the entirety of a list, and the \textit{\_ins\_$\equiv$\_} operator should be read as: If x ins xs $\equiv$ ys, then I can insert x somewehre in xs to obtain ys.
 
 In order to define a correct sorting function, we assign the following type signature \footnote{I have encoded the lists as length-indexed vectors in order to ensure that the termination checker accepts my definitions. It would not have worked by simply using Lists.}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{sort}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{n}\mathbin{:}\Conid{ℕ}\mskip1.5mu\}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Vec}\;\Conid{A}\;\Varid{n})\mathbin{→}(\Conid{SortedList}\;\Varid{xs}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\begin{code}
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{sort} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{SortedList} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 This definition can be read in two ways: From a \textbf{logical} point of view, it is a proof that all lists can be sorted. However, from a \textbf{computational} point of view, it represents the type signature of all sorting functions that can be coded in Agda. \footnote{I have implemented, as an example, the selection sort which is present in the appendix}
 
@@ -952,139 +947,142 @@ In order to to mimic Haskell's typeclasses, I have carried around, for each A an
 
 \textbf{Node} corresponds to nodes in the underlying 2-3 tree implementation, having two constructors that contain two and respectively three items. Moreover, \textbf{Node}s can only be constructed if provided with a measurement tag and a correctness proof.
   
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{Node}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{Node} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)(}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Node2}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Node3}\mathbin{:}(\Varid{v}\mathbin{:}\Conid{V})\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{y}\mathbin{:}\Conid{A})\mathbin{→}(\Varid{z}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node2} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{v} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}(\Varid{v}\mathbin{≡}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
- 
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{y} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \<[11]%
+\>[11]\AgdaSymbol{(}\AgdaBound{v} \AgdaDatatype{≡} \AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{y} \AgdaField{∥}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node3} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{v} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{y} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{z} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{v} \AgdaDatatype{≡} \AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{y} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{z} \AgdaField{∥}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\<%
+\\
+\end{code}
 \textbf{Digit}s were in presented in the original paper as lists, but this definition limits them to have one to four elements.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{Digit}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\mathbin{:}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{One}{}\<[9]%
-\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{Digit} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{):} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Two}{}\<[9]%
-\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{One} \<[8]%
+\>[8]\AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Three}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Two} \<[8]%
+\>[8]\AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Four}{}\<[9]%
-\>[9]{}\mathbin{:}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Digit}\;\Conid{A}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Three} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Four} \<[8]%
+\>[8]\AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A}\<%
+\\
+\end{code}
 Finally, the \textbf{FingerTree} is a family of types, indexed by a measurement $\mu$. The measurement's correctness is enforced in all the constructors. Note the nested type and the universal quantification over possible sizes for the recursive call. Apart from the measurement addition, the rest corresponds to the original paper.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{10}{@{}>{\hspre}c<{\hspost}@{}}%
-\column{10E}{@{}l@{}}%
-\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{FingerTree}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+
+\begin{code}
 \\
-\>[B]{}\hsindent{17}{}\<[17]%
-\>[17]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{FingerTree} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)(}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{17}{}\<[17]%
-\>[17]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{17}{}\<[17]%
-\>[17]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄} \AgdaSymbol{:}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Empty}{}\<[10]%
-\>[10]{}\mathbin{:}{}\<[10E]%
-\>[13]{}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{\{}\AgdaBound{μ} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Single}\mathbin{:}{}\<[13]%
-\>[13]{}(\Varid{e}\mathbin{:}\Conid{A})\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{e}\mathbin{∥}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Empty} \<[9]%
+\>[9]\AgdaSymbol{:} \<[12]%
+\>[12]\AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaField{ε}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{Deep}{}\<[10]%
-\>[10]{}\mathbin{:}{}\<[10E]%
-\>[13]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Single} \AgdaSymbol{:} \<[12]%
+\>[12]\AgdaSymbol{(}\AgdaBound{e} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaField{∥} \AgdaBound{e} \AgdaField{∥}\AgdaSymbol{\}}\<%
 \\
-\>[13]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Deep} \<[9]%
+\>[9]\AgdaSymbol{:} \<[12]%
+\>[12]\AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[13]{}\mathbin{→}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{pr} \AgdaSymbol{:} \AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[13]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
 \\
-\>[13]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{sf} \AgdaSymbol{:} \AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaFunction{measure-digit} \AgdaBound{pr} \AgdaField{∙} \AgdaBound{s} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{\}}\<%
+\\
+\end{code}
 
 \subparagraph{Smart Constructors}
 We also build smart constructors that fill in the measurement, provided with the appropriate number of elements
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{node2}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{node2} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\Varid{node2}\;\Varid{x}\;\Varid{y}\mathrel{=}\Conid{Node2}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{refl}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{node3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{node2} \AgdaBound{x} \AgdaBound{y} \AgdaSymbol{=} \AgdaInductiveConstructor{Node2} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{y} \AgdaField{∥}\AgdaSymbol{)} \AgdaBound{x} \AgdaBound{y} \AgdaInductiveConstructor{refl}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Node}\;\Conid{A}\;\Conid{V}{}\<[E]%
+\>\AgdaFunction{node3} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\Varid{node3}\;\Varid{x}\;\Varid{y}\;\Varid{z}\mathrel{=}\Conid{Node3}\;(\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{y}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{z}\mathbin{∥})\;\Varid{x}\;\Varid{y}\;\Varid{z}\;\Varid{refl}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
-
-
-
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\<%
+\\
+\>\AgdaFunction{node3} \AgdaBound{x} \AgdaBound{y} \AgdaBound{z} \AgdaSymbol{=} \AgdaInductiveConstructor{Node3} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{y} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{z} \AgdaField{∥}\AgdaSymbol{)} \AgdaBound{x} \AgdaBound{y} \AgdaBound{z} \AgdaInductiveConstructor{refl}\<%
+\\
+\end{code}
 \subsection{Graphical example}
 
 Considering Figure, \ref{fig:ftex1}, I have colour-coded the nodes as follows:
@@ -1219,87 +1217,88 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 	\label{fig:ftex3}
 \end{figure}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\anonymous \mathbin{◁\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
-\\
-\>[B]{}\hsindent{7}{}\<[7]%
-\>[7]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{s}\mskip1.5mu\}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
 
+
+\begin{code}
+\\
+\\
+\\
+\\
+\\
+\>\AgdaFunction{\_◁\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{\{}\AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{\}}\<%
+\\
+\end{code}
 Each case in the definition is accompanied by a proof that the measurement of the output finger tree is correct with respect to the topmost definition. These proofs are all derived from monoid properties imposed on the operation.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\Varid{a}\;\Conid{Empty}{}\<[E]%
+
+\begin{code} 
+\>\AgdaFunction{\_◁\_} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaBound{a} \AgdaInductiveConstructor{Empty}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo})\mathbin{∥}\Varid{a}\mathbin{∥}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaSymbol{(}\AgdaField{Monoid.ε-right} \AgdaBound{mo}\AgdaSymbol{)} \AgdaField{∥} \AgdaBound{a} \AgdaField{∥}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Single}\;\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{a}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Single} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}\{}\AgdaBound{A}\AgdaSymbol{\}\{}\AgdaBound{V}\AgdaSymbol{\}} \AgdaBound{a}\<%
 \\
-\>[B]{}\anonymous \mathbin{◁\char95 }\{\mskip1.5mu \Varid{l}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\{\mskip1.5mu \mathbin{\circ}(\mathbin{∥}\Varid{e}\mathbin{∥})\mskip1.5mu\}\;\Varid{a}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\>\AgdaFunction{\_◁\_} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{\{}\AgdaSymbol{.(}\AgdaField{∥} \AgdaBound{e} \AgdaField{∥}\AgdaSymbol{)}\AgdaSymbol{\}} \AgdaBound{a} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{e}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{a}\;\Varid{e}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaFunction{assoc-lemma1} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaBound{a} \AgdaBound{e}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{One}\;\Varid{a})\;\Conid{Empty}\;(\Conid{One}\;\Varid{e}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{a}\AgdaSymbol{)} \AgdaInductiveConstructor{Empty} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{e}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{One}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>\AgdaBound{a} \AgdaFunction{◁} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaField{∙-assoc} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{a} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{b} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{a} \AgdaBound{b}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Two}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>\AgdaBound{a} \AgdaFunction{◁} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{b} \AgdaBound{c}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaField{∙-assoc} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{a} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{b} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{c} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{a}\;\Varid{b}\;\Varid{c})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Three} \AgdaBound{a} \AgdaBound{b} \AgdaBound{c}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Three}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>\AgdaBound{a} \AgdaFunction{◁} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Three} \AgdaBound{b} \AgdaBound{c} \AgdaBound{d}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\mathbin{∥}\Varid{a}\mathbin{∥})\;(\mathbin{∥}\Varid{b}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{c}\mathbin{∥}\mathbin{∙}\mathbin{∥}\Varid{d}\mathbin{∥})\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaField{∙-assoc} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{a} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{∥} \AgdaBound{b} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{c} \AgdaField{∥} \AgdaField{∙} \AgdaField{∥} \AgdaBound{d} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Four}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Four} \AgdaBound{a} \AgdaBound{b} \AgdaBound{c} \AgdaBound{d}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\Varid{a}\mathbin{◁}\Conid{Deep}\;(\Conid{Four}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e})\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>\AgdaBound{a} \AgdaFunction{◁} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Four} \AgdaBound{b} \AgdaBound{c} \AgdaBound{d} \AgdaBound{e}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\;\Varid{assoc}\mathbin{-}\Varid{lemma2}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}\;\Varid{e}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{rewrite} \AgdaFunction{assoc-lemma2} \AgdaBound{a} \AgdaBound{b} \AgdaBound{c} \AgdaBound{d} \AgdaBound{e} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{a}\;\Varid{b})\;((\Varid{node3}\;\Varid{c}\;\Varid{d}\;\Varid{e})\mathbin{◁}\Varid{ft})\;\Varid{sf}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{a} \AgdaBound{b}\AgdaSymbol{)} \AgdaSymbol{((}\AgdaFunction{node3} \AgdaBound{c} \AgdaBound{d} \AgdaBound{e}\AgdaSymbol{)} \AgdaFunction{◁} \AgdaBound{ft}\AgdaSymbol{)} \AgdaBound{sf}\<%
+\\
+\end{code}
 
 The Finger Tree operations are symmetric on the middle, so the construction of the snoc operator is exactly dual. It's implementation is provided in the source code.
 
@@ -1310,68 +1309,56 @@ We will need to prove properties of the finger trees with respect to the element
 
 This is the conversion between a finger tree and a list\footnote{
 toList-dig is a straightforward conversion.}\footnote{flatten-list transforms a list of Nodes into a list of As.}
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{29}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{toList-ft} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄} \AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;\Conid{Empty}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\>[0]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
 \\
-\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Single}\;\Varid{x})\mathrel{=}\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\>\AgdaFunction{toList-ft} \AgdaInductiveConstructor{Empty} \AgdaSymbol{=} \AgdaInductiveConstructor{[]}\<%
 \\
-\>[B]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Conid{Deep}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₁})\plus {}\<[E]%
+\>\AgdaFunction{toList-ft} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
 \\
-\>[B]{}\hsindent{29}{}\<[29]%
-\>[29]{}(\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}))\plus {}\<[E]%
-\\
-\>[B]{}\hsindent{29}{}\<[29]%
-\>[29]{}(\Varid{toList}\mathbin{-}\Varid{dig}\;\Varid{x₂}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\end{code}
 
 \subsection{Proving correctness of the \textit{cons} operator}
 
 Assuming that the implementation of list is correct, we can define the correctness of the cons operator as follows\footnote{An example term of this type is in the appendix}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{cons}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{cons-correct} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}(\Varid{x}\mathbin{:}\Conid{A})\mathbin{→}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaBound{v} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{→}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})\mathbin{→}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\Varid{toList}\mathbin{-}\Varid{ft}\;(\Varid{x}\mathbin{◁}\Varid{ft})\mathbin{≡}(\Varid{x}\mathbin{∷}[\mskip1.5mu \mskip1.5mu])\plus (\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{v}\AgdaSymbol{\})} \AgdaSymbol{→}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{toList-ft} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{◁} \AgdaBound{ft}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{)} \AgdaFunction{++} \AgdaSymbol{(}\AgdaFunction{toList-ft} \AgdaBound{ft}\AgdaSymbol{)}\<%
+\\
+\end{code} 
 
 \subsection{View from the Left/Right}
 
@@ -1379,39 +1366,37 @@ As suggested in the original paper, the structure of the finger tree is complica
 
 In this case, we will 'view' each finger tree as the product between an element and the remaining finger tree. 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{ViewL}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{ViewL} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)(}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{NilL}\mathbin{:}{}\<[11]%
-\>[11]{}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{ε}\mskip1.5mu\}{}\<[E]%
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄} \AgdaSymbol{:}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Conid{ConsL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{z}\mskip1.5mu\}{}\<[E]%
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}(\Varid{x}\mathbin{:}\Conid{A}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{NilL} \AgdaSymbol{:} \<[10]%
+\>[10]\AgdaDatatype{ViewL} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaField{ε}\AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{ConsL} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{z}\AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{z}\mskip1.5mu\}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{z}\AgdaSymbol{\})}\<%
+\\
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{ViewL} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaBound{z}\AgdaSymbol{\}}\<%
+\\
+\end{code} 
 
 This data type also enforces the correctness of the measurement, being indexed in the same way as the finger tree. 
 
@@ -1471,121 +1456,123 @@ As it is the case of the Cons operator, most cases are superfluous. The complica
 
 As you can see, the composition of cons and viewL is not a no-op, but they both preserve the order of the elements.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{mutual}\;{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{viewL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>\AgdaKeyword{mutual}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{viewL} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\{\mskip1.5mu \Varid{i}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}\Conid{ViewL}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{i}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{viewL}\;\Conid{Empty}\mathrel{=}\Conid{NilL}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Single}\;\Varid{x}){}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{ViewL} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rewrite}\;\Varid{sym}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{right}\;\Varid{mo}\mathbin{∥}\Varid{x}\mathbin{∥}){}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{viewL} \AgdaInductiveConstructor{Empty} \AgdaSymbol{=} \AgdaInductiveConstructor{NilL}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\mathrel{=}\Conid{ConsL}\;\Varid{x}\;\Conid{Empty}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{viewL} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{x}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{viewL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{rewrite} \AgdaFunction{sym} \AgdaSymbol{(}\AgdaField{Monoid.ε-right} \AgdaBound{mo} \AgdaField{∥} \AgdaBound{x} \AgdaField{∥}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rewrite}\;\Varid{measure}\mathbin{-}\Varid{digit}\mathbin{-}\Varid{lemma1}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{ConsL} \AgdaBound{x} \AgdaInductiveConstructor{Empty}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\mathrel{=}\Conid{ConsL}\;(\Varid{head}\mathbin{-}\Varid{dig}\;\Varid{pr})\;(\Varid{deepL}\;(\Varid{tails}\mathbin{-}\Varid{dig}\;\Varid{pr})\;\Varid{ft}\;\Varid{sf}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{viewL} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{(}\AgdaInductiveConstructor{Deep} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{rewrite} \AgdaFunction{measure-digit-lemma1} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{ConsL} \AgdaSymbol{(}\AgdaFunction{head-dig} \AgdaBound{pr}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{deepL} \AgdaSymbol{(}\AgdaFunction{tails-dig} \AgdaBound{pr}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Maybe}\;(\Conid{Digit}\;\Conid{A})){}\<[E]%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[E]%
 \\
-\>[3]{}\hsindent{6}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{measure}\mathbin{-}\Varid{maybe}\mathbin{-}\Varid{digit}\;\Varid{pr}\mathbin{∙}\Varid{s}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mbox{\onelinecomment  deepL pr ft sf = {!   !}}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\;(\Varid{just}\;\Varid{x})\;\Varid{ft}\;\Varid{sf}\mathrel{=}\Conid{Deep}\;\Varid{x}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\;\Varid{with}\;\Varid{viewL}\;\Varid{ft}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\mathbin{⦃}\Varid{mo}\mathbin{⦄}\mathbin{⦃}\Varid{m}\mathbin{⦄}\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{NilL}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{pr} \AgdaSymbol{:} \AgdaDatatype{Maybe} \AgdaSymbol{(}\AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{))}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rewrite}\;(\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{ε}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\})}\<%
 \\
-\>[5]{}\hsindent{6}{}\<[11]%
-\>[11]{}\mid (\Varid{\Conid{Monoid}.ε}\mathbin{-}\Varid{left}\;\Varid{mo})\;(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf}){}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{sf} \AgdaSymbol{:} \AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\mathrel{=}\Varid{toTree}\mathbin{-}\Varid{dig}\;\Varid{sf}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaFunction{measure-maybe-digit} \AgdaBound{pr} \AgdaField{∙} \AgdaBound{s} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node2}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{r})\;\Varid{x₃}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- deepL pr ft sf = \{!   !\}}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaSymbol{(}\AgdaInductiveConstructor{just} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaBound{x} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[5]{}\hsindent{6}{}\<[11]%
-\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma3}\;\Varid{x₁}\;\Varid{x₂}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₃})\;\Varid{sf}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaInductiveConstructor{nothing} \AgdaBound{ft} \AgdaBound{sf} \AgdaKeyword{with} \AgdaFunction{viewL} \AgdaBound{ft}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Two}\;\Varid{x₁}\;\Varid{x₂})\;\Varid{x₃}\;\Varid{sf}\mbox{\onelinecomment  Deep (Two x₁ x₂) x₃ sf}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaInductiveConstructor{nothing} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{|} \AgdaInductiveConstructor{NilL}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{deepL}\;\Varid{nothing}\;\Varid{ft}\;\Varid{sf}\mid \Conid{ConsL}\;(\Conid{Node3}\;\Varid{x}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;\Varid{r})\;\Varid{x₄}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{rewrite} \AgdaSymbol{(}\AgdaField{Monoid.ε-left} \AgdaBound{mo}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{ε} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{rewrite}\;\Varid{r}{}\<[E]%
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{|} \AgdaSymbol{(}\AgdaField{Monoid.ε-left} \AgdaBound{mo}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[5]{}\hsindent{6}{}\<[11]%
-\>[11]{}\mid \Varid{assoc}\mathbin{-}\Varid{lemma4}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{x₄})\;\Varid{sf}{}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaFunction{toTree-dig} \AgdaBound{sf}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\mathrel{=}\Conid{Deep}\;(\Conid{Three}\;\Varid{x₁}\;\Varid{x₂}\;\Varid{x₃})\;\Varid{x₄}\;\Varid{sf}\mbox{\onelinecomment  Deep (Three x₁ x₂ x₃) x₄ sf}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaInductiveConstructor{nothing} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{|} \AgdaInductiveConstructor{ConsL} \AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{r}\AgdaSymbol{)} \AgdaBound{x₃}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{rewrite} \AgdaBound{r}\<%
+\\
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{|} \AgdaFunction{assoc-lemma3} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{x₃}\AgdaSymbol{)} \AgdaBound{sf}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{x₁} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaBound{x₃} \AgdaBound{sf} \AgdaComment{-- Deep (Two x₁ x₂) x₃ sf}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{deepL} \AgdaInductiveConstructor{nothing} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{|} \AgdaInductiveConstructor{ConsL} \AgdaSymbol{(}\AgdaInductiveConstructor{Node3} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{x₃} \AgdaBound{r}\AgdaSymbol{)} \AgdaBound{x₄}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{rewrite} \AgdaBound{r}\<%
+\\
+\>[4]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{|} \AgdaFunction{assoc-lemma4} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{x₃} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{x₄}\AgdaSymbol{)} \AgdaBound{sf}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaSymbol{(}\AgdaInductiveConstructor{Three} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{x₃}\AgdaSymbol{)} \AgdaBound{x₄} \AgdaBound{sf} \AgdaComment{-- Deep (Three x₁ x₂ x₃) x₄ sf}\<%
+\\
+\end{code}
 
 \subsection{Proving Correctness of \textit{viewL}}
 
@@ -1731,160 +1718,131 @@ We can further implement the fold operation and show its correctness. I will onl
 
 On lists, foldl f s [x, y, z] = f (f (f s x) y) z. We can extend this to FingerTrees. Defining folds on \textbf{Node} and \textbf{Digit} is trivial, since they are just length constrained lists.
 
-We also introduce an operation to flatten a list of nodes: 
+As a helper function, I define an operation to flatten a list of nodes: 
 
--- flatten-list
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{flatten-list} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\Conid{List}\;(\Conid{Node}\;\Conid{A}\;\Conid{V}){}\<[E]%
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
 \\
-\>[B]{}\Varid{flatten}\mathbin{-}\Varid{list}\;(\Varid{x}\mathbin{∷}\Varid{xs})\mathrel{=}(\Varid{toList}\mathbin{-}\Varid{node}\;\Varid{x})\plus (\Varid{flatten}\mathbin{-}\Varid{list}\;\Varid{xs}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>\AgdaFunction{flatten-list} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{flatten-list} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaFunction{toList-node} \AgdaBound{x}\AgdaSymbol{)} \AgdaFunction{++} \AgdaSymbol{(}\AgdaFunction{flatten-list} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 We can then implement the foldl on finger trees as:
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{20}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{foldl}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>\AgdaFunction{foldl} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaBound{W} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}(\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{W} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{W}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaBound{W}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{W}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;\Conid{Empty}\mathrel{=}\Varid{i}{}\<[E]%
+\>[2]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{→} \AgdaBound{W}\<%
 \\
-\>[B]{}\Varid{foldl}\;\Varid{f}\;\Varid{i}\;(\Conid{Single}\;\Varid{e})\mathrel{=}\Varid{f}\;\Varid{i}\;\Varid{e}{}\<[E]%
+\>\AgdaFunction{foldl} \AgdaBound{f} \AgdaBound{i} \AgdaInductiveConstructor{Empty} \AgdaSymbol{=} \AgdaBound{i}\<%
 \\
-\>[B]{}\Varid{foldl}\;\{\mskip1.5mu \Conid{W}\mathrel{=}\Conid{W}\mskip1.5mu\}\;\Varid{f}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf})\mathrel{=}{}\<[E]%
+\>\AgdaFunction{foldl} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{e}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{f} \AgdaBound{i} \AgdaBound{e}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;{}\<[E]%
+\>\AgdaFunction{foldl} \AgdaSymbol{\{}\AgdaArgument{W} \AgdaSymbol{=} \AgdaBound{W}\AgdaSymbol{\}} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Deep} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\AgdaSymbol{)} \AgdaSymbol{=}\<%
 \\
-\>[3]{}\hsindent{10}{}\<[13]%
-\>[13]{}(\Varid{foldl}\;(\Varid{foldl}\mathbin{-}\Varid{node}\;\Varid{f})\;{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaSymbol{(}\AgdaFunction{foldl} \AgdaSymbol{(}\AgdaFunction{foldl-node} \AgdaBound{f}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaBound{i} \AgdaBound{pr}\AgdaSymbol{)} \AgdaBound{ft}\AgdaSymbol{)} \AgdaBound{sf}\<%
 \\
-\>[13]{}\hsindent{7}{}\<[20]%
-\>[20]{}(\Varid{foldl}\mathbin{-}\Varid{dig}\;\Varid{f}\;\Varid{i}\;\Varid{pr})\;{}\<[E]%
-\\
-\>[13]{}\hsindent{7}{}\<[20]%
-\>[20]{}\Varid{ft}{}\<[E]%
-\\
-\>[3]{}\hsindent{10}{}\<[13]%
-\>[13]{})\;{}\<[E]%
-\\
-\>[3]{}\hsindent{10}{}\<[13]%
-\>[13]{}\Varid{sf}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\end{code}
 
 \subsection{Proving correctness of Fold Left}
 
 Next, we will show that the previous implementation is sane, by seeing whether folding over a finger tree is equivalent to folding over its list representation.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{foldl}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\{\mskip1.5mu \Conid{W}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\>\AgdaFunction{foldl-correct} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{\{}\AgdaBound{W} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{f}\mathbin{:}\Conid{W}\mathbin{→}\Conid{A}\mathbin{→}\Conid{W}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{σ}\mathbin{:}\Conid{W}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{f} \AgdaSymbol{:} \AgdaBound{W} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{W}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{σ} \AgdaSymbol{:} \AgdaBound{W}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{f}\;\Varid{σ}\;\Varid{ft}\mathbin{≡}\Varid{\Conid{Data}.\Conid{List}.foldl}\;\Varid{f}\;\Varid{σ}\;(\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft})){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\})}\<%
+\\
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{foldl} \AgdaBound{f} \AgdaBound{σ} \AgdaBound{ft} \AgdaDatatype{≡} \AgdaFunction{Data.List.foldl} \AgdaBound{f} \AgdaBound{σ} \AgdaSymbol{(}\AgdaFunction{toList-ft} \AgdaBound{ft}\AgdaSymbol{))}\<%
+\\
+\end{code}
+
 
 Furthermore, fold-left has some interesting properties when it comes to its relation to the measurement. We can prove that if we fold over the finger tree using the \textbf{Monoid} and the \textbf{Measure}\footnote{foldfun v x = v ∙ ∥ x ∥} over which it is instantiated, we obtain the same result as the measure. This result is important as a sanity check of the measure semantics we are trying to preserve throughout the implementation:
 
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{foldl}\mathbin{-}\Varid{lemma0}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{foldl-lemma0} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{v}\mathbin{:}\Conid{V}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{v} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{foldl}\;\Varid{foldfun}\;\Varid{v}\;\Varid{ft}\mathbin{≡}\Varid{v}\mathbin{∙}\Varid{s}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
-
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\})}\<%
+\\
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{foldl} \AgdaFunction{foldfun} \AgdaBound{v} \AgdaBound{ft} \AgdaDatatype{≡} \AgdaBound{v} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 \subsection{Splitting}
 
@@ -1896,43 +1854,39 @@ The split is done over a boolean predicate, $p \in V \to Bool$ and a starting va
 
 
 As with ViewL, we create an additional data-type that will represent the result. It is indexed by the measurement, ensuring correctness.
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{36}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{Split}\mathbin{-}\Varid{d}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;(\Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}){}\<[E]%
+
+\begin{code}
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{Split-d} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}\mathbin{:}{}\<[E]%
+\>[2]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>[2]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄} \AgdaSymbol{:}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{split}\mathbin{-}\Varid{d}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{μ₁}\mathbin{:}\Conid{V}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{μ₂}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{\{}\AgdaBound{μ} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mskip1.5mu\}){}\<[36]%
-\>[36]{}\mbox{\onelinecomment  left side}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{split-d} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{μ₁} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{μ₂} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{A}){}\<[36]%
-\>[36]{}\mbox{\onelinecomment  middle}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ₁}\AgdaSymbol{\})} \<[35]%
+\>[35]\AgdaComment{-- left side}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}(\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₂}\mskip1.5mu\}){}\<[36]%
-\>[36]{}\mbox{\onelinecomment  right side}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \<[35]%
+\>[35]\AgdaComment{-- middle}\<%
 \\
-\>[3]{}\hsindent{8}{}\<[11]%
-\>[11]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ₁}\mathbin{∙}\mathbin{∥}\Varid{x}\mathbin{∥}\mathbin{∙}\Varid{μ₂}\mskip1.5mu\}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ₂}\AgdaSymbol{\})} \<[35]%
+\>[35]\AgdaComment{-- right side}\<%
+\\
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaDatatype{Split-d} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ₁} \AgdaField{∙} \AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaBound{μ₂}\AgdaSymbol{\}}\<%
+\\
+\end{code}
 
 Since this implementation is long a full of necessary proofs about the types, I will only provide the most important snippets.
 
@@ -1940,146 +1894,138 @@ Since this implementation is long a full of necessary proofs about the types, I 
 
 \subparagraph{The main procedure} pattern matches on the constructors for the Finger Tree provided as argument. Notice that the typing already maintains the invariant.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{46}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{50}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{56}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{58}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{64}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[50]%
-\>[50]{}\mbox{\onelinecomment  type class information}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V}){}\<[46]%
-\>[46]{}\mbox{\onelinecomment  predicate and inital value}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{\{}\AgdaBound{μ} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}} \AgdaComment{-- type class information}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[64]%
-\>[64]{}\mbox{\onelinecomment  argument}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{p} \AgdaSymbol{:} \AgdaBound{V} \AgdaSymbol{→} \AgdaDatatype{Bool}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{i} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{)} \AgdaComment{-- predicate and inital value}\<%
 \\
-\>[B]{}\hsindent{13}{}\<[13]%
-\>[13]{}\mathbin{→}\Conid{Maybe}\;(\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ}\AgdaSymbol{\})} \AgdaComment{-- argument}\<%
 \\
-\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;\Conid{Empty}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaSymbol{(}\AgdaDatatype{Split-d} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ}\AgdaSymbol{\})}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{nothing}{}\<[46]%
-\>[46]{}\mbox{\onelinecomment  cannot split an empty tree}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree} \AgdaBound{p} \AgdaBound{i} \AgdaInductiveConstructor{Empty}\<%
 \\
-\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Single}\;\Varid{e}){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{nothing} \<[15]%
+\>[15]\AgdaComment{-- cannot split an empty tree}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{single}\;\Varid{p}\;\Varid{i}\;\Varid{e}){}\<[56]%
-\>[56]{}\mbox{\onelinecomment  superfluous case}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree} \AgdaBound{p} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{e}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{split}\mathbin{-}\Conid{Tree}\;\Varid{p}\;\Varid{i}\;(\Conid{Deep}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaFunction{split-Tree-single} \AgdaBound{p} \AgdaBound{i} \AgdaBound{e}\AgdaSymbol{)} \AgdaComment{-- superfluous case}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{just}\;(\Varid{split}\mathbin{-}\Conid{Tree}\mathbin{-}\Varid{if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varid{vpr}\;\Varid{refl}\;\Varid{vft}\;\Varid{refl}){}\<[58]%
-\>[58]{}\mbox{\onelinecomment  recursive case}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree} \AgdaBound{p} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Deep} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbf{where}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaFunction{split-Tree-if} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf} \AgdaFunction{vpr} \AgdaInductiveConstructor{refl} \AgdaFunction{vft} \AgdaInductiveConstructor{refl}\AgdaSymbol{)} \AgdaComment{-- recursive case}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{vpr}\mathrel{=}\Varid{p}\;(\Varid{i}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{where}\<%
 \\
-\>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}\Varid{vft}\mathrel{=}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{vpr} \AgdaSymbol{=} \AgdaBound{p} \AgdaSymbol{(}\AgdaBound{i} \AgdaField{∙} \AgdaSymbol{(}\AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{vft} \AgdaSymbol{=} \AgdaBound{p} \AgdaSymbol{((}\AgdaBound{i} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{)} \AgdaField{∙} \AgdaFunction{measure-tree} \AgdaBound{ft}\AgdaSymbol{)}\<%
+\\
+%
+\end{code}
 
 
 The \textbf{split-Tree-if} function splits the computation in three cases, depending where the predicate changes to \textit{True}. This could happen after the during the prefix \textbf{pr}, during the nested finger tree \textbf{ft} or during the suffix \textbf{sf} 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{42}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{44}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\FunName{split-Tree-if}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree-if} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\{\mskip1.5mu \Varid{μ}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{p}\mathbin{:}\Conid{V}\mathbin{→}\Conid{Bool})\mathbin{→}(\Varid{i}\mathbin{:}\Conid{V})\mathbin{→}\mbox{\onelinecomment  predicate and initial value}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{pr}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[44]%
-\>[44]{}\mbox{\onelinecomment  prefix}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{\{}\AgdaBound{μ} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;(\Conid{Node}\;\Conid{A}\;\Conid{V})\;\Conid{V}\;\{\mskip1.5mu \Varid{μ}\mskip1.5mu\})\mbox{\onelinecomment  nested tree}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{p} \AgdaSymbol{:} \AgdaBound{V} \AgdaSymbol{→} \AgdaDatatype{Bool}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{i} \AgdaSymbol{:} \AgdaBound{V}\AgdaSymbol{)} \<[44]%
+\>[44]\AgdaComment{-- predicate and initial value}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{sf}\mathbin{:}\Conid{Digit}\;\Conid{A}){}\<[42]%
-\>[42]{}\mbox{\onelinecomment  suffix}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{pr} \AgdaSymbol{:} \AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{)} \<[45]%
+\>[45]\AgdaComment{-- prefix}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{:}\Conid{Bool}){}\<[42]%
-\>[42]{}\mbox{\onelinecomment  value of predicate after prefix}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{μ}\AgdaSymbol{\})} \AgdaComment{-- nested tree}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{vpr}\mathbin{≡}\Varid{p}\;(\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr}))\mbox{\onelinecomment  correctness check}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{sf} \AgdaSymbol{:} \AgdaDatatype{Digit} \AgdaBound{A}\AgdaSymbol{)} \<[43]%
+\>[43]\AgdaComment{-- suffix}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{:}\Conid{Bool}){}\<[42]%
-\>[42]{}\mbox{\onelinecomment  value of predicate after tree}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{vpr} \AgdaSymbol{:} \AgdaDatatype{Bool}\AgdaSymbol{)} \<[43]%
+\>[43]\AgdaComment{-- value of predicate after prefix}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{vft}\mathbin{≡}\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft})))\mbox{\onelinecomment  check}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{vpr} \AgdaDatatype{≡} \AgdaBound{p} \AgdaSymbol{(}\AgdaBound{i} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{))} \AgdaComment{-- correctness check}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}\Conid{Split}\mathbin{-}\Varid{d}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu (\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}\Varid{μ}\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{sf})\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{vft} \AgdaSymbol{:} \AgdaDatatype{Bool}\AgdaSymbol{)} \<[43]%
+\>[43]\AgdaComment{-- value of predicate after tree}\<%
 \\
-\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{false}\;\Varid{pr1}\;\Varidemph{false}\;\Varid{pr2}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{vft} \AgdaDatatype{≡} \AgdaBound{p} \AgdaSymbol{((}\AgdaBound{i} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{)} \AgdaField{∙} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft}\AgdaSymbol{)))} \AgdaComment{-- check}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree2}\;\Varid{p}\;((\Varid{i}\mathbin{∙}\Varid{measure}\mathbin{-}\Varid{digit}\;\Varid{pr})\mathbin{∙}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{ft}))\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaDatatype{Split-d} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{(}\AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{)} \AgdaField{∙} \AgdaBound{μ} \AgdaField{∙} \AgdaSymbol{(}\AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{)\}}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mbox{\onelinecomment  case2 : predicate becomes true in suffix or it doesn't become true at all}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree-if} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf} \AgdaInductiveConstructor{false} \AgdaBound{pr1} \AgdaInductiveConstructor{false} \AgdaBound{pr2}\<%
 \\
-\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{false}\;\Varid{pr1}\;\Varidemph{true}\;\Varid{pr2}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaFunction{split-Tree2} \AgdaBound{p} \AgdaSymbol{((}\AgdaBound{i} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{)} \AgdaField{∙} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{ft}\AgdaSymbol{))} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree3}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;(\Varid{sym}\;\Varid{pr1})\;(\Varid{sym}\;\Varid{pr2}){}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- case2 : predicate becomes true in suffix or not at all}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mbox{\onelinecomment  case3 : predicate becomes true in tree}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree-if} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf} \AgdaInductiveConstructor{false} \AgdaBound{pr1} \AgdaInductiveConstructor{true} \AgdaBound{pr2}\<%
 \\
-\>[B]{}\FunName{split-Tree-if}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}\;\Varidemph{true}\;\Varid{pr1}\;\Varid{vft}\;\Varid{pr2}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaFunction{split-Tree3} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{(}\AgdaFunction{sym} \AgdaBound{pr1}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{sym} \AgdaBound{pr2}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{split}\mathbin{-}\Conid{Tree1}\;\Varid{p}\;\Varid{i}\;\Varid{pr}\;\Varid{ft}\;\Varid{sf}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- case3 : predicate becomes true in tree}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mbox{\onelinecomment  case1 : predicate becomes true in prefix}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{split-Tree-if} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf} \AgdaInductiveConstructor{true} \AgdaBound{pr1} \AgdaBound{vft} \AgdaBound{pr2}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{=} \AgdaFunction{split-Tree1} \AgdaBound{p} \AgdaBound{i} \AgdaBound{pr} \AgdaBound{ft} \AgdaBound{sf}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- case1 : predicate becomes true in prefix}\<%
+\\
+\end{code}
 
 The full implementation requires more advanced agda syntax, as well as the implementation of the ViewR and deepR. It is present in the Appendix.
 
@@ -2112,35 +2058,29 @@ In this example, the cost of dependent types becomes very clear, and can be avoi
 \subsection{Reverse}
 
 The non-dependent interface is constructed through a dependent pair. The function \textbf{pack} makes the transformation, and the \textbf{cons-pair} is simply the extension of \textbf{cons} to the pair.
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{reverse-ft} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaRecord{Σ} \AgdaBound{V} \AgdaSymbol{(λ} \AgdaBound{v} \AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{v}\AgdaSymbol{\}))}\<%
 \\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Conid{Σ}\;\Conid{V}\;(\Varid{λ}\;\Varid{v}\mathbin{→}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\})){}\<[E]%
+\>[2]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaRecord{Σ} \AgdaBound{V} \AgdaSymbol{(λ} \AgdaBound{v} \AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaBound{v}\AgdaSymbol{\}))}\<%
 \\
-\>[B]{}\Varid{reverse}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mskip1.5mu\}\;\Varid{pair}\mathrel{=}{}\<[E]%
+\>\AgdaFunction{reverse-ft} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V}\AgdaSymbol{\}} \AgdaBound{pair} \AgdaSymbol{=}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{foldl}\mathbin{-}\Varid{pair}\;\Varid{cons}\mathbin{-}\Varid{pair}\;(\Varid{pack}\mathbin{-}\Varid{ft}\;\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{A}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathrel{=}\Conid{V}\mskip1.5mu\}\;\Conid{Empty})\;\Varid{pair}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{foldl-pair} \AgdaFunction{cons-pair} \AgdaSymbol{(}\AgdaFunction{pack-ft} \AgdaSymbol{\{}\AgdaArgument{A} \AgdaSymbol{=} \AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaArgument{V} \AgdaSymbol{=} \AgdaBound{V}\AgdaSymbol{\}} \AgdaInductiveConstructor{Empty}\AgdaSymbol{)} \AgdaBound{pair}\<%
+\\
+%
+\end{code} 
 
 Note that this implementation no longer constrains the result to the argument. The only verified property of this is that the result will itself be a correctly constructed FingerTree.
 
@@ -2154,119 +2094,131 @@ The measurement function will assign the value of 1 to any element, and the mono
 
 The \textit{SizeW} is simply a wrapper around \textit{Nat}\footnote{for compatibility with the rest of the implementation, I had to assign an arbitrary universe level \textit{a}} 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{25}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{:}\Conid{Set}\;\Varid{a}\;{}\<[25]%
-\>[25]{}\mathbf{where}{}\<[E]%
+
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{size}\mathbin{:}\mathbin{∀}(\Varid{n}\mathbin{:}\Conid{ℕ})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{ε}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{data} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \<[26]%
+\>[26]\AgdaKeyword{where}\<%
 \\
-\>[B]{}\Varid{ε}\mathrel{=}\Varid{size}\;\mathrm{0}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\anonymous \mathbin{∙\char95 }\mathbin{:}{}\<[8]%
-\>[8]{}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{size} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{(}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\Varid{size}\;\Varid{n}\mathbin{∙}\Varid{size}\;\Varid{m}\mathrel{=}\Varid{size}\;(\Varid{n}\mathbin{+}\Varid{m}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{ε} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a} \AgdaSymbol{:} \AgdaPostulate{Level}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{ε} \AgdaSymbol{=} \AgdaInductiveConstructor{size} \AgdaNumber{0}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{\_∙\_} \AgdaSymbol{:} \<[9]%
+\>[9]\AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{size} \AgdaBound{n} \AgdaFunction{∙} \AgdaInductiveConstructor{size} \AgdaBound{m} \AgdaSymbol{=} \AgdaInductiveConstructor{size} \AgdaSymbol{(}\AgdaBound{n} \AgdaPrimitive{+} \AgdaBound{m}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
 The properties of the \textit{Nat} carries directly to\textit{SizeW}, so that we can populate a \textit{Monoid SizeW}
 
+\begin{code}
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{instance} \AgdaFunction{size-monoid} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaRecord{Monoid} \AgdaSymbol{(}\AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{size-monoid} \AgdaSymbol{=} \AgdaInductiveConstructor{monoid} \AgdaFunction{ε} \AgdaFunction{\_∙\_} \AgdaFunction{ε∙} \AgdaFunction{∙ε} \AgdaFunction{∙-assoc} \AgdaDatatype{\_<ᵗ\_}\<%
+\\
+\end{code}
+
 \textit{Entry A} is a wrapper around elements of type A, given by the constructor \textit{entry}.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mbox{\onelinecomment  assign a constant value of 1 to any entry.}{}\<[E]%
+
+\begin{code}
 \\
-\>[B]{}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A})\mathbin{→}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{measure} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\Varid{measure}\;\Varid{x}\mathrel{=}\Varid{\Conid{SizeW}.size}\;\mathrm{1}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  by using the instance keyword, the methods that require an argument}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{measure} \AgdaBound{x} \AgdaSymbol{=} \AgdaInductiveConstructor{SizeW.size} \AgdaNumber{1}\<%
 \\
-\>[B]{}\mbox{\onelinecomment  of this type, specified by ⦃\_⦄, will be able to access it.}{}\<[E]%
+%
 \\
-\>[B]{}\mathbf{instance}\;\Varid{entry}\mathbin{-}\Varid{measure}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Measured}\;(\Conid{Entry}\;\Conid{A})\;\Conid{SizeW}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{instance} \AgdaFunction{entry-measure} \AgdaSymbol{:} \AgdaSymbol{∀\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaRecord{Measured} \AgdaSymbol{(}\AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaDatatype{SizeW}\<%
 \\
-\>[B]{}\Varid{entry}\mathbin{-}\Varid{measure}\mathrel{=}\Varid{measured}\;\Varid{measure}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mathbf{instance}\;\Varid{size}\mathbin{-}\Varid{monoid}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Monoid}\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}){}\<[E]%
-\\
-\>[B]{}\Varid{size}\mathbin{-}\Varid{monoid}\mathrel{=}\mathbin{...}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{entry-measure} \AgdaSymbol{=} \AgdaInductiveConstructor{measured} \AgdaFunction{measure}\<%
+\end{code}
 
 \subsection{Seq Instance}
 
 The Sequence instance is simply an alias for a Finger Tree, instantiated with an arbitrarily typed Entry and the SizeW monoid.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Conid{Seq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;(\Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a})\;\Conid{SizeW}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\Conid{Seq}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\Conid{A}\;\Varid{s}\mathrel{=}\Conid{FingerTree}\;(\Conid{Entry}\;\Conid{A})\;(\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\;\{\mskip1.5mu \Varid{s}\mskip1.5mu\}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{SizeW} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{=} \AgdaDatatype{FingerTree} \AgdaSymbol{(}\AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
+\\
+\end{code}
 
 \paragraph{Retrieving the nth element} \mbox{} \\ 
 The naive implementation would simply call the \textit{viewL} n times, yielding an amortized linear cost.
 
 However, we can find an $\mathcal{O}(log(n))$ implementation, by using \textit{split}. The predicate checks whether the current value is smaller than n, and we will start iterating from 0.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\anonymous \mathbin{!\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{Maybe}\;\Conid{A}{}\<[E]%
+\begin{code}
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{\_!\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaBound{A}\<%
 \\
-\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaKeyword{with} \AgdaFunction{split-Tree} \AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)} \AgdaFunction{<ˢ} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{0}\AgdaSymbol{)} \AgdaBound{seq}\<%
 \\
-\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\anonymous \;\Varid{x}\;\anonymous )\mathrel{=}\Varid{just}\;(\Varid{getEntry}\;\Varid{x}){}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaSymbol{|} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaInductiveConstructor{split-d} \AgdaSymbol{\_} \AgdaBound{x} \AgdaSymbol{\_)} \AgdaSymbol{=} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaFunction{getEntry} \AgdaBound{x}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{seq}\mathbin{!}\Varid{n}\mid \Varid{nothing}\mathrel{=}\Varid{nothing}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaSymbol{|} \AgdaInductiveConstructor{nothing} \AgdaSymbol{=} \AgdaInductiveConstructor{nothing}\<%
+\\
+\end{code}
 
 The call to split allows us to view the nth element, as well as the sequences that remain to the left and to the right.
 
 \paragraph{Setting an element} \mbox{} \\
 This also suggests a possible implementation for setting an element, which is rather inefficient, but provided for completeness, using Finger Tree concatenation.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{19}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{set}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}\mathbin{→}\Conid{ℕ}\mathbin{→}\Conid{A}\mathbin{→}\Conid{Seq}\;\Conid{A}\;\Varid{s}{}\<[E]%
+\begin{code} 
 \\
-\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\;\Varid{with}\;\Varid{split}\mathbin{-}\Conid{Tree}\;(\Varid{λ}\;\Varid{x}\mathbin{→}\Varid{size}\;\Varid{n}\mathbin{\Conid{SizeW}.<}\Varid{x})\;\Varid{\Conid{SizeW}.ε}\;\Varid{seq}{}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s}\<%
 \\
-\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{just}\;(\Varid{split}\mathbin{-}\Varid{d}\;\Varid{left}\;\Varid{x}\;\Varid{right}){}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaKeyword{with} \AgdaFunction{split-Tree} \AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaInductiveConstructor{size} \AgdaBound{n} \AgdaFunction{SizeW.<ˢ} \AgdaBound{x}\AgdaSymbol{)} \AgdaFunction{SizeW.ε} \AgdaBound{seq}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{rewrite}\mathbin{∙-}\Varid{assoc}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{left})\;{}\<[E]%
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaSymbol{|} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaInductiveConstructor{split-d} \AgdaBound{left} \AgdaBound{x} \AgdaBound{right}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{16}{}\<[19]%
-\>[19]{}(\Varid{size}\;\mathrm{1})\;{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{rewrite} \AgdaField{∙-assoc} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{left}\AgdaSymbol{)}\<%
 \\
-\>[3]{}\hsindent{16}{}\<[19]%
-\>[19]{}(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{right}){}\<[E]%
+\>[6]\AgdaIndent{22}{}\<[22]%
+\>[22]\AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathrel{=}\Varid{concat}\;((\Varid{entry}\;\Varid{y})\mathbin{▷}\Varid{left})\;\Varid{right}{}\<[E]%
+\>[6]\AgdaIndent{22}{}\<[22]%
+\>[22]\AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{right}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{set}\;\Varid{seq}\;\Varid{n}\;\Varid{y}\mid \Varid{nothing}\mathrel{=}\Varid{seq}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{=} \AgdaFunction{concat} \AgdaSymbol{((}\AgdaInductiveConstructor{entry} \AgdaBound{y}\AgdaSymbol{)} \AgdaFunction{▷} \AgdaBound{left}\AgdaSymbol{)} \AgdaBound{right}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaSymbol{|} \AgdaInductiveConstructor{nothing} \AgdaSymbol{=} \AgdaBound{seq}\<%
+\\
+\end{code}
 
 \section{Writing recursive definitions}
 
@@ -2292,35 +2244,53 @@ The ordering of the sizes naturally extends to an ordering of the Sequences, so 
 
 In this case, we can use Larry Paulson's results \footnote{also implemented in the standard library} to construct a Well-Founded relation on Sequences it is sufficient to have a Well-Founded relation on the Sizes.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mbox{\onelinecomment  comparing Seq-pairs is just comparing the size component}{}\<[E]%
+\begin{code} 
 \\
-\>[B]{}\anonymous \mathbin{⋖\char95 }\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- comparing Seq-pairs is just comparing the size component}\<%
 \\
-\>[B]{}\anonymous \mathbin{⋖\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\Varid{on}\;\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{open}\;\Conid{Inverse}\mathbin{-}\Varid{image}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_⋖\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\{\mskip1.5mu \Conid{A}\mathrel{=}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mskip1.5mu\}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_⋖\_} \AgdaSymbol{=} \AgdaDatatype{\_<<\_} \AgdaFunction{on} \AgdaFunction{to-size}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\{\mskip1.5mu \anonymous \mathbin{<\char95 }\mathrel{=}\anonymous \mathbin{<<\char95 }\mskip1.5mu\}{}\<[E]%
+%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{to}\mathbin{-}\Varid{size}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaModule{Inverse-image}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{renaming}\;(\Varid{well}\mathbin{-}\Varid{founded}\;\Varid{to}\mathbin{<<-<-}\Varid{wf}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  the comparison operation defined on the Seq-pair is well-founded}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaArgument{A} \AgdaSymbol{=} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\leftarrow \Conid{WF}\mathrel{=}\mathbin{<<-<-}\Varid{wf}\mathbin{<<-}\Conid{WF}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaArgument{\_<\_} \AgdaSymbol{=} \AgdaDatatype{\_<<\_}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{to-size}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaKeyword{renaming} \AgdaSymbol{(}well-founded \AgdaSymbol{to} <<-<-wf\AgdaSymbol{)}\<%
+\\
+\end{code}
+
+
+\begin{code}
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- the comparison of the Seq-pair is well-founded}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{<-WF} \AgdaSymbol{=} \AgdaFunction{<<-<-wf} \AgdaFunction{<<-WF}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaModule{WF.}\AgdaModule{All} \AgdaSymbol{(}\AgdaFunction{<-WF}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}wfRec \AgdaSymbol{to} <rec\AgdaSymbol{)}\<%
+\\
+%
+\\
+\end{code}
+
 
 Having obtained a proof of the well-foundeness, we can proceed by creating a recursor object and writing a recursive definition.
 
@@ -2328,36 +2298,33 @@ Having obtained a proof of the well-foundeness, we can proceed by creating a rec
 
 We have already implemented the reverse for the FingerTree through the fold. 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{open}\;\Conid{\Conid{WF}.All}\;(\leftarrow \Conid{WF})\;\Varid{renaming}\;(\Varid{wfRec}\;\Varid{to}\mathbin{<}\Varid{rec}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{rev}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\begin{code} 
 \\
-\>[B]{}\Varid{rev}\;\Varid{π}\mathrel{=}\mathbin{<}\Varid{rec}\;\Varid{a}\;\anonymous \;\Varid{go}\;\Varid{π}{}\<[E]%
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\mathbf{module}\;\Conid{Rev}\;\mathbf{where}{}\<[E]%
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev} \AgdaBound{π} \AgdaSymbol{=} \AgdaFunction{<rec} \AgdaBound{a} \AgdaSymbol{\_} \AgdaFunction{go} \AgdaBound{π}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{go}\mathbin{:}\mathbin{∀}\Varid{s}\mathbin{→}(\mathbin{∀}\Varid{p}\mathbin{→}\Varid{p}\mathbin{⋖}\Varid{s}\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A})\mathbin{→}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaKeyword{module} \AgdaModule{Rev} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{go}\mathbin{⟨}\Varid{fst},\Varid{snd}\mathbin{⟩}\Varid{rec}\;\Varid{with}\;\Varid{viewL}\;\Varid{snd}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{s} \AgdaSymbol{→} \AgdaSymbol{(∀} \AgdaBound{p} \AgdaSymbol{→} \AgdaBound{p} \AgdaFunction{⋖} \AgdaBound{s} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{go}\mathbin{⟨}\mathbin{.}(\Varid{size}\;\mathrm{0}),\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{NilL}\mathrel{=}\Varid{pack}\;\Conid{Empty}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaBound{fst} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaKeyword{with} \AgdaFunction{viewL} \AgdaBound{snd}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{go}\mathbin{⟨}\anonymous ,\Varid{snd}\mathbin{⟩}\Varid{rec}\mid \Conid{ConsL}\;\Varid{x}\;\Varid{xs}\mathrel{=}{}\<[E]%
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{.(}\AgdaInductiveConstructor{size} \AgdaNumber{0}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{NilL} \AgdaSymbol{=} \AgdaFunction{pack} \AgdaInductiveConstructor{Empty}\<%
 \\
-\>[3]{}\hsindent{4}{}\<[7]%
-\>[7]{}\Varid{rec}\;(\Varid{pack}\;(\Varid{xs}))\;(\Varid{one}\mathbin{-}\Varid{step}\;(\Varid{measure}\mathbin{-}\Varid{tree}\;\Varid{xs}))\mathbin{▷'}\Varid{x}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{\_} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{ConsL} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{=}\<%
+\\
+\>[8]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaBound{rec} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaSymbol{(}\AgdaBound{xs}\AgdaSymbol{))} \AgdaSymbol{(}\AgdaFunction{one-step-lemma} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{xs}\AgdaSymbol{))} \AgdaFunction{▷'} \AgdaBound{x}\<%
+\\
+\end{code}
 
 It is arguable whether this is actually a solution to the abstraction problem. We have indeed been able to write a definition of the reverse function using an abstract view. However, the solution itself is probably less readable than a solution that reverses directly on the Finger Tree.
 
@@ -2367,16 +2334,16 @@ Furthermore, in this form, we no longer work with dependently typed functions, s
 
 Let \textbf{Same-Size-Seq} be a family indexed by the \textbf{Seq-pair}, with a constructor enforcing this property. \footnote{At the time of implementation, I had not realized this trick yet. It would be an interesting extension to change the mechanism employed by the \textit{rewrite} to use something like this, and allow using Equality-Reasoning for type-level equality}
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\mathbin{:}(\Varid{s}\mathbin{:}\Conid{SizeW}\;\{\mskip1.5mu \Varid{a}\mskip1.5mu\})\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{ssseq}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mskip1.5mu\}\;\{\mskip1.5mu \Varid{z}\mskip1.5mu\}\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{s})\mathbin{→}(\Conid{Seq}\;\Conid{A}\;\Varid{z})\mathbin{→}(\Varid{s}\mathbin{≡}\Varid{z})\mathbin{→}\Conid{Same}\mathbin{-}\Conid{Size}\mathbin{-}\Conid{Seq}\;\Varid{s}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{data} \AgdaDatatype{Same-Size-Seq} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaInductiveConstructor{ssseq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{z}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{z}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{s} \AgdaDatatype{≡} \AgdaBound{z}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaBound{s}\<%
+\\
+%
+\end{code}
 
 Reimplementing the \textbf{rev} method with this output type is straight-forward and achieves the correctness goal. It is presented in the Appendix.
 
@@ -2425,37 +2392,218 @@ The problem that remains is proving the inductive step. This seemed impossible t
 
 \chapter{Evaluation}
 
+In the previous sections, I have experimented with various ways to implement and prove correct a data structure using Agda. 
 
+The running example was the implementation of the FingerTree, chosen because of the combination of many concepts in a single data structure.
 
+\begin{itemize}
+\item The data structure is used extensively in functional programming, being part of the Haskell standard library. \footnote{https://hackage.haskell.org/package/containers-0.5.10.2/docs/Data-Sequence.html}
 
+\item It is based on the existence of a monad and a measurement function, whose assumptions provide interesting starting points for proofs.
 
+\item It is a nested type, therefore not widely supported in functional languages. \footnote{consider, for example, the implementation in Isabelle, which is forced to redefine the data structure accordingly}
 
+\item It allowed a non-trivial index in the dependent implementation, namely the measure.
 
+\item It is a good example to outline the limitations of languages like agda with respect to the termination checker.
+\end{itemize}
 
+This project was originally intended as an supportive argument towards the use of dependent types, and understanding what causes the unpopularity in industry.
 
+I will therefore compare two instances of the Random Access Sequence, one using the implementation of the FingerTree as presented in the Implementation section, and the other one using a version with a trivial index (Size), with no correctness enforced through dependent types.
 
+\section{Run-time}
 
+The first comparison that could be made is too see whether the dependent typing incurs an additional cost on the programming. This is not per se an evaluation of the code, but more of the extraction process and the compilation. 
 
+The current version of Agda (2.5.1.1) makes available three compilers, all tagged as 'experimental': \textit{ghc}, \textit{js} and \textit{uhc}. Unfortunately, the two last ones did not work on my machine, causing it to crash or filling up all the available RAM (16GB).
 
+I have only used my machine for these experiments, with specifications detailed in table. To reduce the error in the results, I have limited the related processes' usage to a single core.
 
+Furthermore, I have repeated each experiment between 10 and 1000 times (limiting each measurement to approx 10 minutes) and only reported the smallest value, which could be read as a lower bound of the runtime.
 
+\begin{table}[h!]
+\centering
+	\begin{tabular}{c c} 
+	\hline 
+	Component & Setting \\
+	\hline
+ 	Operating System & Ubuntu 16.04.1 LTS 64-bit \\
+ 	Kernel & Linux v4.4.0-72-generic \\ 
+ 	CPU & Intel® Core™ i7-4702HQ, 2.20 GHz \\
+ 	RAM & 16 GB \\
+ 	Agda version & 5.2.1.1 \\
+	\hline
+	\end{tabular}
+\caption{Machine specifications}
+\end{table} 
 
+\subsection{\textit{cons}}
 
+For the first experiment, I am evaluating the run-time of consing $2^n$ elements to a sequence. $n$ is limited by the available memory of the system. 
 
+For this purpose, I have implemented a simple recursive consing function, and forced\footnote{Agda has lazy evaluation} its evaluation by a \textit{tab} operation\footnote{Getting the first element is guaranteed to have a negligeable run-time, since it resides in the leftmost digit, requiring only three function calls}. The output is done via the Haskell-like Monad way.
 
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaDatatype{ℕ} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaInductiveConstructor{zero} \AgdaSymbol{=} \AgdaInductiveConstructor{Empty}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaInductiveConstructor{entry} \AgdaBound{n}\AgdaSymbol{)} \AgdaFunction{◁} \AgdaSymbol{(}\AgdaFunction{big-seq} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+\end{code}
 
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{main} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaPostulate{putStrLn} \AgdaSymbol{(}\AgdaFunction{toCostring} \AgdaString{"Hello"}\AgdaSymbol{)} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{return} \AgdaSymbol{(}\AgdaFunction{big-seq} \AgdaNumber{1024}\AgdaSymbol{)} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{putStrLn} \AgdaSymbol{(}\AgdaFunction{toCostring} \AgdaSymbol{(}\AgdaFunction{show-maybe}\AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{!} \AgdaNumber{1}\AgdaSymbol{))))} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{return} \AgdaNumber{1}\AgdaSymbol{)))}\<%
+\\
+\end{code} 
 
+Bellow is a plot of the runtimes for the dependent and the non-dependent versions, on a log-log scale. 
 
+\begin{figure}[H]
+\caption{Consing experiment}
+\scalebox{0.8} {
+\begin{picture}(0,0)
+\includegraphics{consexp-inc}
+\end{picture}%
+\begin{picture}(576,433)(0,0)
+\fontsize{10}{0}
+\selectfont\put(74.88,43.5189){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{10}}}}
+\fontsize{10}{0}
+\selectfont\put(214.38,43.5189){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{15}}}}
+\fontsize{10}{0}
+\selectfont\put(353.88,43.5189){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{20}}}}
+\fontsize{10}{0}
+\selectfont\put(493.38,43.5189){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{25}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,48.52){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-10}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,98.8172){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-8}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,149.114){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-6}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,199.411){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-4}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,249.709){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-2}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,300.006){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{0}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,350.303){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{2}}}}
+\fontsize{10}{0}
+\selectfont\put(69.8755,400.6){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{4}}}}
+\fontsize{10}{0}
+\selectfont\put(298.08,32.5189){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{n}}}}
+\fontsize{10}{0}
+\selectfont\put(49.8755,224.56){\rotatebox{90}{\makebox(0,0)[b]{\textcolor[rgb]{0,0,0}{{logarithm of minimum runtime}}}}}
+\fontsize{10}{0}
+\selectfont\put(103.667,390.83){\makebox(0,0)[l]{\textcolor[rgb]{0,0,0}{{Dependent Version}}}}
+\fontsize{10}{0}
+\selectfont\put(103.667,376.775){\makebox(0,0)[l]{\textcolor[rgb]{0,0,0}{{NonDependent Version}}}}
+\fontsize{10}{0}
+\selectfont\put(298.08,410.6){\makebox(0,0)[b]{\textcolor[rgb]{0,0,0}{{Comparison of runtime for the cons experiment}}}}
+\end{picture}
+}
+\end{figure}
 
+\subsection{split}
+
+This experiment is an extension of the previous one. The difference is that we require tab operation that depends on the length of the sequence. I have chosen for this purpose to identify the middle element.
+
+Also, since we require creating a big-sequence to start with, I have subtracted the results from the previous experiment, so the values are the minimum time to extract the middle element from an increasingly long sequences.
+
+\begin{figure}[H]
+\caption{Splitting Experiment}
+\scalebox{0.8} {
+\begin{picture}(0,0)
+\includegraphics{splitexp-inc}
+\end{picture}%
+\begin{picture}(576,433)(0,0)
+\fontsize{10}{0}
+\selectfont\put(72.8,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{10}}}}
+\fontsize{10}{0}
+\selectfont\put(130.667,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{12}}}}
+\fontsize{10}{0}
+\selectfont\put(188.533,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{14}}}}
+\fontsize{10}{0}
+\selectfont\put(246.4,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{16}}}}
+\fontsize{10}{0}
+\selectfont\put(304.267,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{18}}}}
+\fontsize{10}{0}
+\selectfont\put(362.133,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{20}}}}
+\fontsize{10}{0}
+\selectfont\put(420,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{22}}}}
+\fontsize{10}{0}
+\selectfont\put(477.867,53.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{24}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,58.31){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-15}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,126.933){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-10}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,195.556){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{-5}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,264.179){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{0}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,332.802){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{5}}}}
+\fontsize{10}{0}
+\selectfont\put(67.8,401.425){\makebox(0,0)[r]{\textcolor[rgb]{0,0,0}{{10}}}}
+\fontsize{10}{0}
+\selectfont\put(289.8,42.3083){\makebox(0,0)[t]{\textcolor[rgb]{0,0,0}{{n}}}}
+\fontsize{10}{0}
+\selectfont\put(47.8,229.867){\rotatebox{90}{\makebox(0,0)[b]{\textcolor[rgb]{0,0,0}{{logarithm of minimum runtime}}}}}
+\fontsize{10}{0}
+\selectfont\put(100.787,391.904){\makebox(0,0)[l]{\textcolor[rgb]{0,0,0}{{Dependent Version}}}}
+\fontsize{10}{0}
+\selectfont\put(100.787,378.206){\makebox(0,0)[l]{\textcolor[rgb]{0,0,0}{{NonDependent Version}}}}
+\fontsize{10}{0}
+\selectfont\put(289.8,411.425){\makebox(0,0)[b]{\textcolor[rgb]{0,0,0}{{Comparison of runtime for the split experiment}}}}
+\end{picture}
+}
+\end{figure}
+
+I is clear from both these experiments that the dependent versions incurs a higher computational cost. Moreover, the ends show that the divergence between the two depends on the input size.  However, this is not a limitation of dependent types, but of the compiler and extracting tools. All the type annotations could be removed without damaging correctness.
+
+\subsection{reversing and problems with the compiler}
+
+I have tried to repeat the same type of experiment, comparing the run-time of the \textbf{reverse-ft} method, implemented using \textbf{foldl}, and the \textit{rev} method, which uses the \textbf{ViewL}.
+
+Unfortunately, the compilation of the latter method was not successful. Whereas the \textit{normalization} tool always returns the correct result, running a compiled version has caused a \textit{Segmentation Fault} error. This is quite damaging to the application, since a compiler that doesn't preserve the semantics of the code doesn't necessarily preserve correctness. 
+
+\section{Heuristics for Effort}
+
+obviously dependent typed version is harder than a non-dependently typed, see by how much.
+probably compare to some other literature?
+
+say that even though it's harder, the system guides you through the proofs.
+
+\subsection{Lines of code}
+
+\begin{itemize}
+\item compare version 1 with version 2
+\item explain how this is not fully verified, but requires extra proofs --- come back next
+\item present sorting as a fully verified procedure and analyze that as a comparison?
+\end{itemize}
  
+\subsection{Lemma Usage}
 
-
-
-
-
-
-
-
-
+\begin{itemize}
+\item see how many lemmas are at the base
+\item show that some proofs are harder than others?
+\item argue the use of the monoid solver
+\end{itemize}
 
 \end{document}

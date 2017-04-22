@@ -1,13 +1,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Example finger tree\relax }}{10}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Bigger Finger Tree\relax }}{14}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Smaller finger Tree\relax }}{14}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Recursive cons operation\relax }}{14}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{14}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{14}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces ViewL operation (only included the tails)\relax }}{17}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{17}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{17}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Example finger tree\relax }}{11}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bigger Finger Tree\relax }}{15}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Smaller finger Tree\relax }}{15}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Recursive cons operation\relax }}{16}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{16}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{16}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces ViewL operation (only included the tails)\relax }}{18}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{18}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{18}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Consing experiment\relax }}{33}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Splitting Experiment\relax }}{34}

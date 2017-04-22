@@ -94,9 +94,13 @@ du134 v0 v1
       (coe d22 erased erased v1)
       (coe d66 erased erased v1)
       erased
-name138 = "MonoidSolver.assoc-lemma0"
+name138 = "MonoidSolver.assoc-lemma0ms"
 d138 = erased
-name148 = "MonoidSolver.assoc-lemma-5v"
+name148 = "MonoidSolver.assoc-lemma-5ms"
 d148 = erased
-name160 = "MonoidSolver.assoc-lemma-7"
+name160 = "MonoidSolver.assoc-lemma-7ms"
 d160 = erased
+name166 = "MonoidSolver.assoc-lemma-8ms"
+d166 = erased
+name178 = "MonoidSolver.assoc-lemma-9ms"
+d178 = erased

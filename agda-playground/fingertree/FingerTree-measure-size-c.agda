@@ -28,7 +28,7 @@ open import AlgebraStructures
 open Measured {{...}} public
 open Monoid {{...}} public
 
-open import Relation.Binary.PropositionalEquality.TrustMe using (trustMe)
+-- open import Relation.Binary.PropositionalEquality.TrustMe using (trustMe)
 
 ------------------------------------------------------------------------
 
@@ -515,20 +515,27 @@ splitDigit p i (One x) = split nothing x nothing
 splitDigit p i (Two x x₁) =
   if (p i) then
     (split nothing x (just (One x₁)))
+  else if (p (i ∙ ∥ x ∥)) then
+    (split nothing x (just (One x₁)))
   else
     (split (just (One x)) x₁ nothing)
 splitDigit p i (Three x x₁ x₂) =
   if (p i) then
     (split nothing x (just (Two x₁ x₂)))
   else if (p (i ∙ ∥ x ∥)) then
+    (split nothing x (just (Two x₁ x₂)))
+  else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥) ) then
     split (just (One x)) x₁ (just (One x₂))
   else
     split (just (Two x x₁)) x₂ nothing
-splitDigit p i (Four x x₁ x₂ x₃) = if (p i) then
+splitDigit p i (Four x x₁ x₂ x₃) =
+  if (p i) then
     (split nothing x (just (Three x₁ x₂ x₃)))
   else if (p (i ∙ ∥ x ∥)) then
-    split (just (One x)) x₁ (just (Two x₂ x₃))
+    (split nothing x (just (Three x₁ x₂ x₃)))
   else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥)) then
+    split (just (One x)) x₁ (just (Two x₂ x₃))
+  else if (p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥)) then
     split (just (Two x x₁)) x₂ (just (One x₃))
   else
     split (just (Three x x₁ x₂)) x₃ nothing
@@ -555,60 +562,69 @@ splitDigit-size-lemma0 p i (One x) .nothing .x .nothing refl =
   ≡⟨ ε-right ∥ x ∥ ⟩
     ∥ x ∥
   ∎
-splitDigit-size-lemma0 p i (Two x x₁) l x₂ r q with p i
-splitDigit-size-lemma0 p i (Two x x₁) .(just (One x)) .x₁ .nothing refl | false =
+splitDigit-size-lemma0 p i (Two x x₁) l x₂ r prf with p i
+splitDigit-size-lemma0 p i (Two x x₁) l x₂ r prf   | false
+  with p (i ∙ ∥ x ∥)
+splitDigit-size-lemma0 p i (Two x x₁) .(just (One x)) .x₁ .nothing refl | false | false =
   begin
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ε
-  ≡⟨ cong (λ a → ∥ x ∥ ∙ a) (ε-right (∥ x₁ ∥) ) ⟩
+    ∥ x ∥ ∙ (∥ x₁ ∥ ∙ ε)
+  ≡⟨ ∙-assoc (∥ x ∥) (∥ x₁ ∥) ε ⟩
+    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ε
+  ≡⟨ ε-right (∥ x ∥ ∙ ∥ x₁ ∥) ⟩
     ∥ x ∥ ∙ ∥ x₁ ∥
   ∎
+splitDigit-size-lemma0 p i (Two x x₁) .nothing .x .(just (One x₁)) refl | false | true =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥)
 splitDigit-size-lemma0 p i (Two x x₁) .nothing .x .(just (One x₁)) refl | true =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥)
+splitDigit-size-lemma0 p i (Three x x₁ x₂) l x₃ r prf
+  with p i | p (i ∙ ∥ x ∥) | p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥)
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (Two x x₁)) .x₂ .nothing refl
+    | false | false | false =
   begin
-    ε ∙ (∥ x ∥ ∙ ∥ x₁ ∥)
-  ≡⟨ ε-left (∥ x ∥ ∙ ∥ x₁ ∥) ⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥
+      (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥ ∙ ε
+    ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥) ∙ a) (ε-right ∥ x₂ ∥) ⟩
+      (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥
+    ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥)) ⟩
+      ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
   ∎
-splitDigit-size-lemma0 p i (Three x x₁ x₂) l x₃ r q with p i
-splitDigit-size-lemma0 p i (Three x x₁ x₂) l x₃ r q | false with (p (i ∙ ∥ x ∥))
-splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (Two x x₁)) .x₂ .nothing refl | false | false =
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (One x)) .x₁ .(just (One x₂)) refl
+    | false | false | true =
+  refl
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .nothing .x .(just (Two x₁ x₂)) refl
+    | false | true | v3 =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥)
+splitDigit-size-lemma0 p i (Three x x₁ x₂) .nothing .x .(just (Two x₁ x₂)) refl
+    | true | v2 | v3 =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥)
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r prf
+  with p i | p (i ∙ ∥ x ∥) | p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥) | p (i ∙ ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥)
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Three x x₁ x₂)) .x₃ .nothing refl
+    | false | false | false | false =
   begin
-    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥ ∙ ε
-  ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥) ∙ a) (ε-right ∥ x₂ ∥) ⟩
-    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ ∥ x₂ ∥
-  ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥)) ⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
-  ∎
-splitDigit-size-lemma0 p i (Three x x₁ x₂) .(just (One x)) .x₁ .(just (One x₂)) refl | false | true = refl
-splitDigit-size-lemma0 p i (Three x x₁ x₂) .nothing .x .(just (Two x₁ x₂)) refl | true =
+      (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥ ∙ ε
+    ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ a) (ε-right ∥ x₃ ∥) ⟩
+      (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥
+    ≡⟨ snoc-assoc-lemma1 (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥) (∥ x₃ ∥) ⟩
+      ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+    ∎
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Two x x₁)) .x₂ .(just (One x₃)) refl
+    | false | false | false | true =
   begin
-    ε ∙ (∥ x ∥ ∙ (∥ x₁ ∥ ∙ ∥ x₂ ∥ ))
-  ≡⟨ ε-left (∥ x ∥ ∙ (∥ x₁ ∥ ∙ ∥ x₂ ∥ ))⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥
-  ∎
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q with p i
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q | false with (p (i ∙ ∥ x ∥))
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) l x₄ r q | false | false with (p ( i ∙ ∥ x ∥ ∙ ∥ x₁ ∥))
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Three x x₁ x₂)) .x₃ .nothing refl | false | false | false =
-  begin
-    (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥ ∙ ε
-  ≡⟨ cong (λ a → (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ a) (ε-right ∥ x₃ ∥) ⟩
-    (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥) ∙ ∥ x₃ ∥
-  ≡⟨ snoc-assoc-lemma1 (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥) (∥ x₃ ∥) ⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
-  ∎
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (Two x x₁)) .x₂ .(just (One x₃)) refl | false | false | true =
-  begin
-    (∥ x ∥ ∙ ∥ x₁ ∥) ∙ (∥ x₂ ∥ ∙ ∥ x₃ ∥)
-  ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥ ∙ ∥ x₃ ∥)) ⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
-  ∎
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (One x)) .x₁ .(just (Two x₂ x₃)) refl | false | true = refl
-splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .nothing .x .(just (Three x₁ x₂ x₃)) refl | true =
-  begin
-    ε ∙ ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
-  ≡⟨ ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥) ⟩
-    ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
-  ∎
+      (∥ x ∥ ∙ ∥ x₁ ∥) ∙ (∥ x₂ ∥ ∙ ∥ x₃ ∥)
+   ≡⟨ sym (∙-assoc (∥ x ∥) (∥ x₁ ∥) (∥ x₂ ∥ ∙ ∥ x₃ ∥)) ⟩
+      ∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥
+   ∎
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .(just (One x)) .x₁ .(just (Two x₂ x₃)) refl
+    | false | false | true | v4 =
+  refl
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .nothing .x .(just (Three x₁ x₂ x₃)) refl
+    | false | true | v3 | v4 =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥)
+splitDigit-size-lemma0 p i (Four x x₁ x₂ x₃) .nothing .x .(just (Three x₁ x₂ x₃)) refl
+    | true | v2 | v3 | v4 =
+  ε-left (∥ x ∥ ∙ ∥ x₁ ∥ ∙ ∥ x₂ ∥ ∙ ∥ x₃ ∥)
+
 -- now, defining a dependently typed split.
 
 data Split-d {a} (A : Set a) (V : Set a)
@@ -758,13 +774,24 @@ mutual
                 (p (i ∙ measure-digit pr) ≡ false) →
                 (p ((i ∙ measure-digit pr) ∙ μ) ≡ true) →
                 Split-d A V {(measure-digit pr) ∙ μ ∙ (measure-digit sf)}
-  split-Tree3 p i pr ft sf eq1 eq2 with split-Tree p (i ∙ measure-digit pr) ft | inspect (λ x → split-Tree x (i ∙ measure-digit pr) ft) p
+  split-Tree3 p i pr ft sf eq1 eq2
+    with split-Tree p (i ∙ measure-digit pr) ft
+    | inspect (λ x → split-Tree x (i ∙ measure-digit pr) ft) p
   -- inspect here is needed to enforce structure-measure-lemma1.
-  split-Tree3 p i pr ft sf eq1 eq2 | just (split-d ml mx mr) | _  with splitDigit p (i ∙ measure-digit pr ∙ measure-tree ml) (toDigit mx) |
-                                                                        inspect (splitDigit p (i ∙ measure-digit pr ∙ measure-tree ml)) (toDigit mx)
-  split-Tree3 p i pr ft sf eq1 eq2 | just (split-d ml mx mr) | _ | split l x r | [ eq ] rewrite split-Tree3-measure-lemma p i pr sf ml mx mr l x r eq = split-d (deepR pr ml l) x (deepL r mr sf)
+  split-Tree3 p i pr ft sf eq1 eq2
+    | just (split-d ml mx mr) | _
+    with splitDigit p (i ∙ measure-digit pr ∙ measure-tree ml) (toDigit mx)
+    | inspect (splitDigit p (i ∙ measure-digit pr ∙ measure-tree ml)) (toDigit mx)
+  split-Tree3 p i pr ft sf eq1 eq2
+    | just (split-d ml mx mr) | _
+    | split l x r | [ eq ]
+    rewrite split-Tree3-measure-lemma p i pr sf ml mx mr l x r eq
+    = split-d (deepR pr ml l) x (deepL r mr sf) --
   -- see explanation at structure-measure-lemma1
-  split-Tree3 p i pr ft sf eq1 eq2 | nothing | [ eq ] with structure-measure-lemma1 p (i ∙ measure-digit pr) ft eq1 eq2 eq
+  split-Tree3 p i pr ft sf eq1 eq2
+    | nothing
+    | [ eq ]
+    with structure-measure-lemma1 p (i ∙ measure-digit pr) ft eq1 eq2 eq
   split-Tree3 p i pr ft sf eq1 eq2 | nothing | [ eq ] | ()
 
 
@@ -925,34 +952,6 @@ foldl f i (Single e) = f i e
 foldl {W = W} f i (Deep pr ft sf) =
   foldl-dig f (foldl (foldl-node f) (foldl-dig f i pr) ft) sf
 
--- implementing reverse as foldl
-
--- reverse-measure : ∀ {a} {A : Set a} {V : Set a}
---             ⦃ mo : Monoid V ⦄
---             ⦃ m : Measured A V ⦄
---             {s : V}
---             → (ft : FingerTree A V {s})
---             → V
--- reverse-measure ft = Data.List.foldl foldfun ε (Data.List.reverse (toList-ft ft))
---
--- swap-snoc : ∀ {a} {A : Set a} {V : Set a}
---             ⦃ mo : Monoid  V ⦄
---             ⦃ m : Measured A V ⦄
---             {s : V}
---             → (ft : FingerTree A V {s})
---             → (x : A)
---             → FingerTree A V {s ∙ ∥ x ∥}
--- swap-snoc ft elem = elem ▷ ft
---
--- reverse-measure-lemma : ∀ {a} {A : Set a}{V : Set a}
---             ⦃ mo : Monoid V ⦄
---             ⦃ m : Measured A V ⦄
---             {s : V}
---             → (ft : FingerTree A V {s})
---             → (measure-tree (foldl (swap-snoc {a} {A} {V} ⦃ mo ⦄ ⦃ m ⦄) (Empty {A = A} {V = V}) ft) ≡ reverse-measure ft)
--- reverse-measure-lemma ft = ?
---
-
 -- REVERSE !! ------------------------------------------------------------------
 
 pack-ft : ∀ {a} {A : Set a} {V : Set a}
@@ -983,11 +982,12 @@ cons-pair ⟨ measure , ft ⟩ x = pack-ft (x ◁ ft)
 reverse-ft : ∀ {a} {A : Set a} {V : Set a}
           ⦃ mo : Monoid V ⦄
           ⦃ m : Measured A V ⦄
-          {s : V}
           → (Σ V (λ v → FingerTree A V {v}))
           → (Σ V (λ v → FingerTree A V {v}))
-reverse-ft {a} {A} {V} pair = foldl-pair cons-pair (pack-ft {A = A} {V = V} Empty) pair
+reverse-ft {a} {A} {V} pair =
+  foldl-pair cons-pair (pack-ft {A = A} {V = V} Empty) pair
 
+-- CORRECTNESS PROOFS --------------------------------------
 
 assoc-lemma5 : ∀ {l} {V : Set l} ⦃ mo : Monoid V ⦄ →
         (a : V) → (b : V) → (c : V) → (d : V)  →
@@ -1283,8 +1283,6 @@ viewl-correct (ConsL x xs) = sym (cons-correct x xs)
 --   rewrite measure-digit-lemma1 pr ft sf
 --   = {!   !}
 
--- CONCAT ----------------------------------------------------------------------
-
 measure-list : ∀ {a} {A : Set a} {V : Set a}
           ⦃ mo : Monoid V ⦄
           ⦃ m : Measured A V ⦄
@@ -1386,6 +1384,8 @@ toList-ft-measure-correct xs =
   ∎
 
 
+-- TRIVIAL CONCATENATION ---------------------------------
+
 append : ∀ {a} {A : Set a} {V : Set a}
           ⦃ mo : Monoid V ⦄
           ⦃ m : Measured A V ⦄
@@ -1452,17 +1452,7 @@ measure-digit-rev : ∀ {a}{A : Set a} {V : Set a}
           → (d : Digit A)
           → V
 measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.List.map rv (toList-dig d)))
---
--- assoc-lemma20 : ∀ {a} {V : Set a} ⦃ m : Monoid V ⦄
---               → (a : V) → (b : V) → (c : V) → (d : V)
---               → (a ∙ b ∙ c ∙ d ≡ ((a ∙ b) ∙ c) ∙ d)
--- assoc-lemma20 = {!   !}
---
--- assoc-lemma30 : ∀ {a} {V : Set a} ⦃ m : Monoid V ⦄
---               → (a : V) → (b : V) → (c : V) → (d : V) → (e : V)
---               → (a ∙ b ∙ c ∙ d ∙ e ≡ (((a ∙ b) ∙ c) ∙ d) ∙ e)
--- assoc-lemma30 = {!   !}
---
+
 -- foldl-dig-index : ∀ {a}{A : Set a}{V : Set a}{W : V → Set a}
 --             ⦃ mo : Monoid V ⦄
 --             ⦃ m : Measured A V ⦄
@@ -1500,39 +1490,6 @@ measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.Lis
 -- foldl-index f i (Single e) = f i e
 -- foldl-index {W = W} {μ = μ} f i (Deep pr ft sf)
 -- --   rewrite assoc-lemma20 μ (measure-digit pr) (measure-tree ft) (measure-digit sf) = foldl-dig-index {W = W} f (foldl-index {W = W} (λ {σ} → foldl-node-index {W = W} {μ = σ} f) (foldl-dig-index {W = W} f i pr) ft) sf -- {! foldl-dig-index f (foldl-index (λ {σ} → foldl-node-index {μ = σ} f) (foldl-dig-index f i pr) ft) sf   !}
---
--- reverse-measure : ∀ {a} {A : Set a}{V : Set a}
---             ⦃ mo : Monoid V ⦄
---             ⦃ m : Measured A V ⦄
---             → {μ : V}
---             → (ft : FingerTree A V {μ})
---             → V
--- reverse-measure ft = Data.List.foldl foldfun ε (Data.List.reverse (toList-ft ft))
---
--- reverse-ft-index : ∀ {a} {A : Set a}{V : Set a}
---             ⦃ mo : Monoid V ⦄
---             ⦃ m : Measured A V ⦄
---             → {μ : V}
---             → (ft : FingerTree A V {μ})
---             → FingerTree A V {reverse-measure ft}
--- reverse-ft-index ft = {!   !}
--- -- foldl f i Empty = i
--- foldl f i (Single e) = f i e
--- foldl {W = W} f i (Deep pr ft sf) =
---   foldl-dig f (foldl (foldl-node f) (foldl-dig f i pr) ft) sf
-
--- measure-rev-digit-lemma  : ∀ {a}{A : Set a}{V : Set a}
---           ⦃ mo : Monoid V ⦄
---           ⦃ m : Measured A V ⦄
---           → (d : Digit A)
---           → (measure-digit d ≡ measure-digit-rev {V = V} d)
--- measure-rev-digit-lemma (One x) = begin
---       ∥ x ∥ ≡⟨ sym (ε-left ∥ x ∥) ⟩
---       ε ∙ ∥ x ∥
---       ∎
--- measure-rev-digit-lemma (Two x x₁) = {!   !}
--- measure-rev-digit-lemma (Three x x₁ x₂) = {!   !}
--- measure-rev-digit-lemma (Four x x₁ x₂ x₃) = {!   !}
 
 ε-comm-lemma : ∀ {a}{V : Set a}
         ⦃ mo : Monoid V ⦄
@@ -1544,44 +1501,6 @@ measure-digit-rev rv d = Data.List.foldl foldfun ε (Data.List.reverse (Data.Lis
     x ≡⟨ sym (ε-left x) ⟩
     ε ∙ x
   ∎
-
-
-open import Data.List.Properties using (reverse-involutive)
-open import list-fold-proof
--- --
--- measure-rev-lemma : ∀ {a} {A : Set a} {V : Set a}
---           ⦃ mo : Monoid V ⦄
---           ⦃ m : Measured A V ⦄
---           → (xs : List A)
---           → (ys : List A)
---           → (zs : List A)
---           → measure-rev-list {V = V} (xs ++ ys ++ zs) ≡ (measure-rev-list zs) ∙ (measure-rev-list ys) ∙ (measure-rev-list xs)
--- measure-rev-lemma xs ys zs = {!   !}
---
--- -- revnew-measure-lemma : ∀ {a} {A : Set a} {V : Set a}
--- --           ⦃ mo : Monoid V ⦄
--- --           ⦃ m : Measured A V ⦄
--- --           → (pr : Digit A)
--- --           → (ft : FingerTree (Node A V) V)
--- --           → (sf : Digit A)
--- --           → (measure-rev-list (to-List dig ++ flatten-list (toList-ft ft) ++ toList-dig sf) ≡
--- --             measure-digit (rev-digit rv sf)
--- revnew : ∀ {a}{A : Set a} {V : Set a}
---           ⦃ mo : Monoid V ⦄
---           ⦃ m : Measured A V ⦄
---           {μ : V}
---           → (rv : A → A) → (xs : FingerTree A V {μ}) → FingerTree A V {measure-rev xs}
--- revnew rv Empty = Empty
--- revnew ⦃ mo ⦄ rv (Single e) rewrite (Monoid.ε-left mo) (∥ e ∥) = Single e
--- revnew rv (Deep pr xs sf)  = {! (Deep (rev-digit rv sf) (revnew (rev-node rv) xs) (rev-digit rv pr))   !}
--- --
--- Data.List.foldl foldfun (Monoid.ε .mo)
--- (Data.List.foldl (λ rev x → x ∷ rev) []
---  (toList-dig pr ++ flatten-list (toList-ft xs) ++ toList-dig sf))
---   actual: (.mo Monoid.∙ measure-digit (rev-digit rv sf))
--- ((.mo Monoid.∙ measure-rev xs) (measure-digit (rev-digit rv pr)))
---
-
 
 module test where
   open import numbers

@@ -1,6 +1,6 @@
 import timeit
 import os 
-
-command = 'import os; os.system(\'./eval1\')' 
-
-print min (timeit.repeat(command, repeat=5, number = 1))
+import sys 
+command = 'import os; os.system(\'./RandomAccessSequence-final\')' 
+n = int (sys.argv[1])
+print min (timeit.repeat(command, repeat = n , number = 1))

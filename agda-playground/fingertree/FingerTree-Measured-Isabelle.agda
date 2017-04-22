@@ -278,7 +278,7 @@ gmn-correct {a} {V = V} ⦃ m ⦄ (Node2 x n n₁) assum = {!   !}
     -- assum2 = ∧fst (is-measured-node n₁) ((x == (gmn n ∙ gmn n₁))) (∧snd (is-measured-node n) ((is-measured-node n₁) ∧ (x == (gmn n ∙ gmn n₁))) assum)
     -- assum3 = ∧snd (is-measured-node n₁) ((x == (gmn n ∙ gmn n₁))) (∧snd (is-measured-node n) ((is-measured-node n₁) ∧ (x == (gmn n ∙ gmn n₁))) assum)
     assum1 = ∧fst assum
-    assum23 = ∧snd ?
+    assum23 = ∧snd {!   !}
     induct1 = gmn-correct n assum1
     -- induct2 = gmn-correct n₁ assum2
 

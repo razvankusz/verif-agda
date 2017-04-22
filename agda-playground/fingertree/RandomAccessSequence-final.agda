@@ -9,7 +9,7 @@ open import Relation.Binary.HeterogeneousEquality renaming (refl to hrefl) renam
 
 module RandomAccessSequence-final where
 
-    open import SizeW using (size-monoid; SizeW; getSize; size; _<ᵗ_)
+    open import SizeW using (size-monoid; SizeW; getSize; size; _<ᵗ_; _==ˢ_; _<ˢ_; _<=ˢ_)
     open import Entry using (entry-measure; getEntry; Entry; entry)
 
     Seq : ∀ {a}(A : Set a) SizeW → Set a
@@ -19,7 +19,7 @@ module RandomAccessSequence-final where
     length-seq {s = s} ft = getSize s
 
     _!_ : ∀ {a}{A : Set a}{s : SizeW} → Seq A s → ℕ → Maybe A
-    seq ! n with split-Tree (λ x → size n SizeW.<ˢ x) SizeW.ε seq
+    seq ! n with split-Tree (λ x → (size n) <ˢ x) (size 0) seq
     seq ! n | just (split-d _ x _) = just (getEntry x)
     seq ! n | nothing = nothing
 
@@ -47,11 +47,7 @@ module RandomAccessSequence-final where
     show-maybe (just x) = Data.Nat.Show.show x
     show-maybe nothing = "nothing"
 
-    main : IO ℕ
-    main = (putStrLn (toCostring "Hello") >>=
-            (λ x → return (big-seq 1024) >>=
-            (λ x → putStrLn (toCostring (show-maybe(x ! 512)))) >>=
-            (λ x → return 1)))
+
 
     open import Induction
     open import Induction.WellFounded as WF
@@ -132,18 +128,18 @@ module RandomAccessSequence-final where
               → (Same-Size-Seq ((size 1) ∙ s))
       snoc-ssq {size n} x sseq rewrite size-lemma1 {n} = snoc-ssq' x sseq
 
-      -- rev : Seq-pair A → Seq-pair A
-      -- rev π = <rec a _ go π
-      --   module Rev where
-      --   go : ∀ s → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
-      --   go ⟨ fst , snd ⟩ rec with viewL snd
-      --   go ⟨ .(size 0) , snd ⟩ rec | NilL = pack Empty
-      --   go ⟨ _ , snd ⟩ rec | ConsL x xs =
-      --       rec (pack (xs)) (one-step (measure-tree xs)) ▷' x
-
-      rev : (seq : Seq-pair A) → Same-Size-Seq (to-size seq)
+      rev : Seq-pair A → Seq-pair A
       rev π = <rec a _ go π
         module Rev where
+        go : ∀ s → (∀ p → p ⋖ s → Seq-pair A) → Seq-pair A
+        go ⟨ fst , snd ⟩ rec with viewL snd
+        go ⟨ .(size 0) , snd ⟩ rec | NilL = pack Empty
+        go ⟨ _ , snd ⟩ rec | ConsL x xs =
+            rec (pack (xs)) (one-step-lemma (measure-tree xs)) ▷' x
+
+      rev-verif : (seq : Seq-pair A) → Same-Size-Seq (to-size seq)
+      rev-verif π = <rec a _ go π
+        module RevVerif where
         go : ∀ s
             → (∀ p → p ⋖ s → Same-Size-Seq (to-size p))
             → Same-Size-Seq (to-size s)
@@ -152,16 +148,21 @@ module RandomAccessSequence-final where
         go ⟨ _ , snd ⟩ rec | ConsL x xs = snoc-ssq x
           (rec (pack xs) (one-step-lemma (measure-tree xs)))
 
+      second : ∀ {μ} → Same-Size-Seq μ → Seq A μ
+      second (ssseq x x₁ x₂) rewrite x₂ = x₁
+
+      pack-tab : (seq : Seq-pair A) → ℕ → Maybe A
+      pack-tab ⟨ μ , seq ⟩ n = seq ! n
 
       -- trying binary search
-      open import numbers
-
-      data compare? (A : Set a) : Set a where
-        equal : A → A → compare? A
-        lt : A → A → compare? A
-        bt : A → A → compare? A
-
-      -- to make recursion simpler to write, will just include the variable in a module
+      -- open import numbers
+      --
+      -- data compare? (A : Set a) : Set a where
+      --   equal : A → A → compare? A
+      --   lt : A → A → compare? A
+      --   bt : A → A → compare? A
+      --
+      -- -- to make recursion simpler to write, will just include the variable in a module
 
       --
       --
@@ -211,14 +212,34 @@ module RandomAccessSequence-final where
       --   go ⟨ .(size 0) , seq ⟩ rec | NilL = refl
       --   go ⟨ _ , seq ⟩ rec | ConsL x xs = {!   !}
 
-    open Recursive-Definitions ℕ using (rev)
+    open Recursive-Definitions ℕ using (rev; second; Same-Size-Seq; rev-verif)
 
     test-seq : Seq ℕ (size 10)
     test-seq = big-seq 10
 
     test-seq-pair : Seq-pair ℕ
     test-seq-pair = pack test-seq
-    --
+
+    pair-tab : Seq-pair ℕ → ℕ → Maybe ℕ
+    pair-tab ⟨ μ , seq ⟩ n = seq ! n
+
+    ssseq-tab : ∀ {μ} → Same-Size-Seq μ → ℕ → Maybe ℕ
+    ssseq-tab (Recursive-Definitions.ssseq x x₁ x₂) n = x₁ ! n
+
+    revst = pair-tab (reverse-ft (test-seq-pair)) 1
+
+    -- causes seg-fault -- why?
+    revst2 = (snd (rev (test-seq-pair))) ! 1
+
+    -- causes memory leak -- why?
+    revst3 = pair-tab (rev test-seq-pair) 1
+
+    revst4 = ssseq-tab (rev-verif test-seq-pair) 2
+
+    main : IO ℕ
+    main = (putStrLn (toCostring "Hello") >>=
+            (λ x → putStrLn (toCostring (show-maybe(revst4)))) >>=
+            (λ x → return 1))
 
     -- rev-seq-pair : Seq-pair ℕ
     -- rev-seq-pair = rev test-seq-pair

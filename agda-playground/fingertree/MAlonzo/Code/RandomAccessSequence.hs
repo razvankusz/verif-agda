@@ -31,7 +31,7 @@ d8 = erased
 name18 = "RandomAccessSequence.length-seq"
 d18 v0 v1 v2 = du18 v2
 du18 v0
-  = coe MAlonzo.Code.SizeW.d106
+  = coe MAlonzo.Code.SizeW.d122
       (coe MAlonzo.Code.FingerTreeZ45Zmeasure.du498
          (coe MAlonzo.Code.AlgebraStructures.C56 MAlonzo.Code.SizeW.du14
             (coe MAlonzo.Code.SizeW.d18 erased)
@@ -86,7 +86,7 @@ name68 = "RandomAccessSequence.seq-measure-lemma1"
 d68 v0 v1 v2 v3 = du68 v3
 du68 v0
   = case coe v0 of
-        MAlonzo.Code.SizeW.C10 v1 -> coe MAlonzo.Code.SizeW.du64 v1
+        MAlonzo.Code.SizeW.C10 v1 -> coe MAlonzo.Code.SizeW.du80 v1
         _ -> coe MAlonzo.RTE.mazUnreachableError
 name82 = "RandomAccessSequence.seq-measure-lemma0"
 d82 v0 v1 v2 v3 = du82 v3
@@ -139,10 +139,10 @@ d102
          coe MAlonzo.Code.IO.Primitive.d18 () () erased erased
            (coe MAlonzo.Code.IO.Primitive.d18 () () erased erased
               (coe MAlonzo.Code.IO.Primitive.d8 () erased
-                 (coe du94 (1000 :: Integer)))
+                 (coe du94 (33554432 :: Integer)))
               (\ v1 ->
                  coe MAlonzo.Code.IO.Primitive.d30
                    (coe MAlonzo.Code.Data.String.d12
-                      (coe d98 (coe du26 () v1 (2 :: Integer))))))
+                      (coe d98 (coe du26 () v1 (16777216 :: Integer))))))
            (\ v1 ->
               coe MAlonzo.Code.IO.Primitive.d8 () erased (1 :: Integer)))

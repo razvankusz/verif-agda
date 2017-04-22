@@ -1,0 +1,692 @@
+\begin{code}%
+\>\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{FingerTree-measure-size-c}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Size}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Nat}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Maybe}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.List} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{concat} \AgdaSymbol{to} \AgdaFunction{concatlist}\AgdaSymbol{)}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Relation.Binary.PropositionalEquality}\<%
+\\
+\>\AgdaKeyword{open} \AgdaModule{≡-Reasoning}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Relation.Binary.HeterogeneousEquality} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaInductiveConstructor{refl} \AgdaSymbol{to} \AgdaInductiveConstructor{hrefl}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{sym} \AgdaSymbol{to} \AgdaFunction{hsym}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{trans} \AgdaSymbol{to} \AgdaFunction{htrans}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{cong} \AgdaSymbol{to} \AgdaFunction{hcong}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{inspect} \AgdaSymbol{to} \AgdaFunction{hinspect}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>\AgdaKeyword{module} \AgdaModule{RandomAccessSequence-final-print} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{SizeW} \AgdaKeyword{using} \AgdaSymbol{(}\AgdaFunction{size-monoid}\AgdaSymbol{;} \AgdaDatatype{SizeW}\AgdaSymbol{;} \AgdaFunction{getSize}\AgdaSymbol{;} \AgdaInductiveConstructor{size}\AgdaSymbol{;} \AgdaDatatype{\_<ᵗ\_}\AgdaSymbol{;} \AgdaFunction{\_==ˢ\_}\AgdaSymbol{;} \AgdaFunction{\_<ˢ\_}\AgdaSymbol{;} \AgdaFunction{\_<=ˢ\_}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Entry} \AgdaKeyword{using} \AgdaSymbol{(}\AgdaFunction{entry-measure}\AgdaSymbol{;} \AgdaFunction{getEntry}\AgdaSymbol{;} \AgdaDatatype{Entry}\AgdaSymbol{;} \AgdaInductiveConstructor{entry}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{SizeW} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{=} \AgdaDatatype{FingerTree} \AgdaSymbol{(}\AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{length-seq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{length-seq} \AgdaSymbol{\{}\AgdaArgument{s} \AgdaSymbol{=} \AgdaBound{s}\AgdaSymbol{\}} \AgdaBound{ft} \AgdaSymbol{=} \AgdaFunction{getSize} \AgdaBound{s}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{\_!\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaKeyword{with} \AgdaFunction{split-Tree} \AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)} \AgdaFunction{<ˢ} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{0}\AgdaSymbol{)} \AgdaBound{seq}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaSymbol{|} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaInductiveConstructor{split-d} \AgdaSymbol{\_} \AgdaBound{x} \AgdaSymbol{\_)} \AgdaSymbol{=} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaFunction{getEntry} \AgdaBound{x}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n} \AgdaSymbol{|} \AgdaInductiveConstructor{nothing} \AgdaSymbol{=} \AgdaInductiveConstructor{nothing}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaKeyword{with} \AgdaFunction{split-Tree} \AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaInductiveConstructor{size} \AgdaBound{n} \AgdaFunction{SizeW.<ˢ} \AgdaBound{x}\AgdaSymbol{)} \AgdaFunction{SizeW.ε} \AgdaBound{seq}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaSymbol{|} \AgdaInductiveConstructor{just} \AgdaSymbol{(}\AgdaInductiveConstructor{split-d} \AgdaBound{left} \AgdaBound{x} \AgdaBound{right}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{rewrite} \AgdaField{∙-assoc} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{left}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{22}{}\<[22]%
+\>[22]\AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{22}{}\<[22]%
+\>[22]\AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{right}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{=} \AgdaFunction{concat} \AgdaSymbol{((}\AgdaInductiveConstructor{entry} \AgdaBound{y}\AgdaSymbol{)} \AgdaFunction{▷} \AgdaBound{left}\AgdaSymbol{)} \AgdaBound{right}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{set} \AgdaBound{seq} \AgdaBound{n} \AgdaBound{y} \AgdaSymbol{|} \AgdaInductiveConstructor{nothing} \AgdaSymbol{=} \AgdaBound{seq}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaDatatype{ℕ} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaInductiveConstructor{zero} \AgdaSymbol{=} \AgdaInductiveConstructor{Empty}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{big-seq} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaInductiveConstructor{entry} \AgdaBound{n}\AgdaSymbol{)} \AgdaFunction{◁} \AgdaSymbol{(}\AgdaFunction{big-seq} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{IO.Primitive}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.String}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Agda.Builtin.Unit}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- \{-\# BUILTIN STRING String \#-\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- \{-\# BUILTIN UNIT Unit \#-\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{import} \AgdaModule{Data.Nat.Show}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{show-maybe} \AgdaSymbol{:} \AgdaDatatype{Maybe} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaPostulate{String}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{show-maybe} \AgdaSymbol{(}\AgdaInductiveConstructor{just} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{Data.Nat.Show.show} \AgdaBound{x}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{show-maybe} \AgdaInductiveConstructor{nothing} \AgdaSymbol{=} \AgdaString{"nothing"}\<%
+\\
+%
+\\
+%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Induction}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Induction.WellFounded} \AgdaSymbol{as} \AgdaModule{WF}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Level} \AgdaKeyword{using} \AgdaSymbol{(}\AgdaRecord{Lift}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Empty}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{DependentPair}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{AlgebraStructures}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq-pair} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{Seq-pair} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaBound{A} \AgdaSymbol{=} \AgdaRecord{Σ} \AgdaSymbol{(}\AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})} \AgdaSymbol{(}\AgdaFunction{Seq} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{\_▷'\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[4]\AgdaIndent{11}{}\<[11]%
+\>[11]\AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Entry} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaInductiveConstructor{⟨} \AgdaBound{fst} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaFunction{▷'} \AgdaBound{x} \AgdaSymbol{=} \AgdaInductiveConstructor{⟨} \AgdaFunction{measure-tree} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{▷} \AgdaBound{snd}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{▷} \AgdaBound{snd}\AgdaSymbol{)} \AgdaInductiveConstructor{⟩}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{pack} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{pack} \AgdaBound{xs} \AgdaSymbol{=} \AgdaInductiveConstructor{⟨} \AgdaFunction{measure-tree} \AgdaBound{xs} \AgdaInductiveConstructor{,} \AgdaBound{xs} \AgdaInductiveConstructor{⟩}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{to-size} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{to-size} \AgdaInductiveConstructor{⟨} \AgdaBound{x} \AgdaInductiveConstructor{,} \AgdaBound{y} \AgdaInductiveConstructor{⟩} \AgdaSymbol{=} \AgdaBound{x}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{module} \AgdaModule{Recursive-Definitions} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaModule{SizeW.}\AgdaModule{less-than}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Function}\<%
+\\
+%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- comparing Seq-pairs is just comparing the size component}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_⋖\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_⋖\_} \AgdaSymbol{=} \AgdaDatatype{\_<<\_} \AgdaFunction{on} \AgdaFunction{to-size}\<%
+\\
+%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaModule{Inverse-image}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaArgument{A} \AgdaSymbol{=} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{}\AgdaArgument{\_<\_} \AgdaSymbol{=} \AgdaDatatype{\_<<\_}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{to-size}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaKeyword{renaming} \AgdaSymbol{(}well-founded \AgdaSymbol{to} <<-<-wf\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- the comparison operation defined on the Seq-pair is well-founded}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{<-WF} \AgdaSymbol{=} \AgdaFunction{<<-<-wf} \AgdaFunction{<<-WF}\<%
+\\
+%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{open} \AgdaModule{WF.}\AgdaModule{All} \AgdaSymbol{(}\AgdaFunction{<-WF}\AgdaSymbol{)} \AgdaKeyword{renaming} \AgdaSymbol{(}wfRec \AgdaSymbol{to} <rec\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaKeyword{data} \AgdaDatatype{Same-Size-Seq} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaInductiveConstructor{ssseq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{z}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{z}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{s} \AgdaDatatype{≡} \AgdaBound{z}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaBound{s}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{nat-lemma0} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{n} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n} \AgdaDatatype{≡} \AgdaBound{n} \AgdaPrimitive{+} \AgdaNumber{1}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{nat-lemma0} \AgdaInductiveConstructor{zero} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{nat-lemma0} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{cong} \AgdaInductiveConstructor{suc} \AgdaSymbol{(}\AgdaFunction{nat-lemma0} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma0} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaBound{n} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaInductiveConstructor{size} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{n} \AgdaPrimitive{+} \AgdaNumber{1}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma0} \AgdaBound{n} \AgdaSymbol{=} \AgdaFunction{cong} \AgdaInductiveConstructor{size} \AgdaSymbol{(}\AgdaFunction{nat-lemma0} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- snoc-trick : ∀ \{n\} → (x : Entry A) → (Seq A (size n)) → (Seq A (size (suc n)))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- snoc-trick \{n\} x seq rewrite (size-lemma0 \{a\} n) = x ▷ seq}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma1} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)} \AgdaField{∙} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma1} \AgdaSymbol{\{}\AgdaInductiveConstructor{zero}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma1} \AgdaSymbol{\{}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma2} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)} \AgdaField{∙} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{size-lemma2} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaFunction{trans} \AgdaSymbol{(}\AgdaFunction{size-lemma1} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\})} \AgdaSymbol{(}\AgdaFunction{SizeW.∙-comm} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{))}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{snoc-ssq'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Same-Size-Seq} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{))}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Same-Size-Seq} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{snoc-ssq'} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaBound{x} \AgdaSymbol{(}\AgdaInductiveConstructor{ssseq} \AgdaBound{seq} \AgdaBound{rev-seq} \AgdaBound{pr}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{ssseq} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{◁} \AgdaBound{seq}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{▷} \AgdaBound{rev-seq}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{(}\AgdaFunction{begin}\<%
+\\
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaInductiveConstructor{size} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{≡⟨} \AgdaFunction{size-lemma2} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaFunction{⟩}\<%
+\\
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{)} \AgdaField{∙} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{≡⟨} \AgdaFunction{cong} \AgdaSymbol{(}\AgdaField{\_∙} \AgdaFunction{Entry.measure} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{pr} \AgdaFunction{⟩}\<%
+\\
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{((}\AgdaFunction{measure-tree} \AgdaBound{rev-seq}\AgdaSymbol{)} \AgdaFunction{SizeW.∙} \AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{∎}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{snoc-ssq} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{s}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Same-Size-Seq} \AgdaBound{s}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Same-Size-Seq} \AgdaSymbol{((}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{snoc-ssq} \AgdaSymbol{\{}\AgdaInductiveConstructor{size} \AgdaBound{n}\AgdaSymbol{\}} \AgdaBound{x} \AgdaBound{sseq} \AgdaKeyword{rewrite} \AgdaFunction{size-lemma1} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaFunction{snoc-ssq'} \AgdaBound{x} \AgdaBound{sseq}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev} \AgdaBound{π} \AgdaSymbol{=} \AgdaFunction{<rec} \AgdaBound{a} \AgdaSymbol{\_} \AgdaFunction{go} \AgdaBound{π}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaKeyword{module} \AgdaModule{Rev} \AgdaKeyword{where}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{s} \AgdaSymbol{→} \AgdaSymbol{(∀} \AgdaBound{p} \AgdaSymbol{→} \AgdaBound{p} \AgdaFunction{⋖} \AgdaBound{s} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{Seq-pair} \AgdaBound{A}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaBound{fst} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaKeyword{with} \AgdaFunction{viewL} \AgdaBound{snd}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{.(}\AgdaInductiveConstructor{size} \AgdaNumber{0}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{NilL} \AgdaSymbol{=} \AgdaFunction{pack} \AgdaInductiveConstructor{Empty}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{\_} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{ConsL} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{=}\<%
+\\
+\>[8]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaBound{rec} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaSymbol{(}\AgdaBound{xs}\AgdaSymbol{))} \AgdaSymbol{(}\AgdaFunction{one-step-lemma} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{xs}\AgdaSymbol{))} \AgdaFunction{▷'} \AgdaBound{x}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev-verif} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{seq} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaSymbol{(}\AgdaFunction{to-size} \AgdaBound{seq}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{rev-verif} \AgdaBound{π} \AgdaSymbol{=} \AgdaFunction{<rec} \AgdaBound{a} \AgdaSymbol{\_} \AgdaFunction{go} \AgdaBound{π}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaKeyword{module} \AgdaModule{RevVerif} \AgdaKeyword{where}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{s}\<%
+\\
+\>[8]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{→} \AgdaSymbol{(∀} \AgdaBound{p} \AgdaSymbol{→} \AgdaBound{p} \AgdaFunction{⋖} \AgdaBound{s} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaSymbol{(}\AgdaFunction{to-size} \AgdaBound{p}\AgdaSymbol{))}\<%
+\\
+\>[8]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaSymbol{(}\AgdaFunction{to-size} \AgdaBound{s}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaBound{fst} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaKeyword{with} \AgdaFunction{viewL} \AgdaBound{snd}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{.(}\AgdaInductiveConstructor{size} \AgdaNumber{0}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{NilL} \AgdaSymbol{=} \AgdaInductiveConstructor{ssseq} \AgdaBound{snd} \AgdaBound{snd} \AgdaInductiveConstructor{refl}\<%
+\\
+\>[0]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaFunction{go} \AgdaInductiveConstructor{⟨} \AgdaSymbol{\_} \AgdaInductiveConstructor{,} \AgdaBound{snd} \AgdaInductiveConstructor{⟩} \AgdaBound{rec} \AgdaSymbol{|} \AgdaInductiveConstructor{ConsL} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{=} \AgdaFunction{snoc-ssq} \AgdaBound{x}\<%
+\\
+\>[8]\AgdaIndent{10}{}\<[10]%
+\>[10]\AgdaSymbol{(}\AgdaBound{rec} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{one-step-lemma} \AgdaSymbol{(}\AgdaFunction{measure-tree} \AgdaBound{xs}\AgdaSymbol{)))}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{second} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{μ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaBound{μ} \AgdaSymbol{→} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{μ}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{second} \AgdaSymbol{(}\AgdaInductiveConstructor{ssseq} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaKeyword{rewrite} \AgdaBound{x₂} \AgdaSymbol{=} \AgdaBound{x₁}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{pack-tab} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{seq} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{pack-tab} \AgdaInductiveConstructor{⟨} \AgdaBound{μ} \AgdaInductiveConstructor{,} \AgdaBound{seq} \AgdaInductiveConstructor{⟩} \AgdaBound{n} \AgdaSymbol{=} \AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- trying binary search}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- open import numbers}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- data compare? (A : Set a) : Set a where}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   equal : A → A → compare? A}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   lt : A → A → compare? A}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bt : A → A → compare? A}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- -- to make recursion simpler to write, will just include the variable in a module}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- module BinSearch (cmp : A → A → compare? A) (x : A) where}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search : ∀ s → A → Seq A s → Maybe (SizeW \{a\})}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size n) x seq with repr n}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size .0) x seq | zr = nothing}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size \_) x seq | 2* v with  split-Tree (SizeW.\_<ˢ\_ (measure-tree seq)) ε seq}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size \_) x₂ seq | 2* v | just x₁ = \{! x₁  !\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size \_) x₁ seq | 2* v | nothing = \{!   !\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   bin-search (size \_) x seq | 2* v +1 = \{!   !\}}\<%
+\\
+%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{-- bin-search : (seq : Seq-pair A) → SizeW \{a\}}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{-- bin-search π = <rec a \_ go π}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{--     module BS where}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{--     go : ∀ s}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{--         → (∀ p → p ⋖ s → SizeW \{a\})}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{--         → SizeW \{a\}}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaComment{--     go ⟨ size n , xs ⟩ rec = \{!   !\}}\<%
+\\
+%
+\\
+%
+\\
+%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- correct-reverse : ∀ \{s\} → (x : Entry A) → Seq A s → Seq A s}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- correct-reverse x seq with rev (pack seq)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- correct-reverse x₂ seq | ssseq s₁ x x₁ = \{!  !\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- property : Seq-pair A → Set a}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- property xs = to-size (rev xs) ≡ to-size xs}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- -- example property}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- -- inductive-step : ∀ \{s : SizeW\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (seq : Seq A ((size 1) ∙ s))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (x : Entry A)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (xs : Seq A s)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (viewL seq ≡ ConsL x xs)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (property (pack xs))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- --           → (property (pack seq))}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- -- ind\_step seq x xs p1 step with viewL seq}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- -- ... | v = \{!   !\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- rev-correct : (xs : Seq-pair A) → property xs}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{-- rev-correct π = <rec a \_ go π}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   module Rev' where}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   go : ∀ s → (∀ p → p ⋖ s → (property p)) → (property s)}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   go ⟨ μ , seq ⟩ rec with viewL seq}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   go ⟨ .(size 0) , seq ⟩ rec | NilL = refl}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaComment{--   go ⟨ \_ , seq ⟩ rec | ConsL x xs = \{!   !\}}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaModule{Recursive-Definitions} \AgdaDatatype{ℕ} \AgdaKeyword{using} \AgdaSymbol{(}rev\AgdaSymbol{;} second\AgdaSymbol{;} Same-Size-Seq\AgdaSymbol{;} rev-verif\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{test-seq} \AgdaSymbol{:} \AgdaFunction{Seq} \AgdaDatatype{ℕ} \AgdaSymbol{(}\AgdaInductiveConstructor{size} \AgdaNumber{10}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{test-seq} \AgdaSymbol{=} \AgdaFunction{big-seq} \AgdaNumber{10}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{test-seq-pair} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaDatatype{ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{test-seq-pair} \AgdaSymbol{=} \AgdaFunction{pack} \AgdaFunction{test-seq}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{pair-tab} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaDatatype{ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{pair-tab} \AgdaInductiveConstructor{⟨} \AgdaBound{μ} \AgdaInductiveConstructor{,} \AgdaBound{seq} \AgdaInductiveConstructor{⟩} \AgdaBound{n} \AgdaSymbol{=} \AgdaBound{seq} \AgdaFunction{!} \AgdaBound{n}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{ssseq-tab} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{μ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Same-Size-Seq} \AgdaBound{μ} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{Maybe} \AgdaDatatype{ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{ssseq-tab} \AgdaSymbol{(}\AgdaInductiveConstructor{Recursive-Definitions.ssseq} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaBound{n} \AgdaSymbol{=} \AgdaBound{x₁} \AgdaFunction{!} \AgdaBound{n}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{revst} \AgdaSymbol{=} \AgdaFunction{pair-tab} \AgdaSymbol{(}\AgdaFunction{reverse-ft} \AgdaSymbol{(}\AgdaFunction{test-seq-pair}\AgdaSymbol{))} \AgdaNumber{1}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- causes seg-fault -- why?}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{revst2} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaField{snd} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaSymbol{(}\AgdaFunction{test-seq-pair}\AgdaSymbol{)))} \AgdaFunction{!} \AgdaNumber{1}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- causes memory leak -- why?}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{revst3} \AgdaSymbol{=} \AgdaFunction{pair-tab} \AgdaSymbol{(}\AgdaFunction{rev} \AgdaFunction{test-seq-pair}\AgdaSymbol{)} \AgdaNumber{1}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{revst4} \AgdaSymbol{=} \AgdaFunction{ssseq-tab} \AgdaSymbol{(}\AgdaFunction{rev-verif} \AgdaFunction{test-seq-pair}\AgdaSymbol{)} \AgdaNumber{2}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- main : IO ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- main = (putStrLn (toCostring "Hello") >>=}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{--         (λ x → putStrLn (toCostring (show-maybe(revst4)))) >>=}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{--         (λ x → return 1))}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{main} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaPostulate{putStrLn} \AgdaSymbol{(}\AgdaFunction{toCostring} \AgdaString{"Hello"}\AgdaSymbol{)} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{return} \AgdaSymbol{(}\AgdaFunction{big-seq} \AgdaNumber{1024}\AgdaSymbol{)} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{putStrLn} \AgdaSymbol{(}\AgdaFunction{toCostring} \AgdaSymbol{(}\AgdaFunction{show-maybe}\AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{!} \AgdaNumber{1}\AgdaSymbol{))))} \AgdaPostulate{>>=}\<%
+\\
+\>[4]\AgdaIndent{12}{}\<[12]%
+\>[12]\AgdaSymbol{(λ} \AgdaBound{x} \AgdaSymbol{→} \AgdaPostulate{return} \AgdaNumber{1}\AgdaSymbol{)))}\<%
+\\
+%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- rev-seq-pair : Seq-pair ℕ}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- rev-seq-pair = rev test-seq-pair}\<%
+\end{code}

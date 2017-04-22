@@ -547,7 +547,7 @@ splitDigit-size-lemma0 : ∀ {a} {A : Set a} {V : Set a} ⦃ mo : Monoid V ⦄ �
               (l : Maybe (Digit A)) → (x : A) → (r : Maybe(Digit A)) → -- flattened split
               (splitDigit p i d ≡ split l x r) →  -- proof on the split
               (measure-maybe-digit ⦃ mo ⦄ l ∙ ∥ x ∥ ∙ (measure-maybe-digit r) ≡ measure-digit d) -- statement
-splitDigit-size-lemma0 p i d l x r q = ? 
+splitDigit-size-lemma0 p i d l x r q = {!   !}
 -- now, defining a dependently typed split.
 
 data Split-d {a} (A : Set a) (V : Set a)

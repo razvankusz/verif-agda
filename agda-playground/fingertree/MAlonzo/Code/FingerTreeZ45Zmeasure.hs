@@ -434,30 +434,52 @@ du1148 v0 v1 v2 v3 v4
         C30 v5 -> coe C1112 (coe Nothing) v5 (coe Nothing)
         C32 v5 v6 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                        (coe C1112 (coe Nothing) v5 (coe Just (coe C30 v6)))
-                       (coe C1112 (coe Just (coe C30 v5)) v6 (coe Nothing))
+                       (coe MAlonzo.Code.Data.Bool.Base.du14
+                          (coe v2
+                             (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
+                          (coe C1112 (coe Nothing) v5 (coe Just (coe C30 v6)))
+                          (coe C1112 (coe Just (coe C30 v5)) v6 (coe Nothing)))
         C34 v5 v6 v7 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                           (coe C1112 (coe Nothing) v5 (coe Just (coe C32 v6 v7)))
                           (coe MAlonzo.Code.Data.Bool.Base.du14
                              (coe v2
                                 (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                    (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
-                             (coe C1112 (coe Just (coe C30 v5)) v6 (coe Just (coe C30 v7)))
-                             (coe C1112 (coe Just (coe C32 v5 v6)) v7 (coe Nothing)))
+                             (coe C1112 (coe Nothing) v5 (coe Just (coe C32 v6 v7)))
+                             (coe MAlonzo.Code.Data.Bool.Base.du14
+                                (coe v2
+                                   (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                      (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                         (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
+                                         (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6))))
+                                (coe C1112 (coe Just (coe C30 v5)) v6 (coe Just (coe C30 v7)))
+                                (coe C1112 (coe Just (coe C32 v5 v6)) v7 (coe Nothing))))
         C36 v5 v6 v7 v8 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                              (coe C1112 (coe Nothing) v5 (coe Just (coe C34 v6 v7 v8)))
                              (coe MAlonzo.Code.Data.Bool.Base.du14
                                 (coe v2
                                    (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                       (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
-                                (coe C1112 (coe Just (coe C30 v5)) v6 (coe Just (coe C32 v7 v8)))
+                                (coe C1112 (coe Nothing) v5 (coe Just (coe C34 v6 v7 v8)))
                                 (coe MAlonzo.Code.Data.Bool.Base.du14
                                    (coe v2
                                       (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                          (coe MAlonzo.Code.AlgebraStructures.d36 v0
                                             (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
                                             (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6))))
-                                   (coe C1112 (coe Just (coe C32 v5 v6)) v7 (coe Just (coe C30 v8)))
-                                   (coe C1112 (coe Just (coe C34 v5 v6 v7)) v8 (coe Nothing))))
+                                   (coe C1112 (coe Just (coe C30 v5)) v6 (coe Just (coe C32 v7 v8)))
+                                   (coe MAlonzo.Code.Data.Bool.Base.du14
+                                      (coe v2
+                                         (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                            (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                               (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
+                                               (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                                  (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6)
+                                                  (coe MAlonzo.Code.AlgebraStructures.d74 v1 v7)))))
+                                      (coe C1112 (coe Just (coe C32 v5 v6)) v7
+                                         (coe Just (coe C30 v8)))
+                                      (coe C1112 (coe Just (coe C34 v5 v6 v7)) v8 (coe Nothing)))))
         _ -> coe MAlonzo.RTE.mazUnreachableError
 name1192 = "FingerTree-measure.notEmpty"
 d1192 a0 a1 a2 a3 = ()

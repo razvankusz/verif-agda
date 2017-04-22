@@ -31,6 +31,12 @@ module SizeW where
   _<ˢ_ : ∀ {a} → SizeW {a} → SizeW {a} → Bool
   size n <ˢ size m = n <-nat m
 
+  _<=ˢ_ : ∀ {a} → SizeW {a} → SizeW {a} → Bool
+  size n <=ˢ size m = n <=nat m
+
+  _==ˢ_ : ∀ {a} → SizeW {a} → SizeW {a} → Bool
+  size n ==ˢ size m = n == m
+
   data _<ᵗ_ {a} : SizeW {a} → SizeW {a} → Set a where
     lt : ∀ {n : ℕ} {m : ℕ} → (n < m) → size n <ᵗ size m
 

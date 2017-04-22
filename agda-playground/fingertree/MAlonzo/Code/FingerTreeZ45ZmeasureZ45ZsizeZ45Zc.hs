@@ -25,8 +25,6 @@ import qualified MAlonzo.Code.Level
 import qualified MAlonzo.Code.MonoidSolver
 import qualified MAlonzo.Code.Relation.Binary.HeterogeneousEquality
 import qualified MAlonzo.Code.Relation.Binary.PropositionalEquality
-import qualified
-       MAlonzo.Code.Relation.Binary.PropositionalEquality.TrustMe
 import qualified MAlonzo.Code.Relation.Nullary.Negation
 import qualified MAlonzo.Code.Size
 import qualified MAlonzo.Code.QlistZ45ZfoldZ45Zproof
@@ -524,30 +522,52 @@ du1778 v0 v1 v2 v3 v4
         C74 v5 -> coe C1734 (coe Nothing) v5 (coe Nothing)
         C76 v5 v6 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                        (coe C1734 (coe Nothing) v5 (coe Just (coe C74 v6)))
-                       (coe C1734 (coe Just (coe C74 v5)) v6 (coe Nothing))
+                       (coe MAlonzo.Code.Data.Bool.Base.du14
+                          (coe v2
+                             (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
+                          (coe C1734 (coe Nothing) v5 (coe Just (coe C74 v6)))
+                          (coe C1734 (coe Just (coe C74 v5)) v6 (coe Nothing)))
         C78 v5 v6 v7 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                           (coe C1734 (coe Nothing) v5 (coe Just (coe C76 v6 v7)))
                           (coe MAlonzo.Code.Data.Bool.Base.du14
                              (coe v2
                                 (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                    (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
-                             (coe C1734 (coe Just (coe C74 v5)) v6 (coe Just (coe C74 v7)))
-                             (coe C1734 (coe Just (coe C76 v5 v6)) v7 (coe Nothing)))
+                             (coe C1734 (coe Nothing) v5 (coe Just (coe C76 v6 v7)))
+                             (coe MAlonzo.Code.Data.Bool.Base.du14
+                                (coe v2
+                                   (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                      (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                         (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
+                                         (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6))))
+                                (coe C1734 (coe Just (coe C74 v5)) v6 (coe Just (coe C74 v7)))
+                                (coe C1734 (coe Just (coe C76 v5 v6)) v7 (coe Nothing))))
         C80 v5 v6 v7 v8 -> coe MAlonzo.Code.Data.Bool.Base.du14 (coe v2 v3)
                              (coe C1734 (coe Nothing) v5 (coe Just (coe C78 v6 v7 v8)))
                              (coe MAlonzo.Code.Data.Bool.Base.du14
                                 (coe v2
                                    (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                       (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)))
-                                (coe C1734 (coe Just (coe C74 v5)) v6 (coe Just (coe C76 v7 v8)))
+                                (coe C1734 (coe Nothing) v5 (coe Just (coe C78 v6 v7 v8)))
                                 (coe MAlonzo.Code.Data.Bool.Base.du14
                                    (coe v2
                                       (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
                                          (coe MAlonzo.Code.AlgebraStructures.d36 v0
                                             (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
                                             (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6))))
-                                   (coe C1734 (coe Just (coe C76 v5 v6)) v7 (coe Just (coe C74 v8)))
-                                   (coe C1734 (coe Just (coe C78 v5 v6 v7)) v8 (coe Nothing))))
+                                   (coe C1734 (coe Just (coe C74 v5)) v6 (coe Just (coe C76 v7 v8)))
+                                   (coe MAlonzo.Code.Data.Bool.Base.du14
+                                      (coe v2
+                                         (coe MAlonzo.Code.AlgebraStructures.d36 v0 v3
+                                            (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                               (coe MAlonzo.Code.AlgebraStructures.d74 v1 v5)
+                                               (coe MAlonzo.Code.AlgebraStructures.d36 v0
+                                                  (coe MAlonzo.Code.AlgebraStructures.d74 v1 v6)
+                                                  (coe MAlonzo.Code.AlgebraStructures.d74 v1 v7)))))
+                                      (coe C1734 (coe Just (coe C76 v5 v6)) v7
+                                         (coe Just (coe C74 v8)))
+                                      (coe C1734 (coe Just (coe C78 v5 v6 v7)) v8 (coe Nothing)))))
         _ -> coe MAlonzo.RTE.mazUnreachableError
 name1826 = "FingerTree-measure-size-c.measure-split-digit"
 d1826 v0 v1 v2 v3 v4 v5 = du1826 v3 v4 v5
@@ -561,19 +581,19 @@ du1826 v0 v1 v2
         _ -> coe MAlonzo.RTE.mazUnreachableError
 name1856 = "FingerTree-measure-size-c.splitDigit-size-lemma0"
 d1856 = erased
-name1882 = "FingerTree-measure-size-c.Split-d"
-d1882 a0 a1 a2 a3 a4 a5 = ()
+name2106 = "FingerTree-measure-size-c.Split-d"
+d2106 a0 a1 a2 a3 a4 a5 = ()
 
-data T1882 a0 a1 a2 a3 a4 = C1902 a0 a1 a2 a3 a4
-name1932 = "FingerTree-measure-size-c.split-Tree1-measure-lemma"
-d1932 = erased
-name1980 = "FingerTree-measure-size-c.split-Tree1"
-d1980 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10
-  = du1980 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
-du1980 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
+data T2106 a0 a1 a2 a3 a4 = C2126 a0 a1 a2 a3 a4
+name2156 = "FingerTree-measure-size-c.split-Tree1-measure-lemma"
+d2156 = erased
+name2204 = "FingerTree-measure-size-c.split-Tree1"
+d2204 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10
+  = du2204 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
+du2204 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
   = let v10 = coe du1778 v2 v3 v5 v6 v7 in
       case coe v10 of
-          C1734 v11 v12 v13 -> coe C1902 (coe du158 v2 v3 v11)
+          C1734 v11 v12 v13 -> coe C2126 (coe du158 v2 v3 v11)
                                  (coe MAlonzo.Code.AlgebraStructures.d36 v2 (coe du158 v2 v3 v13)
                                     (coe MAlonzo.Code.AlgebraStructures.d36 v2 v4
                                        (coe du122 v2 v3 v9)))
@@ -581,15 +601,21 @@ du1980 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
                                  v12
                                  (coe du1172 v0 v1 v2 v3 v4 v13 v8 v9)
           _ -> coe MAlonzo.RTE.mazUnreachableError
-name2046 = "FingerTree-measure-size-c.split-Tree2-measure-lemma"
-d2046 = erased
-name2088 = "FingerTree-measure-size-c.split-Tree2"
-d2088 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10
-  = du2088 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
-du2088 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
+name2258 = "FingerTree-measure-size-c.assoc-lemma8"
+d2258 = erased
+name2278 = "FingerTree-measure-size-c._._.assoc-lemma-8ms"
+d2278 = erased
+name2308 = "FingerTree-measure-size-c._.assoc-lemma8'"
+d2308 = erased
+name2338 = "FingerTree-measure-size-c.split-Tree2-measure-lemma"
+d2338 = erased
+name2382 = "FingerTree-measure-size-c.split-Tree2"
+d2382 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10
+  = du2382 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
+du2382 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
   = let v10 = coe du1778 v2 v3 v5 v6 v9 in
       case coe v10 of
-          C1734 v11 v12 v13 -> coe C1902
+          C1734 v11 v12 v13 -> coe C2126
                                  (coe MAlonzo.Code.AlgebraStructures.d36 v2 (coe du122 v2 v3 v7)
                                     (coe MAlonzo.Code.AlgebraStructures.d36 v2 v4
                                        (coe du158 v2 v3 v11)))
@@ -598,40 +624,44 @@ du2088 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
                                  v12
                                  (coe du1026 v2 v3 v13)
           _ -> coe MAlonzo.RTE.mazUnreachableError
-name2142 = "FingerTree-measure-size-c.split-Tree-single"
-d2142 v0 v1 v2 v3 v4 v5 v6 v7 = du2142 v3 v7
-du2142 v0 v1
-  = coe C1902 (coe MAlonzo.Code.AlgebraStructures.d34 v0)
+name2436 = "FingerTree-measure-size-c.split-Tree-single"
+d2436 v0 v1 v2 v3 v4 v5 v6 v7 = du2436 v3 v7
+du2436 v0 v1
+  = coe C2126 (coe MAlonzo.Code.AlgebraStructures.d34 v0)
       (coe MAlonzo.Code.AlgebraStructures.d34 v0)
       (coe C198)
       v1
       (coe C198)
-name2162 = "FingerTree-measure-size-c.split-Tree"
-d2162 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du2162 v0 v2 v3 v4 v6 v7 v8
-du2162 v0 v1 v2 v3 v4 v5 v6
+name2456 = "FingerTree-measure-size-c.split-Tree"
+d2456 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du2456 v0 v2 v3 v4 v6 v7 v8
+du2456 v0 v1 v2 v3 v4 v5 v6
   = case coe v6 of
         C198 -> coe Nothing
-        C202 v7 -> coe Just (coe du2142 v2 v7)
+        C202 v7 -> coe Just (coe du2436 v2 v7)
         C210 v7 v8 v9 v10 -> coe Just
-                               (coe du2250 v0 v1 v2 v3 v7 v4 v5 v8 v9 v10
-                                  (coe du2366 v2 v3 v8 v4 v5)
-                                  (coe du2368 v2 v3 v7 v8 v4 v5))
+                               (coe du2580 v0 v1 v2 v3 v7 v4 v5 v8 v9 v10
+                                  (coe du2696 v2 v3 v8 v4 v5)
+                                  (coe du2698 v2 v3 v7 v8 v4 v5))
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2198 = "FingerTree-measure-size-c.split-Tree3-measure-lemma"
-d2198 = erased
-name2222 = "FingerTree-measure-size-c.split-Tree3"
-d2222 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12
-  = du2222 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
-du2222 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
+name2470 = "FingerTree-measure-size-c.measure-node-digit-lemma"
+d2470 = erased
+name2492 = "FingerTree-measure-size-c.assoc-lemma9"
+d2492 = erased
+name2528 = "FingerTree-measure-size-c.split-Tree3-measure-lemma"
+d2528 = erased
+name2552 = "FingerTree-measure-size-c.split-Tree3"
+d2552 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12
+  = du2552 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10
+du2552 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
   = let v10
-          = coe du2162 v0 v1 v2 (coe MAlonzo.Code.AlgebraStructures.C76 d92)
+          = coe du2456 v0 v1 v2 (coe MAlonzo.Code.AlgebraStructures.C76 d92)
               v5
               (coe MAlonzo.Code.AlgebraStructures.d36 v2 v6 (coe du122 v2 v3 v7))
               v8
       in
       case coe v10 of
           Just v11 -> case coe v11 of
-                          C1902 v12 v13 v14 v15 v16 -> let v17
+                          C2126 v12 v13 v14 v15 v16 -> let v17
                                                              = coe du1778 v2 v3 v5
                                                                  (coe
                                                                     MAlonzo.Code.AlgebraStructures.d36
@@ -645,7 +675,7 @@ du2222 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
                                                                  (coe du1746 v15)
                                                          in
                                                          case coe v17 of
-                                                             C1734 v18 v19 v20 -> coe C1902
+                                                             C1734 v18 v19 v20 -> coe C2126
                                                                                     (coe
                                                                                        MAlonzo.Code.AlgebraStructures.d36
                                                                                        v2
@@ -695,13 +725,13 @@ du2222 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
                                                                     MAlonzo.RTE.mazUnreachableError
                           _ -> coe MAlonzo.RTE.mazUnreachableError
           _ -> coe MAlonzo.RTE.mazUnreachableError
-name2250 = "FingerTree-measure-size-c.split-Tree-if"
-d2250 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14
-  = du2250 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v13
-du2250 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11
+name2580 = "FingerTree-measure-size-c.split-Tree-if"
+d2580 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14
+  = du2580 v0 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v13
+du2580 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11
   = case coe v10 of
         False -> case coe v11 of
-                     False -> coe du2088 v0 v1 v2 v3 v4 v5
+                     False -> coe du2382 v0 v1 v2 v3 v4 v5
                                 (coe MAlonzo.Code.AlgebraStructures.d36 v2
                                    (coe MAlonzo.Code.AlgebraStructures.d36 v2 v6
                                       (coe du122 v2 v3 v7))
@@ -709,210 +739,295 @@ du2250 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11
                                 v7
                                 v8
                                 v9
-                     True -> coe du2222 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
+                     True -> coe du2552 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
                      _ -> coe MAlonzo.RTE.mazUnreachableError
-        True -> coe du1980 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
+        True -> coe du2204 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2270 = "FingerTree-measure-size-c.split-lemma-empty"
-d2270 = erased
-name2284 = "FingerTree-measure-size-c.prop-monoid-lemma"
-d2284 = erased
-name2304 = "FingerTree-measure-size-c.structure-measure-lemma0"
-d2304 = erased
-name2324 = "FingerTree-measure-size-c.structure-measure-lemma1"
-d2324 = erased
-name2366 = "FingerTree-measure-size-c._.vpr"
-d2366 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 = du2366 v3 v4 v6 v8 v9
-du2366 v0 v1 v2 v3 v4
+name2600 = "FingerTree-measure-size-c.split-lemma-empty"
+d2600 = erased
+name2614 = "FingerTree-measure-size-c.prop-monoid-lemma"
+d2614 = erased
+name2634 = "FingerTree-measure-size-c.structure-measure-lemma0"
+d2634 = erased
+name2654 = "FingerTree-measure-size-c.structure-measure-lemma1"
+d2654 = erased
+name2696 = "FingerTree-measure-size-c._.vpr"
+d2696 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 = du2696 v3 v4 v6 v8 v9
+du2696 v0 v1 v2 v3 v4
   = coe v3
       (coe MAlonzo.Code.AlgebraStructures.d36 v0 v4 (coe du122 v0 v1 v2))
-name2368 = "FingerTree-measure-size-c._.vft"
-d2368 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 = du2368 v3 v4 v5 v6 v8 v9
-du2368 v0 v1 v2 v3 v4 v5
+name2698 = "FingerTree-measure-size-c._.vft"
+d2698 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 = du2698 v3 v4 v5 v6 v8 v9
+du2698 v0 v1 v2 v3 v4 v5
   = coe v4
       (coe MAlonzo.Code.AlgebraStructures.d36 v0
          (coe MAlonzo.Code.AlgebraStructures.d36 v0 v5 (coe du122 v0 v1 v3))
          (coe du258 v2))
-name2594 = "FingerTree-measure-size-c._.neq-bool"
-d2594 = erased
-name2596 = "FingerTree-measure-size-c._.diff"
-d2596 = erased
-name2614 = "FingerTree-measure-size-c.foldr-dig"
-d2614 v0 v1 v2 v3 v4 v5 = du2614 v3 v4 v5
-du2614 v0 v1 v2
+name2738 = "FingerTree-measure-size-c._._.assoc-lemma-9ms"
+d2738 = erased
+name2766 = "FingerTree-measure-size-c._.assoc-lemma9'"
+d2766 = erased
+name2794 = "FingerTree-measure-size-c._.\963pr"
+d2794 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17
+  = du2794 v3 v4 v9
+du2794 v0 v1 v2 = coe du122 v0 v1 v2
+name2796 = "FingerTree-measure-size-c._.\963sf"
+d2796 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17
+  = du2796 v3 v4 v10
+du2796 v0 v1 v2 = coe du122 v0 v1 v2
+name2798 = "FingerTree-measure-size-c._.\956\8321"
+d2798 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17
+  = du2798 v5
+du2798 v0 = coe du258 v0
+name2800 = "FingerTree-measure-size-c._.\956\8322"
+d2800 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17
+  = du2800 v6
+du2800 v0 = coe du258 v0
+name3008 = "FingerTree-measure-size-c._.neq-bool"
+d3008 = erased
+name3010 = "FingerTree-measure-size-c._.diff"
+d3010 = erased
+name3028 = "FingerTree-measure-size-c.foldr-dig"
+d3028 v0 v1 v2 v3 v4 v5 = du3028 v3 v4 v5
+du3028 v0 v1 v2
   = case coe v1 of
         C74 v3 -> coe v0 v3 v2
         C76 v3 v4 -> coe v0 v3 (coe v0 v4 v2)
         C78 v3 v4 v5 -> coe v0 v3 (coe v0 v4 (coe v0 v5 v2))
         C80 v3 v4 v5 v6 -> coe v0 v3 (coe v0 v4 (coe v0 v5 (coe v0 v6 v2)))
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2658 = "FingerTree-measure-size-c.foldl-dig"
-d2658 v0 v1 v2 v3 v4 v5 = du2658 v3 v4 v5
-du2658 v0 v1 v2
+name3072 = "FingerTree-measure-size-c.foldl-dig"
+d3072 v0 v1 v2 v3 v4 v5 = du3072 v3 v4 v5
+du3072 v0 v1 v2
   = case coe v2 of
         C74 v3 -> coe v0 v1 v3
         C76 v3 v4 -> coe v0 (coe v0 v1 v3) v4
         C78 v3 v4 v5 -> coe v0 (coe v0 (coe v0 v1 v3) v4) v5
         C80 v3 v4 v5 v6 -> coe v0 (coe v0 (coe v0 (coe v0 v1 v3) v4) v5) v6
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2710 = "FingerTree-measure-size-c.foldl-node"
-d2710 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du2710 v6 v7 v8
-du2710 v0 v1 v2
+name3124 = "FingerTree-measure-size-c.foldl-node"
+d3124 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du3124 v6 v7 v8
+du3124 v0 v1 v2
   = case coe v2 of
         C52 v3 v4 v5 v6 -> coe v0 (coe v0 v1 v4) v5
         C62 v3 v4 v5 v6 v7 -> coe v0 (coe v0 (coe v0 v1 v4) v5) v6
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2748 = "FingerTree-measure-size-c.foldr-node"
-d2748 v0 v1 v2 v3 v4 v5 v6 v7 = du2748 v5 v6 v7
-du2748 v0 v1 v2
+name3162 = "FingerTree-measure-size-c.foldr-node"
+d3162 v0 v1 v2 v3 v4 v5 v6 v7 = du3162 v5 v6 v7
+du3162 v0 v1 v2
   = case coe v1 of
         C52 v3 v4 v5 v6 -> coe v0 v4 (coe v0 v5 v2)
         C62 v3 v4 v5 v6 v7 -> coe v0 v4 (coe v0 v5 (coe v0 v6 v2))
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2788 = "FingerTree-measure-size-c.foldr"
-d2788 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du2788 v6 v7 v8
-du2788 v0 v1 v2
+name3202 = "FingerTree-measure-size-c.foldr"
+d3202 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du3202 v6 v7 v8
+du3202 v0 v1 v2
   = case coe v1 of
         C198 -> coe v2
         C202 v3 -> coe v0 v3 v2
-        C210 v3 v4 v5 v6 -> coe du2614 v0 v4
-                              (coe du2788 (coe d2748 erased erased erased erased erased v0) v5
-                                 (coe du2614 v0 v6 v2))
+        C210 v3 v4 v5 v6 -> coe du3028 v0 v4
+                              (coe du3202 (coe d3162 erased erased erased erased erased v0) v5
+                                 (coe du3028 v0 v6 v2))
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2824 = "FingerTree-measure-size-c.foldfun"
-d2824 v0 v1 v2 v3 v4 v5 v6 = du2824 v3 v4 v5 v6
-du2824 v0 v1 v2 v3
+name3238 = "FingerTree-measure-size-c.foldfun"
+d3238 v0 v1 v2 v3 v4 v5 v6 = du3238 v3 v4 v5 v6
+du3238 v0 v1 v2 v3
   = coe MAlonzo.Code.AlgebraStructures.d36 v0 v2
       (coe MAlonzo.Code.AlgebraStructures.d74 v1 v3)
-name2844 = "FingerTree-measure-size-c.foldfun-node"
-d2844 v0 v1 v2 v3 v4 v5 v6 = du2844 v3 v5 v6
-du2844 v0 v1 v2
+name3258 = "FingerTree-measure-size-c.foldfun-node"
+d3258 v0 v1 v2 v3 v4 v5 v6 = du3258 v3 v5 v6
+du3258 v0 v1 v2
   = coe MAlonzo.Code.AlgebraStructures.d36 v0 v1 (coe d92 v2)
-name2864 = "FingerTree-measure-size-c.foldl"
-d2864 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 = du2864 v7 v8 v9
-du2864 v0 v1 v2
+name3278 = "FingerTree-measure-size-c.foldl"
+d3278 v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 = du3278 v7 v8 v9
+du3278 v0 v1 v2
   = case coe v2 of
         C198 -> coe v1
         C202 v3 -> coe v0 v1 v3
-        C210 v3 v4 v5 v6 -> coe du2658 v0
-                              (coe du2864
-                                 (coe d2710 erased erased erased erased erased erased v0)
-                                 (coe du2658 v0 v1 v4)
+        C210 v3 v4 v5 v6 -> coe du3072 v0
+                              (coe du3278
+                                 (coe d3124 erased erased erased erased erased erased v0)
+                                 (coe du3072 v0 v1 v4)
                                  v5)
                               v6
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name2902 = "FingerTree-measure-size-c.assoc-lemma5"
-d2902 = erased
-name2924 = "FingerTree-measure-size-c._._.assoc-lemma0"
-d2924 = erased
-name2950 = "FingerTree-measure-size-c._.assoc-lemma5'"
-d2950 = erased
-name2968 = "FingerTree-measure-size-c.assoc-lemma6"
-d2968 = erased
-name2984 = "FingerTree-measure-size-c._._.assoc-lemma-5v"
-d2984 = erased
-name3014 = "FingerTree-measure-size-c._.assoc-lemma6'"
-d3014 = erased
-name3026 = "FingerTree-measure-size-c.assoc-lemma7"
-d3026 = erased
-name3044 = "FingerTree-measure-size-c._._.assoc-lemma-7"
-d3044 = erased
-name3072 = "FingerTree-measure-size-c._.assoc-lemma7'"
-d3072 = erased
-name3088 = "FingerTree-measure-size-c.foldl-node-lemma0"
-d3088 = erased
-name3116 = "FingerTree-measure-size-c.FunExt"
-d3116
+name3318 = "FingerTree-measure-size-c.pack-ft"
+d3318 v0 v1 v2 v3 v4 v5 v6 = du3318 v5 v6
+du3318 v0 v1 = coe MAlonzo.Code.DependentPair.C24 (coe du258 v0) v1
+name3336 = "FingerTree-measure-size-c.foldl-pair"
+d3336 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du3336 v6 v7 v8
+du3336 v0 v1 v2
+  = coe du3278 v0 v1 (coe MAlonzo.Code.DependentPair.d22 v2)
+name3360 = "FingerTree-measure-size-c.cons-pair"
+d3360 v0 v1 v2 v3 v4 v5 v6 = du3360 v3 v4 v5 v6
+du3360 v0 v1 v2 v3
+  = coe du3318
+      (coe MAlonzo.Code.AlgebraStructures.d36 v0
+         (coe MAlonzo.Code.AlgebraStructures.d74 v1 v3)
+         (coe MAlonzo.Code.DependentPair.d20 v2))
+      (coe du386 v0 v1 v3 (coe MAlonzo.Code.DependentPair.d22 v2))
+name3382 = "FingerTree-measure-size-c.reverse-ft"
+d3382 v0 v1 v2 v3 v4 v5 = du3382 v3 v4 v5
+du3382 v0 v1 v2
+  = coe du3336 (coe d3360 erased erased erased v0 v1)
+      (coe du3318 (coe MAlonzo.Code.AlgebraStructures.d34 v0) (coe C198))
+      v2
+name3406 = "FingerTree-measure-size-c.assoc-lemma5"
+d3406 = erased
+name3432 = "FingerTree-measure-size-c._._.assoc-lemma0ms"
+d3432 = erased
+name3458 = "FingerTree-measure-size-c._.assoc-lemma5'"
+d3458 = erased
+name3476 = "FingerTree-measure-size-c.assoc-lemma6"
+d3476 = erased
+name3492 = "FingerTree-measure-size-c._._.assoc-lemma-5ms"
+d3492 = erased
+name3526 = "FingerTree-measure-size-c._.assoc-lemma6'"
+d3526 = erased
+name3538 = "FingerTree-measure-size-c.assoc-lemma7"
+d3538 = erased
+name3556 = "FingerTree-measure-size-c._._.assoc-lemma-7ms"
+d3556 = erased
+name3588 = "FingerTree-measure-size-c._.assoc-lemma7'"
+d3588 = erased
+name3604 = "FingerTree-measure-size-c.foldl-node-lemma0"
+d3604 = erased
+name3632 = "FingerTree-measure-size-c.FunExt"
+d3632
   = error
       "MAlonzo Runtime Error: postulate evaluated: FingerTree-measure-size-c.FunExt"
-name3134 = "FingerTree-measure-size-c.FunExt\8322"
-d3134
+name3650 = "FingerTree-measure-size-c.FunExt\8322"
+d3650
   = error
       "MAlonzo Runtime Error: postulate evaluated: FingerTree-measure-size-c.FunExt\8322"
-name3150 = "FingerTree-measure-size-c.foldl-node-lemma1"
-d3150 = erased
-name3170 = "FingerTree-measure-size-c.foldl-dig-lemma0"
-d3170 = erased
-name3212 = "FingerTree-measure-size-c.foldl-dig-correct"
-d3212 = erased
-name3268 = "FingerTree-measure-size-c.foldl-node-correct"
-d3268 = erased
-name3314 = "FingerTree-measure-size-c.flatten-fold-lemma"
-d3314 = erased
-name3350 = "FingerTree-measure-size-c.foldl-correct"
-d3350 = erased
-name3394 = "FingerTree-measure-size-c.foldl-lemma0"
-d3394 = erased
-name3434 = "FingerTree-measure-size-c.lemma6"
-d3434 = erased
-name3444 = "FingerTree-measure-size-c.foldfun-list"
-d3444 v0 v1 v2 v3 = du3444 v2 v3
-du3444 v0 v1
+name3666 = "FingerTree-measure-size-c.foldl-node-lemma1"
+d3666 = erased
+name3686 = "FingerTree-measure-size-c.foldl-dig-lemma0"
+d3686 = erased
+name3728 = "FingerTree-measure-size-c.foldl-dig-correct"
+d3728 = erased
+name3784 = "FingerTree-measure-size-c.foldl-node-correct"
+d3784 = erased
+name3830 = "FingerTree-measure-size-c.flatten-fold-lemma"
+d3830 = erased
+name3866 = "FingerTree-measure-size-c.foldl-correct"
+d3866 = erased
+name3910 = "FingerTree-measure-size-c.foldl-lemma0"
+d3910 = erased
+name3950 = "FingerTree-measure-size-c.lemma6"
+d3950 = erased
+name3960 = "FingerTree-measure-size-c.foldfun-list"
+d3960 v0 v1 v2 v3 = du3960 v2 v3
+du3960 v0 v1
   = coe MAlonzo.Code.Data.List.Base.du18 v0 (coe (:) v1 (coe []))
-name3464 = "FingerTree-measure-size-c.toList1"
-d3464 v0 v1 v2 v3 v4 v5 v6 = du3464 v6
-du3464 v0 = coe du2864 (coe d3444 erased erased) (coe []) v0
-name3484 = "FingerTree-measure-size-c.cons-correct"
-d3484 = erased
-name3586 = "FingerTree-measure-size-c.viewl-to-ft"
-d3586 v0 v1 v2 v3 v4 v5 v6 = du3586 v3 v4 v6
-du3586 v0 v1 v2
+name3980 = "FingerTree-measure-size-c.toList1"
+d3980 v0 v1 v2 v3 v4 v5 v6 = du3980 v6
+du3980 v0 = coe du3278 (coe d3960 erased erased) (coe []) v0
+name4000 = "FingerTree-measure-size-c.cons-correct"
+d4000 = erased
+name4102 = "FingerTree-measure-size-c.viewl-to-ft"
+d4102 v0 v1 v2 v3 v4 v5 v6 = du4102 v3 v4 v6
+du4102 v0 v1 v2
   = case coe v2 of
         C1070 -> coe C198
         C1078 v3 v4 v5 -> coe du386 v0 v1 v4 v5
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name3604 = "FingerTree-measure-size-c.toList-view"
-d3604 v0 v1 v2 v3 v4 v5 v6 = du3604 v6
-du3604 v0
+name4120 = "FingerTree-measure-size-c.toList-view"
+d4120 v0 v1 v2 v3 v4 v5 v6 = du4120 v6
+du4120 v0
   = case coe v0 of
         C1070 -> coe []
         C1078 v1 v2 v3 -> coe (:) v2 (coe du824 v3)
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name3624 = "FingerTree-measure-size-c.viewl-correct"
-d3624 = erased
-name3640 = "FingerTree-measure-size-c.measure-list"
-d3640 v0 v1 v2 v3 v4 v5 = du3640 v3 v4 v5
-du3640 v0 v1 v2
+name4140 = "FingerTree-measure-size-c.viewl-correct"
+d4140 = erased
+name4156 = "FingerTree-measure-size-c.measure-list"
+d4156 v0 v1 v2 v3 v4 v5 = du4156 v3 v4 v5
+du4156 v0 v1 v2
   = case coe v2 of
         [] -> coe MAlonzo.Code.AlgebraStructures.d34 v0
         (:) v3 v4 -> coe MAlonzo.Code.AlgebraStructures.d36 v0
                        (coe MAlonzo.Code.AlgebraStructures.d74 v1 v3)
-                       (coe du3640 v0 v1 v4)
+                       (coe du4156 v0 v1 v4)
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name3660 = "FingerTree-measure-size-c.foldfun-lemma"
-d3660 = erased
-name3682 = "FingerTree-measure-size-c.fold-monoid-lemma"
-d3682 = erased
-name3708 = "FingerTree-measure-size-c.measure-list-lemma"
-d3708 = erased
-name3736 = "FingerTree-measure-size-c.append-measure-lemma"
-d3736 = erased
-name3760 = "FingerTree-measure-size-c.toList-ft-measure-correct"
-d3760 = erased
-name3778 = "FingerTree-measure-size-c.append"
-d3778 v0 v1 v2 v3 v4 v5 v6 v7 = du3778 v3 v4 v6 v7
-du3778 v0 v1 v2 v3
+name4176 = "FingerTree-measure-size-c.foldfun-lemma"
+d4176 = erased
+name4198 = "FingerTree-measure-size-c.fold-monoid-lemma"
+d4198 = erased
+name4224 = "FingerTree-measure-size-c.measure-list-lemma"
+d4224 = erased
+name4252 = "FingerTree-measure-size-c.append-measure-lemma"
+d4252 = erased
+name4276 = "FingerTree-measure-size-c.toList-ft-measure-correct"
+d4276 = erased
+name4294 = "FingerTree-measure-size-c.append"
+d4294 v0 v1 v2 v3 v4 v5 v6 v7 = du4294 v3 v4 v6 v7
+du4294 v0 v1 v2 v3
   = case coe v3 of
         [] -> coe v2
-        (:) v4 v5 -> coe du3778 v0 v1 (coe du636 v0 v1 v4 v2) v5
+        (:) v4 v5 -> coe du4294 v0 v1 (coe du636 v0 v1 v4 v2) v5
         _ -> coe MAlonzo.RTE.mazUnreachableError
-name3810 = "FingerTree-measure-size-c.concat"
-d3810 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du3810 v3 v4 v7 v8
-du3810 v0 v1 v2 v3 = coe du3778 v0 v1 v2 (coe du824 v3)
-name3822 = "FingerTree-measure-size-c.test.nat"
-d3822
+name4326 = "FingerTree-measure-size-c.concat"
+d4326 v0 v1 v2 v3 v4 v5 v6 v7 v8 = du4326 v3 v4 v7 v8
+du4326 v0 v1 v2 v3 = coe du4294 v0 v1 v2 (coe du824 v3)
+name4342 = "FingerTree-measure-size-c.rev-digit"
+d4342 v0 v1 v2 v3 = du4342 v2 v3
+du4342 v0 v1
+  = case coe v1 of
+        C74 v2 -> coe C74 (coe v0 v2)
+        C76 v2 v3 -> coe C76 (coe v0 v3) (coe v0 v2)
+        C78 v2 v3 v4 -> coe C78 (coe v0 v4) (coe v0 v3) (coe v0 v2)
+        C80 v2 v3 v4 v5 -> coe C80 (coe v0 v5) (coe v0 v4) (coe v0 v3)
+                             (coe v0 v2)
+        _ -> coe MAlonzo.RTE.mazUnreachableError
+name4384 = "FingerTree-measure-size-c.rev-node"
+d4384 v0 v1 v2 v3 v4 v5 v6 = du4384 v3 v4 v5 v6
+du4384 v0 v1 v2 v3
+  = case coe v3 of
+        C52 v4 v5 v6 v7 -> coe du222 v0 v1 (coe v2 v6) (coe v2 v5)
+        C62 v4 v5 v6 v7 v8 -> coe du238 v0 v1 (coe v2 v7) (coe v2 v6)
+                                (coe v2 v5)
+        _ -> coe MAlonzo.RTE.mazUnreachableError
+name4422 = "FingerTree-measure-size-c.measure-rev-list"
+d4422 v0 v1 v2 v3 v4 v5 v6 = du4422 v3 v4 v5 v6
+du4422 v0 v1 v2 v3
+  = coe MAlonzo.Code.Data.List.Base.du166
+      (coe d3238 erased erased erased v0 v1)
+      (coe MAlonzo.Code.AlgebraStructures.d34 v0)
+      (coe MAlonzo.Code.Data.List.Base.du234
+         (coe MAlonzo.Code.Data.List.Base.du56 v2 v3))
+name4444 = "FingerTree-measure-size-c.measure-rev"
+d4444 v0 v1 v2 v3 v4 v5 v6 v7 = du4444 v3 v4 v6 v7
+du4444 v0 v1 v2 v3
+  = coe MAlonzo.Code.Data.List.Base.du166
+      (coe d3238 erased erased erased v0 v1)
+      (coe MAlonzo.Code.AlgebraStructures.d34 v0)
+      (coe MAlonzo.Code.Data.List.Base.du234
+         (coe MAlonzo.Code.Data.List.Base.du56 v2 (coe du824 v3)))
+name4464 = "FingerTree-measure-size-c.measure-digit-rev"
+d4464 v0 v1 v2 v3 v4 v5 v6 = du4464 v3 v4 v5 v6
+du4464 v0 v1 v2 v3
+  = coe MAlonzo.Code.Data.List.Base.du166
+      (coe d3238 erased erased erased v0 v1)
+      (coe MAlonzo.Code.AlgebraStructures.d34 v0)
+      (coe MAlonzo.Code.Data.List.Base.du234
+         (coe MAlonzo.Code.Data.List.Base.du56 v2 (coe d736 v3)))
+name4478 = "FingerTree-measure-size-c.\949-comm-lemma"
+d4478 = erased
+name4484 = "FingerTree-measure-size-c.test.nat"
+d4484
   = coe MAlonzo.Code.AlgebraStructures.C56 (0 :: Integer)
       ((Prelude.+) :: Integer -> Integer -> Integer)
       erased
       erased
       erased
       erased
-name3826 = "FingerTree-measure-size-c.test.nat-measure"
-d3826 v0 = du3826
-du3826
+name4488 = "FingerTree-measure-size-c.test.nat-measure"
+d4488 v0 = du4488
+du4488
   = coe MAlonzo.Code.AlgebraStructures.C76 (\ v0 -> 1 :: Integer)
-name3830 = "FingerTree-measure-size-c.test.ex-ft1"
-d3830
+name4492 = "FingerTree-measure-size-c.test.ex-ft1"
+d4492
   = coe du386
       (coe MAlonzo.Code.AlgebraStructures.C56 (0 :: Integer)
          ((Prelude.+) :: Integer -> Integer -> Integer)
@@ -995,5 +1110,5 @@ d3830
                               (coe MAlonzo.Code.AlgebraStructures.C76 (\ v0 -> 1 :: Integer))
                               (8 :: Integer)
                               (coe C198)))))))))
-name20857 = "FingerTree-measure-size-c._..absurdlambda"
-d20857 = erased
+name28881 = "FingerTree-measure-size-c._..absurdlambda"
+d28881 = erased
