@@ -190,21 +190,19 @@ module RandomAccessSequence-final where
       -- correct-reverse : ∀ {s} → (x : Entry A) → Seq A s → Seq A s
       -- correct-reverse x seq with rev (pack seq)
       -- correct-reverse x₂ seq | ssseq s₁ x x₁ = {!  !}
-      -- property : Seq-pair A → Set a
-      -- property xs = to-size (rev xs) ≡ to-size xs
+      property : Seq-pair A → Set a
+      property xs = ? 
       -- -- example property
       --
       --
-      -- -- inductive-step : ∀ {s : SizeW}
-      -- --           → (seq : Seq A ((size 1) ∙ s))
-      -- --           → (x : Entry A)
-      -- --           → (xs : Seq A s)
-      -- --           → (viewL seq ≡ ConsL x xs)
-      -- --           → (property (pack xs))
-      -- --           → (property (pack seq))
-      -- -- ind_step seq x xs p1 step with viewL seq
-      -- -- ... | v = {!   !}
-      --
+      inductive-step : ∀ {s : SizeW}
+                → (seq : Seq A ((size 1) ∙ s))
+                → (x : Entry A)
+                → (xs : Seq A s)
+                → (viewL seq ≡ ConsL x xs)
+                → (property (pack xs))
+                → (property (pack seq))
+      inductive-step seq x xs prop p = ?
       -- rev-correct : (xs : Seq-pair A) → property xs
       -- rev-correct π = <rec a _ go π
       --   module Rev' where

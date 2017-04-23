@@ -546,7 +546,7 @@ In Agda, the Curry Howard relations introduce the following recipes for generati
 	\hline 
 	Logic Formula & ITT Notation & Agda Notation \\
 	\hline
-	⊥  & ∅  & ⊥ \\
+	⊥  & $∅$  & ⊥ \\
 	% T  = 1        what does he mean by these?
 	A ∨ B & A + B &   A ⊎ B \\
 	A ∧ B & A × B &   A × B \\
@@ -564,35 +564,30 @@ The proof of a proposition in this logic is equivalent to building a term that h
 
 A very important family of types in Agda is the propositional equality. 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{open}\;\mathbf{import}\;\Conid{Level}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\mathbf{data}\;\anonymous \mathbin{≡\char95}\{\mskip1.5mu \Varid{a}\mathbin{:}\Conid{Level}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;(\Varid{x}\mathbin{:}\Conid{A})\mathbin{:}\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}\;\mathbf{where}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{\_≡\_} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{refl}\mathbin{:}\Varid{x}\mathbin{≡}\Varid{x}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{refl} \AgdaSymbol{:} \AgdaBound{x} \AgdaDatatype{≡} \AgdaBound{x}\<%
+\\
+\end{code}
 Having a single constructor, it corresponds to the proposition that two elements of the same type can only be equal if they are in fact the same element. 
 
 \subparagraph{Associativity of Natural Numbers.}
 Consider proving some properties of the natural numbers, such as associativity: \\
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbin{+}\Varid{assoc}\mathbin{:}\mathbin{∀}(\Varid{a}\;\Varid{b}\;\Varid{c}\mathbin{:}\Conid{ℕ})\mathbin{→}\Varid{a}\mathbin{+}(\Varid{b}\mathbin{+}\Varid{c})\mathbin{≡}(\Varid{a}\mathbin{+}\Varid{b})\mathbin{+}\Varid{c}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\mathbin{+}\Varid{assoc}\;\Varid{zero}\;\Varid{b}\;\Varid{c}\mathrel{=}\Varid{refl}{}\<[E]%
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{+assoc} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{(}\AgdaBound{x} \AgdaBound{y} \AgdaBound{z} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaPrimitive{+} \AgdaSymbol{(}\AgdaBound{y} \AgdaPrimitive{+} \AgdaBound{z}\AgdaSymbol{))} \AgdaDatatype{≡} \AgdaSymbol{((}\AgdaBound{x} \AgdaPrimitive{+} \AgdaBound{y}\AgdaSymbol{)} \AgdaPrimitive{+} \AgdaBound{z}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\mathbin{+}\Varid{assoc}\;(\Varid{suc}\;\Varid{a})\;\Varid{b}\;\Varid{c}\mathrel{=}\Varid{cong}\;\Varid{suc}\;(\mathbin{+}\Varid{assoc}\;\Varid{a}\;\Varid{b}\;\Varid{c}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{+assoc} \AgdaInductiveConstructor{zero} \AgdaBound{y} \AgdaBound{z} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{+assoc} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{y} \AgdaBound{z} \AgdaKeyword{rewrite} \AgdaFunction{+assoc} \AgdaBound{x} \AgdaBound{y} \AgdaBound{z} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+\end{code}
 The type indicates what is being proved, whereas the definition consists of an example proof.
 
 \subparagraph{List reverse properties}
@@ -703,14 +698,13 @@ Agda and Coq are both examples of total function programming languages. This con
 
 \textbf{In a mathematical sense}, this means that they must be defined for all inputs. Consider the declaration of the head of a list.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{head}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Conid{A}\mskip1.5mu\}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{A}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\Varid{head}\;\Varid{x}\mathbin{∷}\Varid{xs}\mathrel{=}\Varid{x}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>\AgdaFunction{head} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{head} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
+\\
+\end{code}
 
 Although this function is acceptable in Haskell, it will not type check in Agda. To mitigate this inconvenience, it is straightforward to use the Maybe monad.
 
@@ -800,46 +794,39 @@ Agda is particularly expressive since it allows declaring functions on such data
 
 \textit{List} is an example of a \textbf{regular} data type. The recursive call to List is restricted to the type parameter A
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbf{data}\;\Conid{List}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}[\mskip1.5mu \mskip1.5mu]\mathbin{:}\Conid{List}\;\Conid{A}{}\<[E]%
+\>\AgdaKeyword{data} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\anonymous \mathbin{∷\char95 }\mathbin{:}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{[]} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{\_∷\_} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\end{code}
 
 A slight modification, which recursively calls Lists with the type parameter A x A is used to represent a full binary tree (this has been introduced as Nest \cite{nested_types}).
 
-\begin{hscode}\SaveRestoreHook
-	\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-	\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-	\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-	\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-	\>[3]{}\mathbf{data}\;\Conid{Nest}\;(\Conid{A}\mathbin{:}\Conid{Set})\mathbin{:}\Conid{Set}\;\mathbf{where}{}\<[E]%
-	\\
-	\>[3]{}\hsindent{2}{}\<[5]%
-	\>[5]{}\Conid{Nil}\mathbin{:}\Conid{Nest}\;\Conid{A}{}\<[E]%
-	\\
-	\>[3]{}\hsindent{2}{}\<[5]%
-	\>[5]{}\Conid{Cons}\mathbin{:}\Conid{A}\mathbin{→}\Conid{Nest}\;(\Conid{A}\mathbin{×}\Conid{A})\mathbin{→}\Conid{Nest}\;\Conid{A}{}\<[E]%
-	\ColumnHook
-\end{hscode}\resethooks
+\begin{code}
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Nest} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Nil} \AgdaSymbol{:} \AgdaDatatype{Nest} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Cons} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaSymbol{(}\AgdaBound{A} \AgdaFunction{×} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Nest} \AgdaBound{A}\<%
+\\
+\end{code}
 
-\begin{hscode}\SaveRestoreHook
-	\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-	\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-	\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-	\>[3]{}\Varid{ex}\mathbin{:}\Conid{Nest}\;\Conid{ℕ}{}\<[E]%
-	\\
-	\>[3]{}\Varid{ex}\mathrel{=}\Conid{Cons}\;\mathrm{1}\;(\Conid{Cons}\;(\mathrm{2},\mathrm{3})\;(\Conid{Cons}\;((\mathrm{4},\mathrm{5}),(\mathrm{6},\mathrm{7}))\;\Conid{Nil})){}\<[E]%
-	\ColumnHook
-\end{hscode}\resethooks
+\begin{code}
+\\
+\>\AgdaFunction{example} \AgdaSymbol{:} \AgdaDatatype{Nest} \AgdaDatatype{ℕ}\<%
+\\
+\>\AgdaFunction{example} \AgdaSymbol{=} \AgdaInductiveConstructor{Cons} \AgdaNumber{1} \AgdaSymbol{(}\AgdaInductiveConstructor{Cons} \AgdaSymbol{(}\AgdaNumber{2} \AgdaInductiveConstructor{,} \AgdaNumber{3}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{Cons} \AgdaSymbol{((}\AgdaNumber{4} \AgdaInductiveConstructor{,} \AgdaNumber{5}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaSymbol{(}\AgdaNumber{6} \AgdaInductiveConstructor{,} \AgdaNumber{7}\AgdaSymbol{))} \AgdaInductiveConstructor{Nil}\AgdaSymbol{))}\<%
+\\
+\end{code}
 
 \begin{center}
 
@@ -860,6 +847,11 @@ A slight modification, which recursively calls Lists with the type parameter A x
 
 The same principles apply in the case of Finger Trees, which is based on a full 2-3 tree, with labels in the leafs only.
 
+\section{Notes}
+
+\begin{itemize}
+\item add the stuff about starting point, requirements and whatever everyone talks about.
+\end{itemize}
 
 \chapter{Implementation}
 
@@ -923,6 +915,7 @@ This version can be found on GitHub\footnote{•}. Its mentioned intention is to
 This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for Russell, a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by its small caveat, onto which I will return at the end of this chapter. Although a full and working implementation, I argue that this dissertation is valuable in its own, given my aforementioned reasons for choosing Agda as the programming language, and providing a solution to some caveats.
 \item Implementation in Isabelle. \\
 Another working implementation has been done in Isabelle. However, this implementation diverges from the original specification of the data structure, removing the nesting. The two invariants that I have mentioned are maintained explicitly, due to the lack of dependent types.\\ 
+
 The implementation of this data structure in both Coq and Isabelle, two established theorem provers might argue both for the complexity involved, and for its interesting particularities.
 \end{itemize}
 
@@ -1609,35 +1602,32 @@ Changing the statement of the problem slightly to $\forall$ \textit{ft : FingerT
 
 Indeed, if we try to prove this statement on a simpler version of \textit{FingerTree} that is indexed by Size \footnote{so that Empty can assume any size as long as it is smaller than its FingerTree derivatives (such as Deep sf Empty pr)}, it is a straightforward exercise: 
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>\AgdaFunction{view-lemma3} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{viewL}\;\Varid{ft}\mathbin{≡}\Conid{NilL}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaSymbol{:} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\hsindent{15}{}\<[15]%
-\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{≡}\Conid{Empty}){}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{viewL} \AgdaBound{ft} \AgdaDatatype{≡} \AgdaInductiveConstructor{NilL}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;\Conid{Empty}\;\Varid{p}\mathrel{=}\Varid{refl}{}\<[E]%
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{ft} \AgdaDatatype{≡} \AgdaInductiveConstructor{Empty}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Single}\;\Varid{x})\;(){}\<[E]%
+\>\AgdaFunction{view-lemma3} \AgdaInductiveConstructor{Empty} \AgdaBound{p} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
 \\
-\>[B]{}\Varid{view}\mathbin{-}\Varid{lemma3}\;(\Conid{Deep}\;\Varid{x}\;\Varid{x₁}\;\Varid{ft}\;\Varid{x₂})\;(){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
+\>\AgdaFunction{view-lemma3} \AgdaSymbol{(}\AgdaInductiveConstructor{Single} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{()}\<%
+\\
+\>\AgdaFunction{view-lemma3} \AgdaSymbol{(}\AgdaInductiveConstructor{Deep} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{ft} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaSymbol{()}\<%
+\\
+\end{code}
 
 A solution to this issue was suggested by McKinna\cite{heterogeneous_equality}, using an alternate implemenation of equality -- \textit{Heterogeneous Equality}, which works across types. 
 
@@ -1651,26 +1641,24 @@ Their use could not be avoided in the implementation of operators that act on in
 
 \subparagraph{Example.} Consider the implementation of append on Vectors, but with a slight difference in terms of the index of the result. We return a vector of size $m + n$ instead of $n + m$. The type-checker cannot prove that  $+$ commutes, since it is not superfluous. This does not type-check.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\;\Varid{n}\;\Varid{m}\mskip1.5mu\}\mathbin{→}\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{n}{}\<[E]%
+\>\AgdaFunction{append} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a} \AgdaBound{n} \AgdaBound{m}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;\Varid{m}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{n}\<%
 \\
-\>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathbin{→}\Conid{Vec}\;\Conid{A}\;(\Varid{m}\mathbin{+}\Varid{n}){}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{m}\<%
 \\
-\>[B]{}\Varid{append}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{ys}\mathrel{=}\Varid{ys}{}\<[E]%
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaSymbol{(}\AgdaBound{m} \AgdaPrimitive{+} \AgdaBound{n}\AgdaSymbol{)}\<%
 \\
-\>[B]{}\Varid{append}\;(\Varid{x}\mathbin{∷}\Varid{xs})\;\Varid{ys}\mathrel{=}\Varid{x}\mathbin{∷}(\Varid{append}\;\Varid{xs}\;\Varid{ys}){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>\AgdaFunction{append} \AgdaInductiveConstructor{[]} \AgdaBound{ys} \AgdaSymbol{=} \AgdaBound{ys}\<%
+\\
+\>\AgdaFunction{append} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaBound{ys} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaFunction{append} \AgdaBound{xs} \AgdaBound{ys}\<%
+\\
+\end{code}
 
 The same situation arises in the proofs about correctness of the measure semantics. We have to provide the proof. Due to the nature of the \textit{Builtin.Equality} relation, I could not find a way to expand the functions appropriately, as suggested in the documentation \footnote{http://agda.readthedocs.io/en/latest/language/with-abstraction.html}
 
@@ -1689,18 +1677,17 @@ This is the reason proving correctness of ViewL seemed complicated.
 
 Consider this example, where we try to append an element at the end of a list.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{append}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\mathbin{→}\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}\mathbin{→}\Conid{List}\;\Conid{A}{}\<[E]%
+\begin{code}
 \\
-\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\;\Varid{with}\;\Varid{xs}{}\<[E]%
+\>\AgdaFunction{snoc} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
 \\
-\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid [\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{\Conid{Data}.List}\mathbin{.}[\mskip1.5mu \Varid{x}\mskip1.5mu]{}\<[E]%
+\>\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{xs} \AgdaKeyword{with} \AgdaBound{xs}\<%
 \\
-\>[B]{}\Varid{append}\;\Varid{x}\;\Varid{xs}\mid \Varid{y}\mathbin{∷}\Varid{ys}\mathrel{=}\Varid{y}\mathbin{∷}\Varid{append}\;\Varid{x}\;\Varid{ys}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\>\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{|} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{|} \AgdaBound{y} \AgdaInductiveConstructor{∷} \AgdaBound{ys} \AgdaSymbol{=} \AgdaBound{y} \AgdaInductiveConstructor{∷} \AgdaSymbol{(}\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{ys}\AgdaSymbol{)}\<%
+\\
+\end{code} 
 
 \end{itemize}
 
@@ -2349,42 +2336,39 @@ Reimplementing the \textbf{rev} method with this output type is straight-forward
 
 \subparagraph{For arbitrary properties,} a powerful approach would be to make the induction process obvious
 
-In Agda, consider defining a property: 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{property}\mathbin{:}\Conid{Seq}\mathbin{-}\Varid{pair}\;\Conid{A}\mathbin{→}\Conid{Set}\;\Varid{a}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+\begin{code}
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{property} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
+\\
+\end{code}
 
 The problem that remains is proving the inductive step. This seemed impossible to me, because of the limitations of the \textit{view} operation.
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{inductive\char95 step}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{s}\mathbin{:}\Conid{SizeW}\mskip1.5mu\}{}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{seq}\mathbin{:}\Conid{Seq}\;\Conid{A}\;((\Varid{size}\;\mathrm{1})\mathbin{∙}\Varid{s})){}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{x}\mathbin{:}\Conid{Entry}\;\Conid{A}){}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{xs}\mathbin{:}\Conid{Seq}\;\Conid{A}\;\Varid{s}){}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{viewL}\;\Varid{seq}\mathbin{≡}\Conid{ConsL}\;\Varid{x}\;\Varid{xs}){}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{xs})){}\<[E]%
-\\
-\>[B]{}\hsindent{11}{}\<[11]%
-\>[11]{}\mathbin{→}(\Varid{property}\;(\Varid{pack}\;\Varid{seq})){}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
 
-
+\begin{code}
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{inductive-step} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{s} \AgdaSymbol{:} \AgdaDatatype{SizeW}\AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{seq} \AgdaSymbol{:} \AgdaFunction{Seq} \AgdaBound{A} \AgdaSymbol{((}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{))}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{x} \AgdaSymbol{:} \AgdaDatatype{Entry} \AgdaBound{A}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{xs} \AgdaSymbol{:} \AgdaFunction{Seq} \AgdaBound{A} \AgdaBound{s}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{viewL} \AgdaBound{seq} \AgdaDatatype{≡} \AgdaInductiveConstructor{ConsL} \AgdaBound{x} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{property} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaBound{xs}\AgdaSymbol{))}\<%
+\\
+\>[6]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{property} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaBound{seq}\AgdaSymbol{))}\<%
+\\
+\end{code}
 \subsection{Notes}
 
 - add concatenation in the finger tree implementation, with all the proofs \\
@@ -2585,25 +2569,117 @@ Unfortunately, the compilation of the latter method was not successful. Whereas 
 
 \section{Heuristics for Effort}
 
-obviously dependent typed version is harder than a non-dependently typed, see by how much.
-probably compare to some other literature?
+There is no doubt that creating a dependent and verified version of a particular algorithm or data structure incurs an additional cost. In this section, I will try to explore the effort ratio between the implementing a simplistic solution versus a formally verified one. 
 
-say that even though it's harder, the system guides you through the proofs.
+It is worth emphasizing that, although computing or estimating efforts is in general an ill-defined task, some heuristics could help compare the different versions of the same data structure and see if the figures carry on across data structures.
+
+I have suggested using two heuristics, one computing the explosion in SLOC\footnote{Source Lines of Code}, and the other one quantifying the axiom and lemma content in the definitions.
 
 \subsection{Lines of code}
 
+I will present the ratio between the lengths of different versions, commenting on what they achieve. Although arguably, counting lines of code is not always representative, in this case it seems suitable since: 
 \begin{itemize}
-\item compare version 1 with version 2
-\item explain how this is not fully verified, but requires extra proofs --- come back next
-\item present sorting as a fully verified procedure and analyze that as a comparison?
+\item All the presented code has been written by a single programmer\footnote{it is arguable whether the metrics will therefore show something about using dependent types or just about myself as a programmer}
+\item I have been consistent with jumping to new lines.
 \end{itemize}
- 
+	
+I will make a clear distinction between \textit{internal} verification and \textit{external} verification \cite{agdabook}. By the former I mean properties that are made clear through the type of the definitions themselves (e.g. the use of measure as an index), while the latter refers to proofs which are carried outside of the definition (e.g. foldl-correct).
+
+For this metric, I have decided to discard all the \textit{external}ly verified properties, since there is no bound on their number. On the other hand, \textit{internal} verification directly affects the implementation's difficulty.
+
+Furthermore, I will separate all lines into three categories: type annotations, proofs (related to type checking) and the actual implementation.
+
+\paragraph{Selection Sort}
+
+The selection sort procedure, presented in section whatever is an example of a fully formally verified procedure, as all that can be expected of a sorting function is encoded in the type system. This differs from the FingerTree implementation, which only enforces correctness of the measurement.
+
+\begin{table}[H]
+\caption{SLOC for Sorting}
+\center
+\begin{tabular}{c r r r}
+\hline
+Content & Verified & Not Verified & Ratio\\
+\hline
+Implementation & 18 & 14 & 1\\
+Type annotations & 24 & 3 & 8\\
+Proofs & 124 & 0 & n/a\\
+Other & 53 & 50 & 1\\
+Total & 219 & 67 & 3\\
+\hline
+\end{tabular} 
+\end{table}
+
+The unverified example in this case does not run in Agda. It would require proofs of termination. I have only presented this as a reference point for the Finger Tree example.
+
+\paragraph{Finger Tree}
+
+\begin{table}[H]
+\caption{SLOC for Finger Tree}
+\center
+\begin{tabular}{c r r r}
+\hline 
+Content & Measured Version & Size Version & Ratio \\
+\hline
+Implementation & 185 & 162 & 1 \\ 
+Type annotations & 144 & 68 & 2 \\
+Data declarations & 51 & 32 &  1 \\
+Proofs & 350 & 30 & 12 \\
+Other & 30 & 22 & 1 \\ 
+Total & 760 & 314 & 2.5 \\
+\hline
+\end{tabular}
+\end{table} 
+
+It is interesting to see the same ratios remaining consistent. As a sanity check, the code related to implementation has stayed constant. The proofs carry around half of the code for a verified version. This depends of course on the number of invariants we are trying to maintain. A further increase in the lines that express type signature lead to an overall 2.5 factor of explosion in the code.
+
+As a side note, the effort as illustrated here is not directly related to difficulty, since the more expressive types in verified versions make the goals of implementation clearer.
+
 \subsection{Lemma Usage}
 
+The previous examples did not include any metric about the externally verified properties. 
+Performing this evaluation experiment showed that all the lemmas are constructed from calls to our assumptions (base lemmas).
+
 \begin{itemize}
-\item see how many lemmas are at the base
-\item show that some proofs are harder than others?
-\item argue the use of the monoid solver
-\end{itemize}
+\item about the equivalence relation: \textit{refl}, \textit{sym}, \textit{cong} and \textit{trans}
+\item about the monoid relation: \textit{associativity}, $\epsilon$ is \textit{neutral element}
+\item about List: \textit{associativity} of \textit{++} and \textit{[]} is \textit{neutral element}
+\end{itemize} 
+
+I have performed an analysis of what lemmas are being used by each declaration, followed by a flattening of the result to the base lemmas. The final numbers can be seen as a metric of effort, but also such an analysis could potentially be helpful to refactoring. A summary of results if given below:
+
+\begin{table}[H]
+\caption{Lemma Usage for Internal Verification}
+\center
+\begin{tabular}{c r r r r r}
+\hline 
+Lemma & cons & snoc & viewL & viewR & split \\
+\hline
+refl  	&	1	&	0	&	3&	3&  48\\
+sym     &	2	&	16	&	5&	8&	23\\
+cong   	&	3	&	11	&	1&	5&	15\\
+trans  	&	3	&	23	&	6&	10& 46\\
+ε-left  &	1	&	2	&	4&	2& 22\\  
+ε-right &	1	&	0	&	2&	4& 13\\
+∙-assoc &	6	&	18	&	3&	8& 21\\
+\hline
+\end{tabular}
+\end{table} 
+
+
+\subsection{Discussion}
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
 
 \end{document}

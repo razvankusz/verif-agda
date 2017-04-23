@@ -15,6 +15,7 @@
 \contentsline {section}{\numberline {2.4}Correct Data Structures in Agda}{8}
 \contentsline {subparagraph}{Sorting Lists.}{8}
 \contentsline {subsection}{\numberline {2.4.1}Nested Types}{9}
+\contentsline {section}{\numberline {2.5}Notes}{10}
 \contentsline {chapter}{\numberline {3}Implementation}{11}
 \contentsline {section}{\numberline {3.1}FingerTrees - Introduction}{11}
 \contentsline {subsection}{\numberline {3.1.1}Invariants}{11}
@@ -32,13 +33,13 @@
 \contentsline {subsection}{\numberline {3.2.9}\textit {with} and \textit {rewrite}}{20}
 \contentsline {subparagraph}{Example.}{20}
 \contentsline {subparagraph}{Discussion about \textit {with}.}{21}
-\contentsline {subsection}{\numberline {3.2.10}Folding}{21}
+\contentsline {subsection}{\numberline {3.2.10}Folding}{22}
 \contentsline {subsection}{\numberline {3.2.11}Proving correctness of Fold Left}{22}
 \contentsline {subsection}{\numberline {3.2.12}Splitting}{23}
 \contentsline {subparagraph}{Discussion}{24}
 \contentsline {subparagraph}{The main procedure}{24}
 \contentsline {section}{\numberline {3.3}Other recursive definitions}{25}
-\contentsline {subsection}{\numberline {3.3.1}Reverse}{25}
+\contentsline {subsection}{\numberline {3.3.1}Reverse}{26}
 \contentsline {section}{\numberline {3.4}Random Access Sequences}{26}
 \contentsline {subsection}{\numberline {3.4.1}SizeW and Entry}{26}
 \contentsline {subsection}{\numberline {3.4.2}Seq Instance}{27}
@@ -48,7 +49,7 @@
 \contentsline {subsection}{\numberline {3.5.1}Well founded induction}{28}
 \contentsline {subsection}{\numberline {3.5.2}Packing the Sequence}{28}
 \contentsline {subsection}{\numberline {3.5.3}Reversing - Until a better example is found}{29}
-\contentsline {subparagraph}{For simple properties,}{29}
+\contentsline {subparagraph}{For simple properties,}{30}
 \contentsline {subparagraph}{For arbitrary properties,}{30}
 \contentsline {subsection}{\numberline {3.5.4}Notes}{30}
 \contentsline {chapter}{\numberline {4}Evaluation}{31}
@@ -58,4 +59,7 @@
 \contentsline {subsection}{\numberline {4.1.3}reversing and problems with the compiler}{34}
 \contentsline {section}{\numberline {4.2}Heuristics for Effort}{35}
 \contentsline {subsection}{\numberline {4.2.1}Lines of code}{35}
-\contentsline {subsection}{\numberline {4.2.2}Lemma Usage}{35}
+\contentsline {paragraph}{Selection Sort}{35}
+\contentsline {paragraph}{Finger Tree}{36}
+\contentsline {subsection}{\numberline {4.2.2}Lemma Usage}{36}
+\contentsline {subsection}{\numberline {4.2.3}Discussion}{37}

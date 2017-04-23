@@ -234,6 +234,7 @@ module sorting (A : Set) (pos : PartialOrder A) where
                       (min-is-min x xs min min-start)
 
 
+
 _≤nat_ : ℕ → ℕ → Bool
 zero ≤nat zero = true
 zero ≤nat suc m = true
@@ -259,11 +260,36 @@ suc n ≤nat suc m = n ≤nat m
 ≤neg (suc n) zero p = refl
 ≤neg (suc n) (suc m) p = ≤neg n m p
 
+module simple-sorting (A : Set) (pos : PartialOrder A) where
+
+  _≤_ = PartialOrder._≤_ pos
+
+  min : A → List A → A
+  min m [] = m
+  min m (x ∷ xs) =
+    if (m ≤ x)
+      then min m xs
+    else min x xs
+
+  delete : A → List A → List A
+  delete a [] = []
+  delete a (x ∷ xs) =
+    if (a ≤ x ∧ x ≤ a)
+      then xs
+    else x ∷ (delete a xs)
+
+  sort : List A → List A
+  sort [] = []
+  sort (x ∷ xs) = m ∷ sort (delete m (x ∷ xs))
+    where
+      m = min x xs
+
 -- open sorting {ℕ}
 
 NatOrder : PartialOrder ℕ
 NatOrder = poset _≤nat_ ≤reflnat ≤transnat ≤neg
 
 open sorting ℕ NatOrder using (sort)
-
+open simple-sorting ℕ NatOrder renaming (sort to ssort)
 a = sort (2 ∷ 3 ∷ 1 ∷ 0 ∷ [])
+b = ssort (3 ∷ 1 ∷ 2 ∷ [])

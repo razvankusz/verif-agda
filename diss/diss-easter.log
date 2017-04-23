@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  22 APR 2017 17:54
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  23 APR 2017 21:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1180,43 +1180,46 @@ LaTeX Warning: Citation `coq_inductive' on page 4 undefined on input line 539.
 [4
 
 ]
-Missing character: There is no ∅ in font DejaVu Serif/OT:script=latn;language=D
-FLT;mapping=tex-text;!
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 583--584
-
+Underfull \hbox (badness 10000) in paragraph at lines 567--574
+ 
  []
 
 \openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 578--590
+ 
+ []
 
 [5]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 601--615
+Underfull \hbox (badness 10000) in paragraph at lines 596--610
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 619--632
+Underfull \hbox (badness 10000) in paragraph at lines 614--627
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--647
+Underfull \hbox (badness 10000) in paragraph at lines 629--642
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 651--692
+Underfull \hbox (badness 10000) in paragraph at lines 646--687
  
  []
 
@@ -1224,51 +1227,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 651--692
 \openout4 = `diss-easter.ptb'.
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 701--707
+ 
+ []
 
-LaTeX Warning: Citation `str_smaller' on page 7 undefined on input line 721.
+
+LaTeX Warning: Citation `str_smaller' on page 7 undefined on input line 715.
 
 [7]
 
-LaTeX Warning: Citation `adam_chipala' on page 8 undefined on input line 730.
+LaTeX Warning: Citation `adam_chipala' on page 8 undefined on input line 724.
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 745--776
+Underfull \hbox (badness 10000) in paragraph at lines 739--770
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 782--787
+Underfull \hbox (badness 10000) in paragraph at lines 776--781
  
  []
 
 [8]
 
-LaTeX Warning: Citation `nested_types' on page 9 undefined on input line 797.
+LaTeX Warning: Citation `nested_types' on page 9 undefined on input line 791.
 
 
-LaTeX Warning: Citation `cyclic' on page 9 undefined on input line 797.
+LaTeX Warning: Citation `cyclic' on page 9 undefined on input line 791.
 
 
-LaTeX Warning: Citation `okasaki_matrix' on page 9 undefined on input line 797.
+LaTeX Warning: Citation `okasaki_matrix' on page 9 undefined on input line 791.
 
 
 \openout4 = `diss-easter.ptb'.
 
 
-LaTeX Warning: Citation `nested_types' on page 9 undefined on input line 817.
+Underfull \hbox (badness 10000) in paragraph at lines 797--807
+ 
+ []
+
+
+LaTeX Warning: Citation `nested_types' on page 9 undefined on input line 809.
 
 \openout4 = `diss-easter.ptb'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 811--821
+ 
+ []
+
 \openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 823--829
+ 
+ []
 
 [9] [10]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 867--869
+Underfull \hbox (badness 10000) in paragraph at lines 859--861
 
  []
 
@@ -1292,27 +1314,32 @@ Missing character: There is no ∙ in font [lmsans12-regular]:mapping=tex-text!
 
 ]
 
-LaTeX Warning: Citation `coq' on page 12 undefined on input line 923.
+LaTeX Warning: Citation `coq' on page 12 undefined on input line 915.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 916--918
+
+ []
 
 [12]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 950--985
+Underfull \hbox (badness 10000) in paragraph at lines 943--978
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 988--1007
+Underfull \hbox (badness 10000) in paragraph at lines 981--1000
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1050
+Underfull \hbox (badness 10000) in paragraph at lines 1004--1043
  
  []
 
@@ -1320,7 +1347,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1011--1050
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1055--1085
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1078
  
  []
 
@@ -1330,7 +1357,7 @@ Missing character: There is no ∙ in font [lmsans12-regular]:mapping=tex-text!
 [14]
 
 LaTeX Warning: Citation `coq_finger_tree' on page 15 undefined on input line 11
-59.
+52.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1338,7 +1365,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1222--1248
+Underfull \hbox (badness 10000) in paragraph at lines 1215--1241
  
  []
 
@@ -1346,97 +1373,97 @@ Underfull \hbox (badness 10000) in paragraph at lines 1222--1248
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Overfull \hbox (58.4406pt too wide) in paragraph at lines 1252--1301
+Overfull \hbox (58.4406pt too wide) in paragraph at lines 1245--1294
  [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1252--1301
+Underfull \hbox (badness 10000) in paragraph at lines 1245--1294
  
  []
 
@@ -1444,26 +1471,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 1252--1301
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1313--1333
+Underfull \hbox (badness 10000) in paragraph at lines 1306--1326
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1339--1361
+Underfull \hbox (badness 10000) in paragraph at lines 1332--1354
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (3.19878pt too wide) detected at line 1399
+Overfull \hbox (3.19878pt too wide) detected at line 1392
   |  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1369--1399
+Underfull \hbox (badness 10000) in paragraph at lines 1362--1392
  
  []
 
@@ -1471,7 +1498,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1369--1399
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1452--1568
  
  []
 
@@ -1479,23 +1506,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 1459--1575
 \openout4 = `diss-easter.ptb'.
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 1605--1630
+ 
+ []
+
 
 LaTeX Warning: Citation `heterogeneous_equality' on page 20 undefined on input 
-line 1642.
+line 1632.
 
 
 LaTeX Warning: Citation `viewfromtheleft' on page 20 undefined on input line 16
-48.
+38.
 
 \openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1644--1661
+ 
+ []
 
 [20]
 \openout4 = `diss-easter.ptb'.
 
-\openout4 = `diss-easter.ptb'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1723--1743
+Underfull \hbox (badness 10000) in paragraph at lines 1680--1690
  
  []
 
@@ -1503,14 +1537,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 1723--1743
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1747--1784
+Underfull \hbox (badness 10000) in paragraph at lines 1710--1730
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1790--1818
+Underfull \hbox (badness 10000) in paragraph at lines 1734--1771
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1777--1805
  
  []
 
@@ -1518,14 +1559,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 1790--1818
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1823--1845
+Underfull \hbox (badness 10000) in paragraph at lines 1810--1832
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1858--1889
+Underfull \hbox (badness 10000) in paragraph at lines 1845--1876
  
  []
 
@@ -1533,14 +1574,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 1858--1889
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1897--1949
+Underfull \hbox (badness 10000) in paragraph at lines 1884--1936
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1954--2028
+Underfull \hbox (badness 10000) in paragraph at lines 1941--2015
  
  []
 
@@ -1548,26 +1589,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 1954--2028
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2060--2083
+Underfull \hbox (badness 10000) in paragraph at lines 2047--2070
  \EU1/DejaVuSerif(0)/m/n/12 The non-dependent interface is constructed through 
 a depen-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2060--2083
+Underfull \hbox (badness 10000) in paragraph at lines 2047--2070
  \EU1/DejaVuSerif(0)/m/n/12 dent pair. The function \EU1/DejaVuSerif(0)/bx/n/12
  pack \EU1/DejaVuSerif(0)/m/n/12 makes the transformation, and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2060--2083
+Underfull \hbox (badness 10000) in paragraph at lines 2047--2070
  \EU1/DejaVuSerif(0)/m/n/12 the \EU1/DejaVuSerif(0)/bx/n/12 cons-pair \EU1/Deja
 VuSerif(0)/m/n/12 is simply the extension of \EU1/DejaVuSerif(0)/bx/n/12 cons \
 EU1/DejaVuSerif(0)/m/n/12 to the pair.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2060--2083
+Underfull \hbox (badness 10000) in paragraph at lines 2047--2070
  
  []
 
@@ -1575,14 +1616,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 2060--2083
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2098--2122
+Underfull \hbox (badness 10000) in paragraph at lines 2085--2109
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2126--2134
+Underfull \hbox (badness 10000) in paragraph at lines 2113--2121
  
  []
 
@@ -1592,32 +1633,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 2126--2134
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2160--2168
+Underfull \hbox (badness 10000) in paragraph at lines 2147--2155
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2175--2188
+Underfull \hbox (badness 10000) in paragraph at lines 2162--2175
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2195--2221
+Underfull \hbox (badness 10000) in paragraph at lines 2182--2208
  
  []
 
 [27]
 
-LaTeX Warning: Citation `coq' on page 28 undefined on input line 2229.
+LaTeX Warning: Citation `coq' on page 28 undefined on input line 2216.
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2247--2275
+Underfull \hbox (badness 10000) in paragraph at lines 2234--2262
  
  []
 
@@ -1625,14 +1666,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 2247--2275
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2278--2292
+Underfull \hbox (badness 10000) in paragraph at lines 2265--2279
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2301--2327
+Underfull \hbox (badness 10000) in paragraph at lines 2288--2314
  
  []
 
@@ -1640,31 +1681,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 2301--2327
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (6.80727pt too wide) in paragraph at lines 2337--2346
+Overfull \hbox (6.80727pt too wide) in paragraph at lines 2324--2333
  [][] 
  []
 
 
-Overfull \hbox (6.80727pt too wide) in paragraph at lines 2337--2346
+Overfull \hbox (6.80727pt too wide) in paragraph at lines 2324--2333
  [][][][][][] 
  []
 
 
-Overfull \hbox (6.80727pt too wide) in paragraph at lines 2337--2346
+Overfull \hbox (6.80727pt too wide) in paragraph at lines 2324--2333
  [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2337--2346
+Underfull \hbox (badness 10000) in paragraph at lines 2324--2333
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 2339--2344
+ 
+ []
+
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2390--2392
+Overfull \hbox (1.92836pt too wide) detected at line 2371
+  |  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2348--2371
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2374--2376
 
  []
 
@@ -1676,14 +1732,14 @@ Chapter 4.
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2447--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2431--2442
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2460--2474
+Underfull \hbox (badness 10000) in paragraph at lines 2444--2458
  
  []
 
@@ -1691,7 +1747,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 2460--2474
 File: consexp-inc.eps Graphic file (type eps)
  <consexp-inc.eps>
 File: splitexp-inc.eps Graphic file (type eps)
- <splitexp-inc.eps> [33] [34] [35] (./diss-easter.aux)
+ <splitexp-inc.eps> [33] [34]
+
+LaTeX Warning: Citation `agdabook' on page 35 undefined on input line 2586.
+
+[35] [36] [37] (./diss-easter.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1700,12 +1760,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 29304 strings out of 493638
- 580599 string characters out of 6146797
- 611024 words of memory out of 5000000
- 32229 multiletter control sequences out of 15000+600000
- 14617 words of font info for 118 fonts, out of 8000000 for 9000
+ 29274 strings out of 493638
+ 579928 string characters out of 6146797
+ 611002 words of memory out of 5000000
+ 32205 multiletter control sequences out of 15000+600000
+ 14569 words of font info for 112 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,16n,87p,10371b,1493s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss-easter.pdf (43 pages).
+Output written on diss-easter.pdf (45 pages).

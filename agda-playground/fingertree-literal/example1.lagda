@@ -1,25 +1,40 @@
 \begin{code}
-module example1 where
+open import Data.Product
 
-  open import Data.Nat
-  open import Data.List
-  open import numbers
-  open import AlgebraStructures
-  open import FingerTree-measure-size
+data _≡_ {a} {A : Set a} (x : A) : A → Set a where
+  refl : x ≡ x
 
-  import GeneralFingerTree
-    ℕ (List ℕ) (list-monoid ℕ) (list-measure ℕ) as p
-  import GeneralFingerTree
-    ℕ ℕ (sum-monoid) (measured (λ x → x)) as q
+data List (A : Set) : Set where
+  [] : List A
+  _∷_ : A → List A → List A
 
-  test : p.G-FingerTree
-  test = 1 ◁ 2 ◁ 3 ◁ 5 ◁ Empty
-  test2 : q.G-FingerTree
-  test2 = 1 ◁ 2 ◁ 3 ◁ 4 ◁ 5 ◁ Empty
+data Nest (A : Set) : Set where
+  Nil : Nest A
+  Cons : A → Nest (A × A) → Nest A
 
-  test3 : p.GFT-Pair
-  test3 = p.pack test
+head : ∀ {A} → List A → A
+head (x ∷ xs) = x
+head {A} [] = a-fake
+  where
+    postulate a-fake : A
 
-  test4 : p.GFT-Pair
-  test4 = p.rev test3
+
+open import Data.Nat
+
+example : Nest ℕ
+example = Cons 1 (Cons (2 , 3) (Cons ((4 , 5) , (6 , 7)) Nil))
+
+open import Data.Vec
+
+append : ∀ {a n m} → {A : Set a}
+      → Vec A n
+      → Vec A m
+      → Vec A (n + m)
+append [] ys = ys
+append (x ∷ xs) ys = x ∷ append xs ys
+
+snoc : ∀ {A} → A → List A → List A
+snoc x xs with xs
+snoc x xs | [] = x ∷ []
+snoc x xs | y ∷ ys = y ∷ (snoc x ys)
 \end{code}
