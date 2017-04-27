@@ -12,16 +12,24 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{verbatim}
 \usepackage{tikz}
-\usepackage{DejaVuSerifCondensed}
+%\usepackage{DejaVuSerifCondensed}
+\usepackage{tgpagella}
+\usepackage[T1]{fontenc}
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{subfig}
 \usepackage{setspace}
 \usepackage{float}
 \usepackage{agda}
-\setmainfont{DejaVu Serif}
-\setmonofont{DejaVu Sans Mono}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
+
+
+\renewcommand{\baselinestretch}{1.3}
+\setmainfont{TeX Gyre Pagella}
 \setmathrm{DejaVu Sans}
 \setmathsf{DejaVu Sans}
 \setmathtt{DejaVu Sans}
@@ -328,8 +336,8 @@
     font=\sffamily},
   arn_n/.style = {treenode, circle, black, font=\sffamily\bfseries, draw=black,
     fill=white, text width=1.5em},% arbre rouge noir, noeud noir
-  arn_r/.style = {treenode, circle, red, draw=red, 
-    text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_r/.style = {treenode, circle, red, draw=black, 
+    text width=1.5em, very thick, minimum height=0.2em},% arbre rouge noir, noeud rouge
   arn_x/.style = {treenode, rectangle, draw=black,
     minimum width=0.5em, minimum height=0.7em},% arbre rouge noir, nil
   deep/.style = {treenode, circle, red, draw=Brown,
@@ -375,9 +383,9 @@
 \vspace*{60mm}
 \begin{center}
 \Huge
-{\bf Verified functional datastructures in Agda} \\
+{\bf Verified functional data structures in Agda} \\
 \vspace*{5mm}
-Diploma in Computer Science \\
+Part II Project in Computer Science\\
 \vspace*{5mm}
 Girton College \\
 \vspace*{5mm}
@@ -403,7 +411,7 @@ Girton College \\
 \begin{tabular}{ll}
 Name:               & \bf Razvan Kusztos                       \\
 College:            & \bf Girton College                     \\
-Project Title:      & \bf Verified functional datasturcures and algorithm in Agda \\
+Project Title:      & \bf Verified functional data structures and algorithms in Agda \\
 Examination:        & \bf Part II Project        \\
 Word Count:         & \bf 0\footnotemark[1]
 (well less than the 12000 limit) \\
@@ -458,43 +466,100 @@ appreciated.
 
 \chapter{Introduction}
 
+\begin{figure}
+\centering 
+
+\includegraphics[scale=0.6]{flow}
+\end{figure}
 \section{Verified Programming}
 
-Verification of program correctness is paramount for any successful application. There are many ways and paradigms used in industry that enforce this ideas. Most commonly, hard-coded tests are run against the program. In this project I will focus on formal verification, that is, checking that a program is correct under some formal, mathematical modeling, rather than through its behaviour.
+Verification of program correctness is paramount in any successful application. There are many paradigms used in industry that enforce this idea. Most commonly, hard-coded tests are run against the program. In this project I will focus on formal verification, that is, checking that a program is correct under some formal, mathematical modeling, rather than through its behaviour.
 	
 Formal verification has had successful application in areas such as  cryptography (Criptol), hardware specification (The verification system in Verilog) or compiler construction (CompCert). 
-A more general approach implies verifying arbitrary software programs. Automated theorem provers such as Coq, Isabelle or Agda achieve this goal. Although their principles have been around for (..), their industrial application remains still niche (CompCert is an example project using Coq). Isabelle’s open archive of proofs contains mainly proofs concerned with mathematical objects, with very few example of algorithms or data structures \footnote{https://www.isa-afp.org}. 
+A more general approach implies verifying arbitrary software programs. Automated theorem provers such as Coq, Isabelle or Agda achieve this goal. Although the principles they use have been around for decades, their industrial application remains still niche (CompCert is an example project using Coq). Isabelle’s open archive of proofs contains mainly proofs concerned with mathematical objects, with very few example of algorithms or data structures \footnote{https://www.isa-afp.org}. 
 	
-Languages like Agda have been designed first and foremost as general programming languages, with formal verification capacities on the side. Their development is in a relatively early stage, and are mainly employed for research. 
+Languages like Agda have been designed first and foremost as general programming languages, with formal verification capacities secondary. Their development is in a relatively early stage, and are mainly employed for research. 
 
 \section{Functional Data Structures}
 
-Functional data structures have been long thought to be inefficient and belonging solely to academia. Solving past constraints are however turning the tides, with multicores and lots of memory easily accessible. The work of Okasaki \cite{okasaki}, namely his book,“Purely Functional Data Structures”, has gone a great way in solving the imbalance between functional data structures and the vast collection of efficient imperative structures. His discussion of implicit recursive slowdown and numerical representations of types has inspired the advent of many data structure. An example at which I will come back later is the Finger Tree.
+In the context of data structures and algorithms, there are two main paradigms in use: a stateful approach, used in most imperative programming languages, and a stateless approach, seen in pure functional programming.
 
-The main constraint that functional data structure have imposed on them is that they are persistent. That is, any destructive operation, such as updating an element in a list is expected to preserve in memory both the previous version and the new version. This constraint is not de facto in many imperative implementation (consider updating an element in a C array). Solutions for achieving this goal in an imperative environment are tedious and incur and extra cost. By working functionally, we need to work on top of this constraint – point where the implicit recursive slowdown comes at the rescue.
+The formal treaty of these environments is different. In stateful code, functions can alter the state of the program and return different results at different times, even when fed the same arguments. In this context, verification has to be done separately, using specific system such as Hoare Logic.
 
-Having tackled the problem of efficiency that has been long believed to be an argument against functional programming, the obvious advantage of the lack of side effects can be fully appreciated. The lack of side effects makes reasoning about functions a more tractable problem, and therefore aids coming up with verified programs.
+Functional programming languages enforce the idea of statelessness, bringing functions as close as possible to mathematical functions. They have to always return the same result for a given argument, regardless of when and where the call occurs. This constrain is re-becoming popular in the industry, due to the advantages it bring in concurrent programming.
+ 
+Functional data structures have been long thought to be inefficient and belonging solely to academia. The work of Okasaki \cite{okasaki}, namely his book,“Purely Functional Data Structures”, has gone a great way in solving the imbalance between functional data structures and the vast collection of efficient imperative structures. His discussion of implicit recursive slowdown and numerical representations of types has inspired the advent of many data structures. An example at which I will come back later is the Finger Tree.
 
-\section{Dependent Types}
+The main constraining property of functional data structure is that they are persistent. That is, any destructive operation, such as updating an element in a list is expected to preserve in memory both the previous version and the new version. This constraint is not de facto in many imperative implementation (consider updating an element in a C array). Solutions for achieving this goal in an imperative environment are tedious and incur and extra cost. 
 
-In traditional functional programming languages such as SML, Ocaml or Haskell, there is a clear barrier between types and values. In a dependently typed programming language, such as Agda, Coq or Idris, this distinctions fades away. Types and values are placed under the same grammar, introducing general terms. Whereas before types could depend on other types (i.e. parametric polymorphism), types can now also depend on values.
+By working functionally, we need to work on top of this constraint, and techniques like implicit recursive slowdown can help achieve comparable run-times. Furthermore, the lack of side effects makes reasoning about functions a more tractable problem, and therefore aids coming up with verified programs.
 
-Careful use of this expressive power can aid the user by reducing much of the run-time checks needed to ensure proper execution of the program. 
+Traditionally, the verification of computer programs is a stand-alone task, and takes the form of performing proofs in a separate environment. Most commonly this environment is pen and paper. Agda is part of a family of programming languages which, alongside with Coq or Idris, is based on the theory of dependent types. In these environments, types and values are part of the same grammar, forming \textit{terms}. Allowing therefore types to depend on values, we can reason about code and proofs in the same environment (under the Curry Howard isomorphism).  
 
-Consider, for example, the case of performing the sum of two n-dimensional vectors. In a non-dependent setting, all the vectors would have the same time, regardless of their size. Implementing a correct summation method would entail checking at run-time whether the vectors have the same length. With a dependent typed language, we can enforce this in the type.
+In this dissertation, I aim to show multiple approaches of verifying data structures and algorithms using the expressive power of Agda. I have chosen, as a running example, the implementation of the FingerTree.\cite{fingertree}. The original paper presents an implementation of this data structure in Haskell and describes the main operations that such a data type must support. 
 
-Traditionally, proofs about the programs are presented in a separate environment, most commonly pen and paper. Since we allow types to depend on values, we can reason about both code and proofs in the same environment (under the Curry Howard isomorphism – see Section whatever)
+FingerTrees are a slight modification of a 2-3 tree \footnote{that is, a tree whose nodes can have either two or three children}, allowing efficient appending at either end. Its abstract data type is that of a double-ended queue. Furthermore, the FingerTrees can be associated with a measurement function and an operator (described in section whatever) that allows the specialization to other abstract data types, such as Random Access Sequences, Priority Queues or Interval Trees.
+
+
+ 		
+\begin{figure} 
+	\centering
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
+		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm},
+		level 4/.style = {sibling distance = 4cm, level distance = 1.5cm},
+		level 5/.style = {sibling distance = 2cm, level distance = 1.5cm}]
+		\node [deep] {}
+		 child{node [digit] {∙ ∙ ∙} 	
+		      }
+		 child{node [deep] {}
+		 		child{node [node] {}
+		 				child{node [digit] {∙ ∙ ∙ ∙}}
+		 				child{node [digit] {∙}}
+		 			}
+			 	child{node [deep] {}
+			 			child{node [node] {}
+			 				child{node [node]{}
+			 					child{node [digit]{∙ ∙ ∙ ∙}}
+			 					child{node [digit]{∙ ∙}}
+			 					child{node [digit]{∙ ∙ ∙}}
+			 				}
+			 				child{node [node]{}
+			 					child{node [digit]{∙}}
+			 					child{node [digit]{∙ ∙ ∙}}
+							}			 				
+			 				child{node [node]{}
+			 					child{node [digit]{∙ ∙ ∙ ∙}}
+			 					child{node [digit]{∙}}
+			 					}
+			 			}
+			 		}
+		 		child{node [node] {}
+		 				child{node [digit] {∙ ∙}}
+		 				child{node [digit] {∙}} 
+		 				child{node [digit] {∙ ∙ ∙}}
+		 			}
+		 	 } 
+		 child{node [digit] {∙ ∙}	
+		      };
+	\end{tikzpicture}
+	\caption{Example finger tree}
+	\label{fig:ftex1}
+\end{figure} 
+% picture of 2-3 tree alongside with a finger tree
+
+
+The work of implementing the Finger Tree in a dependent environment has been carried out by Matthiew Souzeau in his paper \cite{matthewsouzeau}, focused on introducing \textit{Russel}, a framework to facilitate ? in Coq. The goal of this dissertation is to experiment to what extent the same result can be achieved in Agda, exploring various patterns for proving correctness.
 
 
 \section{Summary}
 
 In the next section I will introduce Agda, explain how logic reasoning fits tightly with the theoretical basis of Agda and the FingerTree data structure. 
 
-In the implementation section I will present an implementation of FingerTree, made possible by dependent typing, which ensures correctness, as well as proofs related to this data structure. 
-I will show how specializations of the FingerTree to other data-structures, such as Random Access Sequences or ... maintain the correctness properties. This can be seen as a software engineering approach using dependent types. 
-Finally, I will outline some difficulties which arise because of Agda’s totality and show some ways of overcoming them.
+In the implementation section I will present a dependent implementation of FingerTree which ensures correctness, as well as proofs related to this data structure. I will show how specializations of the FingerTree to a Random Access Sequences maintains the correctness properties. This can be seen as a software engineering approach using dependent types. 
+Finally, I will outline some difficulties arising because of Agda’s totality and show some ways of overcoming them.
 
-In the evaluation section, I will ....
+In the evaluation section, I will analyze the run-time difference and compare the effort of implementing a dependent data structure versus a non dependent one. I will discuss how the current implementation ... 
  
 \chapter{Preparation}
 
@@ -512,10 +577,16 @@ I have chosen to implement this project in Agda for a number of reasons:
 \item specifically for implementing Finger Trees, for reasons that I will come back to in section whatever.
 \end{itemize}
 
+\section{Dependent Types} 
+
+In traditional functional programming languages such as SML, Ocaml or Haskell, there is a clear barrier between types and values. In a dependently typed programming language, such as Agda, Coq or Idris, this distinctions fades away. Types and values are placed under the same grammar, introducing general terms. Whereas before types could depend on other types (i.e. parametric polymorphism), types can now also depend on values.
+Careful use of this expressive power can aid the user by reducing much of the run-time checks needed to ensure proper execution of the program. 
+
 \section{Curry Howard Isomorphism}
 
+Traditionally, proofs about the programs are presented in a separate environment, most commonly pen and paper. Since we allow types to depend on values, we can reason about both code and proofs in the same environment. 
 The main mechanism employed in computer assisted proofs with dependent types is the observation (due to Curry) that there exists a one-to-one correspondence between propositions in formal logic and types. The original example, given by Howard is the bijection between the intuitionistic natural deduction and the simply typed lambda calculus.
-Using this principle, the predicative quantifier $\forall$ corresponds to a dependent product
+Using this principle, the predicative quantifier $\forall$ (for all) corresponds to a dependent product
 \cite{hindely_milner} , enabled by dependent types.
 
 
@@ -560,9 +631,9 @@ In Agda, the Curry Howard relations introduce the following recipes for generati
 
 The proof of a proposition in this logic is equivalent to building a term that has the corresponding type.
 
-\subsection{Some example proofs in Agda.}
+\subsection{Proofs in Agda.}
 
-A very important family of types in Agda is the propositional equality. 
+A very important family of types in Agda is the propositional equality.
 
 \begin{code}
 \\
@@ -573,9 +644,11 @@ A very important family of types in Agda is the propositional equality.
 \\
 \end{code}
 Having a single constructor, it corresponds to the proposition that two elements of the same type can only be equal if they are in fact the same element. 
+This is the basis of all the proofs in this dissertation. Constructing a term of type \AgdaBound{a} \AgdaDatatype{≡} \AgdaBound{b} represents a statement that \AgdaBound{a} and \AgdaBound{b} are equivalent.
 
 \subparagraph{Associativity of Natural Numbers.}
 Consider proving some properties of the natural numbers, such as associativity: \\
+
 \begin{code}
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
@@ -590,7 +663,28 @@ Consider proving some properties of the natural numbers, such as associativity: 
 \end{code}
 The type indicates what is being proved, whereas the definition consists of an example proof.
 
-\subparagraph{List reverse properties}
+\subsection{Induction}
+
+As in the previous example, we can see that induction is a key means of proof. In this example, we perform a structural induction on the possible constructor of \textit{z} as a natural number:
+
+
+\begin{code}%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{ℕ} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{zero} \AgdaSymbol{:} \AgdaDatatype{ℕ}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{suc} \<[7]%
+\>[7]\AgdaSymbol{:} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ}\<%
+\\
+\end{code} 
+
+
+ In the second case, we also perform a natural mathematical induction step. Assuming that \AgdaFunction{+assoc} \textit{a b c} holds for some a, b and c, we want to show that \AgdaFunction{+assoc} \textit{(a + 1) b c} holds.
+
+\subsection{Further Example - List reverse properties}
 Consider the following implementation of reverse, using a helper function: 
 
 \begin{code}
@@ -641,7 +735,8 @@ The main goal of this exercise is to prove that $\forall xs : List A, rev (rev (
 \\
 \end{code}
 
-Finally, the main proof is presented using the Equational Reasoning module, which aids writing more readable proofs. This is the format in which most proofs are written throughout the dissertation.
+Finally, the main proof is presented using the Equational Reasoning module, which aids writing more readable proofs. This is the format in which most proofs are written throughout the dissertation. I have indented the code such that, in between \AgdaFunction{begin} ...
+\AgdaFunction{∎}, the extra-indented lines correspond to successive transformations of the left-hand side of our formula, using lemmas provided inside the triangular brackets. (\AgdaFunction{≡⟨} ... \AgdaFunction{⟩})
 
 \begin{code}
 \\
@@ -687,9 +782,6 @@ Finally, the main proof is presented using the Equational Reasoning module, whic
 \end{code}
 It is worth emphasizing the dual use of the typing system, both for proving correctness and providing abstraction. The type declaration is many times sufficient for understanding the purpose of the implementation.
 
-\subsection{Induction}
-
-As in the previous example, we can see that induction is a key means of proof. In this example, we perform a structural induction on the possible constructor of \textit{a} as a natural number. In the second case, we also perform a natural mathematical induction step. Assuming that \textit{+assoc a b c} holds for some a, b and c, we want to show that \textit{+assoc (a + 1) b c} holds.
 
 \section{Totality}
 
@@ -828,6 +920,8 @@ A slight modification, which recursively calls Lists with the type parameter A x
 \\
 \end{code}
 
+\begin{figure}
+\caption{Full Binary Tree}
 \begin{center}
 
 	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 5cm, level distance = 1.5cm},
@@ -844,51 +938,139 @@ A slight modification, which recursively calls Lists with the type parameter A x
 	\end{tikzpicture}
 
 \end{center} 
-
+\end{figure}
 The same principles apply in the case of Finger Trees, which is based on a full 2-3 tree, with labels in the leafs only.
 
-\section{Notes}
+As an aside, I believe that the presence of these nested types make termination checking an even harder task in many cases. The problems that occur in the implementation of the Finger Tree are not limited to this context. I have provided the implementation of yet another data structure that suffers the same limitations in the Appendix \ref{sec:seq}.
 
-\begin{itemize}
-\item add the stuff about starting point, requirements and whatever everyone talks about.
-\end{itemize}
 
-\chapter{Implementation}
 
-\section{FingerTrees - Introduction} 
-	Finger Trees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
-Initially meant as a double ended queue with constant amortized time append, their structure, together with the cached measurements, allow specialization to Random Access Sequences, or Priority Queues by simple instantiation. \\ 
- 
- 	The underlying structure is that of a full 2-3 tree, with labels solely at the leafs. For efficient insertion and deletions, the tree is surrounded by buffers at each level, which amortize the cost of appending at either end. Furthermore, the data structure is accompanied by a measurement function and a binary operator, such that the reduced measures of all nodes in a subtree is cached in all the joints. These are necessary for searching or splitting.
- 		
-\begin{figure} 
-	\centering
-	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
-		level 2/.style = {sibling distance = 4cm, level distance = 1.5cm},
-		level 3/.style = {sibling distance = 2cm, level distance = 1.5cm}]
-		\node [deep] {}
-		 child{node [digit] {∙ ∙ ∙} 	
-		      }
-		 child{node [deep] {}
-		 		child{node [node] {}
-		 				child{node [digit] {∙ ∙ ∙ ∙}}
-		 				child{node [digit] {∙}}
-		 			}
-			 	child{node [deep] {}
-			 			child{node [leaf] {}}
-			 		}
-		 		child{node [node] {}
-		 				child{node [digit] {∙ ∙}}
-		 				child{node [digit] {∙}} 
-		 				child{node [digit] {∙ ∙ ∙}}
-		 			}
-		 	 } 
-		 child{node [digit] {∙ ∙}	
-		      };
+\section{2-3 Trees} 
+
+At the base of the FingerTree is a 2-3 tree, with a further constraint that all the leaves must occur on the last level. Using the concept of nested types, presented in the previous section, we can encode this constraint in the type system. \cite{nested_types}
+
+\begin{figure} [h]
+\caption{Example 2-3 tree}
+\label{fig:23tree}
+\begin{center}
+
+	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 10cm, level distance = 1.5cm}, 
+	level 2/.style = {sibling distance = 4cm},
+	level 3/.style = {sibling distance = 1.5cm}]
+	\node [node] {}
+	 child{ node [node] {} 
+	            child{node [node] {}
+	            	child{node [arn_n]{1}}
+	            	child{node [arn_n]{2}}
+	            	child{node [arn_n]{3}}
+				} 
+	            child{node [node] {}
+	            	child{node [arn_n]{4}}
+	            	child{node [arn_n]{5}}
+	            }	
+	            child{node [node] {}
+	            	child{node [arn_n]{6}}
+	            	child{node [arn_n]{7}}
+	            }
+	      }
+	 child{node [node] {} 
+	            child{node [node] {}
+	           		child{node [arn_n]{8}}
+	            	child{node [arn_n]{9}}
+	            	child{node [arn_n]{10}}} 
+	            child{node [node] {}
+	              	child{node [arn_n]{11}}
+	            	child{node [arn_n]{12}}}	
+	      };
 	\end{tikzpicture}
-	\caption{Example finger tree}
-	\label{fig:ftex1}
-\end{figure} 
+
+\end{center} 
+\end{figure}
+Instead of using the pair ($\_\times\_$), we declare a new data type that can contain both two and three elements. 
+
+\begin{code}
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Node} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node2} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node3} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A}\<%
+\\
+\end{code}
+
+To declare the tree, we use a nested type. The constructor are called \textit{Zero} and \textit{Succ} in the original paper to signal the origin of the idea as Okasaki's numerical representations (see Appendix \ref{app:numrep})
+
+\begin{code}
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Tree} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Zero} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Tree} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Succ} \AgdaSymbol{:} \AgdaDatatype{Tree} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Tree} \AgdaBound{A}\<%
+\\
+\end{code}
+
+As an example, Figure \ref{fig:23tree} could be written in Agda as follows (indented in an attempt at clarity)
+
+\begin{code}
+\\
+\>\AgdaFunction{test-tree} \AgdaSymbol{:} \AgdaDatatype{Tree} \AgdaDatatype{ℕ}\<%
+\\
+\>\AgdaFunction{test-tree} \AgdaSymbol{=} \AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Zero}\<%
+\\
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2}\<%
+\\
+\>[14]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3} \AgdaNumber{1} \AgdaNumber{2} \AgdaNumber{3}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{4} \AgdaNumber{5}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{6} \AgdaNumber{7}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3} \AgdaNumber{8} \AgdaNumber{9} \AgdaNumber{10}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{11} \AgdaNumber{12}\AgdaSymbol{))))))}\<%
+\end{code} 
+
+\section{Finger Trees} 
+
+	Finger Trees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
+Initially designed as a double ended queue with constant amortized time append, their structure, together with the cached measurements, allow specialization to Random Access Sequences, or Priority Queues by simple instantiation.  
+ 
+ 	The underlying structure is that of a full 2-3 tree, with labels solely at the leafs. For efficient appending, the tree is surrounded by buffers at each level, which amortize the cost. Furthermore, the data structure is accompanied by a measurement function and a binary operator, such that the reduced measures of all nodes in a sub-tree is cached in all the joints. These are necessary for searching or splitting.
+
+\subsection{Measurements and the Monoid}
+
+The generality of the Finger Tree as a data structures comes from its association with a set of measurements (\textit{V}). The measure of the tree \footnote{notation : $\Vert ft \Vert$} is mapping a finger tree to an element of the set V.
+
+The construction of this map requires two building blocks. First, we need a function that maps elements of the finger tree to elements of the set V. Secondly, we need the set V to be the carrier of a Monoid.
+\begin{align*}
+\intertext{That is, we pick a function (in infix notation)} \\ 
+	\_\cdot\_ : (V \times V) \to V \\ 
+\intertext{And a element in V, which will be called the neutral element, such that the next axioms hold} \\
+	\forall	x \in V, \epsilon \cdot x = x  \tag{neutral-left}\\
+	\forall x \in V, x \cdot \epsilon = x  \tag{neutral-right} \\
+	\forall x, y,z \in V. x \cdot (y \cdot z) = (x \cdot y) \cdot z \tag{assoc} \\
+\end{align*}
+
+We define the measure of the tree to be therefore the result of recursively reducing each branch and accumulating the result using the operator. As the base case, an Empty tree should correspond to the neutral element, and leaves in the tree should be mapped using the measurement function.
+
+A further consideration we need to make is that of the efficiency. Recomputing these values would incur a linear time cost for every operation. We can amortize this cost by keeping cached measurements in all the \textit{joints} of the tree, i.e. the constructors of the data types that constitute it.
 
 \subsection{Invariants}
 
@@ -912,12 +1094,83 @@ Finger Trees have been previously implemented and proved correct. I will outline
 \item Basic Implementation in Agda. \\
 This version can be found on GitHub\footnote{•}. Its mentioned intention is to closely follow the original paper. It also uses introduces the idea of Sizing, although only in the type declaration (and constructors). Since the constraints are not present in functions that modify the data type, they do not really aid correctness proofs. It has no proofs associated with it, and it didn't type check on my machine.
 \item Implementation in Coq. \\
-This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for Russell, a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by its small caveat, onto which I will return at the end of this chapter. Although a full and working implementation, I argue that this dissertation is valuable in its own, given my aforementioned reasons for choosing Agda as the programming language, and providing a solution to some caveats.
+This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for Russell, a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by a small caveat, related to termination checking.\footnote{The respective section is called Dependency Hell} 
+
+My dissertation proceeds in a similar manner, implementing the finger tree and tackling the invariants in the same way. In addition, I am also proving further properties of the operations, as well as presented a working solution to the termination issue.
+
 \item Implementation in Isabelle. \\
 Another working implementation has been done in Isabelle. However, this implementation diverges from the original specification of the data structure, removing the nesting. The two invariants that I have mentioned are maintained explicitly, due to the lack of dependent types.\\ 
 
 The implementation of this data structure in both Coq and Isabelle, two established theorem provers might argue both for the complexity involved, and for its interesting particularities.
 \end{itemize}
+
+\subsection{Abstract Operations}
+
+
+\begin{table}[H]
+\label{tab:operations}
+\caption{Summary of operations}
+
+
+\begin{tabular}{c L{7cm} l}
+	\hline 
+	Operation & Short Description & Properties \\
+	\hline
+	cons & Appending an element at the left of the Finger Tree & 
+		\begin{tabular}{l}
+		$\Vert x \triangleleft ft \Vert = \Vert x \Vert \cdot \Vert ft \Vert $ \\
+		$ toList(x \triangleleft ft) = x ∷ toList ft$ \\
+		\end{tabular}\\
+	\hline
+	snoc & Appending an element at the right of the Finger Tree & 
+		\begin{tabular}{l}
+		$\Vert x \triangleright ft \Vert = \Vert ft \Vert \cdot \Vert x \Vert $ \\
+		$ toList(x \triangleright ft) = toList ft ++ [ x ] $ \\
+		\end{tabular}\\
+	\hline	
+	viewL & Deconstructing a FingerTree into its first element and the rest of the elements reorganized as a FingerTree & 
+		\begin{tabular}{l}
+		$\Vert viewL ft \Vert = \Vert ft \Vert $ \\
+		$ toList(viewL ft) = toList ft$ \\
+		\end{tabular}\\
+	\hline
+	viewR & Deconstructing a FingerTree into its last element and the rest of the elements reorganized as a FingerTree & 
+		\begin{tabular}{l}
+		$\Vert viewR ft \Vert = \Vert ft \Vert $ \\
+		$ toList(viewR ft) = toList ft$ \\
+		\end{tabular}\\
+	\hline
+	foldL-ft & Similar to the same operation on Lists, equivalent to mentally replacing all the nodes with a call to a given function & 
+		\begin{tabular}{l}
+		$ foldL-ft(i, f, ft) = foldl(i, f, toList ft) $ \\
+		$ foldL-ft(\epsilon, foldfun, ft) = \Vert ft \Vert $ \\
+		where \\
+		$ foldfun(a, b) = \Vert a \Vert \cdot b $ \\ 
+		\end{tabular}\\
+	\hline
+	split & Extract an arbitrary element, given by a predicate function \textit{P} and reconstruct the left and right remaining element into two FingerTrees &
+	\begin{tabular}{l}
+		$ \Vert split (i, P, ft) \Vert = \Vert ft \Vert $ \\
+	\end{tabular}\\
+	\hline
+	
+\end{tabular}
+
+\end{table}
+
+Some of the properties on the rightmost column are being presented in the implementation. There are properties which could not be proven due to problems with the \textit{with} operator, which I am presenting in section \ref{sec:with}.
+
+The properties related to size ($\Vert\_\Vert$) are proven 'internally', as part of the implementation. The others are proven 'externally', by defining terms of types that express those properties. 
+
+\section{Notes}
+
+\begin{itemize}
+\item add the stuff about starting point, requirements and whatever everyone talks about.
+\end{itemize}
+
+\chapter{Implementation}
+
+
 
 \section{Finger Trees - Implementation}
 
@@ -1634,7 +1887,7 @@ A solution to this issue was suggested by McKinna\cite{heterogeneous_equality}, 
 Using heterogeneous equality, we can now write the type of the original statement in Agda, as well as pattern-match on the finger tree. However, some problems related to the \textit{with} construct resurface.
 
 \subsection{\textit{with} and \textit{rewrite}}
-
+\label{sec:with}
 The implementation abounds in use of \textit{with} and \textit{rewrite} statements. \textit{with} allows, inspired by the work of McBride and McKinna \cite{viewfromtheleft}, to pattern match on an intermediate computation. \textit{rewrite} replaces an expression on the left hand side, by making use of a supplied equality relation.
 
 Their use could not be avoided in the implementation of operators that act on indexed data types. As part of the type checking, Agda has to unify the expected type of the result and the actual type of the result. 
@@ -2596,15 +2849,15 @@ The selection sort procedure, presented in section whatever is an example of a f
 \begin{table}[H]
 \caption{SLOC for Sorting}
 \center
-\begin{tabular}{c r r r}
+\begin{tabular}{c r r}
 \hline
-Content & Verified & Not Verified & Ratio\\
+Content & Verified & Not Verified\\
 \hline
-Implementation & 18 & 14 & 1\\
-Type annotations & 24 & 3 & 8\\
-Proofs & 124 & 0 & n/a\\
-Other & 53 & 50 & 1\\
-Total & 219 & 67 & 3\\
+Implementation & 18 & 14 \\
+Type annotations & 24 & 3 \\
+Proofs & 124 & 0 \\
+Other & 53 & 50 \\
+Total & 219 & 67 \\
 \hline
 \end{tabular} 
 \end{table}
@@ -2616,16 +2869,16 @@ The unverified example in this case does not run in Agda. It would require proof
 \begin{table}[H]
 \caption{SLOC for Finger Tree}
 \center
-\begin{tabular}{c r r r}
+\begin{tabular}{c r r}
 \hline 
-Content & Measured Version & Size Version & Ratio \\
+Content & Measured Version & Size Version \\
 \hline
-Implementation & 185 & 162 & 1 \\ 
-Type annotations & 144 & 68 & 2 \\
-Data declarations & 51 & 32 &  1 \\
-Proofs & 350 & 30 & 12 \\
-Other & 30 & 22 & 1 \\ 
-Total & 760 & 314 & 2.5 \\
+Implementation & 185 & 162 \\ 
+Type annotations & 144 & 68 \\
+Data declarations & 51 & 32 \\
+Proofs & 350 & 30 \\
+Other & 30 & 22 \\ 
+Total & 760 & 314 \\
 \hline
 \end{tabular}
 \end{table} 
@@ -2665,18 +2918,359 @@ trans  	&	3	&	23	&	6&	10& 46\\
 \end{tabular}
 \end{table} 
 
+This graph suggests two things. First of all, due to the declaration of the monoid operator as \textbf{infixl}, the operations that have a right-associative structure, tend to be easier to prove. This constrasts cons and viewL to snoc and viewR. 
 
-\subsection{Discussion}
+I believe that the split operation is even more difficult because, apart from taking over the difficulties of both viewL and viewR, it also combines two different types of logic statements. 
 
-
-
-
-
-
-
-
-
+Although we rely only on the Curry Howard Isomorphism, it also incorporates the Boolean data type and its associated operations (and, or, negation). Instead of proceeding as before, using 
  
+\begin{code}
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-istrue} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaPostulate{property} \AgdaBound{a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-isfalse} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{property} \AgdaBound{a} \AgdaSymbol{→} \AgdaPostulate{⊥}\AgdaSymbol{)}\<%
+\\
+\end{code} 
+
+We now also make use of: 
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-istrue} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{predicate} \AgdaBound{a} \AgdaDatatype{≡} \AgdaInductiveConstructor{true}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-isfalse} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{predicate} \AgdaBound{a} \AgdaDatatype{≡} \AgdaInductiveConstructor{false}\AgdaSymbol{)}\<%
+\\
+\end{code}
+
+This inconvenience became more noticeable when I tried to port the Isabelle implementation \cite{isabelle}, which is not based on dependent types. Although they can be fully encoded, the proofs become unnecessarily long due to the lack of type checking support. This would perhaps be a start point for some future work.
+
+\section{Discussion}
+
+As part of the introduction, we proposed a question related to how far Agda's expressivity can take us in the implementation of a functional data structure.
+
+In relation to Matthieu Souzeau's paper \cite{coq}, I have completed the implementations of all the operations he suggested. Furthermore, I have presented an Agda way to deal with the termination checking problem, discussed in his section 4.4.1 Dependence Hell. 
+It is interesting to note that this problem is not strictly related to Agda, but to a wider family of dependently typed languages. 
+
+In addition, I have also explicitly proven axioms that relate Finger Trees to their list representation.
+
+
+
+
+
+\chapter*{Appendix}
+
+\section{Numerical Representations}
+\label{app:numrep}
+The treatment of containers as natural numbers has been studied in depth\cite{okasaki}. The basic idea is that simple numerical operations correspond naturally to operations on containers. For example:
+
+\vspace{5mm} %5mm vertical space 
+\begin{tabular}{lcl}
+increasing a number & corresponds to & adding an element\\
+decreasing a number & corresponds to & removing an element \\
+adding two numbers & corresponds to & merging to containers \\
+\end{tabular} 
+\vspace{5mm}
+
+This treatment of numbers, represented in various numerical basis, allows the constructions the obey the implicit recursive slowdown, presented by okasaki. This allows in lazy languages like Haskell, implementation of operations such as insertion and deletion in ammortised O(1) cost -- which represented a breakthrough in functional programming languages.
+
+\section{Further example of the termination checking limitation}
+In this section, I will present a data structure as implemented by Ralph Hinze\cite{numerical} and show the issues that could arise because of the termination checker in more detail. 
+
+Consider the trivial implementation of a binary tree in a functional programming language:
+
+\begin{code}
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Bush} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Leaf} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Fork} \AgdaSymbol{:} \AgdaDatatype{Bush} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A}\<%
+\\
+\end{code}
+
+In order to stay consistent with the original implementation, the data structure above will be split in two different types that represent the constructors \cite{numerical}.
+
+%-- constructors.
+\begin{code}
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Leaf} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{LEAF} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Leaf} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Fork} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{FORK} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\end{code}
+
+
+We can now refer to the Random Access Sequence implementation.
+They are a numerical representation based on base two of natural numbers, however, rather than the 0-1 system, the author prefers to use the 1-2 system for a number of effiency reasons.
+
+\begin{center}
+	\begin{tabular}{lcl}
+	$inc(\epsilon$) & = & $1$ \\
+	$inc(1a)$ & = & $2a$ \\ 
+	$inc(2a)$ & = & $1inc(a)$ \\
+	\end{tabular} 
+\end{center}
+
+This $inc$ operator should correspond analogously to the 'Cons' operators in the data structure:
+
+%--RAL
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Nil} \AgdaSymbol{:} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{One} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Two} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\end{code}
+
+Now, by implemending the function $incr$, we can see the similarity between the adding an element to the left and the number representation 
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaSymbol{(}\AgdaFunction{incr} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\end{code}
+We can finally declare a sequence, by using the definition of Leaf as a layer of abstraction.
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{=} \AgdaDatatype{RandomAccessList} \AgdaDatatype{Leaf}\<%
+\\
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{cons} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{cons} \AgdaBound{a} \AgdaBound{s} \AgdaSymbol{=} \AgdaFunction{incr} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{s}\<%
+\\
+\end{code}
+
+\subsection{Defining a view} 
+
+We can then implement the $front$ method, which returns a view of the list in terms of the first element and a continutation. Our goal is to abstract away the intricacy of the type declaration, so we can implement methods  easily. First, we need to declare the return type, wrapped in a view data structure.
+
+%--View %--front
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{View} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Vnil} \AgdaSymbol{:} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{VCns} \AgdaSymbol{:} \AgdaBound{A} \AgdaFunction{×} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{Vnil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{,} \AgdaFunction{zero} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{b}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\end{code}
+
+The zero method is a restructuring method, as we will find in the Finger Tree implementation.
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{→}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaBound{b} \AgdaSymbol{(}\AgdaFunction{zero} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b₁} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaBound{b₁} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\end{code} 
+
+\subsection{Example termination failure}
+
+Here, Agda termination checker will fail. We will try to implement an append function, which is a straightforward process given the methods previously declared:
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaKeyword{with} \AgdaFunction{front} \AgdaBound{seq}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaSymbol{|} \AgdaInductiveConstructor{Vnil} \AgdaSymbol{=} \AgdaFunction{cons} \AgdaBound{x} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaSymbol{|} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{head} \AgdaInductiveConstructor{,} \AgdaBound{tail}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{cons} \AgdaBound{head} \AgdaSymbol{(}\AgdaFunction{append} \AgdaBound{x} \AgdaBound{tail}\AgdaSymbol{)}\<%
+\\
+\end{code}
+
+\subsection{Using sized types}
+
+Sized types are agda's response to fixing such issues. However, trying to come up with an implementation that type checks, even in this relatively simple case seems to be very difficult. The intuition in this case is that we need to convince agda that FORK a b is bigger than any individual a b in the context of the RAL constructors. However, sized types are only relative, not on an absolute scale.
+
+\begin{code}
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaPostulate{Size}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Nil} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{One} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Two} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaPostulate{Size}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{\{!   !\}} \<[34]%
+\>[34]\AgdaComment{-- One b (incr b₂ ds)}\<%
+\\
+\end{code}
+
+
+Consider the implementation of \textit{incr}. The problem arises when we are recursively calling \textit{incr b ds} . This is where the complication of nested types arose in the first place. incr is a polymorphic function, so in the second interation it would be instantiated with 
+\begin{center}
+$ B' = FORK B$ \\
+$ A' = A $ \\
+\end{center}
+Now, it is obvious that inserting an element of type Fork B A should increase the size of the container by more than inserting an element of type A would. Under this polymorphism however, the two operations are equivalent.
+The solution to this problem would require a size scaled on the type, so that\textit{ size(Fork B A) > size(A)}. However, this needs to be hardcoded for specific type, as Agda has no way of differentiating between different types of type Set, so no general method is available.
+
+\section{Other Agda Syntax and Terminology}
+
+\subsection{Agda's interactive help}
+
+Before writing the implementation of a function, as you stumble upon the equals(=) sign,
+you can tell agda to place a hole ({! !}) instead of an implementation. Here, you can
+perform a number of operations:
+  \begin {itemize}
+  \item{See the types and values of variables in the scope}
+  \item{Case-split} \\
+    For example, consider the addition of natural numbers. \\
+    \begin{code}
+    \\
+\>\AgdaFunction{\_+\_} \AgdaSymbol{:} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ}\<%
+\\
+\>\AgdaBound{m} \AgdaFunction{+} \AgdaBound{n} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+    \end{code}
+    Performing a case-split on the variable n shows me all the possible ways in which a natural number can be constructed. \\
+   \begin{code}
+   \\
+\>\AgdaFunction{\_+\_} \AgdaSymbol{:} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaDatatype{ℕ}\<%
+\\
+\>\AgdaInductiveConstructor{zero} \AgdaFunction{+} \AgdaBound{n} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+\\
+\>\AgdaInductiveConstructor{suc} \AgdaBound{m} \AgdaFunction{+} \AgdaBound{n} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+\end{code}\\
+  \item{Refine and Auto} \\
+    These provide the automated and interactive ways of theorem-proving. Essentially, Agda looks throughout the environment to find
+    an inhabitant (a variable) that has the type of the hole. \\
+    They are definitely not as powerfull as any functionality given by Coq of Isabelle, but it can save some typing.
+
+  \end{itemize}
+
+\subsection{Implicit Arguments}
+  Agda introduces some syntax for various types of arguments you can provide to functions. As you probably saw,
+  there is a difference in handling the polymorphic types (in the case of List) and the values given as arguments
+  to type constructors (in the case of Vec). \\
+
+  In the declaration of Vec: \\
+
+\begin{code}
+\>\AgdaKeyword{data} \AgdaDatatype{Vec} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaDatatype{ℕ} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{[]} \<[6]%
+\>[6]\AgdaSymbol{:} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaInductiveConstructor{zero}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{\_∷\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaBound{n} \AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{A} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \<[45]%
+\>[45]\<%
+\end{code}\\
+
+  The first (A : Set) is the type argument for instantiating a polymorphic type, before the :, while the ℕ is the type of the value argument for
+  the dependently typed instantiation.
+
+  Another think to notice here is the curly brackets (\{n : ℕ\}) in the declaration of the \_::\_ constructor.
+  This is called an implicit argument. Agda will bind n to a value it sees fit in the scope. If there are more possibilities, it will take a guess.
+
+\subsection{Instance Arguments}
+
+  Throughout this dissertation, we will be using some properties of certain types, for example of having a monoid operation associated with them.
+  In Haskell, you would accomplish that with the use of type classes \cite{typeclasses} \\
+  In order to mimic this behaviour we will use instance arguments. They are declared by using double square brackets, \{\{ \}\} or the unicode
+  equivalent. \\
+  What Agda does in this case, it looks for a possible instantiation of that type in the current scope, following some predefined rules. \cite{instanceargs}
+  It is important there is only one available possibility, otherwise it will fail to type check.
+
+  The use will become obvious in the Implementation section.
 
 
 

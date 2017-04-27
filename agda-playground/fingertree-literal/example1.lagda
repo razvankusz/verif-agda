@@ -37,4 +37,21 @@ snoc : ∀ {A} → A → List A → List A
 snoc x xs with xs
 snoc x xs | [] = x ∷ []
 snoc x xs | y ∷ ys = y ∷ (snoc x ys)
+
+
+module ch (A : Set) where
+  postulate property : A → Set
+  postulate ⊥ : Set
+  proof-istrue : ∀ a → property a
+  proof-istrue = ?
+  proof-isfalse : ∀ a → (property a → ⊥)
+  proof-isfalse = ?
+
+open import Data.Bool
+module bl (A : Set) where
+  postulate predicate : A → Bool
+  pred-istrue : ∀ a → (predicate a ≡ true)
+  pred-istrue = ?
+  pred-isfalse : ∀ a → (predicate a ≡ false)
+  pred-isfalse = ?
 \end{code}

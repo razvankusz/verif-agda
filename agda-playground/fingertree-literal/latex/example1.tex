@@ -84,4 +84,49 @@
 \>\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{|} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
 \\
 \>\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{xs} \AgdaSymbol{|} \AgdaBound{y} \AgdaInductiveConstructor{∷} \AgdaBound{ys} \AgdaSymbol{=} \AgdaBound{y} \AgdaInductiveConstructor{∷} \AgdaSymbol{(}\AgdaFunction{snoc} \AgdaBound{x} \AgdaBound{ys}\AgdaSymbol{)}\<%
+\\
+%
+\\
+%
+\\
+\>\AgdaKeyword{module} \AgdaModule{ch} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{postulate} \AgdaPostulate{property} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{postulate} \AgdaPostulate{⊥} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-istrue} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaPostulate{property} \AgdaBound{a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-istrue} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-isfalse} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{property} \AgdaBound{a} \AgdaSymbol{→} \AgdaPostulate{⊥}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{proof-isfalse} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+\\
+%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Bool}\<%
+\\
+\>\AgdaKeyword{module} \AgdaModule{bl} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{postulate} \AgdaPostulate{predicate} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bool}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-istrue} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{predicate} \AgdaBound{a} \AgdaDatatype{≡} \AgdaInductiveConstructor{true}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-istrue} \AgdaSymbol{=} \AgdaSymbol{?}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-isfalse} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaPostulate{predicate} \AgdaBound{a} \AgdaDatatype{≡} \AgdaInductiveConstructor{false}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pred-isfalse} \AgdaSymbol{=} \AgdaSymbol{?}\<%
 \end{code}

@@ -1,15 +1,17 @@
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Example finger tree\relax }}{3}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Full Binary Tree\relax }}{11}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Example 2-3 tree\relax }}{12}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Example finger tree\relax }}{11}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Bigger Finger Tree\relax }}{15}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Smaller finger Tree\relax }}{15}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Recursive cons operation\relax }}{16}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{16}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{16}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces ViewL operation (only included the tails)\relax }}{18}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{18}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{18}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Bigger Finger Tree\relax }}{18}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Smaller finger Tree\relax }}{18}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Recursive cons operation\relax }}{19}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{19}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{19}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces ViewL operation (only included the tails)\relax }}{21}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{21}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{21}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Consing experiment\relax }}{33}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Splitting Experiment\relax }}{34}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Consing experiment\relax }}{36}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Splitting Experiment\relax }}{37}

@@ -37,7 +37,7 @@ module RandomAccessSequence-final where
     big-seq (suc n) = (entry n) ◁ (big-seq n)
 
     open import IO.Primitive
-    open import Data.String
+    open import Data.String renaming (_++_ to _+++_)
     open import Agda.Builtin.Unit
     -- {-# BUILTIN STRING String #-}
     -- {-# BUILTIN UNIT Unit #-}
@@ -55,7 +55,8 @@ module RandomAccessSequence-final where
     open import Data.Empty
     open import DependentPair
     open import AlgebraStructures
-
+    open import Data.Bool
+    open import numbers renaming(_==_ to _=?=_)
     Seq-pair : ∀ {a} (A : Set a) → Set a
     Seq-pair {a} A = Σ (SizeW {a}) (Seq A)
 
@@ -69,6 +70,31 @@ module RandomAccessSequence-final where
     to-size : ∀ {a} {A : Set a} → Seq-pair A → SizeW {a}
     to-size ⟨ x , y ⟩ = x
 
+    module Proofs {a} (A : Set a) where
+
+      toList-seq : ∀ {μ} → Seq A μ → List A
+      toList-seq seq = strip-entry (toList-ft seq)
+        where
+          strip-entry : List (Entry A) → List A
+          strip-entry [] = []
+          strip-entry (entry x ∷ xs) = x ∷ (strip-entry xs)
+
+      maybe-list : List (Maybe A) → List A
+      maybe-list [] = []
+      maybe-list (just x ∷ xs) = x ∷ (maybe-list xs)
+      maybe-list (nothing ∷ xs) = maybe-list xs
+
+      iter-list : ∀ {μ} → Seq A μ → List A
+      iter-list {μ} seq = maybe-list (iterate 0 seq)
+        where
+          iterate : ∀ {μ} → ℕ → Seq A μ → List (Maybe A)
+          iterate zero seq = []
+          iterate (suc n) seq = (iterate n seq) ++ (seq ! (suc n)) ∷ []
+
+      iter-list-lemma : ∀ {μ} → (seq : Seq A μ) → (iter-list seq ≡ toList-seq seq)
+      iter-list-lemma Empty = ?
+      iter-list-lemma (Single e) = ?
+      iter-list-lemma (Deep pr seq sf) = ?
     module Recursive-Definitions {a} (A : Set a) where
 
       open SizeW.less-than
@@ -226,7 +252,7 @@ module RandomAccessSequence-final where
     ssseq-tab : ∀ {μ} → Same-Size-Seq μ → ℕ → Maybe ℕ
     ssseq-tab (Recursive-Definitions.ssseq x x₁ x₂) n = x₁ ! n
 
-    revst = pair-tab (reverse-ft (test-seq-pair)) 1
+    revst = pair-tab (reverse-ft (test-seq-pair)) 3
 
     -- causes seg-fault -- why?
     revst2 = (snd (rev (test-seq-pair))) ! 1
@@ -236,9 +262,10 @@ module RandomAccessSequence-final where
 
     revst4 = ssseq-tab (rev-verif test-seq-pair) 2
 
+
     main : IO ℕ
     main = (putStrLn (toCostring "Hello") >>=
-            (λ x → putStrLn (toCostring (show-maybe(revst4)))) >>=
+            (λ x → putStrLn (toCostring (show-maybe(revst)))) >>=
             (λ x → return 1))
 
     -- rev-seq-pair : Seq-pair ℕ

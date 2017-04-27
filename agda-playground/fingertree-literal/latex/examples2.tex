@@ -1,0 +1,53 @@
+\begin{code}%
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Nat}\<%
+\\
+%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Node} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node2} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Node3} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Node} \AgdaBound{A}\<%
+\\
+%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{Tree} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Zero} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Tree} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{Succ} \AgdaSymbol{:} \AgdaDatatype{Tree} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Tree} \AgdaBound{A}\<%
+\\
+%
+\\
+\>\AgdaFunction{test-tree} \AgdaSymbol{:} \AgdaDatatype{Tree} \AgdaDatatype{ℕ}\<%
+\\
+\>\AgdaFunction{test-tree} \AgdaSymbol{=} \AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Succ}\AgdaSymbol{(}\AgdaInductiveConstructor{Zero}\<%
+\\
+\>[2]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2}\<%
+\\
+\>[14]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3} \AgdaNumber{1} \AgdaNumber{2} \AgdaNumber{3}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{4} \AgdaNumber{5}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{6} \AgdaNumber{7}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node3} \AgdaNumber{8} \AgdaNumber{9} \AgdaNumber{10}\AgdaSymbol{)}\<%
+\\
+\>[18]\AgdaIndent{20}{}\<[20]%
+\>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{11} \AgdaNumber{12}\AgdaSymbol{))))))}\<%
+\end{code}

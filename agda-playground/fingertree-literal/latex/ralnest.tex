@@ -1,0 +1,237 @@
+-- Higher order nested datatypes
+
+{-# OPTIONS --sized-types #-}
+
+-- All taken from this paper:
+--  http://web.comlab.ox.ac.uk/oucl/work/ralf.hinze/publications/IAI-TR-98-12.ps.gz
+
+\begin{code}%
+\>\<%
+\\
+\>\AgdaKeyword{module} \AgdaModule{ralnest} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{module} \AgdaModule{bush} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Bush} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Leaf} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Fork} \AgdaSymbol{:} \AgdaDatatype{Bush} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Bush} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{module} \AgdaModule{ral} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Leaf} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{LEAF} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Leaf} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Fork} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{FORK} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Nil} \AgdaSymbol{:} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{One} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Two} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{=} \AgdaDatatype{RandomAccessList} \AgdaDatatype{Leaf}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaSymbol{(}\AgdaFunction{incr} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{cons} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{cons} \AgdaBound{a} \AgdaBound{s} \AgdaSymbol{=} \AgdaFunction{incr} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{s}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.List}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{fromList} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{fromList} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{fromList} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{cons} \AgdaBound{x} \AgdaSymbol{(}\AgdaFunction{fromList} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{→}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaBound{b} \AgdaSymbol{(}\AgdaFunction{zero} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{zero} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b₁} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaBound{b₁} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Product}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{View} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Vnil} \AgdaSymbol{:} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{VCns} \AgdaSymbol{:} \AgdaBound{A} \AgdaFunction{×} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{View} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{Vnil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{,} \AgdaFunction{zero} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{front} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaSymbol{(}\AgdaInductiveConstructor{LEAF} \AgdaBound{a}\AgdaSymbol{)} \AgdaBound{b}\AgdaSymbol{)} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaBound{ds}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A} \AgdaSymbol{→} \AgdaFunction{IxSequence} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaKeyword{with} \AgdaFunction{front} \AgdaBound{seq}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaSymbol{|} \AgdaInductiveConstructor{Vnil} \AgdaSymbol{=} \AgdaFunction{cons} \AgdaBound{x} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{append} \AgdaBound{x} \AgdaBound{seq} \AgdaSymbol{|} \AgdaInductiveConstructor{VCns} \AgdaSymbol{(}\AgdaBound{head} \AgdaInductiveConstructor{,} \AgdaBound{tail}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{cons} \AgdaBound{head} \AgdaSymbol{(}\AgdaFunction{append} \AgdaBound{x} \AgdaBound{tail}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{module} \AgdaModule{ral-sized} \AgdaKeyword{where}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaComment{-- binary tree}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Size}\<%
+\\
+%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Leaf} \AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{LEAF} \AgdaSymbol{:} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{Leaf} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{Fork} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{FORK} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{data} \AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{)(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaPostulate{Size}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Nil} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{One} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaInductiveConstructor{Two} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{RandomAccessList} \AgdaSymbol{(}\AgdaDatatype{Fork} \AgdaBound{B}\AgdaSymbol{)} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaPostulate{Size}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{IxSequence} \AgdaSymbol{=} \AgdaDatatype{RandomAccessList} \AgdaDatatype{Leaf}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{→} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i} \AgdaSymbol{:} \AgdaPostulate{Size}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{B} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{RandomAccessList} \AgdaBound{B} \AgdaBound{A} \AgdaSymbol{\{}\AgdaPostulate{↑} \AgdaBound{i}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaInductiveConstructor{Nil} \AgdaSymbol{=} \AgdaInductiveConstructor{One} \AgdaBound{b} \AgdaInductiveConstructor{Nil}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Two} \AgdaSymbol{(}\AgdaInductiveConstructor{FORK} \AgdaBound{b} \AgdaBound{b₂}\AgdaSymbol{)} \AgdaBound{ds}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaFunction{incr} \AgdaBound{b} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{b₂} \AgdaBound{ds}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{\{!   !\}} \<[34]%
+\>[34]\AgdaComment{-- One b (incr b₂ ds)}\<%
+\\
+\>\<%
+\end{code}

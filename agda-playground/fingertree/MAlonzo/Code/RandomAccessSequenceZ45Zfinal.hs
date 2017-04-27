@@ -349,7 +349,7 @@ d378
          (coe MAlonzo.Code.AlgebraStructures.C76
             (\ v0 -> coe MAlonzo.Code.SizeW.C10 (1 :: Integer)))
          d356)
-      (1 :: Integer)
+      (3 :: Integer)
 name380 = "RandomAccessSequence-final.revst2"
 d380
   = coe du34 () (coe MAlonzo.Code.DependentPair.d22 (coe d344 d356))
@@ -367,5 +367,5 @@ d386
             (coe MAlonzo.Code.Data.String.d12 (coe Data.Text.pack "Hello")))
          (\ v0 ->
             coe MAlonzo.Code.IO.Primitive.d30
-              (coe MAlonzo.Code.Data.String.d12 (coe d104 d384))))
+              (coe MAlonzo.Code.Data.String.d12 (coe d104 d378))))
       (\ v0 -> coe MAlonzo.Code.IO.Primitive.d8 () erased (1 :: Integer))
