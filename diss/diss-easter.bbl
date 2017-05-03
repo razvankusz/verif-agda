@@ -1,0 +1,81 @@
+\begin{thebibliography}{10}
+
+\bibitem{sizedtypes}
+Andreas Abel.
+\newblock Miniagda: Integrating sized and dependent types, 2010.
+
+\bibitem{foetus}
+THORSTEN~ALTENKIRCH ANDREAS~ABEL.
+\newblock A predicative analysis of structural recursion, 19999.
+
+\bibitem{isabelle}
+Peter~Lammich Benedikt~Nordhoff, Stefan~Korner.
+\newblock Fingertrees, 2016.
+
+\bibitem{nested}
+Richard Bird and Lambert Meertens.
+\newblock Nested datatypes, 1998.
+
+\bibitem{certified}
+Adam Chipala.
+\newblock {\em Certified programming with dependent types}.
+\newblock 2016.
+
+\bibitem{viewleft}
+James~McKinna Connor~McBride.
+\newblock The view from the left, 2004.
+
+\bibitem{foldl}
+Nicolas~Pouillard Daniel~Gustafsson.
+\newblock Foldable containers and dependent types.
+
+\bibitem{nestedhinze}
+Ralf Hinze.
+\newblock Numerical representations as higher-order nested datatypes, 1998.
+
+\bibitem{fingertrees}
+Ralf Hinze and Ross Paterson.
+\newblock Finger trees: A simple general-purpose data structure, 2006.
+
+\bibitem{compcert}
+Xavier Leroy.
+\newblock A formally verified compiler back-end, 2009.
+
+\bibitem{agdaphd}
+Ulf Norell.
+\newblock Towards a practical programming language based on dependent type
+  theory, 2007.
+
+\bibitem{agdatutorial}
+Ulf Norell and James Chapman.
+\newblock Dependently typed programming in agda, 10000.
+
+\bibitem{okasaki}
+Chris Okasaki.
+\newblock {\em Purely Functional Data Structures}.
+\newblock 1996.
+
+\bibitem{matrix}
+Chris Okasaki.
+\newblock From fast exponentiation to square matrices: An adventure in types,
+  1999.
+
+\bibitem{coq}
+Matthieu Sozeau.
+\newblock Program-ing finger trees in coq, 2007.
+
+\bibitem{verifagda}
+Aaron Stump.
+\newblock {\em Verified Functional Programming in Agda}.
+\newblock Morgan and Claypool, 2016.
+
+\bibitem{termination}
+David Thibodeau.
+\newblock Termination checking: Comparing structural recursion and sized types
+  by examples, 2011.
+
+\bibitem{hetero}
+Wouter~Swierstra Thorsten~Altenkirch, Conor~McBride.
+\newblock Observational equality, now!, 2007.
+
+\end{thebibliography}

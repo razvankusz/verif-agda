@@ -47,8 +47,6 @@ module RandomAccessSequence-final where
     show-maybe (just x) = Data.Nat.Show.show x
     show-maybe nothing = "nothing"
 
-
-
     open import Induction
     open import Induction.WellFounded as WF
     open import Level using (Lift)
@@ -70,31 +68,41 @@ module RandomAccessSequence-final where
     to-size : ∀ {a} {A : Set a} → Seq-pair A → SizeW {a}
     to-size ⟨ x , y ⟩ = x
 
+    head : ∀ {a} {A : Set a} {μ} → Seq A μ → Maybe A
+    head seq with viewL seq
+    head seq | NilL = nothing
+    head seq | ConsL x xs = just (getEntry x)
+
     module Proofs {a} (A : Set a) where
 
-      toList-seq : ∀ {μ} → Seq A μ → List A
-      toList-seq seq = strip-entry (toList-ft seq)
-        where
-          strip-entry : List (Entry A) → List A
-          strip-entry [] = []
-          strip-entry (entry x ∷ xs) = x ∷ (strip-entry xs)
+      
+      -- toList-seq : ∀ {μ} → Seq A μ → List A
+      -- toList-seq seq = strip-entry (toList-ft seq)
+      --   where
+      --     strip-entry : List (Entry A) → List A
+      --     strip-entry [] = []
+      --     strip-entry (e ∷ xs) = (getEntry e) ∷ (strip-entry xs)
+      --
+      -- maybe-list : List (Maybe A) → List A
+      -- maybe-list [] = []
+      -- maybe-list (just x ∷ xs) = x ∷ (maybe-list xs)
+      -- maybe-list (nothing ∷ xs) = maybe-list xs
+      --
+      -- iter-list : ∀ {μ} → Seq A μ → List A
+      -- iter-list {μ} seq = maybe-list (iterate (getSize μ) seq)
+      --   where
+      --     iterate : ∀ {μ} → ℕ → Seq A μ → List (Maybe A)
+      --     iterate zero seq = []
+      --     iterate (suc n) seq = (iterate n seq) ++ (seq ! (suc n)) ∷ []
+      --
+      -- iter-list-lemma : ∀ {μ} → (seq : Seq A μ) → (iter-list seq ≡ toList-seq seq)
+      -- iter-list-lemma Empty = refl
+      -- iter-list-lemma (Single e) = refl
+      -- iter-list-lemma (Deep pr seq sf) =
+      --   begin
+      --     {!   !} ≡⟨ {!   !} ⟩ {!   !}
 
-      maybe-list : List (Maybe A) → List A
-      maybe-list [] = []
-      maybe-list (just x ∷ xs) = x ∷ (maybe-list xs)
-      maybe-list (nothing ∷ xs) = maybe-list xs
 
-      iter-list : ∀ {μ} → Seq A μ → List A
-      iter-list {μ} seq = maybe-list (iterate 0 seq)
-        where
-          iterate : ∀ {μ} → ℕ → Seq A μ → List (Maybe A)
-          iterate zero seq = []
-          iterate (suc n) seq = (iterate n seq) ++ (seq ! (suc n)) ∷ []
-
-      iter-list-lemma : ∀ {μ} → (seq : Seq A μ) → (iter-list seq ≡ toList-seq seq)
-      iter-list-lemma Empty = ?
-      iter-list-lemma (Single e) = ?
-      iter-list-lemma (Deep pr seq sf) = ?
     module Recursive-Definitions {a} (A : Set a) where
 
       open SizeW.less-than

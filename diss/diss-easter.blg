@@ -1,0 +1,83 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: diss-easter.aux
+The style file: plain.bst
+Database file #1: refs.bib
+Warning--entry type for "fingertrees" isn't style-file defined
+--line 18 of file refs.bib
+Warning--entry type for "nested" isn't style-file defined
+--line 24 of file refs.bib
+Warning--entry type for "coq" isn't style-file defined
+--line 36 of file refs.bib
+Warning--entry type for "matrix" isn't style-file defined
+--line 41 of file refs.bib
+Warning--entry type for "agdatutorial" isn't style-file defined
+--line 46 of file refs.bib
+Warning--entry type for "agdaphd" isn't style-file defined
+--line 51 of file refs.bib
+Warning--entry type for "hetero" isn't style-file defined
+--line 65 of file refs.bib
+Warning--entry type for "isabelle" isn't style-file defined
+--line 70 of file refs.bib
+Warning--entry type for "viewleft" isn't style-file defined
+--line 82 of file refs.bib
+Warning--entry type for "termination" isn't style-file defined
+--line 92 of file refs.bib
+Warning--entry type for "foetus" isn't style-file defined
+--line 98 of file refs.bib
+Warning--entry type for "nestedhinze" isn't style-file defined
+--line 103 of file refs.bib
+Warning--entry type for "compcert" isn't style-file defined
+--line 108 of file refs.bib
+Warning--entry type for "sizedtypes" isn't style-file defined
+--line 118 of file refs.bib
+Warning--entry type for "foldl" isn't style-file defined
+--line 123 of file refs.bib
+Warning--I didn't find a database entry for "cyclic"
+Warning--I didn't find a database entry for "numerical"
+Warning--I didn't find a database entry for "typeclasses"
+Warning--I didn't find a database entry for "instanceargs"
+Warning--empty publisher in certified
+Warning--empty publisher in okasaki
+You've used 18 entries,
+            2118 wiz_defined-function locations,
+            569 strings with 5467 characters,
+and the built_in function-call counts, 3734 in all, are:
+= -- 318
+> -- 144
+< -- 0
++ -- 63
+- -- 42
+* -- 131
+:= -- 620
+add.period$ -- 39
+call.type$ -- 18
+change.case$ -- 72
+chr.to.int$ -- 0
+cite$ -- 20
+duplicate$ -- 141
+empty$ -- 397
+format.name$ -- 42
+if$ -- 802
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 6
+newline$ -- 78
+num.names$ -- 36
+pop$ -- 163
+preamble$ -- 1
+purify$ -- 57
+quote$ -- 0
+skip$ -- 142
+stack$ -- 0
+substring$ -- 93
+swap$ -- 18
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 66
+warning$ -- 2
+while$ -- 36
+width$ -- 20
+write$ -- 149
+(There were 21 warnings)
