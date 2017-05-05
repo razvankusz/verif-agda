@@ -5,80 +5,79 @@
 \contentsline {chapter}{\numberline {2}Preparation}{4}
 \contentsline {section}{\numberline {2.1}Starting Point}{4}
 \contentsline {section}{\numberline {2.2}Agda}{4}
-\contentsline {section}{\numberline {2.3}Dependent Types}{4}
+\contentsline {section}{\numberline {2.3}Dependent Types}{5}
 \contentsline {section}{\numberline {2.4}Curry Howard Isomorphism}{5}
 \contentsline {subsection}{\numberline {2.4.1}Proofs in Agda.}{5}
 \contentsline {paragraph}{Agda Notation}{6}
 \contentsline {paragraph}{Associativity of Natural Numbers.}{6}
 \contentsline {subsection}{\numberline {2.4.2}Induction}{7}
 \contentsline {subsection}{\numberline {2.4.3}Further Example - List reverse properties}{7}
-\contentsline {section}{\numberline {2.5}Totality}{8}
+\contentsline {section}{\numberline {2.5}Totality}{9}
 \contentsline {subsection}{\numberline {2.5.1}Sized types}{9}
-\contentsline {section}{\numberline {2.6}Correct Data Structures in Agda}{9}
+\contentsline {section}{\numberline {2.6}Correct Data Structures in Agda}{10}
 \contentsline {subparagraph}{Sorting Lists.}{10}
-\contentsline {subsection}{\numberline {2.6.1}Nested Types}{10}
-\contentsline {section}{\numberline {2.7}2-3 Trees}{11}
-\contentsline {section}{\numberline {2.8}Finger Trees}{12}
+\contentsline {subsection}{\numberline {2.6.1}Nested Types}{11}
+\contentsline {section}{\numberline {2.7}2-3 Trees}{12}
+\contentsline {section}{\numberline {2.8}FingerTrees}{13}
 \contentsline {subsection}{\numberline {2.8.1}Measurements and the Monoid}{13}
-\contentsline {subsection}{\numberline {2.8.2}Invariants}{13}
+\contentsline {subsection}{\numberline {2.8.2}Invariants}{14}
 \contentsline {subsection}{\numberline {2.8.3}Previous Work}{14}
-\contentsline {subsection}{\numberline {2.8.4}Abstract Operations}{15}
-\contentsline {section}{\numberline {2.9}Notes}{15}
-\contentsline {chapter}{\numberline {3}Implementation}{16}
-\contentsline {section}{\numberline {3.1}Finger Trees - Implementation}{16}
-\contentsline {subsection}{\numberline {3.1.1}Data type declaration}{16}
-\contentsline {subparagraph}{Smart Constructors}{17}
-\contentsline {subsection}{\numberline {3.1.2}Indexing on the measurement}{18}
-\contentsline {subsection}{\numberline {3.1.3}\textit {Cons} and \textit {Snoc}}{18}
-\contentsline {subsection}{\numberline {3.1.4}\textit {toList}}{20}
-\contentsline {subsection}{\numberline {3.1.5}Proving correctness of the \textit {cons} operator}{20}
-\contentsline {subsection}{\numberline {3.1.6}View from the Left/Right}{20}
-\contentsline {subsection}{\numberline {3.1.7}Proving Correctness of \textit {viewL}}{22}
-\contentsline {subsection}{\numberline {3.1.8}\textit {with} and \textit {rewrite}}{23}
-\contentsline {subparagraph}{Example.}{23}
-\contentsline {subparagraph}{Discussion about \textit {with}.}{24}
-\contentsline {subsection}{\numberline {3.1.9}Folding}{24}
-\contentsline {subsection}{\numberline {3.1.10}Proving correctness of Fold Left}{25}
-\contentsline {subsection}{\numberline {3.1.11}Splitting}{26}
-\contentsline {subparagraph}{Discussion}{27}
-\contentsline {subparagraph}{The main procedure}{27}
-\contentsline {section}{\numberline {3.2}Other recursive definitions}{28}
-\contentsline {subsection}{\numberline {3.2.1}Reverse}{28}
-\contentsline {section}{\numberline {3.3}Random Access Sequences}{29}
-\contentsline {subsection}{\numberline {3.3.1}SizeW and Entry}{29}
-\contentsline {subsection}{\numberline {3.3.2}Seq Instance}{29}
-\contentsline {paragraph}{Retrieving the nth element}{30}
-\contentsline {paragraph}{Setting an element}{30}
-\contentsline {section}{\numberline {3.4}Writing recursive definitions}{30}
-\contentsline {subsection}{\numberline {3.4.1}Well founded induction}{31}
-\contentsline {subsection}{\numberline {3.4.2}Packing the Sequence}{31}
-\contentsline {subsection}{\numberline {3.4.3}Reversing - Until a better example is found}{31}
-\contentsline {subparagraph}{For simple properties,}{32}
-\contentsline {subparagraph}{For arbitrary properties,}{32}
-\contentsline {subsection}{\numberline {3.4.4}Notes}{33}
-\contentsline {chapter}{\numberline {4}Evaluation}{34}
-\contentsline {section}{\numberline {4.1}Run-time}{34}
-\contentsline {subsection}{\numberline {4.1.1}\textit {cons}}{35}
-\contentsline {subsection}{\numberline {4.1.2}split}{36}
-\contentsline {subsection}{\numberline {4.1.3}reversing and problems with the compiler}{37}
-\contentsline {section}{\numberline {4.2}Heuristics for Effort}{37}
-\contentsline {subsection}{\numberline {4.2.1}Lines of code}{38}
-\contentsline {paragraph}{Selection Sort}{38}
-\contentsline {paragraph}{Finger Tree}{39}
-\contentsline {subsection}{\numberline {4.2.2}Lemma Usage}{39}
-\contentsline {section}{\numberline {4.3}Discussion}{40}
-\contentsline {chapter}{\numberline {5}Conclusion}{42}
-\contentsline {section}{\numberline {5.1}Accomplishments}{42}
-\contentsline {section}{\numberline {5.2}Further work}{42}
-\contentsline {subsection}{\numberline {5.2.1}Closing remarks}{42}
-\contentsline {chapter}{\numberline {6}Appendix}{43}
-\contentsline {section}{\numberline {6.1}Numerical Representations}{43}
-\contentsline {section}{\numberline {6.2}Further example of the termination checking limitation}{43}
-\contentsline {subsection}{\numberline {6.2.1}Defining a view}{44}
-\contentsline {subsection}{\numberline {6.2.2}Example termination failure}{45}
-\contentsline {subsection}{\numberline {6.2.3}Using sized types}{45}
-\contentsline {section}{\numberline {6.3}Other Agda Syntax and Terminology}{46}
-\contentsline {subsection}{\numberline {6.3.1}Agda's interactive help}{46}
-\contentsline {subsection}{\numberline {6.3.2}Implicit Arguments}{47}
-\contentsline {subsection}{\numberline {6.3.3}Instance Arguments}{47}
-\contentsline {section}{\numberline {6.4}Sorting -- full code}{47}
+\contentsline {subsection}{\numberline {2.8.4}Abstract Operations}{16}
+\contentsline {chapter}{\numberline {3}Implementation}{17}
+\contentsline {section}{\numberline {3.1}FingerTrees - Implementation}{17}
+\contentsline {subsection}{\numberline {3.1.1}Data type declaration}{17}
+\contentsline {subparagraph}{Smart Constructors}{18}
+\contentsline {subsection}{\numberline {3.1.2}Indexing on the measurement}{19}
+\contentsline {subsection}{\numberline {3.1.3}\textit {Cons} and \textit {Snoc}}{19}
+\contentsline {subsection}{\numberline {3.1.4}Proving correctness of the \textit {cons} operator}{21}
+\contentsline {subsection}{\numberline {3.1.5}View from the Left/Right}{22}
+\contentsline {subsection}{\numberline {3.1.6}Proving Correctness of \textit {viewL}}{24}
+\contentsline {subsection}{\numberline {3.1.7}\textit {with} and \textit {rewrite}}{24}
+\contentsline {subparagraph}{Example.}{25}
+\contentsline {subparagraph}{Discussion about \textit {with}.}{25}
+\contentsline {subsection}{\numberline {3.1.8}Folding}{26}
+\contentsline {subsection}{\numberline {3.1.9}Proving correctness of Fold Left}{26}
+\contentsline {subsection}{\numberline {3.1.10}Splitting}{27}
+\contentsline {subparagraph}{Discussion}{28}
+\contentsline {subparagraph}{The main procedure}{28}
+\contentsline {section}{\numberline {3.2}Other recursive definitions}{29}
+\contentsline {subsection}{\numberline {3.2.1}Reverse}{29}
+\contentsline {section}{\numberline {3.3}Random Access Sequences}{30}
+\contentsline {subsection}{\numberline {3.3.1}SizeW and Entry}{30}
+\contentsline {subsection}{\numberline {3.3.2}Seq Instance}{30}
+\contentsline {paragraph}{Retrieving the nth element}{31}
+\contentsline {paragraph}{Setting an element}{31}
+\contentsline {section}{\numberline {3.4}Writing recursive definitions}{31}
+\contentsline {subsection}{\numberline {3.4.1}Well founded induction}{32}
+\contentsline {subsection}{\numberline {3.4.2}Packing the Sequence}{32}
+\contentsline {subsection}{\numberline {3.4.3}Reversing}{33}
+\contentsline {subparagraph}{For simple properties,}{33}
+\contentsline {subparagraph}{For arbitrary properties,}{33}
+\contentsline {section}{\numberline {3.5}Summary}{34}
+\contentsline {chapter}{\numberline {4}Evaluation}{35}
+\contentsline {section}{\numberline {4.1}Run-time}{35}
+\contentsline {subsection}{\numberline {4.1.1}\textit {cons}}{36}
+\contentsline {subsection}{\numberline {4.1.2}split}{37}
+\contentsline {subsection}{\numberline {4.1.3}reversing and problems with the compiler}{38}
+\contentsline {section}{\numberline {4.2}Heuristics for Effort}{38}
+\contentsline {subsection}{\numberline {4.2.1}Lines of code}{39}
+\contentsline {paragraph}{Selection Sort}{39}
+\contentsline {paragraph}{FingerTree}{40}
+\contentsline {subsection}{\numberline {4.2.2}Lemma Usage}{40}
+\contentsline {section}{\numberline {4.3}Discussion}{41}
+\contentsline {chapter}{\numberline {5}Conclusion}{43}
+\contentsline {section}{\numberline {5.1}Accomplishments}{43}
+\contentsline {section}{\numberline {5.2}Further work}{43}
+\contentsline {subsection}{\numberline {5.2.1}Closing remarks}{43}
+\contentsline {chapter}{\numberline {6}Appendix}{44}
+\contentsline {section}{\numberline {6.1}Helper Functions}{44}
+\contentsline {section}{\numberline {6.2}Numerical Representations}{44}
+\contentsline {section}{\numberline {6.3}Further example of the termination checking limitation}{45}
+\contentsline {subsection}{\numberline {6.3.1}Defining a view}{46}
+\contentsline {subsection}{\numberline {6.3.2}Example termination failure}{46}
+\contentsline {subsection}{\numberline {6.3.3}Using sized types}{47}
+\contentsline {section}{\numberline {6.4}Other Agda Syntax and Terminology}{47}
+\contentsline {subsection}{\numberline {6.4.1}Agda's interactive help}{47}
+\contentsline {subsection}{\numberline {6.4.2}Implicit Arguments}{48}
+\contentsline {subsection}{\numberline {6.4.3}Instance Arguments}{48}
+\contentsline {section}{\numberline {6.5}Sorting -- full code}{49}

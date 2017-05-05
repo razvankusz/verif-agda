@@ -201,10 +201,10 @@ extent for a comparable purpose.
 \end{figure}
 \section{Verified Programming}
 
-Verification of program correctness is paramount to any successful application with many paradigms used in industry to enforce this idea. Most commonly, hard-coded tests are run against the program. In this project I will focus on formal verification, that is, checking that a program is correct under some formal, mathematical modeling, rather than through its behaviour.
+Verification of program correctness is paramount to any successful application. Most commonly, hard-coded tests are run against programs. In this project I will focus on formal verification, that is, checking that a program is correct under some formal, mathematical modeling, rather than through its behaviour.
 	
 Formal verification has had successful application in areas such as cryptography (Cryptol)\footnote{http://cryptol.net/documentation.html}, hardware specification (The verification system in Verilog) or compiler construction (CompCert)\cite{compcert}. 
-A more general approach implies verifying arbitrary software programs. Automated theorem provers such as Coq, Isabelle or Agda achieve this goal. Although the principles they use have been around for decades, their industrial application still remains niche (CompCert is an example project using Coq). For example, Isabelle’s open archive of proofs contains mainly proofs concerned with mathematical objects, with very few examples of algorithms or data structures \footnote{https://www.isa-afp.org}. 
+A more general approach implies verifying arbitrary software programs. Automated theorem provers such as Coq, Isabelle or Agda achieve this goal. Although the principles they use have been around for decades, their industrial application still remains niche. For example, Isabelle’s open archive of proofs contains mainly proofs concerned with mathematical objects, with very few examples of algorithms or data structures \footnote{https://www.isa-afp.org}. 
 	
 Languages like Agda\cite{agdatutorial} have been designed firstly as a general programming languages, and secondly as a theorem prover. Their development is in a relatively early stage, and are mainly employed for research. 
 
@@ -212,26 +212,22 @@ Languages like Agda\cite{agdatutorial} have been designed firstly as a general p
 
 In the context of programming, we can distinguish two main paradigms: a stateful approach, used in most imperative programming languages, and a stateless approach, seen in pure functional programming.
 
-The formal treatment of these two approaches differs. In imperative languages, functions can alter the state of the program and return different results at different times, even when called with the same arguments. In this context, verification has to be done in a different environment, using specific system such as Hoare Logic.
+The formal treatment of these two approaches differs. In imperative languages, functions can alter the state of the program and return different results at different times, even when called with the same arguments. In this context, verification is done in a different environment, using systems such as Hoare Logic.
 
-Functional programming languages enforce the idea of statelessness, bringing functions as close as possible to mathematical functions. They have to always return the same result for a given argument, regardless of when and where they are called. This concept is becoming popular in the industry again, in light of the advantages it brings in concurrent programming: lack of shared state or laxer execution order.
+Functional programming languages enforce the idea of statelessness, bringing functions closer to mathematical functions. They always return the same result for a given argument, regardless of when and where they are called. This concept is becoming popular in the industry again, in light of the advantages it brings in concurrent programming: lack of shared state and laxer execution order.
  
 Functional data structures have been long thought to be inefficient and belonging solely to academia. The work of Okasaki \cite{okasaki}, namely his book,“Purely Functional Data Structures”, has gone a great way in mitigating the imbalance between the vast collection of efficient imperative structures and the esoteric functional data structures. His discussion of implicit recursive slowdown and numerical representations of types has inspired the design of many data structures, which are becoming part of standard libraries in functional languages.
 
 A property of functional data structures is that they are persistent. That is, any destructive operation, such as updating an element in a list is expected to preserve in memory both the previous version and the new version. Persistence is not usually enforced in imperative implementation (consider updating an element in a C array). Solutions for achieving this goal in an imperative environment are tedious and incur and extra cost. 
 
-While programming functionally, this complexity constraint is a given. Amortization techniques like the ones described by Okasaki make for a convincing argument to popularize the use of functional languages. The lack of side effects makes reasoning about functions a tractable problem, and opens up many possibilities for verifying programs.
-
-Traditionally, the verification of computer programs is performed in a separate environment. Most commonly this environment is pen and paper. 
+However, amortization techniques like the ones described by Okasaki describe efficient ways of achieving this goal in a functional setting. Furthermore, the lack of side effects makes reasoning about functions a tractable problem, and opens up many possibilities for verifying programs.
 
 Agda is part of a family of programming languages which, alongside with Coq or Idris, is based on the theory of dependent types. In these environments, types and values are part of the same grammar, forming \textit{terms}. The expressivity this brings allows reasoning about code and proofs in the same environment (under the Curry Howard isomorphism).  
 
-In this dissertation, I aim to show some approaches of verifying data structures and algorithms using the expressive power of Agda. I have chosen, as a running example, the implementation of the FingerTree.\cite{fingertrees}. The original paper presents an implementation of this data structure in Haskell and describes the main operations that such a data type must support. 
+In this dissertation, I aim to show some approaches of verifying data structures and algorithms using the expressive power of Agda. I have chosen, as a running example, the implementation of the FingerTree.\cite{fingertrees}.
 
-FingerTrees are a slight modification of 2-3 trees \footnote{that is, trees whose nodes can have either two or three children} which allows efficient insertion at the beginning or the end. Its abstract data type is that of a double-ended queue. Furthermore, the FingerTrees can be associated with a measurement function and an operator (described in section whatever) that allows the specialization to other abstract data types, such as Random Access Sequences, Priority Queues or Interval Trees.
+FingerTrees are a modification of the 2-3 trees \footnote{that is, trees whose nodes can have either two or three children} which allows efficient insertion at the beginning or the end. Its abstract data type is that of a double-ended queue. Furthermore, FingerTrees can be associated with a measurement function and an operator (described in section \ref{sec:measure}) that allows specialization to other abstract data types, such as Random Access Sequences, Priority Queues or Interval Trees.
 
-
- 		
 \begin{figure} 
 	\centering
 	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
@@ -279,24 +275,19 @@ FingerTrees are a slight modification of 2-3 trees \footnote{that is, trees whos
 % picture of 2-3 tree alongside with a finger tree
 
 
-The work of implementing the Finger Tree in a dependent environment has been carried out by Matthiew Souzeau \cite{coq}. The goal of this dissertation is to see to what extent the same result can be achieved in Agda, experimenting with various patterns for proving correctness.
+The work of implementing the FingerTree in a dependent environment has been carried out by Matthieu Souzeau \cite{coq}. \textbf{A goal of this dissertation} is to see to what extent the same result can be achieved in Agda, experimenting with various patterns for proving correctness.
 
 
 \section{Summary}
 
-In the next chapter I will introduce Agda, explain how logic reasoning fits tightly with the theoretical basis of Agda and the FingerTree data structure. 
+In the next chapter I introduce Agda, explain how logic reasoning fits tightly with the theoretical basis of Agda and the FingerTree data structure. 
 
-In the implementation section I will present a dependently-typed implementation of FingerTree which ensures correctness, as well as proofs related to this data structure. I will show how specializing the FingerTree to a Random Access Sequences maintains the correctness properties. This can be seen as a software engineering approach using dependent types: building new blocks on top on verified blocks. 
-Finally, I outline some difficulties arising because of Agda’s totality and show some ways of overcoming them.
+In the implementation section I present a dependently-typed implementation of FingerTree which ensures correctness, as well as proofs related to this data structure. I show how specializing the FingerTree to a Random Access Sequences maintains the correctness properties. This can be seen as a software engineering approach using dependent types: building new blocks on top on verified blocks. 
+Finally, I outline some difficulties arising in Agda and discuss ways of overcoming them.
 
-In the evaluation section, I will analyze the run-time difference and compare the effort of implementing a dependently-typed data structure versus a non dependently-typed one. I will discuss how the current implementation achieves the goals set in the Coq implementation.
+In the evaluation section, I analyze the run-time difference and compare the effort of implementing a dependently-typed data structure versus a non dependently-typed one. I discuss how the current implementation achieves the goals set in the Coq implementation.
  
 \chapter{Preparation}
-
-\section{Starting Point}
-
-Pink Book
-
 
 \section{Agda}
 
@@ -309,7 +300,7 @@ I have chosen to implement this project in Agda for a number of reasons:
 \item simplicity, both in available features and the syntax.
 \item a suitable learning curve.
 \item lack of predefined tactics, which makes it easier to observe patterns in programming, errors or issues.\footnote{one is free to define their tactics, using reflection  – an example is in using the monoid solver}
-\item specifically for implementing Finger Trees, for reasons that I will come back to in section whatever.
+\item specifically for implementing FingerTrees, for reasons that I will come back to in section whatever.
 \end{itemize}
 
 \section{Dependent Types} 
@@ -564,7 +555,7 @@ where C is an inductive data type constructor.
 
 One can very simply imagine operations that hide this structural less-than relation. For this reason, the concept of 'Sized types' has been introduced. \footnote{The two approaches are presented here. \cite{termination}} Under this paradigm, the data structure should be indexed by a type \footnote{that is, depend on values of that type: for example, Vec is indexed by Nat} for which the structural relation is obvious at all times.\cite{sizedtypes}. 
 
-The difficulty of using Size becomes apparent in the context of Finger Trees (this is particularly a problem with nested type, which I am explaining the the Appendix \ref{app:termcheck}). However, it is worth noting here that the incompleteness \cite{certified}  of the termination checker is making programming unnecessarily hard in some cases. 
+The difficulty of using Size becomes apparent in the context of FingerTrees (this is particularly a problem with nested type, which I am explaining the the Appendix \ref{app:termcheck}). However, it is worth noting here that the incompleteness \cite{certified}  of the termination checker is making programming unnecessarily hard in some cases. 
 
 \section{Correct Data Structures in Agda}
 
@@ -630,11 +621,11 @@ In order to define a correct sorting function, we assign the following type sign
 
 This definition can be read in two ways: From a \textbf{logical} point of view, it is a proof that all lists can be sorted. However, from a \textbf{computational} point of view, it represents the type signature of all sorting functions that can be coded in Agda. I have implemented, as an example, the selection sort which is present in the Appendix \ref{app:sort}. Although other sorting procedures could be implemented, the definition of the \textit{SortedList} seems perfect for the approach taken. Implementing, for example, merge sort would be more difficult using this definition of sorting, rather than using some equivalent definition which takes splitting lists into account.
 
-This example shows the expressiveness that dependent typing makes available, as well as its capacity for abstraction. In implementing the Finger Trees, I aim for a similar verification method.
+This example shows the expressiveness that dependent typing makes available, as well as its capacity for abstraction. In implementing the FingerTrees, I aim for a similar verification method.
 
 \subsection{Nested Types}
 
-Through their type, Finger Trees also maintain structural invariants, without having to rely on dependent types. They are an instance where nested types are really helpful. 
+Through their type, FingerTrees also maintain structural invariants, without having to rely on dependent types. They are an instance where nested types are really helpful. 
 
 Nested types\cite{nested}, also known as irregular types or polymorphic recursions, can aid in enforcing structure in data types, such as full binary trees, cyclic structures \cite{cyclic} or square matrices \cite{matrix}. The idea is that when declaring an inductive data structure, occurrences of the type on the right hand side are allowed to appear with different type parameters.
 
@@ -695,15 +686,15 @@ A slight modification, which recursively calls Lists with the type parameter A x
 
 \end{center} 
 \end{figure}
-The same principles apply in the case of Finger Trees, which is based on a full 2-3 tree, with labels in the leafs only.
+The same principles apply in the case of FingerTrees, which is based on a full 2-3 tree, with labels in the leafs only.
 
-As an aside, I believe that the presence of these nested types make termination checking an even harder task in many cases. The problems that occur in the implementation of the Finger Tree are not limited to this context. I have provided the implementation of yet another data structure that suffers the same limitations in the Appendix \ref{sec:seq}.
+As an aside, I believe that the presence of these nested types make termination checking an even harder task in many cases. The problems that occur in the implementation of the FingerTree are not limited to this context. I have provided the implementation of yet another data structure that suffers the same limitations in the Appendix \ref{sec:seq}.
 
 
 
 \section{2-3 Trees} 
 
-At the base of the FingerTree is a 2-3 tree, with a further constraint that all the leaves must occur on the last level. Using the concept of nested types, presented in the previous section, we can encode this constraint in the type system. \cite{nested}
+The basis of the FingerTree is the 2-3 Tree. They are rooted trees where each node has either two or three children, with a further requirement that all the leaves occur on the same level. Using nested types, presented in the previous section, we can encode this constraint in the type system. \cite{nested}
 
 \begin{figure} [h]
 \caption{Example 2-3 tree}
@@ -742,7 +733,7 @@ At the base of the FingerTree is a 2-3 tree, with a further constraint that all 
 
 \end{center} 
 \end{figure}
-Instead of using the pair ($\_\times\_$), we declare a new data type that can contain both two and three elements. 
+Instead of using the pair ($\_\times\_$), we declare a new data type that can contain two as well as three element.
 
 \begin{code}
 \\
@@ -801,20 +792,22 @@ As an example, Figure \ref{fig:23tree} could be written in Agda as follows (inde
 \\
 \>[18]\AgdaIndent{20}{}\<[20]%
 \>[20]\AgdaSymbol{(}\AgdaInductiveConstructor{Node2} \AgdaNumber{11} \AgdaNumber{12}\AgdaSymbol{))))))}\<%
-\end{code} 
+\\
+\end{code}
+The number of \AgdaInductiveConstructor{Succ} nestings indicates the tree height. It can be seen how the data type encodes the structural invariants referred to in the beginning. Further discussions about similar data structures, can be found in \cite{nestedhinze}. Another example is present in the appendix \ref{app:termcheck}, with an emphasis on the practical difficulties of implementation in Agda.
 
-\section{Finger Trees} 
+\section{FingerTrees} 
 
-	Finger Trees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
+	FingerTrees are a data structure introduced by Ralph Hinze and Robert Patinsson, based on Okasaki's principle of implicit recursive slowdown. \\ 
 Initially designed as a double ended queue with constant amortized time append, their structure, together with the cached measurements, allow specialization to Random Access Sequences, or Priority Queues by simple instantiation.  
  
  	The underlying structure is that of a full 2-3 tree, with labels solely at the leafs. For efficient appending, the tree is surrounded by buffers at each level, which amortize the cost. Furthermore, the data structure is accompanied by a measurement function and a binary operator, such that the reduced measures of all nodes in a sub-tree is cached in all the joints. These are necessary for searching or splitting.
 
 \subsection{Measurements and the Monoid}
+\label{sec:measure}
+The generality of the FingerTree as a data structure comes from its association with a set of measurements (\textit{V}). The measure of the tree \footnote{notation : $\Vert ft \Vert$} is mapping a FingerTree to an element of the set V.
 
-The generality of the Finger Tree as a data structure comes from its association with a set of measurements (\textit{V}). The measure of the tree \footnote{notation : $\Vert ft \Vert$} is mapping a finger tree to an element of the set V.
-
-The construction of this map requires two building blocks. First, we need a function that maps elements of the finger tree to elements of the set V. Secondly, we need the set V to be the carrier of a Monoid.
+The construction of this map requires two building blocks. First, we need a function that maps elements of the FingerTree to elements of the set V. Secondly, we need the set V to be the carrier of a Monoid.
 \begin{align*}
 \intertext{That is, we pick an operator (in infix notation)} 
 	\_\cdot\_ : (V \times V) \to V \\ 
@@ -836,7 +829,7 @@ The efficiency is achieved by keeping two invariants on the data structure:
 	\item The measurements are correct\footnote{•}
 \end{itemize}
 
-Working in Agda, a dependently typed language, which moreover allows the use of nested types, we can keep these invariants soley in the type signature of the Finger Tree. More specifically,
+Working in Agda, a dependently typed language, which moreover allows the use of nested types, we can keep these invariants soley in the type signature of the FingerTree. More specifically,
 \begin{itemize}
 	\item The nested typing will ensure fullness of the tree.
 	\item Choosing measurements as the type index ensures their correctness.  
@@ -844,7 +837,7 @@ Working in Agda, a dependently typed language, which moreover allows the use of 
 
 \subsection{Previous Work}
 
-Finger Trees have been previously implemented and proved correct. I will outline some previous results, as well as their limitations, providing more incentives for this dissertation. I have included all related implementations I could find and I do not guarantee they are the only ones.
+FingerTrees have been previously implemented and proved correct. I will outline some previous results, as well as their limitations, providing more incentives for this dissertation. I have included all related implementations I could find and I do not guarantee they are the only ones.
 
 \begin{itemize}
 \item Basic Implementation in Agda. \\
@@ -852,7 +845,7 @@ This version can be found on GitHub\footnote{•}. Its mentioned intention is to
 \item Implementation in Coq. \\
 This implementation is provided by Matthiew Souzeau\cite{coq} as a proof of concept for Russell, a Coq extension. I have drawn great inspiration from that paper, and I was particularly drawn by a small caveat, related to termination checking.\footnote{The respective section is called Dependency Hell} 
 
-My dissertation proceeds in a similar manner, implementing the finger tree and tackling the invariants in the same way. In addition, I am also proving further properties of the operations, as well as presented a working solution to the termination issue.
+My dissertation proceeds in a similar manner, implementing the FingerTree and tackling the invariants in the same way. In addition, I am also proving further properties of the operations, as well as presented a working solution to the termination issue.
 
 \item Implementation in Isabelle. \\
 Another working implementation has been done in Isabelle. However, this implementation diverges from the original specification of the data structure, removing the nesting. The two invariants that I have mentioned are maintained explicitly, due to the lack of dependent types.\\ 
@@ -872,13 +865,13 @@ The implementation of this data structure in both Coq and Isabelle, two establis
 	\hline 
 	Operation & Short Description & Properties \\
 	\hline
-	cons & Appending an element at the left of the Finger Tree & 
+	cons & Appending an element at the left of the FingerTree & 
 		\begin{tabular}{l}
 		$\Vert x \triangleleft ft \Vert = \Vert x \Vert \cdot \Vert ft \Vert $ \\
 		$ toList(x \triangleleft ft) = x ∷ toList ft$ \\
 		\end{tabular}\\
 	\hline
-	snoc & Appending an element at the right of the Finger Tree & 
+	snoc & Appending an element at the right of the FingerTree & 
 		\begin{tabular}{l}
 		$\Vert x \triangleright ft \Vert = \Vert ft \Vert \cdot \Vert x \Vert $ \\
 		$ toList(x \triangleright ft) = toList ft ++ [ x ] $ \\
@@ -918,23 +911,29 @@ Some of the properties on the rightmost column are being presented in the implem
 
 The properties related to size ($\Vert\_\Vert$) are proven 'internally', as part of the implementation. The others are proven 'externally', by defining terms of types that express those properties. 
 
-\section{Notes}
+\section{Starting Point}
 
+At the beginning of this project, I had no previous knowledge of:
 \begin{itemize}
-\item add the stuff about starting point, requirements and whatever everyone talks about.
+ \item Agda or Haskell - although I did have experience with functional programming languages from the Foundations of Computer Science course.
+ \item Formal verification of computer programs.
+ \item FingerTrees and other advanced functional data structures.
 \end{itemize}
+
+Some relevant material was present in \textit{Logic and Proof} (Larry Paulson) and \textit{Types}(Andrew Pitts), as well as some parts from Discrete Mathematics (Marcelo Fiore) and Computation Theory (Andy Pitts). 
 
 \chapter{Implementation}
 
+\section{FingerTrees - Implementation}
 
+The previous section has provided an abstract representation of FingerTrees, as well as introduced the prerequisites for writing an implementation in Agda. In the following, I will provide implementations of the constructors and operations described in Table \ref{tab:operations} and provide proofs of correctness. 
 
-\section{Finger Trees - Implementation}
 
 \subsection{Data type declaration}
 
-The Finger Tree is originally polymorphic in two types:
+The FingerTree is originally polymorphic in two types:
 \begin{itemize}
-\item \textbf{A} : this is the type of the elements that are contained in the Finger Tree 
+\item \textbf{A} : this is the type of the elements that are contained in the FingerTree 
 \item \textbf{V} : this is the type of measures. 
 \end{itemize} 
 
@@ -1113,7 +1112,7 @@ Symbol & Constructor \\
 
 \subsection{Indexing on the measurement}
 
-The reason for indexing on the measurement is twofold. Firstly, we index on the measurement in order to verify the correctness of the measurement in operations such as appending an element or splitting. Secondly, the index was chosen in order to allow implementing a 'size' that depends on all elements in the finger tree. 
+The reason for indexing on the measurement is twofold. Firstly, we index on the measurement in order to verify the correctness of the measurement in operations such as appending an element or splitting. Secondly, the index was chosen in order to allow implementing a 'size' that depends on all elements in the FingerTree. 
 
 Consider a sizing that would take into account the shape of the tree only (as it is the case of Size described previously). 
 
@@ -1129,7 +1128,7 @@ Consider a sizing that would take into account the shape of the tree only (as it
 		 child{node [digit] {+ + + +}	
 		      };
 	\end{tikzpicture}
-	\caption{Bigger Finger Tree}
+	\caption{Bigger FingerTree}
 	\label{fig:ftex2}
 	\vspace{3mm}
 	\begin{tikzpicture} [scale = 0.7,level 1/.style = {sibling distance = 2cm, level distance = 1.5cm},					  
@@ -1152,7 +1151,7 @@ Consider a sizing that would take into account the shape of the tree only (as it
 		 child{node [digit] {+}	
 		      };
 	\end{tikzpicture}
-	\caption{Smaller finger Tree}
+	\caption{Smaller FingerTree}
 	\label{fig:ftex3}
 \end{figure} 
 
@@ -1161,11 +1160,11 @@ As suggested by Matthew Souzeau \cite{coq}, a sizing that reflects the number of
 
 \subsection{\textit{Cons} and \textit{Snoc}}
 
-\textit{Cons} is the operator that appends an element to the left of the finger tree. 
+\textit{Cons} is the operator that appends an element to the left of the FingerTree. 
 
-The implementation is straight forward if there is room in the left-most digit. Otherwise, we have to recursively insert and reform parts of the finger tree.
+The implementation is straight forward if there is room in the left-most digit. Otherwise, we have to recursively insert and reform parts of the FingerTree.
 
-Ultimately, for the correctness part, we are concerned whether the output tree is a correct finger tree (enforced by the type) with a correct measurement. 
+Ultimately, for the correctness part, we are concerned whether the output tree is a correct FingerTree (enforced by the type) with a correct measurement. 
 \begin{align*}
 \intertext{That is, by inserting an element x,}
 	\Vert x \triangleleft ft \Vert = \Vert x \Vert \cdot \Vert ft \Vert
@@ -1218,7 +1217,6 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 	\label{fig:ftex3}
 \end{figure}
 
-\AgdaColourScheme{}
 \begin{code}
 \\
 \\
@@ -1243,7 +1241,7 @@ Ultimately, for the correctness part, we are concerned whether the output tree i
 \>[6]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{⦄} \AgdaSymbol{\{}\AgdaField{∥} \AgdaBound{x} \AgdaField{∥} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{\}}\<%
 \\
 \end{code}
-Each case in the definition is accompanied by a proof that the measurement of the output finger tree is correct with respect to the topmost definition. The result of the function is presented after the equal sign, and the rewrite clause contains proof to the type-checker that the declaration respects the type signature.
+Each case in the definition is accompanied by a proof that the measurement of the output FingerTree is correct with respect to the topmost definition. The result of the function is presented after the equal sign, and the rewrite clause contains proof to the type-checker that the declaration respects the type signature.
 
 Also note that the first two cases had to be written in prefix notation, damaging readability. The reasons is that the type information was not sufficient for the inference algorithm, and I had to manually tag the operations and make the implicit arguments explicit.
 
@@ -1298,14 +1296,13 @@ Also note that the first two cases had to be written in prefix notation, damagin
 \\
 \end{code}
 
-The Finger Tree operations are symmetric on the middle, so the construction of the snoc operator is exactly dual. It's implementation is provided in the source code.
+The FingerTree operations are symmetric on the middle, so the construction of the snoc operator is exactly dual. It's implementation is provided in the source code.
 
-\subsection{\textit{toList}}
+\subsection{Proving correctness of the \textit{cons} operator}
 
-We will need to prove properties of the finger trees with respect to the elements they contain and their relative position. Therefore, it is handy to be able to transform them to lists, as they encode these properties simply.
+Proving properties of FingerTrees require reasoning about their elements and their order. Therefore, it is convenient to transform them to lists, as they encode these properties.
 
-This is the conversion between a finger tree and a list\footnote{
-toList-dig is a straightforward conversion.}\footnote{flatten-list transforms a list of Nodes into a list of As.}
+Below I present the conversion between a FingerTree and a list. Although it is a instantiation of the foldl (Section \ref{sec:fold}), this direct form made reasoning easier. It also illustrates more clearly some concepts from \cite{generalfold}.
 
 \begin{code}
 \\
@@ -1337,9 +1334,9 @@ toList-dig is a straightforward conversion.}\footnote{flatten-list transforms a 
 \\
 \end{code}
 
-\subsection{Proving correctness of the \textit{cons} operator}
+In the previous, \AgdaFunction{toList-dig} is a straightforward conversion, while \AgdaFunction{flatten-list} transforms a list of \textit{Node}s into a list of \textit{A}s. (See Appendix \ref{app:helper} for full implementation)
 
-Assuming that the implementation of list is correct, we can define the correctness of the cons operator as an argument that \textit{toList} distributes over \textit{cons}. \footnote{An example term of this type is in the appendix}
+Assuming that the implementation of list is correct, I define the correctness of the cons operator as the distributivity of \textit{toList} over \textit{cons}.
 
 \begin{code}
 \\
@@ -1365,11 +1362,14 @@ Assuming that the implementation of list is correct, we can define the correctne
 \\
 \end{code} 
 
+This ensures that not only the last \textit{cons} element is the first element in the FingerTree, but also that the recursive case of \textit{cons} preserves the order of the elements.
+
+
 \subsection{View from the Left/Right}
 
-As suggested in the original paper, the structure of the finger tree is complicated and users can benefit from a higher level representation. Furthermore, we have no mechanism yet of 'deconstructing' a sequence.
+As suggested in the original paper, the structure of the FingerTree is complicated and users can benefit from a higher level representation. Furthermore, we have no mechanism yet of 'deconstructing' a sequence.
 
-In this case, we will 'view' each finger tree as the product between an element and the remaining finger tree. 
+In this case, we will 'view' each FingerTree as the product between an element and the remaining FingerTree. 
 
 \begin{code}
 \\
@@ -1403,7 +1403,7 @@ In this case, we will 'view' each finger tree as the product between an element 
 \\
 \end{code} 
 
-This data type also enforces the correctness of the measurement, being indexed in the same way as the finger tree. 
+This data type also enforces the correctness of the measurement, being indexed in the same way as the FingerTree. 
 
 We need to implement a procedure that transforms between the two.
 
@@ -1459,7 +1459,7 @@ As it is the case of the Cons operator, most cases are superfluous. The complica
 	\label{fig:ftex4}
 \end{figure}
 
-As you can see, the composition of cons and viewL is not a no-op, but they both preserve the order of the elements.
+Unfortunately, the composition of \textit{cons} and \textit{viewL} is not a no-op, but they both preserve the order of the elements.
 
 \begin{code}
 \\
@@ -1502,11 +1502,8 @@ As you can see, the composition of cons and viewL is not a no-op, but they both 
 \\
 \>[2]\AgdaIndent{4}{}\<[4]%
 \>[4]\AgdaSymbol{=} \AgdaInductiveConstructor{ConsL} \AgdaSymbol{(}\AgdaFunction{head-dig} \AgdaBound{pr}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{deepL} \AgdaSymbol{(}\AgdaFunction{tails-dig} \AgdaBound{pr}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf}\AgdaSymbol{)}\<%
-\\
-%
-\\
-\\
-\\
+\end{code} \\
+\begin{code}
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaFunction{deepL} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
@@ -1533,7 +1530,6 @@ As you can see, the composition of cons and viewL is not a no-op, but they both 
 \>[8]\AgdaSymbol{→} \AgdaDatatype{FingerTree} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{\{}\AgdaFunction{measure-maybe-digit} \AgdaBound{pr} \AgdaField{∙} \AgdaBound{s} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}\AgdaSymbol{\}}\<%
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
-\>[2]\AgdaComment{-- deepL pr ft sf = \{!   !\}}\<%
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaFunction{deepL} \AgdaSymbol{(}\AgdaInductiveConstructor{just} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{ft} \AgdaBound{sf} \AgdaSymbol{=} \AgdaInductiveConstructor{Deep} \AgdaBound{x} \AgdaBound{ft} \AgdaBound{sf}\<%
@@ -1579,38 +1575,18 @@ As you can see, the composition of cons and viewL is not a no-op, but they both 
 \\
 \end{code}
 
+The previous listing represents a pair of mutual recursive functions. \AgdaFunction{deepL} is a variant of the \AgdaInductiveConstructor{Deep} constructor, which also allows reconstructing the FingerTree in the case that the first \AgdaDatatype{Digit} is empty (encoded by \AgdaInductiveConstructor{nothing}). The proof that the result has measure "\AgdaFunction{measure-maybe-digit} \AgdaBound{pr} \AgdaField{∙} \AgdaBound{s} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{sf}" could only be obtained because of the dependent implementation of Node. A non dependently typed version would have required postulating correctness of the Node constructors. 
+
+
 \subsection{Proving Correctness of \textit{viewL}}
 
 We can proceed in an analogous way to the correctness of cons, by constructing an appropriate to-list conversion for views, and then proving that the list representations coincide.
 
-%\begin{hscode}\SaveRestoreHook
-%\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-%\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
-%\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-%\>[B]{}\Varid{viewL}\mathbin{-}\Varid{correct}\mathbin{:}\mathbin{∀}\{\mskip1.5mu \Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{A}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}\;\{\mskip1.5mu \Conid{V}\mathbin{:}\Conid{Set}\;\Varid{a}\mskip1.5mu\}{}\<[E]%
-%\\
-%\>[B]{}\hsindent{15}{}\<[15]%
-%\>[15]{}\mathbin{⦃}\Varid{mo}\mathbin{:}\Conid{Monoid}\;\Conid{V}\mathbin{⦄}{}\<[E]%
-%\\
-%\>[B]{}\hsindent{15}{}\<[15]%
-%\>[15]{}\mathbin{⦃}\Varid{m}\mathbin{:}\Conid{Measured}\;\Conid{A}\;\Conid{V}\mathbin{⦄}{}\<[E]%
-%\\
-%\>[B]{}\hsindent{15}{}\<[15]%
-%\>[15]{}\mathbin{→}\{\mskip1.5mu \Varid{v}\mathbin{:}\Conid{V}\mskip1.5mu\}{}\<[E]%
-%\\
-%\>[B]{}\hsindent{15}{}\<[15]%
-%\>[15]{}\mathbin{→}(\Varid{ft}\mathbin{:}\Conid{FingerTree}\;\Conid{A}\;\Conid{V}\;\{\mskip1.5mu \Varid{v}\mskip1.5mu\}){}\<[E]%
-%\\
-%\>[B]{}\hsindent{15}{}\<[15]%
-%\>[15]{}\mathbin{→}(\Varid{toList}\mathbin{-}\Varid{view}\;(\Varid{viewL}\;\Varid{ft})\mathbin{≡}\Varid{toList}\mathbin{-}\Varid{ft}\;\Varid{ft}){}\<[E]%
-%\ColumnHook
-%\end{hscode}\resethooks
+However, we stumble upon simple property that is hard to prove in a dependently typed setting. (The following issue also occurs in the Coq implementation \cite{coq}, but appears trivial in the Isabelle implementation \cite{isabelle}).
 
-However, we stumble upon simple property that is unnecessarily hard to prove.
+We would like to prove that $viewL(ft)\equiv NilL \iff ft \equiv Empty$. This fact is obvious given the associated definitions. Unfortunately, \textit{Propositional Equality} cannot allow a term of this form, since for an arbitrary $\sigma \in V$, \textit{FingerTree A V} \{$\sigma$\} does not have the same type as Empty. (i.e. \textit{FingerTree A V} \{$\epsilon$\})
 
-That is, we would like to prove that $viewL(ft)\equiv NilL \iff ft \equiv Empty$. This fact is obvious given the associated definitions. Unfortunately, \textit{Propositional Equality} cannot allow a term of this form, since for an arbitrary $\sigma \in V$, \textit{FingerTree A V} \{$\sigma$\} does not have the same type as Empty. (i.e. \textit{FingerTree A V} \{$\epsilon$\})
-
-Changing the statement of the problem slightly to $\forall$ \textit{ft : FingerTree A V} \{$\epsilon$\} $viewL(ft) \equiv NilL \iff ft \equiv Empty$ allows the definition. However, the typechecker will get stuck in trying to pattern match on ft. The reason is that it cannot find terms in \textit{V} to satisfy the constrained indexing.
+Changing the statement of the problem to $\forall$ \textit{ft : FingerTree A V} \{$\epsilon$\} $viewL(ft) \equiv NilL \iff ft \equiv Empty$ allows the definition. However, the type-checker gets stuck trying to case split \textit{ft}. The reason is that it cannot find terms in \textit{V} to satisfy the constrained indexing (e.g. a Deep constructor giving a FingerTree A V \{$\epsilon$\}\
 
 Indeed, if we try to prove this statement on a simpler version of \textit{FingerTree} that is indexed by Size \footnote{so that Empty can assume any size as long as it is smaller than its FingerTree derivatives (such as Deep sf Empty pr)}, it is a straightforward exercise: 
 
@@ -1641,9 +1617,9 @@ Indeed, if we try to prove this statement on a simpler version of \textit{Finger
 \\
 \end{code}
 
-A solution to this issue was suggested by McKinna\cite{hetero}, using an alternate implemenation of equality -- \textit{Heterogeneous Equality}, which works across types. 
+A solution to this issue was suggested by McKinna\cite{hetero}, using an alternate implemenation of equality -- \textit{Heterogeneous Equality}, which unifies the types at a later stage.
 
-Using heterogeneous equality, we can now write the type of the original statement in Agda, as well as pattern-match on the finger tree. However, some problems related to the \textit{with} construct resurface.
+Using heterogeneous equality, we can write the original statement in Agda, as well as pattern-match on the FingerTree. However, some problems related to the \textit{with} construct resurface.
 
 \subsection{\textit{with} and \textit{rewrite}}
 \label{sec:with}
@@ -1703,47 +1679,18 @@ Consider this example, where we try to append an element at the end of a list.
 
 \end{itemize}
 
-Taking these issues into account, I have tried to come up with solutions to some of them. I will present them after finishing the main implementation of the Finger Tree.
+Taking these issues into account, I have tried to come up with solutions to some of them. I will present them after finishing the main implementation of the FingerTree.
 
-I should note here that the proofs that I am making are still providing a powerful verification, since
-\begin{itemize}
-\item The FingerTree maintains all invariants
-\item The measurement semantics is preserved and used sanely.
-\end{itemize}
+I should note here that the proofs that I am making are still providing a powerful verification, since the FingerTree maintains all invariants and the measurement semantics is preserved and used sanely.
 
 \subsection{Folding}
+\label{sec:fold}
 
-We can further implement the fold operation and show its correctness. I will only present, as an example the fold-left implementation. 
+Next, I implement the fold operation and show its correctness. I will only present, as an example the fold-left implementation, since fold-right is analogous.
 
 To exemplify the semantics of foldl on a list, consider \textit{foldl f s [x, y, z] = f (f (f s x) y) z}. 
 
-We can extend this to FingerTrees. Defining folds on \textbf{Node} and \textbf{Digit} is trivial, since they are just length constrained lists.
-
-As a helper function, I define an operation to flatten a list of nodes: 
-
-\begin{code}
-\\
-\>\AgdaFunction{flatten-list} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
-\\
-\>[6]\AgdaIndent{14}{}\<[14]%
-\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
-\\
-\>[6]\AgdaIndent{14}{}\<[14]%
-\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
-\\
-\>[6]\AgdaIndent{14}{}\<[14]%
-\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)}\<%
-\\
-\>[6]\AgdaIndent{14}{}\<[14]%
-\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
-\\
-\>\AgdaFunction{flatten-list} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaInductiveConstructor{[]}\<%
-\\
-\>\AgdaFunction{flatten-list} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaFunction{toList-node} \AgdaBound{x}\AgdaSymbol{)} \AgdaFunction{++} \AgdaSymbol{(}\AgdaFunction{flatten-list} \AgdaBound{xs}\AgdaSymbol{)}\<%
-\\
-\end{code}
-
-We can then implement the foldl on finger trees as:
+We can extend this to FingerTrees. Defining folds on \textbf{Node} and \textbf{Digit} is trivial, since they are just length constrained lists. 
 
 \begin{code}
 \\
@@ -1784,9 +1731,11 @@ We can then implement the foldl on finger trees as:
 \\
 \end{code}
 
+The operation of folding over nested types has been extensively studied in \cite{nestedhinze}, and analogous implementations could be found in \cite{debrujin}.
+
 \subsection{Proving correctness of Fold Left}
 
-Next, we will show that the previous implementation is sane, by seeing whether folding over a finger tree is equivalent to folding over its list representation.
+Next, we will show that the previous implementation is sane, by seeing whether folding over a FingerTree is equivalent to folding over its list representation.
 
 \begin{code}
 \\
@@ -1819,7 +1768,7 @@ Next, we will show that the previous implementation is sane, by seeing whether f
 \end{code}
 
 
-Furthermore, fold-left has some interesting properties when it comes to its relation to the measurement. We can prove that if we fold over the finger tree using the \textbf{Monoid} and the \textbf{Measure}\footnote{foldfun v x = v $∙ \Vert$ x $\Vert$} over which it is instantiated, we obtain the same result as the measure. This result is important as a sanity check of the measure semantics we are trying to preserve throughout the implementation:
+Furthermore, we can prove that if we fold over the FingerTree using the \textbf{Monoid} and the \textbf{Measure}\footnote{foldfun v x = v $∙ \Vert$ x $\Vert$} over which it is instantiated, we obtain the same result as the measure. 
 
 \begin{code}
 \\
@@ -1844,6 +1793,8 @@ Furthermore, fold-left has some interesting properties when it comes to its rela
 \>[14]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{foldl} \AgdaFunction{foldfun} \AgdaBound{v} \AgdaBound{ft} \AgdaDatatype{≡} \AgdaBound{v} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{)}\<%
 \\
 \end{code}
+
+This result is important as a sanity check of the measure semantics we are trying to preserve throughout the implementation, since this fact is only be true if we preserve the order of calls to the monoid operator.
 
 \subsection{Splitting}
 
@@ -1893,7 +1844,7 @@ Since this implementation is long a full of necessary proofs about the types, I 
 
 \subparagraph{Discussion} This implementation was also made difficult because of the partiality of the function in the original paper. Wrapping things in the Maybe monad can confuse the type-checker at times.
 
-\subparagraph{The main procedure} pattern matches on the constructors for the Finger Tree provided as argument. Notice that the typing already maintains the invariant.
+\subparagraph{The main procedure} pattern matches on the constructors for the FingerTree provided as argument. Notice that the typing already maintains the invariant.
 
 \begin{code}
 \\
@@ -1946,14 +1897,12 @@ Since this implementation is long a full of necessary proofs about the types, I 
 \>[4]\AgdaIndent{6}{}\<[6]%
 \>[6]\AgdaFunction{vft} \AgdaSymbol{=} \AgdaBound{p} \AgdaSymbol{((}\AgdaBound{i} \AgdaField{∙} \AgdaFunction{measure-digit} \AgdaBound{pr}\AgdaSymbol{)} \AgdaField{∙} \AgdaFunction{measure-tree} \AgdaBound{ft}\AgdaSymbol{)}\<%
 \\
-%
 \end{code}
 
 
-The \textbf{split-Tree-if} function splits the computation in three cases, depending where the predicate changes to \textit{True}. This could happen after the during the prefix \textbf{pr}, during the nested finger tree \textbf{ft} or during the suffix \textbf{sf} 
+The \textbf{split-Tree-if} function splits the computation in three cases, depending where the predicate changes to \textit{True}. This could happen after the during the prefix \textbf{pr}, during the nested FingerTree \textbf{ft} or during the suffix \textbf{sf} 
 
 \begin{code}
-\\
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaFunction{split-Tree-if} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
@@ -2028,7 +1977,7 @@ The \textbf{split-Tree-if} function splits the computation in three cases, depen
 \\
 \end{code}
 
-The full implementation requires more advanced agda syntax, as well as the implementation of the ViewR and deepR. It is present in the Appendix.
+The full implementation requires more advanced Agda syntax, as well as the implementation of the ViewR and deepR. I will provide an explanation of why this application was more difficult in section \cite{eval:lemma}
 
 \section{Other recursive definitions}
 
@@ -2083,11 +2032,11 @@ The non-dependent interface is constructed through a dependent pair. The functio
 %
 \end{code} 
 
-Note that this implementation no longer constrains the result to the argument. The only verified property of this is that the result will itself be a correctly constructed FingerTree.
+Note that this implementation no longer relates the result to the argument, so it is not formally verified. 
 
 \section{Random Access Sequences}
 
-By proper instantiation of the measurement function and monoid, we can specialize the Finger Tree to various data structures. The first suggested one is the Random Access Sequence.
+By proper instantiation of the measurement function and monoid, we can specialize the FingerTree to various data structures. The first suggested one is the Random Access Sequence.
 
 The measurement function will assign the value of 1 to any element, and the monoid is simply that of the natural numbers with addition. For convenience, I will wrap both the size and the entries is special types, to aid with the use of instance arguments.
 
@@ -2156,7 +2105,7 @@ The properties of the \textit{Nat} carries directly to\textit{SizeW}, so that we
 
 \subsection{Seq Instance}
 
-The Sequence instance is simply an alias for a Finger Tree, instantiated with an arbitrarily typed Entry and the SizeW monoid.
+The Sequence instance is simply an alias for a FingerTree, instantiated with an arbitrarily typed Entry and the SizeW monoid.
 
 \begin{code}
 \\
@@ -2169,9 +2118,7 @@ The Sequence instance is simply an alias for a Finger Tree, instantiated with an
 \end{code}
 
 \paragraph{Retrieving the nth element} \mbox{} \\ 
-The naive implementation would simply call the \textit{viewL} n times, yielding an amortized linear cost.
-
-However, we can find an $\mathcal{O}(log(n))$ implementation, by using \textit{split}. The predicate checks whether the current value is smaller than n, and we will start iterating from 0.
+The naive implementation would simply call the \textit{viewL} n times, yielding an amortized linear cost. However, we can find an $\mathcal{O}(log(n))$ implementation, by using \textit{split}. The predicate checks whether the argument value is smaller than n, whereas the argument is initialized to 0 and increases by the number of elements skipped in every iteration.
 
 \begin{code}
 \>[0]\AgdaIndent{4}{}\<[4]%
@@ -2191,7 +2138,7 @@ However, we can find an $\mathcal{O}(log(n))$ implementation, by using \textit{s
 The call to split allows us to view the nth element, as well as the sequences that remain to the left and to the right.
 
 \paragraph{Setting an element} \mbox{} \\
-This also suggests a possible implementation for setting an element, which is rather inefficient, but provided for completeness, using Finger Tree concatenation.
+This also suggests a possible implementation for setting an element, which is rather inefficient, but provided for completeness, using FingerTree concatenation \footnote{I am referring to a linear time concatenation. The logarithmic implementation presented in \cite{fingertrees} is a suggestion for future work}.
 
 \begin{code} 
 \\
@@ -2221,13 +2168,15 @@ This also suggests a possible implementation for setting an element, which is ra
 \\
 \end{code}
 
+This works by extracting the \textit{nth} element and concatenating the \textit{left} and \textit{right} FingerTrees around the new value.
+
 \section{Writing recursive definitions}
 
 As mentioned in section whatever, the use of \textit{with} can sometimes confuse the termination checker. This, combined with the nature of the \textit{viewL}, makes it hard to make us of the abstraction brought by deconstructing FingerTrees as we would deconstruct normal Linked Lists.
 
-In fact, Agda's termination checker cannot prove that, for any finger tree \textit{ft}, viewL (x \textit{cons} ft) is structurally bigger than ft. The reason is that the \textit{cons} operator has to be performed before the call to viewL.
+In fact, Agda's termination checker cannot prove that, for any FingerTree \textit{ft}, viewL (x \textit{cons} ft) is structurally bigger than ft. The reason is that the \textit{cons} operator has to be performed before the call to viewL.
  
-It has been suggested in Matthiew Souzeau's paper \cite{coq} that to overcome this problem, one must find a suitable indexing that reflects the number of elements in the Finger Tree. This is exactly what the Random Access Sequence achieves.
+It has been suggested in Matthiew Souzeau's paper \cite{coq} that to overcome this problem, one must find a suitable indexing that reflects the number of elements in the FingerTree. This is exactly what the Random Access Sequence achieves.
 
 \subsection{Well founded induction}
 
@@ -2295,7 +2244,7 @@ In this case, we can use Larry Paulson's results \footnote{also implemented in t
 
 Having obtained a proof of the well-foundeness, we can proceed by creating a recursor object and writing a recursive definition.
 
-\subsection{Reversing - Until a better example is found}
+\subsection{Reversing}
 \label{sec:wfrec}
 We have already implemented the reverse for the FingerTree through the fold. 
 
@@ -2327,7 +2276,7 @@ We have already implemented the reverse for the FingerTree through the fold.
 \\
 \end{code}
 
-It is arguable whether this is actually a solution to the abstraction problem. We have indeed been able to write a definition of the reverse function using an abstract view. However, the solution itself is probably less readable than a solution that reverses directly on the Finger Tree.
+It is arguable whether this is actually a solution to the abstraction problem. We have indeed been able to write a definition of the reverse function using an abstract view. However, the solution itself is probably less readable than a solution that reverses directly on the FingerTree.
 
 Furthermore, in this form, we no longer work with dependently typed functions, since the indexes have been covered up by the dependent pair. No correctness is enforced by the typing system. Trying to prove correctness of this function brings back the problems caused by \textit{with}. In particular, we have an induction proving mechanism, but we are stopped by the inability to prove an inductive step on viewL.
 
@@ -2354,11 +2303,7 @@ Reimplementing the \textbf{rev} method with this output type is straight-forward
 \\
 \>[0]\AgdaIndent{6}{}\<[6]%
 \>[6]\AgdaFunction{property} \AgdaSymbol{:} \AgdaFunction{Seq-pair} \AgdaBound{A} \AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaBound{a}\<%
-\\
 \end{code}
-
-The problem that remains is proving the inductive step. This seemed impossible to me, because of the limitations of the \textit{view} operation.
-
 \begin{code}
 \\
 \>[0]\AgdaIndent{6}{}\<[6]%
@@ -2383,10 +2328,11 @@ The problem that remains is proving the inductive step. This seemed impossible t
 \>[16]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{property} \AgdaSymbol{(}\AgdaFunction{pack} \AgdaBound{seq}\AgdaSymbol{))}\<%
 \\
 \end{code}
-\subsection{Notes}
+The problem that remains is proving the inductive step. Because of the limitations of the \textit{view} operation and the difficulty of pattern matching on a size-constrained FingerTree (\AgdaFunction{Seq} \AgdaBound{A} \AgdaSymbol{((}\AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{)} \AgdaField{∙} \AgdaBound{s}\AgdaSymbol{))}), I have not been able to find terms of this type. \\ Finding a general method of proving such properties, in the context of views \cite{wadler} would solve many of the problems encountered throughout this dissertation, suggesting potential for further work.
 
-- add concatenation in the finger tree implementation, with all the proofs \\
-- start thinking about evaluation \\
+\section{Summary}
+In this section, I have presented an implementation of the FingerTree \cite{fingertrees}, using Agda \cite{agdatutorial} as the programming language. The implementation is formally verified to the extend discussed above, ensuring the correct measure of the FingerTree, as well as the correctness of the operation with respect to the order of the elements. I am showing how the FingerTrees can be specialized to RandomAccessSequences, suggesting that properties proven about the FingerTrees carry through to the data structure they generalize. Finally, I am showing limitations of the Agda systems, and arguing further directions as necessary. 
+
 
 \chapter{Evaluation}
 
@@ -2623,12 +2569,12 @@ Total & 219 & 67 \\
 \end{tabular} 
 \end{table}
 
-The unverified example in this case does not run in Agda. It would require proofs of termination. I have only presented this as a reference point for the Finger Tree example.
+The unverified example in this case does not run in Agda. It would require proofs of termination. I have only presented this as a reference point for the FingerTree example.
 
-\paragraph{Finger Tree}
+\paragraph{FingerTree}
 
 \begin{table}[H]
-\caption{SLOC for Finger Tree}
+\caption{SLOC for FingerTree}
 \center
 \begin{tabular}{c r r}
 \hline 
@@ -2649,7 +2595,7 @@ It is interesting to see the same ratios remaining consistent. As a sanity check
 As a side note, the effort as illustrated here is not directly related to difficulty, since the more expressive types in verified versions make the goals of implementation clearer.
 
 \subsection{Lemma Usage}
-
+\label{eval:lemma}
 The previous examples did not include any metric about the externally verified properties. 
 Performing this evaluation experiment showed that all the lemmas are constructed from calls to our assumptions (base lemmas).
 
@@ -2716,13 +2662,14 @@ As part of the introduction, we proposed a question related to how far Agda's ex
 In relation to Matthieu Souzeau's paper \cite{coq}, I have completed the implementations of all the operations he suggested. Furthermore, I have presented an Agda way to deal with the termination checking problem, discussed in his section 4.4.1 Dependence Hell. 
 It is interesting to note that this problem is not strictly related to Agda, but to a wider family of dependently typed languages. 
 
-In addition, I have also explicitly proven axioms that relate Finger Trees to their list representation.
+In addition, I have also explicitly proven axioms that relate FingerTrees to their list representation.
 
 
 \chapter{Conclusion}
 
 \section{Accomplishments}
 
+In this dissertation, I have provided an argument for using dependent types and gave 
 
 
 \section{Further work}
@@ -2753,6 +2700,35 @@ This would enforce that adding a new element to the FingerTree yields one with a
 
 \chapter{Appendix}
 
+\section{Helper Functions}
+\label{app:helper}
+\begin{itemize}
+
+\item Flattening a list of Node A V to a list of A, by repeatedly transforming nodes to lists and aggregating the result.\\
+\begin{code}
+\\
+\>\AgdaFunction{flatten-list} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{⦃} \AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V} \AgdaSymbol{⦄}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaDatatype{Node} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{14}{}\<[14]%
+\>[14]\AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{flatten-list} \AgdaInductiveConstructor{[]} \AgdaSymbol{=} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{flatten-list} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaSymbol{(}\AgdaFunction{toList-node} \AgdaBound{x}\AgdaSymbol{)} \AgdaFunction{++} \AgdaSymbol{(}\AgdaFunction{flatten-list} \AgdaBound{xs}\AgdaSymbol{)}\<%
+\\
+\end{code}
+
+
+\end{itemize}
 \section{Numerical Representations}
 \label{app:numrep}
 The treatment of containers as natural numbers has been studied in depth\cite{okasaki}. The basic idea is that simple numerical operations correspond naturally to operations on containers. For example:
@@ -2907,7 +2883,7 @@ We can then implement the $front$ method, which returns a view of the list in te
 \\
 \end{code}
 
-The zero method is a restructuring method, as we will find in the Finger Tree implementation.
+The zero method is a restructuring method, as we will find in the FingerTree implementation.
 
 \begin{code}
 \\
@@ -3065,6 +3041,8 @@ perform a number of operations:
 
 \section{Sorting -- full code}
 \label{app:sort}
+
+\begin{scriptsize}
 
 \begin{code}%
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.List} \AgdaKeyword{using} \AgdaSymbol{(}\AgdaDatatype{List}\AgdaSymbol{;} \AgdaInductiveConstructor{[]}\AgdaSymbol{;} \AgdaInductiveConstructor{\_∷\_}\AgdaSymbol{)}\<%
@@ -3802,7 +3780,7 @@ perform a number of operations:
 \>\AgdaFunction{a} \AgdaSymbol{=} \AgdaFunction{sort} \AgdaSymbol{(}\AgdaNumber{2} \AgdaInductiveConstructor{∷} \AgdaNumber{3} \AgdaInductiveConstructor{∷} \AgdaNumber{1} \AgdaInductiveConstructor{∷} \AgdaNumber{0} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\AgdaSymbol{)}\<%
 \end{code}
 
-
+\end{scriptsize}
 
 \bibliography{refs}
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  3 MAY 2017 15:35
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  5 MAY 2017 15:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1185,30 +1185,35 @@ Chapter 2.
 ]
 Missing character: There is no Σ in font cmmi12!
 Missing character: There is no Π in font cmmi12!
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 373--380
+Underfull \hbox (badness 10000) in paragraph at lines 380--387
  
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 384--389
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--396
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 384--389
+Underfull \hbox (badness 10000) in paragraph at lines 391--396
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 384--389
+Underfull \hbox (badness 10000) in paragraph at lines 391--396
 
  []
 
 
-Underfull \hbox (badness 1552) in paragraph at lines 384--389
+Underfull \hbox (badness 1552) in paragraph at lines 391--396
 \EU1/TeXGyrePagella(0)/m/n/12 Since this data-type has a single constructor, $[
 ]$, the only value accepted as argu-
  []
@@ -1216,57 +1221,7 @@ Underfull \hbox (badness 1552) in paragraph at lines 384--389
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--404
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 404--414
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 404--414
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 404--414
- \EU1/TeXGyrePagella(0)/m/n/12 Using Table 2.2[], we can translate that into th
-e following type signature:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 404--414
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 414--431
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 414--431
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 414--431
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 414--431
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 414--431
+Underfull \hbox (badness 10000) in paragraph at lines 399--411
  
  []
 
@@ -1274,14 +1229,57 @@ Underfull \hbox (badness 10000) in paragraph at lines 414--431
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 441--455
+Underfull \hbox (badness 10000) in paragraph at lines 411--421
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--421
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--421
+ \EU1/TeXGyrePagella(0)/m/n/12 Using Table 2.2[], we can translate that into th
+e following type signature:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--421
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 459--472
+Underfull \hbox (badness 10000) in paragraph at lines 421--438
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--438
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--438
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--438
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--438
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 448--462
  
  []
 
@@ -1289,21 +1287,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 459--472
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 474--487
+Underfull \hbox (badness 10000) in paragraph at lines 466--479
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--533
+Underfull \hbox (badness 10000) in paragraph at lines 481--494
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 544--550
+Underfull \hbox (badness 10000) in paragraph at lines 499--540
  
  []
 
@@ -1311,25 +1309,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 544--550
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 4608) in paragraph at lines 582--613
-  \EU1/TeXGyrePagella(0)/b/n/12 Sorting Lists.[] \EU1/TeXGyrePagella(0)/m/n/12 
-Consider, for example, implementing a function that sorts
- []
-
-
-Underfull \hbox (badness 1874) in paragraph at lines 582--613
- \EU1/TeXGyrePagella(0)/m/n/12 containing all the elements in the argument list
-. We can provide a type en-
- []
-
-
-Underfull \hbox (badness 2189) in paragraph at lines 582--613
- \EU1/TeXGyrePagella(0)/m/n/12 coding of what it means to be a sorted list cont
-aining some set of elements.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 582--613
+Underfull \hbox (badness 10000) in paragraph at lines 551--557
  
  []
 
@@ -1337,373 +1317,400 @@ Underfull \hbox (badness 10000) in paragraph at lines 582--613
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 624--629
- 
+Underfull \hbox (badness 4608) in paragraph at lines 589--620
+  \EU1/TeXGyrePagella(0)/b/n/12 Sorting Lists.[] \EU1/TeXGyrePagella(0)/m/n/12 
+Consider, for example, implementing a function that sorts
  []
 
 
-LaTeX Warning: Citation `cyclic' on page 10 undefined on input line 639.
+Underfull \hbox (badness 1874) in paragraph at lines 589--620
+ \EU1/TeXGyrePagella(0)/m/n/12 containing all the elements in the argument list
+. We can provide a type en-
+ []
+
+
+Underfull \hbox (badness 2189) in paragraph at lines 589--620
+ \EU1/TeXGyrePagella(0)/m/n/12 coding of what it means to be a sorted list cont
+aining some set of elements.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 589--620
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--636
+ 
+ []
 
 [10]
+
+LaTeX Warning: Citation `cyclic' on page 11 undefined on input line 646.
+
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 645--655
+Underfull \hbox (badness 10000) in paragraph at lines 652--662
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 659--669
+Underfull \hbox (badness 10000) in paragraph at lines 666--676
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--677
+Underfull \hbox (badness 10000) in paragraph at lines 678--684
  
  []
 
 LaTeX Font Info:    Font shape `EU1/lmss/b/n' in size <12> not available
-(Font)              Font shape `EU1/lmss/bx/n' tried instead on input line 685.
-
-
-LaTeX Warning: Reference `sec:seq' on page 11 undefined on input line 700.
+(Font)              Font shape `EU1/lmss/bx/n' tried instead on input line 692.
 
 [11]
+
+LaTeX Warning: Reference `sec:seq' on page 12 undefined on input line 707.
+
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 747--757
+Underfull \hbox (badness 10000) in paragraph at lines 754--764
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 761--771
+Underfull \hbox (badness 10000) in paragraph at lines 768--778
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
-[12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 857--859
+
+Underfull \hbox (badness 10000) in paragraph at lines 782--812
+ 
+ []
+
+[12] [13] [14]
+Underfull \hbox (badness 10000) in paragraph at lines 866--868
 
  []
 
 
-Overfull \hbox (30.58571pt too wide) in paragraph at lines 871--914
+Overfull \hbox (30.58571pt too wide) in paragraph at lines 880--923
 [][] 
  []
 
-[14] [15]
+[15] [16]
 Chapter 3.
+
+Package caption Warning: \label without proper reference on input line 876.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `tab:operations' on page 17 undefined on input line 93
+4.
+
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--987
+Underfull \hbox (badness 10000) in paragraph at lines 956--991
  
  []
 
-[16
+[17
 
 ]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 990--1009
+Underfull \hbox (badness 10000) in paragraph at lines 994--1013
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1013--1052
+Underfull \hbox (badness 10000) in paragraph at lines 1017--1056
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1057--1087
+Underfull \hbox (badness 10000) in paragraph at lines 1061--1091
  
  []
 
+[18]
 Missing character: There is no ∙ in font [lmsans12-regular]:mapping=tex-text!
 Missing character: There is no ∙ in font [lmsans12-regular]:mapping=tex-text!
 Missing character: There is no ∙ in font [lmsans12-regular]:mapping=tex-text!
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[17] [18]
+ [19]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1221--1245
+Underfull \hbox (badness 10000) in paragraph at lines 1225--1248
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Overfull \hbox (38.89372pt too wide) in paragraph at lines 1250--1299
+Overfull \hbox (38.89372pt too wide) in paragraph at lines 1253--1302
  [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1250--1299
- 
- []
-
-[19]
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1310--1338
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1344--1366
+Underfull \hbox (badness 10000) in paragraph at lines 1253--1302
  
  []
 
 [20]
-\openout4 = `diss-easter.ptb'.
 
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Overfull \hbox (3.44383pt too wide) detected at line 1404
-  |  
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1374--1404
- 
- []
+LaTeX Warning: Citation `generalfold' on page 21 undefined on input line 1310.
 
 \openout4 = `diss-easter.ptb'.
 
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₃ in font [lmmono12-regular]!
-Missing character: There is no ₄ in font [lmmono12-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
-Missing character: There is no ₁ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₃ in font [lmmono8-regular]!
-Missing character: There is no ₄ in font [lmmono8-regular]!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1464--1580
- 
- []
-
-[21] [22]
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1617--1642
+Underfull \hbox (badness 10000) in paragraph at lines 1312--1340
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1656--1673
+Underfull \hbox (badness 10000) in paragraph at lines 1346--1368
+ 
+ []
+
+[21]
+\openout4 = `diss-easter.ptb'.
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Overfull \hbox (3.44383pt too wide) detected at line 1409
+  |  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1379--1409
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+[22]
+\openout4 = `diss-easter.ptb'.
+
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₃ in font [lmmono12-regular]!
+Missing character: There is no ₄ in font [lmmono12-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+Missing character: There is no ₁ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₃ in font [lmmono8-regular]!
+Missing character: There is no ₄ in font [lmmono8-regular]!
+
+Underfull \hbox (badness 10000) in paragraph at lines 1510--1581
  
  []
 
@@ -1711,14 +1718,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1656--1673
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1692--1702
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1724--1744
+Underfull \hbox (badness 10000) in paragraph at lines 1598--1623
  
  []
 
@@ -1726,14 +1726,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 1724--1744
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1748--1785
+Underfull \hbox (badness 10000) in paragraph at lines 1637--1654
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1791--1819
+Underfull \hbox (badness 10000) in paragraph at lines 1673--1683
  
  []
 
@@ -1741,14 +1741,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 1791--1819
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1824--1846
+Underfull \hbox (badness 10000) in paragraph at lines 1700--1737
  
  []
+
+
+LaTeX Warning: Citation `debrujin' on page 26 undefined on input line 1739.
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1859--1890
+Underfull \hbox (badness 10000) in paragraph at lines 1745--1773
  
  []
 
@@ -1756,14 +1759,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 1859--1890
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1898--1950
+Underfull \hbox (badness 10000) in paragraph at lines 1778--1800
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1955--2029
+Underfull \hbox (badness 10000) in paragraph at lines 1815--1846
  
  []
 
@@ -1771,31 +1774,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 1955--2029
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2061--2084
+Underfull \hbox (badness 10000) in paragraph at lines 1854--1905
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1910--1983
  
  []
 
 [28]
-\openout4 = `diss-easter.ptb'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2099--2123
- 
- []
+LaTeX Warning: Citation `eval:lemma' on page 29 undefined on input line 1985.
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2127--2135
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2161--2169
+Underfull \hbox (badness 10000) in paragraph at lines 2015--2038
  
  []
 
@@ -1803,14 +1800,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 2161--2169
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2176--2189
+Underfull \hbox (badness 10000) in paragraph at lines 2053--2077
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2196--2222
+Underfull \hbox (badness 10000) in paragraph at lines 2081--2089
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2115--2123
  
  []
 
@@ -1818,21 +1824,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 2196--2222
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2248--2276
+Underfull \hbox (badness 10000) in paragraph at lines 2128--2141
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2279--2293
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2302--2328
+Underfull \hbox (badness 10000) in paragraph at lines 2148--2174
  
  []
 
@@ -1840,313 +1839,336 @@ Underfull \hbox (badness 10000) in paragraph at lines 2302--2328
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2338--2347
+Underfull \hbox (badness 10000) in paragraph at lines 2202--2230
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2353--2358
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Overfull \hbox (3.08534pt too wide) detected at line 2385
-  |  
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2362--2385
+Underfull \hbox (badness 10000) in paragraph at lines 2233--2247
  
  []
 
 [32]
-Underfull \hbox (badness 10000) in paragraph at lines 2388--2390
+\openout4 = `diss-easter.ptb'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 2256--2282
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2292--2301
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Overfull \hbox (3.08534pt too wide) detected at line 2335
+  |  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2311--2335
+ 
  []
 
 [33]
+
+LaTeX Warning: Citation `wadler' on page 34 undefined on input line 2336.
+
+[34]
 Chapter 4.
-[34
+[35
 
 ]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2445--2456
+Underfull \hbox (badness 10000) in paragraph at lines 2396--2407
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2472
+Underfull \hbox (badness 10000) in paragraph at lines 2409--2423
  
  []
 
 File: consexp-inc.eps Graphic file (type eps)
-<consexp-inc.eps> [35]
+<consexp-inc.eps> [36]
 File: splitexp-inc.eps Graphic file (type eps)
- <splitexp-inc.eps> [36] [37] [38]
+ <splitexp-inc.eps> [37] [38] [39]
 Missing character: There is no ∙ in font TeX Gyre Pagella/OT:script=latn;langua
 ge=DFLT;mapping=tex-text;!
- [39]
+ [40]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2688--2696
+Underfull \hbox (badness 10000) in paragraph at lines 2639--2647
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2700--2708
+Underfull \hbox (badness 10000) in paragraph at lines 2651--2659
  
  []
 
-[40] [41]
+[41] [42]
 Chapter 5.
 \openout4 = `diss-easter.ptb'.
 
-[42
+[43
 
 ]
 Chapter 6.
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2776--2787
+Underfull \hbox (badness 10000) in paragraph at lines 2712--2733
  
  []
 
-
-LaTeX Warning: Citation `numerical' on page 43 undefined on input line 2789.
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2792--2808
- 
- []
-
-[43
+[44
 
 ]
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2825--2839
+Underfull \hbox (badness 10000) in paragraph at lines 2757--2768
+ 
+ []
+
+
+LaTeX Warning: Citation `numerical' on page 45 undefined on input line 2770.
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2773--2789
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 2806--2820
  [][] 
  []
 
 
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2825--2839
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 2806--2820
  [][][][][][] 
  []
 
 
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2825--2839
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 2806--2820
  [][][][] 
  []
 
 
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2825--2839
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 2806--2820
  [][][][] 
  []
 
 
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2825--2839
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 2806--2820
  [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2825--2839
+Underfull \hbox (badness 10000) in paragraph at lines 2806--2820
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Overfull \hbox (79.27097pt too wide) in paragraph at lines 2843--2857
+Overfull \hbox (79.27097pt too wide) in paragraph at lines 2824--2838
  [][] 
  []
 
 
-Overfull \hbox (79.27097pt too wide) in paragraph at lines 2843--2857
+Overfull \hbox (79.27097pt too wide) in paragraph at lines 2824--2838
  [][][][] 
  []
 
 
-Overfull \hbox (79.27097pt too wide) in paragraph at lines 2843--2857
+Overfull \hbox (79.27097pt too wide) in paragraph at lines 2824--2838
  [][][][] 
  []
 
 
-Overfull \hbox (79.27097pt too wide) in paragraph at lines 2843--2857
+Overfull \hbox (79.27097pt too wide) in paragraph at lines 2824--2838
  [][][][] 
  []
 
 
-Overfull \hbox (79.27097pt too wide) in paragraph at lines 2843--2857
+Overfull \hbox (79.27097pt too wide) in paragraph at lines 2824--2838
  [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2843--2857
+Underfull \hbox (badness 10000) in paragraph at lines 2824--2838
  
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2860--2875
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2883--2908
- 
- []
-
-[44]
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2912--2932
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2938--2952
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][] 
- []
-
-
-Overfull \hbox (181.22437pt too wide) in paragraph at lines 2958--2986
- [][][][][][][][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2958--2986
+Underfull \hbox (badness 10000) in paragraph at lines 2841--2856
  
  []
 
 [45]
 \openout4 = `diss-easter.ptb'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 2864--2889
+ 
+ []
+
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3022--3023
-
+Underfull \hbox (badness 10000) in paragraph at lines 2893--2913
+ 
  []
 
+\openout4 = `diss-easter.ptb'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3031--3034
 
+Underfull \hbox (badness 10000) in paragraph at lines 2919--2933
+ 
  []
 
 [46]
-Underfull \hbox (badness 10000) in paragraph at lines 3035--3036
+\openout4 = `diss-easter.ptb'.
+
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][] 
+ []
+
+
+Overfull \hbox (181.22437pt too wide) in paragraph at lines 2939--2967
+ [][][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2939--2967
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 3003--3004
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3012--3015
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3016--3017
 
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3047--3048
+Underfull \hbox (badness 10000) in paragraph at lines 3028--3029
 
  []
 
@@ -2155,1376 +2177,1377 @@ ge=DFLT;mapping=tex-text;!
 Missing character: There is no ℕ in font TeX Gyre Pagella/OT:script=latn;langua
 ge=DFLT;mapping=tex-text;!
 
-LaTeX Warning: Citation `typeclasses' on page 47 undefined on input line 3058.
+LaTeX Warning: Citation `typeclasses' on page 48 undefined on input line 3039.
 
 
-LaTeX Warning: Citation `instanceargs' on page 47 undefined on input line 3061.
+LaTeX Warning: Citation `instanceargs' on page 48 undefined on input line 3042.
 
 
+[48]
 \openout4 = `diss-easter.ptb'.
 
-Missing character: There is no ℕ in font [lmmono12-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
-Missing character: There is no ℕ in font [lmmono12-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
+Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][] 
  []
 
 
-Overfull \hbox (492.29271pt too wide) in paragraph at lines 3069--3803
+Overfull \hbox (185.79393pt too wide) in paragraph at lines 3052--3786
  [][][][] 
  []
 
-[47] [48] [49] [50] [51] [52] (./diss-easter.bbl [53]) [54
+[49] [50] [51] [52] [53] (./diss-easter.bbl [54]) [55
 
 ] (./diss-easter.aux)
 
@@ -3535,12 +3558,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 29427 strings out of 493638
- 585975 string characters out of 6146797
- 903308 words of memory out of 5000000
- 32353 multiletter control sequences out of 15000+600000
- 15430 words of font info for 101 fonts, out of 8000000 for 9000
+ 29439 strings out of 493638
+ 586186 string characters out of 6146797
+ 895742 words of memory out of 5000000
+ 32363 multiletter control sequences out of 15000+600000
+ 15446 words of font info for 103 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  57i,16n,175p,10371b,1799s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss-easter.pdf (62 pages).
+Output written on diss-easter.pdf (63 pages).
