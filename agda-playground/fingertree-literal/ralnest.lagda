@@ -5,7 +5,7 @@
 -- All taken from this paper:
 --  http://web.comlab.ox.ac.uk/oucl/work/ralf.hinze/publications/IAI-TR-98-12.ps.gz
 
-\begin{code} 
+\begin{code}
 
 module ralnest where
 
@@ -31,7 +31,9 @@ module ralnest where
     IxSequence : Set → Set
     IxSequence = RandomAccessList Leaf
 
-    incr : {B : Set → Set} {A : Set} → (B A) → RandomAccessList B A → RandomAccessList B A
+    incr : {B : Set → Set} {A : Set} → (B A)
+          → RandomAccessList B A
+          → RandomAccessList B A
     incr b Nil = One b Nil
     incr b (One b₂ ds) = Two (FORK b b₂) ds
     incr b (Two b₂ ds) = One b (incr b₂ ds)
@@ -79,13 +81,17 @@ module ralnest where
 
     data RandomAccessList (B : Set → Set)(A : Set) : {i : Size} → Set where
       Nil : ∀ {i} → RandomAccessList B A {i}
-      One : ∀ {i} → (B A) → (RandomAccessList (Fork B) A {i}) → RandomAccessList B A {↑ i}
-      Two : ∀ {i} → (Fork B A) → (RandomAccessList (Fork B) A {i}) → RandomAccessList B A {↑ ↑ i}
+      One : ∀ {i} → (B A) → (RandomAccessList (Fork B) A {i})
+                          → RandomAccessList B A {↑ i}
+      Two : ∀ {i} → (Fork B A) → (RandomAccessList (Fork B) A {i})
+                               → RandomAccessList B A {↑ ↑ i}
 
     IxSequence : Set → {i : Size} → Set
     IxSequence = RandomAccessList Leaf
 
-    incr : {B : Set → Set} {A : Set} {i : Size} → (B A) → RandomAccessList B A {i} → RandomAccessList B A {↑ i}
+    incr : {B : Set → Set} {A : Set} {i : Size} → (B A)
+          → RandomAccessList B A {i}
+          → RandomAccessList B A {↑ i}
     incr b Nil = One b Nil
     incr b (One b₂ ds) = Two (FORK b b₂) ds
     incr b (Two b₂ ds) = {!   !}  -- One b (incr b₂ ds)

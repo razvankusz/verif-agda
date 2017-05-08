@@ -63,14 +63,19 @@ module sorting (A : Set) (pos : PartialOrder A) where
           → (x ins ys ≡ zs)
           → (SortedList zs)
 
-  incl-prop0 : ∀ {A : Set} {n} → (x : A) → (y : A) → (xs : Vec A n) → (x ∈ xs) → (x ∈ (y ∷ xs))
+  incl-prop0 : ∀ {A : Set} {n} → (x : A) → (y : A) → (xs : Vec A n) → (x ∈ xs)
+              → (x ∈ (y ∷ xs))
   incl-prop0 x y xs prop = skip x y xs prop
 
-  incl-prop1 : ∀ {A : Set} {n} → (x : A) → (y : A) → (z : A) → (xs : Vec A n) → (x ∈ (z ∷ xs)) → (x ∈ (z ∷ y ∷ xs))
+  incl-prop1 : ∀ {A : Set} {n} → (x : A) → (y : A) → (z : A) → (xs : Vec A n)
+              → (x ∈ (z ∷ xs)) → (x ∈ (z ∷ y ∷ xs))
   incl-prop1 x y .x [] (found .x .[]) = found x (y ∷ [])
-  incl-prop1 x y₁ y [] (skip .x .y .[] prop) = skip x y (y₁ ∷ []) (skip x y₁ [] prop)
-  incl-prop1 x y .x (x₁ ∷ xs) (found .x .(x₁ ∷ xs)) = found x (y ∷ x₁ ∷ xs)
-  incl-prop1 x y z (x₁ ∷ xs) (skip .x .z .(x₁ ∷ xs) prop) = skip x z (y ∷ x₁ ∷ xs) (skip x y (x₁ ∷ xs) prop)
+  incl-prop1 x y₁ y [] (skip .x .y .[] prop) =
+    skip x y (y₁ ∷ []) (skip x y₁ [] prop)
+  incl-prop1 x y .x (x₁ ∷ xs) (found .x .(x₁ ∷ xs)) =
+    found x (y ∷ x₁ ∷ xs)
+  incl-prop1 x y z (x₁ ∷ xs) (skip .x .z .(x₁ ∷ xs) prop) =
+    skip x z (y ∷ x₁ ∷ xs) (skip x y (x₁ ∷ xs) prop)
 
   get-min : ∀ {n : ℕ} → (i : A) → (xs : Vec A n) → A
   get-min i [] = i
@@ -102,15 +107,21 @@ module sorting (A : Set) (pos : PartialOrder A) where
               → (min ≤ i) ∧ (all (min ≤_) xs) ≡ true
   min-is-min i [] .i refl = and-combine (i ≤ i) true (≤refl i) refl
   min-is-min i (x ∷ xs) min rf with i ≤ x | inspect (i ≤_) x
-  min-is-min i (x ∷ xs) .(get-min x xs) refl | false | re  = and-combine ((get-min x xs) ≤ i) ((get-min x xs ≤ x) ∧ all (_≤_ (get-min x xs)) xs) term0 term2
+  min-is-min i (x ∷ xs) .(get-min x xs) refl | false | re  =
+    and-combine ((get-min x xs) ≤ i)
+                ((get-min x xs ≤ x) ∧ all (_≤_ (get-min x xs)) xs) term0 term2
     where
       neg : (x ≤ i ≡ true)
       neg = ≤neg i x (Reveal_·_is_.eq re)
       term1 = min-is-min1 i xs (get-min i xs) refl
       term2 = min-is-min x xs (get-min x xs) refl
       term0 : (get-min x xs) ≤ i ≡ true
-      term0 = ≤trans (get-min x xs) x i (and-left ((get-min x xs ≤ x)) (all (_≤_ (get-min x xs)) xs) term2) neg
-  min-is-min i (x ∷ xs) .(get-min i xs) refl | true  | re = and-combine-3 ((get-min i xs ≤ i)) ((get-min i xs ≤ x)) (all (_≤_ (get-min i xs)) xs) term1 term2 term4
+      term0 = ≤trans (get-min x xs) x i
+        (and-left ((get-min x xs ≤ x)) (all (_≤_ (get-min x xs)) xs) term2) neg
+  min-is-min i (x ∷ xs) .(get-min i xs) refl | true  | re =
+    and-combine-3 ((get-min i xs ≤ i))
+                  ((get-min i xs ≤ x))
+                  (all (_≤_ (get-min i xs)) xs) term1 term2 term4
     where
       term0 : (i ≤ x ≡ true)
       term0 = Reveal_·_is_.eq re
@@ -127,25 +138,33 @@ module sorting (A : Set) (pos : PartialOrder A) where
       term4 : all (_≤_ (get-min i xs)) xs ≡ true
       term4 = and-right (get-min i xs ≤ i) (all (_≤_ (get-min i xs)) xs) term3
 
-      and-combine-3 : ∀ a b c → (a ≡ true) → (b ≡ true) → (c ≡ true) → (a ∧ b ∧ c ≡ true)
+      and-combine-3 : ∀ a b c → (a ≡ true) → (b ≡ true) → (c ≡ true)
+        → (a ∧ b ∧ c ≡ true)
       and-combine-3 .true .true .true refl refl refl = refl
 
 
-  get-min-incl : ∀ {n : ℕ} → (i : A) → (xs : Vec A n) → (get-min i xs ∈ (i ∷ xs)) ⊎ (get-min i xs ∈ xs)
+  get-min-incl : ∀ {n : ℕ} → (i : A) → (xs : Vec A n)
+    → (get-min i xs ∈ (i ∷ xs)) ⊎ (get-min i xs ∈ xs)
   get-min-incl  i [] = inj₁ (found i [])
   get-min-incl  i (x ∷ xs) with i ≤ x
   get-min-incl  i (x ∷ xs) | false with (get-min-incl x xs)
-  get-min-incl  i (x ∷ xs) | false | inj₁ x₁ = inj₂ x₁
-  get-min-incl  i (x ∷ xs) | false | inj₂ y = inj₂ (skip (get-min x xs) x xs y)
+  get-min-incl  i (x ∷ xs) | false | inj₁ x₁ =
+    inj₂ x₁
+  get-min-incl  i (x ∷ xs) | false | inj₂ y =
+    inj₂ (skip (get-min x xs) x xs y)
   get-min-incl  i (x ∷ xs) | true with (get-min-incl  i xs)
-  get-min-incl  i (x ∷ xs) | true | inj₁ x₁ = inj₁ (incl-prop1 (get-min i xs) x i xs x₁)
-  get-min-incl  i (x ∷ xs) | true | inj₂ y = inj₁ (skip (get-min i xs) i (x ∷ xs) (skip (get-min i xs) x xs y))
+  get-min-incl  i (x ∷ xs) | true | inj₁ x₁ =
+    inj₁ (incl-prop1 (get-min i xs) x i xs x₁)
+  get-min-incl  i (x ∷ xs) | true | inj₂ y =
+    inj₁ (skip (get-min i xs) i (x ∷ xs) (skip (get-min i xs) x xs y))
 
-  incl-prop3 : ∀ {A : Set}{n : ℕ} → (a : A) → (x : A) → (xs : Vec A n) → (x ∈ xs) → (a ∈ (x ∷ xs)) → (a ∈ xs)
+  incl-prop3 : ∀ {A : Set}{n : ℕ} → (a : A) → (x : A)
+              → (xs : Vec A n) → (x ∈ xs) → (a ∈ (x ∷ xs)) → (a ∈ xs)
   incl-prop3 a .a xs pr1 (found .a .xs) = pr1
   incl-prop3 a x xs pr1 (skip .a .x .xs pr2) = pr2
 
-  incl-prop2 : ∀ {A : Set}{n : ℕ} → (a : A) → (x : A) → (xs : Vec A n) → (x ∈ xs) → ((a ∈ (x ∷ xs) ⊎ a ∈ xs)) → (a ∈ xs)
+  incl-prop2 : ∀ {A : Set}{n : ℕ} → (a : A) → (x : A)
+              → (xs : Vec A n) → (x ∈ xs) → ((a ∈ (x ∷ xs) ⊎ a ∈ xs)) → (a ∈ xs)
   incl-prop2 a x xs prf (inj₁ x₁) = incl-prop3 a x xs prf x₁
   incl-prop2 a x xs prf (inj₂ y) = y
 
@@ -190,7 +209,8 @@ module sorting (A : Set) (pos : PartialOrder A) where
                       → (prf : x ∈ xs)
                       → (all (a ≤_) xs ≡ true)
                       → (all (a ≤_) (extract-element x xs prf) ≡ true)
-  extract-element-min  a x .(x ∷ xs) (found .x xs) min = and-right (a ≤ x) (all (_≤_ a) xs) min
+  extract-element-min  a x .(x ∷ xs) (found .x xs) min =
+    and-right (a ≤ x) (all (_≤_ a) xs) min
   extract-element-min  a x .(y ∷ []) (skip .x y [] prf) min = refl
   extract-element-min  a x₁ .(y ∷ x ∷ xs) (skip .x₁ y (x ∷ xs) prf) min =
     and-combine
@@ -202,7 +222,8 @@ module sorting (A : Set) (pos : PartialOrder A) where
         and-right (a ≤ y) ((a ≤ x) ∧ all (_≤_ a) xs) min)))
 
 
-  min-start-prop0 : ∀ {n : ℕ} → (x : A) → (xs : Vec A n) → (get-min x (x ∷ xs) ≡ get-min x xs)
+  min-start-prop0 : ∀ {n : ℕ} → (x : A) → (xs : Vec A n)
+                    → (get-min x (x ∷ xs) ≡ get-min x xs)
   min-start-prop0 x [] rewrite ≤refl x = refl
   min-start-prop0 x (y ∷ xs) with x ≤ x |  ≤refl x | x ≤ y
   min-start-prop0 x (y ∷ xs) | .true | refl | false = refl
@@ -216,7 +237,9 @@ module sorting (A : Set) (pos : PartialOrder A) where
       min = get-min x (x ∷ xs)
 
       min-in-list : min ∈ (x ∷ xs)
-      min-in-list = (incl-prop2 min x (x ∷ xs) (found x xs) (get-min-incl x (x ∷ xs)))
+      min-in-list = (incl-prop2 min x (x ∷ xs)
+                    (found x xs)
+                    (get-min-incl x (x ∷ xs)))
 
       rest = extract-element min (x ∷ xs) min-in-list
 
@@ -245,7 +268,10 @@ suc n ≤nat suc m = n ≤nat m
 ≤reflnat zero = refl
 ≤reflnat (suc n) = ≤reflnat n
 
-≤transnat : (n : ℕ) → (m : ℕ) → (p : ℕ) → (n ≤nat m ≡ true) → (m ≤nat p ≡ true) → (n ≤nat p ≡ true)
+≤transnat : (n : ℕ) → (m : ℕ) → (p : ℕ)
+            → (n ≤nat m ≡ true)
+            → (m ≤nat p ≡ true)
+            → (n ≤nat p ≡ true)
 ≤transnat zero zero zero p1 p2 = refl
 ≤transnat zero zero (suc p) p1 p2 = refl
 ≤transnat zero (suc m) zero p1 p2 = refl

@@ -14,7 +14,8 @@ Peter~Lammich Benedikt~Nordhoff, Stefan~Korner.
 
 \bibitem{nested}
 Richard Bird and Lambert Meertens.
-\newblock Nested datatypes, 1998.
+\newblock Nested datatypes.
+\newblock {\em LNCS}, 1422:52--67, 1998.
 
 \bibitem{certified}
 Adam Chipala.
@@ -33,9 +34,19 @@ Nicolas~Pouillard Daniel~Gustafsson.
 Ralf Hinze.
 \newblock Numerical representations as higher-order nested datatypes, 1998.
 
+\bibitem{debrujin}
+Ralf Hinze and Ross Paterson.
+\newblock De bruijn notation as a nested datatype.
+\newblock {\em Journal of Functional Programming}, 1999.
+
 \bibitem{fingertrees}
 Ralf Hinze and Ross Paterson.
 \newblock Finger trees: A simple general-purpose data structure, 2006.
+
+\bibitem{auto}
+Pepijn Kokke and Wouter Swierstra.
+\newblock {\em Auto in Agda}, pages 276--301.
+\newblock Springer International Publishing, Cham, 2015.
 
 \bibitem{compcert}
 Xavier Leroy.
@@ -77,5 +88,15 @@ David Thibodeau.
 \bibitem{hetero}
 Wouter~Swierstra Thorsten~Altenkirch, Conor~McBride.
 \newblock Observational equality, now!, 2007.
+
+\bibitem{reflection}
+Paul van~der Walt and Wouter Swierstra.
+\newblock {\em Engineering Proof by Reflection in Agda}, pages 157--173.
+\newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2013.
+
+\bibitem{wadler}
+Phil Wadler.
+\newblock Views: A way for pattern matching to cohabit with data abstraction,
+  1986.
 
 \end{thebibliography}

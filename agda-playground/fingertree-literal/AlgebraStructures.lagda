@@ -17,11 +17,9 @@ module AlgebraStructures where
 
 
 
-  record Measured {a}(A : Set a)(V : Set a)⦃ mo : Monoid V ⦄(_>_ : V → V → Set): Set a where
+  record Measured {a}(A : Set a)(V : Set a) : Set a where
     constructor measured
-    ε = Monoid.ε mo
     field
       ∥_∥ : A → V
-      mpos : ∀ x → ε > ∥ x ∥
-  
+
 \end{code}

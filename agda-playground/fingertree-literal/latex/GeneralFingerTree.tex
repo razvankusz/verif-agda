@@ -1,0 +1,539 @@
+\begin{code}%
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{AlgebraStructures}\<%
+\\
+%
+\\
+\>\AgdaKeyword{module} \AgdaModule{GeneralFingerTree}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{(}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{(}\AgdaBound{mo} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{V}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{(}\AgdaBound{m} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{where}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{SizeW} \AgdaKeyword{renaming} \AgdaSymbol{(}\AgdaFunction{\_∙\_} \AgdaSymbol{to} \AgdaFunction{\_⊛\_}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{DependentPair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Relation.Binary.PropositionalEquality}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{open} \AgdaModule{≡-Reasoning}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-equality} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaBound{m} \AgdaBound{n} \AgdaSymbol{:} \AgdaBound{A}\AgdaSymbol{)} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaBound{x} \AgdaBound{y} \AgdaSymbol{:} \AgdaBound{B}\AgdaSymbol{)} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaBound{m} \AgdaDatatype{≡} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaBound{x} \AgdaDatatype{≡} \AgdaBound{y}\AgdaSymbol{)} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{18}{}\<[18]%
+\>[18]\AgdaSymbol{(}\AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaBound{x}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaBound{n} \AgdaInductiveConstructor{,} \AgdaBound{y}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-equality} \AgdaBound{m₁} \AgdaSymbol{.}\AgdaBound{m₁} \AgdaBound{x} \AgdaSymbol{.}\AgdaBound{x} \AgdaInductiveConstructor{refl} \AgdaInductiveConstructor{refl} \AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-monoid} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{B} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Monoid} \AgdaBound{A}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Monoid} \AgdaBound{B}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Monoid} \AgdaSymbol{(}\AgdaBound{A} \AgdaRecord{×} \AgdaBound{B}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-monoid} \AgdaBound{m₁} \AgdaBound{m₂} \AgdaSymbol{=} \AgdaInductiveConstructor{monoid}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(}\AgdaFunction{ε₁} \AgdaInductiveConstructor{,} \AgdaFunction{ε₂}\AgdaSymbol{)} \<[16]%
+\>[16]\AgdaComment{-- neutral element}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(λ} \AgdaBound{p₁} \AgdaBound{p₂} \AgdaSymbol{→} \AgdaFunction{zip} \AgdaFunction{\_∙₁\_} \AgdaFunction{\_∙₂\_} \AgdaBound{p₁} \AgdaBound{p₂}\AgdaSymbol{)} \<[37]%
+\>[37]\AgdaComment{-- binary operation}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(λ} \AgdaBound{p} \AgdaSymbol{→} \AgdaFunction{pair-equality} \AgdaSymbol{(}\AgdaFunction{ε₁} \AgdaFunction{∙₁} \AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{25}{}\<[25]%
+\>[25]\AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{25}{}\<[25]%
+\>[25]\AgdaSymbol{(}\AgdaFunction{ε₂} \AgdaFunction{∙₂} \AgdaField{proj₂} \AgdaBound{p}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{25}{}\<[25]%
+\>[25]\AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{p}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{ε-left₁} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{25}{}\<[25]%
+\>[25]\AgdaSymbol{(}\AgdaFunction{ε-left₂} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{p}\AgdaSymbol{)))}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(λ} \AgdaBound{p} \AgdaSymbol{→} \AgdaFunction{pair-equality} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p} \AgdaFunction{∙₁} \AgdaFunction{ε₁}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{24}{}\<[24]%
+\>[24]\AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{24}{}\<[24]%
+\>[24]\AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{p} \AgdaFunction{∙₂} \AgdaFunction{ε₂}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{24}{}\<[24]%
+\>[24]\AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{p}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{24}{}\<[24]%
+\>[24]\AgdaSymbol{(}\AgdaFunction{ε-right₁} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{24}{}\<[24]%
+\>[24]\AgdaSymbol{(}\AgdaFunction{ε-right₂} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{p}\AgdaSymbol{)))}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(λ} \AgdaBound{a} \AgdaBound{b} \AgdaBound{c} \AgdaSymbol{→} \AgdaFunction{pair-equality} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{a} \AgdaFunction{∙₁} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{b} \AgdaFunction{∙₁} \AgdaField{proj₁} \AgdaBound{c}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{29}{}\<[29]%
+\>[29]\AgdaSymbol{((}\AgdaField{proj₁} \AgdaBound{a} \AgdaFunction{∙₁} \AgdaField{proj₁} \AgdaBound{b}\AgdaSymbol{)} \AgdaFunction{∙₁} \AgdaField{proj₁} \AgdaBound{c}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{29}{}\<[29]%
+\>[29]\AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{a} \AgdaFunction{∙₂} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{b} \AgdaFunction{∙₂} \AgdaField{proj₂} \AgdaBound{c}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{29}{}\<[29]%
+\>[29]\AgdaSymbol{((}\AgdaField{proj₂} \AgdaBound{a} \AgdaFunction{∙₂} \AgdaField{proj₂} \AgdaBound{b}\AgdaSymbol{)} \AgdaFunction{∙₂} \AgdaField{proj₂} \AgdaBound{c}\AgdaSymbol{)}\<%
+\\
+\>[4]\AgdaIndent{29}{}\<[29]%
+\>[29]\AgdaSymbol{(}\AgdaFunction{∙-assoc₁} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{b}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{c}\AgdaSymbol{))}\<%
+\\
+\>[4]\AgdaIndent{29}{}\<[29]%
+\>[29]\AgdaSymbol{(}\AgdaFunction{∙-assoc₂} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{a}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{b}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaField{proj₂} \AgdaBound{c}\AgdaSymbol{)))}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(λ} \AgdaBound{p} \AgdaBound{q} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{p}\AgdaSymbol{)} \AgdaFunction{≲} \AgdaSymbol{(}\AgdaField{proj₁} \AgdaBound{q}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{where}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε₁} \AgdaSymbol{=} \AgdaField{Monoid.ε} \AgdaBound{m₁}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε₂} \AgdaSymbol{=} \AgdaField{Monoid.ε} \AgdaBound{m₂}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_∙₁\_} \AgdaSymbol{=} \AgdaField{Monoid.\_∙\_} \AgdaBound{m₁}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_∙₂\_} \AgdaSymbol{=} \AgdaField{Monoid.\_∙\_} \AgdaBound{m₂}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε-left₁} \AgdaSymbol{=} \AgdaField{Monoid.ε-left} \AgdaBound{m₁}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε-left₂} \AgdaSymbol{=} \AgdaField{Monoid.ε-left} \AgdaBound{m₂}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε-right₁} \AgdaSymbol{=} \AgdaField{Monoid.ε-right} \AgdaBound{m₁}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{ε-right₂} \AgdaSymbol{=} \AgdaField{Monoid.ε-right} \AgdaBound{m₂}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{∙-assoc₁} \AgdaSymbol{=} \AgdaField{Monoid.∙-assoc} \AgdaBound{m₁}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{∙-assoc₂} \AgdaSymbol{=} \AgdaField{Monoid.∙-assoc} \AgdaBound{m₂}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{\_≲\_} \AgdaSymbol{=} \AgdaField{Monoid.\_≲\_} \AgdaBound{m₁}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{instance} \AgdaFunction{mo'} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaSymbol{(}\AgdaBound{V} \AgdaRecord{×} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{mo'} \AgdaSymbol{=} \AgdaFunction{pair-monoid} \AgdaBound{mo} \AgdaFunction{size-monoid}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-measure} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{W} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{V}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Measured} \AgdaBound{A} \AgdaBound{W}\<%
+\\
+\>[2]\AgdaIndent{16}{}\<[16]%
+\>[16]\AgdaSymbol{→} \AgdaRecord{Measured} \AgdaBound{A} \AgdaSymbol{(}\AgdaBound{V} \AgdaRecord{×} \AgdaBound{W}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{pair-measure} \AgdaBound{m₁} \AgdaBound{m₂} \AgdaSymbol{=} \AgdaInductiveConstructor{measured} \AgdaSymbol{(λ} \AgdaBound{z} \AgdaSymbol{→} \AgdaField{Measured.∥} \AgdaBound{m₁} \AgdaField{∥} \AgdaBound{z} \AgdaInductiveConstructor{,} \AgdaField{Measured.∥} \AgdaBound{m₂} \AgdaField{∥} \AgdaBound{z}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{instance} \AgdaFunction{m'} \AgdaSymbol{:} \AgdaRecord{Measured} \AgdaBound{A} \AgdaSymbol{(}\AgdaBound{V} \AgdaRecord{×} \AgdaDatatype{SizeW} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\})}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaFunction{m'} \AgdaSymbol{=} \AgdaFunction{pair-measure} \AgdaSymbol{(}\AgdaInductiveConstructor{measured} \AgdaField{Measured.∥} \AgdaBound{m} \AgdaField{∥}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{measured} \AgdaSymbol{(λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{size} \AgdaNumber{1}\AgdaSymbol{))}\<%
+\\
+\>\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open import FingerTree-measure-size-c}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- G-FingerTree : \{μ : V × SizeW \{a\}\} → Set a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- G-FingerTree \{μ\} = FingerTree \{a\} A (V × SizeW \{a\}) ⦃ mo' ⦄ ⦃ m' ⦄ \{μ\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open SizeW.less-than}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open import Function}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open import Induction}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open import Induction.WellFounded as WF}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_<\_ : (V × SizeW \{a\}) → (V × SizeW \{a\}) → Set a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_<\_ = \_<<\_ on proj₂}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open Inverse-image}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   \{A = V × SizeW \{a\}\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   \{\_<\_ = \_<<\_\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   proj₂}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   renaming (well-founded to <<-<-wf)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- the comparison operation defined on the General Finger Tree is well-founded}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <-WF = <<-<-wf <<-WF}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- packing this structure in a dependent pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- GFT-Pair : Set a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- GFT-Pair = Σ (V × SizeW \{a\}) (λ x → G-FingerTree \{x\})}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- pack : ∀ \{μ\} → G-FingerTree \{μ\} → GFT-Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- pack gft = ⟨ measure-tree gft , gft ⟩}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- comparing GFT-Pairs}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_⋖\_ : GFT-Pair → GFT-Pair → Set a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_⋖\_ = \_<\_ on fst}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- the comparison operation defined on these pairs is also well-founded}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open Inverse-image}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   \{A = GFT-Pair\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   \{\_<\_ = \_<\_\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   fst}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   renaming (well-founded to <-⋖-wf)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- ⋖-WF = <-⋖-wf <-WF}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- the helper function for well-founded recursion}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open WF.All (⋖-WF)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   renaming (wfRec to ⋖rec)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- snoc uplifted for the GFT-Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_▷'\_ : (x : A) → (seq : GFT-Pair) → (GFT-Pair)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- x ▷' ⟨ m , ft ⟩  = ⟨ measure-tree xft , xft ⟩}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--     xft = x ▷ ft}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- ▷'-length : (x : A) → (seq : GFT-Pair) → (proj₂ (fst (x ▷' seq)) ≡ (size 1) ⊛ (proj₂ (fst (seq))) )}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- ▷'-length x seq = begin}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                   proj₂ (fst (x ▷' seq))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                  ≡⟨ refl ⟩}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                   (proj₂ (fst seq) ⊛ size 1)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                  ≡⟨ ∙-comm (proj₂ (fst seq)) (size 1) ⟩}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                   ((size 1) ⊛ (proj₂ (fst (seq))))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--                  ∎}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- cons uplifted for the GFT-Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- \_◁'\_ : (x : A) → (seq : GFT-Pair) → (GFT-Pair)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- x ◁' ⟨ m , ft ⟩  = ⟨ measure-tree xft , xft ⟩}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--     xft = x ◁ ft}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- rev : Seq-pair → Seq-pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- rev π = ⋖rec a \_ go π}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- --   where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- --   go : ∀ s → (∀ p → p ⋖ s → Seq-pair) → Seq-pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- --   go (m , seq) rec with viewL seq}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- --   go (.(size 0) , seq) rec | NilL = π}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- --   go (\_ , seq) rec | ConsL x xs = x ▷' (rec (measure-tree xs , xs) ((<<-axiom1 (measure-tree xs) x)))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <<-axiom1 : ∀ (z :  V × SizeW \{a\})→ ((proj₂ z) << (size 1 SizeW.∙ proj₂ z))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <<-axiom1 (proj₁ , size n) = <<-axiom0 n}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- -- proj₂ (measure-tree xs) << (size 1 SizeW.∙ proj₂ .z)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- rev : GFT-Pair → GFT-Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- rev π = ⋖rec a \_ go π}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   module Rev where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   go : ∀ s → (∀ p → p ⋖ s → GFT-Pair) → GFT-Pair}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   go ⟨ fst , snd ⟩ rec with viewL snd}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   go ⟨ \_ , snd ⟩ rec | NilL = (pack Empty)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--   go ⟨ \_ , snd ⟩ rec | ConsL x xs = x ▷' (rec (⟨ measure-tree xs , xs ⟩) (<<-axiom1 (measure-tree xs)))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- length-preserve-property : (gft : GFT-Pair) → Set a}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- length-preserve-property gft = (proj₂ (fst (rev gft)) ≡ proj₂ (fst gft))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- open import Data.List}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- toList : GFT-Pair → List A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- toList ⟨ fst , snd ⟩ = toList-ft snd}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- cons-view : ∀ \{μ\} → (x : A) → (xs : G-FingerTree \{μ\}) → (viewL (x ◁ xs) ≡ ConsL x xs)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- cons-view x Empty rewrite ε-left (proj₁ (Measured.∥ m' ∥ x)) = refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- cons-view x (Single e) = \{!   !\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- cons-view x (Deep pr xs sf) = \{!   !\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- find a way to use the recursor so that you maintain more than one property}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- in this case I am saying that if P(rev x::xs), then P(go xs)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <<-axiom1 : ∀ z → (x : Entry A) → (z << (Entry.m x SizeW.∙ z))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <<-axiom1 (size n) x with (Measured.∥\_∥ entry-measure) (entry (x))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaComment{-- <<-axiom1 (size n) x | mv = <<-axiom0 n}\<%
+\end{code}
