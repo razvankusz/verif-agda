@@ -148,15 +148,15 @@ measure-tree (Deep v x ft x₁) = v
 instance uplift : ∀ {a}{A : Set a}{V : Set a } ⦃ m : Measured A V ⦄ → (Measured (Node A V) V)
 uplift  = measured measure-node
 
-deep : ∀ {a : Level} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-  (pr : Digit A) → (ft : FingerTree (Node A V) V) → (sf : Digit A) →
-  FingerTree A V
+deep : ∀ {a i} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+  (pr : Digit A) → (ft : FingerTree (Node A V) V {i}) → (sf : Digit A) →
+  FingerTree A V {↑ i}
 deep pr ft sf = Deep ((measure-digit pr) ∙ ((measure-tree ft) ∙ (measure-digit sf))) pr ft sf
 
 -- -- CONS -------------------------------------------------------------
 
 infixr 5 _◁_
-_◁_ : ∀ {a} {A : Set a} {V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → A → FingerTree A V → FingerTree A V
+_◁_ : ∀ {a i} {A : Set a} {V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ → A → FingerTree A V {i} → FingerTree A V {↑ i}
 _◁_ a Empty = Single a
 _◁_ a (Single b) = deep (One a) Empty (One b)
 _◁_ a (Deep v (One b) ft sf) = deep (Two a b) ft sf
@@ -165,10 +165,10 @@ _◁_ a (Deep v (Three b c d) ft sf) = deep (Four a b c d) ft sf
 _◁_ a (Deep v (Four b c d e) ft sf) = deep (Two a b) ((node3 c d e) ◁ ft) sf
 
 -- -- TO TREE ---------------------------------------------------------
-
-toTree : ∀ {a}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
-        {F : Set a → Set a} ⦃ r : reduceClass {a} F ⦄ → F A → FingerTree A V
-toTree s = reducer _◁_ s Empty
+--
+-- toTree : ∀ {a i}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄
+--         {F : Set a → Set a} ⦃ r : reduceClass {a} F ⦄ → F A → FingerTree A V {i}
+-- toTree s = reducer _◁_ s Empty
 
 -- -- To List ----------------------------------------------------------
 
@@ -209,7 +209,7 @@ tail-dig (Three x x₁ x₂) = just (Two x₁ x₂)
 tail-dig (Four x x₁ x₂ x₃) = just (Three x₁ x₂ x₃)
 
 data ViewL {a}(A : Set a)(S : Set a) : {i : Size} → Set a where
-  NilL : ∀ {i : Size} → ViewL A S {i}
+  NilL : ∀ {i : Size} → ViewL A S {↑ i}
   ConsL : ∀ {i : Size} → A → S → ViewL A S {↑ i}
 
 mutual
@@ -219,8 +219,8 @@ mutual
   viewL (Single x) = ConsL x Empty
   viewL (Deep x pr ft sf) = ConsL (head-dig pr) (deepL (tail-dig pr) ft sf)
 
-  deepL : ∀ {a}{i : Size}{A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
-        Maybe (Digit A) → FingerTree (Node A V) V → Digit A → FingerTree A V
+  deepL : ∀ {a i} {A : Set a}{V : Set a } ⦃ mo : Monoid V ⦄ ⦃ m : Measured A V ⦄ →
+        Maybe (Digit A) → FingerTree (Node A V) V {i} → Digit A → FingerTree A V {↑ i}
   deepL (just x) ft sf = deep x ft sf
   deepL nothing ft sf with viewL ft
   deepL nothing ft sf | NilL = toTree sf
@@ -326,7 +326,7 @@ splitDigit p i (Four x x₁ x₂ x₃) =
     split (just (Two x x₁)) x₂ (just (One x₃))
   else
     split (just (Three x x₁ x₂)) x₃ nothing
-    
+
 data notEmpty {a} {A : Set a}{V : Set a} : FingerTree A V → Set a where
   nempty : ∀ (ft : FingerTree A V) → (ft ≢ Empty) → notEmpty ft
 

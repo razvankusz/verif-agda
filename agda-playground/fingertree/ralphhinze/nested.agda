@@ -120,12 +120,12 @@ module nested where
     data RandomAccessList (B : Set → Set)(A : Set) : {i : Size} → Set where
       Nil : ∀ {i} → RandomAccessList B A {i}
       One : ∀ {i} → (B A) → (RandomAccessList (Fork B) A {i}) → RandomAccessList B A {↑ i}
-      Two : ∀ {i} → (Fork B A) → (RandomAccessList (Fork B) A {i}) → RandomAccessList B A {↑ ↑ i}
+      Two : ∀ {i} → (Fork B A) → (RandomAccessList (Fork B) A {i}) → RandomAccessList B A {↑ i}
 
     IxSequence : Set → {i : Size} → Set
     IxSequence = RandomAccessList Leaf
 
     incr : {B : Set → Set} {A : Set} {i : Size} → (B A) → RandomAccessList B A {i} → RandomAccessList B A {↑ i}
     incr b Nil = One b Nil
-    incr b (One b₂ ds) = Two (FORK b b₂) ds
-    incr b (Two b₂ ds) = ? -- One b (incr b₂ ds)
+    incr {i = .(↑ j)} b (One {j} b₂ ds) = {!   !} -- Two (FORK b b₂) ds 
+    incr b (Two b₂ ds) = {!   !} -- One b (incr b₂ ds)

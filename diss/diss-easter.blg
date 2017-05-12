@@ -3,84 +3,62 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: diss-easter.aux
 The style file: plain.bst
 Database file #1: refs.bib
-Warning--entry type for "fingertrees" isn't style-file defined
---line 6 of file refs.bib
-Warning--entry type for "coq" isn't style-file defined
---line 26 of file refs.bib
-Warning--entry type for "matrix" isn't style-file defined
---line 31 of file refs.bib
-Warning--entry type for "agdatutorial" isn't style-file defined
---line 36 of file refs.bib
-Warning--entry type for "agdaphd" isn't style-file defined
---line 41 of file refs.bib
-Warning--entry type for "hetero" isn't style-file defined
---line 55 of file refs.bib
-Warning--entry type for "isabelle" isn't style-file defined
---line 60 of file refs.bib
-Warning--entry type for "wadler" isn't style-file defined
---line 65 of file refs.bib
-Warning--entry type for "viewleft" isn't style-file defined
---line 72 of file refs.bib
 Warning--entry type for "termination" isn't style-file defined
---line 82 of file refs.bib
+--line 136 of file refs.bib
 Warning--entry type for "foetus" isn't style-file defined
---line 88 of file refs.bib
+--line 142 of file refs.bib
 Warning--entry type for "nestedhinze" isn't style-file defined
---line 93 of file refs.bib
-Warning--entry type for "compcert" isn't style-file defined
---line 99 of file refs.bib
+--line 147 of file refs.bib
 Warning--entry type for "sizedtypes" isn't style-file defined
---line 109 of file refs.bib
+--line 175 of file refs.bib
 Warning--entry type for "foldl" isn't style-file defined
---line 114 of file refs.bib
+--line 180 of file refs.bib
 Warning--I didn't find a database entry for "cyclic"
-Warning--I didn't find a database entry for "eval:lemma"
 Warning--I didn't find a database entry for "numerical"
 Warning--I didn't find a database entry for "typeclasses"
 Warning--I didn't find a database entry for "instanceargs"
 Warning--empty publisher in certified
 Warning--can't use both author and editor fields in auto
-Warning--empty publisher in okasaki
 Warning--can't use both author and editor fields in reflection
 You've used 22 entries,
             2118 wiz_defined-function locations,
-            597 strings with 6231 characters,
-and the built_in function-call counts, 5134 in all, are:
-= -- 462
-> -- 190
-< -- 2
-+ -- 81
-- -- 56
-* -- 213
-:= -- 835
-add.period$ -- 51
+            622 strings with 6739 characters,
+and the built_in function-call counts, 6408 in all, are:
+= -- 630
+> -- 212
+< -- 7
++ -- 89
+- -- 64
+* -- 349
+:= -- 1025
+add.period$ -- 64
 call.type$ -- 22
-change.case$ -- 89
+change.case$ -- 91
 chr.to.int$ -- 0
-cite$ -- 26
-duplicate$ -- 206
-empty$ -- 514
-format.name$ -- 56
-if$ -- 1114
+cite$ -- 25
+duplicate$ -- 288
+empty$ -- 586
+format.name$ -- 64
+if$ -- 1405
 int.to.chr$ -- 0
 int.to.str$ -- 22
-missing$ -- 12
-newline$ -- 98
+missing$ -- 24
+newline$ -- 108
 num.names$ -- 44
-pop$ -- 186
+pop$ -- 149
 preamble$ -- 1
-purify$ -- 72
+purify$ -- 76
 quote$ -- 0
-skip$ -- 195
+skip$ -- 219
 stack$ -- 0
-substring$ -- 192
-swap$ -- 42
-text.length$ -- 2
+substring$ -- 367
+swap$ -- 75
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 78
-warning$ -- 4
-while$ -- 51
+type$ -- 74
+warning$ -- 3
+while$ -- 67
 width$ -- 24
-write$ -- 194
-(There were 24 warnings)
+write$ -- 227
+(There were 12 warnings)

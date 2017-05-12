@@ -54,7 +54,7 @@ data Digit {a : Level} (A : Set a) : Set a where
 data FingerTree {a : Level} (A : Set a) : {size : Size} → Set a where
   Empty  : {i : Size} → FingerTree A {↑ i}
   Single : {i : Size} → A → FingerTree A {↑ i}
-  Deep   : ∀ {i : Size} → Digit A → FingerTree (Node A) {i} → Digit A →
+  Deep   : {i : Size} → Digit A → FingerTree (Node A) {i} → Digit A →
            FingerTree A {↑ i}
 
 ------------------------------------------------------------------------
@@ -62,12 +62,12 @@ data FingerTree {a : Level} (A : Set a) : {size : Size} → Set a where
 
 infixr 5 _◁_
 _◁_ : ∀ {i a} {A : Set a} → A → FingerTree A {i} → FingerTree A {↑ i}
-a ◁ Empty                     = Single a
-a ◁ Single b                  = Deep (One   a) Empty (One b)
-a ◁ Deep (One   b) m sf       = Deep (Two   a b) m sf
-a ◁ Deep (Two   b c) m sf     = Deep (Three a b c) m sf
-a ◁ Deep (Three b c d) m sf   = Deep (Four  a b c d) m sf
-a ◁ Deep (Four  b c d e) m sf = Deep (Two   a b) (Node3 c d e ◁ m) sf
+_◁_ a Empty                     = Single a
+_◁_ a (Single b)                  = Deep (One   a) Empty (One b)
+_◁_ {i = .(↑ j)} a (Deep {i = j} (One   b) m sf)       = Deep (Two   a b) m sf
+_◁_ a (Deep (Two   b c) m sf)     = Deep (Three a b c) m sf
+_◁_ a (Deep (Three b c d) m sf)   = Deep (Four  a b c d) m sf
+_◁_ a (Deep (Four  b c d e) m sf) = Deep (Two   a b) (Node3 c d e ◁ m) sf
 
 infixl 5 _▷_
 _▷_ : ∀ {i a} {A : Set a} → FingerTree A {i} → A → FingerTree A {↑ i}
@@ -169,23 +169,22 @@ tail (Four a b c d) = just (Three b c d)
 ------------------------------------------------------------------------
 -- The view, headL and tailL
 
-data ViewL {i : Size}{a}(A : Set a) : Set a where
-  nilL : ViewL A
-  consL : A → FingerTree A → ViewL A
+data ViewL {a}(A : Set a) : {i : Size} → Set a where
+  nilL : ∀ {i} → ViewL A {↑ i}
+  consL : ∀ {i} → A → FingerTree A {i} → ViewL A {↑ i}
 
 mutual
-  viewL : ∀ {i : Size} {a} {A : Set a} → FingerTree A {i} → ViewL {i} {a} A
+  viewL : ∀ {i : Size} {a} {A : Set a} → FingerTree A {i} → ViewL {a} A {i}
   viewL Empty = nilL
-  viewL (Single x) = consL x Empty
-  viewL (Deep pr m sf) = consL (head pr) (deepL (tail pr) m sf)
+  viewL (Single x) = consL x {!  !} -- consL x (Empty {i = j})
+  viewL (Deep pr m sf) = ?   -- consL (head pr) (deepL (tail pr) m sf)
 
-  deepL : ∀ {a} {A : Set a} → Maybe (Digit A) →
-           FingerTree (Node A) → Digit A → FingerTree A
-  deepL (just pr) m sf = Deep pr m sf
-  deepL {l} nothing m sf with viewL m
-  ...                | nilL = toTree {l} {_} {{reduceInstanceDigit {l}}} {_} sf
-  ...                | consL (Node2 a b)   m′ = Deep (Two a b) m′ sf
-  ...                | consL (Node3 a b c) m′ = Deep (Three a b c) m′ sf
+  postulate deepL : ∀ {i a} {A : Set a} → Maybe (Digit A) → FingerTree (Node A) {i} → Digit A → FingerTree A {↑ i}
+  -- deepL (just pr) m sf = Deep pr m sf
+  -- deepL {l} nothing m sf with viewL m
+  -- ...                | nilL = {!   !}
+  -- ...                | consL (Node2 a b)   m′ = Deep (Two a b) m′ sf
+  -- ...                | consL (Node3 a b c) m′ = Deep (Three a b c) m′ sf
 
 isEmpty : ∀ {a} {A : Set a} → FingerTree A → Bool
 isEmpty x with viewL x

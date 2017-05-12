@@ -4,13 +4,15 @@
 Andreas Abel.
 \newblock Miniagda: Integrating sized and dependent types, 2010.
 
+\bibitem{hetero}
+Thorsten Altenkirch, Conor McBride, and Wouter Swierstra.
+\newblock Observational equality, now!
+\newblock In {\em Proceedings of the 2007 workshop on Programming languages
+  meets program verification}, pages 57--68. ACM, 2007.
+
 \bibitem{foetus}
 THORSTEN~ALTENKIRCH ANDREAS~ABEL.
 \newblock A predicative analysis of structural recursion, 19999.
-
-\bibitem{isabelle}
-Peter~Lammich Benedikt~Nordhoff, Stefan~Korner.
-\newblock Fingertrees, 2016.
 
 \bibitem{nested}
 Richard Bird and Lambert Meertens.
@@ -21,10 +23,6 @@ Richard Bird and Lambert Meertens.
 Adam Chipala.
 \newblock {\em Certified programming with dependent types}.
 \newblock 2016.
-
-\bibitem{viewleft}
-James~McKinna Connor~McBride.
-\newblock The view from the left, 2004.
 
 \bibitem{foldl}
 Nicolas~Pouillard Daniel~Gustafsson.
@@ -41,7 +39,8 @@ Ralf Hinze and Ross Paterson.
 
 \bibitem{fingertrees}
 Ralf Hinze and Ross Paterson.
-\newblock Finger trees: A simple general-purpose data structure, 2006.
+\newblock Finger trees: A simple general-purpose data structure.
+\newblock {\em Journal of Functional Programming}, 16(2):197--217, 2006.
 
 \bibitem{auto}
 Pepijn Kokke and Wouter Swierstra.
@@ -50,30 +49,46 @@ Pepijn Kokke and Wouter Swierstra.
 
 \bibitem{compcert}
 Xavier Leroy.
-\newblock A formally verified compiler back-end, 2009.
+\newblock A formally verified compiler back-end.
+\newblock {\em Journal of Automated Reasoning}, 43(4):363--446, 2009.
+
+\bibitem{viewleft}
+Conor McBride and James McKinna.
+\newblock The view from the left.
+\newblock {\em J. Funct. Program.}, 14(1):69--111, January 2004.
+
+\bibitem{isabelle}
+Benedikt Nordhoff, Stefan Körner, and Peter Lammich.
+\newblock Finger trees.
+\newblock {\em Archive of Formal Proofs}, October 2010.
 
 \bibitem{agdaphd}
 Ulf Norell.
-\newblock Towards a practical programming language based on dependent type
-  theory, 2007.
+\newblock {\em Towards a practical programming language based on dependent type
+  theory}, volume~32.
+\newblock Citeseer, 2007.
 
 \bibitem{agdatutorial}
-Ulf Norell and James Chapman.
-\newblock Dependently typed programming in agda, 10000.
+Ulf Norell.
+\newblock Dependently typed programming in agda.
+\newblock In {\em Advanced Functional Programming}, pages 230--266. Springer,
+  2009.
 
 \bibitem{okasaki}
-Chris Okasaki.
+C.~Okasaki.
 \newblock {\em Purely Functional Data Structures}.
-\newblock 1996.
+\newblock Cambridge University Press, 1999.
 
 \bibitem{matrix}
 Chris Okasaki.
-\newblock From fast exponentiation to square matrices: An adventure in types,
-  1999.
+\newblock From fast exponentiation to square matrices: An adventure in types.
+\newblock In {\em Proceedings of the Fourth ACM SIGPLAN International
+  Conference on Functional Programming}, page~28. Pearson Education, 1999.
 
 \bibitem{coq}
 Matthieu Sozeau.
-\newblock Program-ing finger trees in coq, 2007.
+\newblock Program-ing finger trees in coq.
+\newblock {\em SIGPLAN Not.}, 42(9):13--24, October 2007.
 
 \bibitem{verifagda}
 Aaron Stump.
@@ -85,10 +100,6 @@ David Thibodeau.
 \newblock Termination checking: Comparing structural recursion and sized types
   by examples, 2011.
 
-\bibitem{hetero}
-Wouter~Swierstra Thorsten~Altenkirch, Conor~McBride.
-\newblock Observational equality, now!, 2007.
-
 \bibitem{reflection}
 Paul van~der Walt and Wouter Swierstra.
 \newblock {\em Engineering Proof by Reflection in Agda}, pages 157--173.
@@ -96,7 +107,8 @@ Paul van~der Walt and Wouter Swierstra.
 
 \bibitem{wadler}
 Phil Wadler.
-\newblock Views: A way for pattern matching to cohabit with data abstraction,
-  1986.
+\newblock {\em Views: A way for pattern matching to cohabit with data
+  abstraction}, pages 307--313.
+\newblock ACM, 1987.
 
 \end{thebibliography}
