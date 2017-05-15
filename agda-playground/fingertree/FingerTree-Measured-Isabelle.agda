@@ -1,3 +1,6 @@
+-- Attempt of Implementing the Isabelle version, but stopped due to lengthy proofs.
+
+
 module FingerTree-Measured-Isabelle where
 
 open import Level using (Level)

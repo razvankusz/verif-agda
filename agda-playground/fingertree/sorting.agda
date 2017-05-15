@@ -1,3 +1,5 @@
+-- Implemenation of Selection Sort
+
 open import Data.List using (List; []; _∷_)
 open import Data.Maybe
 open import Data.Nat renaming (_≤_ to _≤n_)

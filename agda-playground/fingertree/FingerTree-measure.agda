@@ -1,3 +1,6 @@
+-- Version of FingerTree, indexed by size and with measurement tags. 
+
+
 {-# OPTIONS --sized-types #-}
 module FingerTree-measure where
 

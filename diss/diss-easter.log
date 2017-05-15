@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  12 MAY 2017 23:07
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.2.9)  15 MAY 2017 21:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -858,7 +858,27 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
-\g__fontspec_family_TeXGyrePagella_int=\count172
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2015/09/18 v0.5d Insert pages of external PDF documents (AM)
+
+(/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2015/07/21 v2.0g eso-pic (RN)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+))
+\AM@pagewidth=\dimen272
+\AM@pageheight=\dimen273
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/ppxetex.def
+File: ppxetex.def 2015/09/18 v0.5d Pdfpages driver for XeTeX (AM)
+)
+\AM@pagebox=\box56
+\AM@toc@title=\toks41
+\c@AM@survey=\count172
+\AM@templatesizebox=\box57
+)
+\g__fontspec_family_TeXGyrePagella_int=\count173
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -883,7 +903,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 . - 'bold italic small caps'  (b/itsc) with NFSS spec.: <->"TeX Gyre
 . Pagella/BI/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
 .................................................
-\g__fontspec_family_DejaVuSans_int=\count173
+\g__fontspec_family_DejaVuSans_int=\count174
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -904,14 +924,14 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (/usr/share/texlive/texmf-dist/tex/generic/epsf/epsf.tex
 This is `epsf.tex' v2.7.4 <14 February 2011>
 \epsffilein=\read5
-\epsfframemargin=\dimen272
-\epsfframethickness=\dimen273
-\epsfrsize=\dimen274
-\epsftmp=\dimen275
-\epsftsize=\dimen276
-\epsfxsize=\dimen277
-\epsfysize=\dimen278
-\pspoints=\dimen279
+\epsfframemargin=\dimen274
+\epsfframethickness=\dimen275
+\epsfrsize=\dimen276
+\epsftmp=\dimen277
+\epsftsize=\dimen278
+\epsfxsize=\dimen279
+\epsfysize=\dimen280
+\pspoints=\dimen281
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryarrows.code.tex
@@ -920,7 +940,7 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.
 tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen280
+\arrowsize=\dimen282
 )) (/usr/share/texlive/texmf-dist/tex/latex/tkz-graph/tkz-graph.sty
 Package: tkz-graph 2011/06/01 ctan v 1.00 base for graphs
 
@@ -939,26 +959,26 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks41
-\XKV@tempa@toks=\toks42
+\XKV@toks=\toks42
+\XKV@tempa@toks=\toks43
 )
-\XKV@depth=\count174
+\XKV@depth=\count175
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\c@tkz@gr@a=\count175
-\c@tkz@gr@b=\count176
-\c@tkz@gr@c=\count177
-\c@tkz@gr@e=\count178
-\c@tkz@gr@d=\count179
-\c@tkz@gr@p=\count180
-\c@tkz@gr@i=\count181
-\c@tkz@gr@n=\count182
-\c@tkz@gr@ta=\count183
-\c@tkz@gr@tb=\count184
+\c@tkz@gr@a=\count176
+\c@tkz@gr@b=\count177
+\c@tkz@gr@c=\count178
+\c@tkz@gr@e=\count179
+\c@tkz@gr@d=\count180
+\c@tkz@gr@p=\count181
+\c@tkz@gr@i=\count182
+\c@tkz@gr@n=\count183
+\c@tkz@gr@ta=\count184
+\c@tkz@gr@tb=\count185
 )
 (./diss-easter.aux
 
-LaTeX Warning: Label `fig:ftex3' multiply defined.
+LaTeX Warning: Label `fig:ftex4' multiply defined.
 
 )
 \openout1 = `diss-easter.aux'.
@@ -1092,7 +1112,17 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
- [1
+\AtBeginShipoutBox=\box58
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+Package: pdflscape 2008/08/11 v0.10 Display of landscape pages in PDF (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
+
+) [1
 
 ] [2
 
@@ -1979,164 +2009,179 @@ Chapter 5.
 ]
 \openout4 = `diss-easter.ptb'.
 
- [46]
+ (./diss-easter.bbl [46] [47
+
+]) [48]
 Chapter 6.
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2888--2909
+Underfull \hbox (badness 10000) in paragraph at lines 2896--2916
  
  []
 
-[47
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2920--2932
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2936--2951
+ 
+ []
+
+[49
 
 ]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2933--2944
+Underfull \hbox (badness 10000) in paragraph at lines 2976--2987
  
  []
 
 
-LaTeX Warning: Citation `numerical' on page 48 undefined on input line 2946.
+LaTeX Warning: Citation `numerical' on page 50 undefined on input line 2989.
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2949--2965
+Underfull \hbox (badness 10000) in paragraph at lines 2992--3008
  
  []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2982--2996
- [][] 
- []
-
-
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2982--2996
- [][][][][][] 
- []
-
-
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2982--2996
- [][][][] 
- []
-
-
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2982--2996
- [][][][] 
- []
-
-
-Overfull \hbox (17.29088pt too wide) in paragraph at lines 2982--2996
- [][][][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2982--2996
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3000--3020
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3023--3038
- 
- []
-
-[48]
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3046--3071
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3075--3095
- 
- []
-
-\openout4 = `diss-easter.ptb'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3101--3115
- 
- []
-
-[49]
-\openout4 = `diss-easter.ptb'.
-
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono12-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-Missing character: There is no ₂ in font [lmmono8-regular]!
-
-Underfull \hbox (badness 10000) in paragraph at lines 3121--3161
- 
- []
-
-\openout4 = `diss-easter.ptb'.
 
 [50]
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3197--3198
-
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 3025--3039
+ [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3206--3209
-
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 3025--3039
+ [][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3210--3211
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 3025--3039
+ [][][][] 
+ []
 
+
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 3025--3039
+ [][][][] 
+ []
+
+
+Overfull \hbox (17.29088pt too wide) in paragraph at lines 3025--3039
+ [][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3025--3039
+ 
  []
 
 \openout4 = `diss-easter.ptb'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3222--3223
-
+Underfull \hbox (badness 10000) in paragraph at lines 3043--3063
+ 
  []
 
-Missing character: There is no ℕ in font TeX Gyre Pagella/OT:script=latn;langua
-ge=DFLT;mapping=tex-text;!
-Missing character: There is no ℕ in font TeX Gyre Pagella/OT:script=latn;langua
-ge=DFLT;mapping=tex-text;!
-
-LaTeX Warning: Citation `typeclasses' on page 51 undefined on input line 3233.
+\openout4 = `diss-easter.ptb'.
 
 
-LaTeX Warning: Citation `instanceargs' on page 51 undefined on input line 3236.
+Underfull \hbox (badness 10000) in paragraph at lines 3066--3081
+ 
+ []
 
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3089--3114
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3118--3138
+ 
+ []
 
 [51]
 \openout4 = `diss-easter.ptb'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 3144--3158
+ 
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono12-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+Missing character: There is no ₂ in font [lmmono8-regular]!
+
+Underfull \hbox (badness 10000) in paragraph at lines 3164--3204
+ 
+ []
+
+[52]
+\openout4 = `diss-easter.ptb'.
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3240--3241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3249--3252
+
+ []
+
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 3253--3254
+
+ []
+
+\openout4 = `diss-easter.ptb'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3265--3266
+
+ []
+
+Missing character: There is no ℕ in font TeX Gyre Pagella/OT:script=latn;langua
+ge=DFLT;mapping=tex-text;!
+Missing character: There is no ℕ in font TeX Gyre Pagella/OT:script=latn;langua
+ge=DFLT;mapping=tex-text;!
+
+LaTeX Warning: Citation `typeclasses' on page 54 undefined on input line 3276.
+
+
+LaTeX Warning: Citation `instanceargs' on page 54 undefined on input line 3279.
+
+
+\openout4 = `diss-easter.ptb'.
+
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
@@ -2150,37 +2195,37 @@ Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
 
-Overfull \hbox (2.4409pt too wide) detected at line 4059
+Overfull \hbox (2.4409pt too wide) detected at line 4102
   |  
  []
 
@@ -2188,10 +2233,69 @@ Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
 Missing character: There is no ℕ in font [lmmono8-regular]!
-[52] [53] [54] [55] [56] [57] (./diss-easter.bbl [58] [59
+[54] [55] [56] [57] [58] [59]
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf" >
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf" >
+File: proposal.pdf Graphic file (type QTm)
 
-]) [60]
-(./diss-easter.aux)
+<use  "proposal.pdf"  page1>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page1> [60]
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page1>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page1>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page1> [61]
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page2>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page2>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page2> [62]
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page3>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page3>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page3> [63]
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page4>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page4>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page4> [64]
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page5>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page5>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page5> [65]
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page6>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page6>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page6> [66]
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page7>
+File: proposal.pdf Graphic file (type QTm)
+ <use  "proposal.pdf"  page7>
+File: proposal.pdf Graphic file (type QTm)
+
+<use  "proposal.pdf"  page7> [67] (./diss-easter.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2200,12 +2304,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 29464 strings out of 493638
- 586650 string characters out of 6146797
- 903348 words of memory out of 5000000
- 32386 multiletter control sequences out of 15000+600000
+ 30148 strings out of 493638
+ 597985 string characters out of 6146797
+ 922594 words of memory out of 5000000
+ 33047 multiletter control sequences out of 15000+600000
  15462 words of font info for 105 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 57i,16n,191p,10371b,1799s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 57i,18n,191p,10371b,1799s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on diss-easter.pdf (70 pages).
+Output written on diss-easter.pdf (77 pages).

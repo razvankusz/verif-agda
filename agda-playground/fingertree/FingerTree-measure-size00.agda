@@ -1,3 +1,5 @@
+-- Further attemtps to make Sized Types work
+
 {-# OPTIONS --sized-types #-}
 module FingerTree-measure-size00 where
 

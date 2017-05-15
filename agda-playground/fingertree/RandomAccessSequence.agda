@@ -1,3 +1,5 @@
+-- Based on a FingerTree indexed by size
+
 open import FingerTree-measure
 open import Size
 open import Data.Nat

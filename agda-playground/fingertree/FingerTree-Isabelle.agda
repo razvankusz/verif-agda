@@ -1,3 +1,6 @@
+-- A non-nested implementation of the FingerTree, as presented in Isabelle.
+
+
 module FingerTree-Isabelle where
 
 open import Level using (Level)

@@ -1,3 +1,6 @@
+-- Dependently typed versin of FingerTree, contains Monoid and Measurement and is indexed by measure, but the nodes are not contrained, so some properties do not hold.
+
+
 module FingerTree-measure-size where
 
 open import Class.Reduce

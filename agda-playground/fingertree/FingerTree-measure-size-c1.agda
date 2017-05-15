@@ -1,3 +1,5 @@
+-- Attempts of solving termination checking issue, it is just a copy of FingerTree-measure-size-c
+
 module FingerTree-measure-size-c1 where
 
 open import Class.Reduce

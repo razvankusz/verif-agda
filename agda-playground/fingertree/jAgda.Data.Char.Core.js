@@ -1,2 +1,0 @@
-define(["exports"],function(exports) {
-  });

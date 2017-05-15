@@ -1,3 +1,6 @@
+-- A FingerTree which is forced to have a SizeW component in the measure
+
+
 open import AlgebraStructures
 
 module GeneralFingerTree

@@ -1,3 +1,6 @@
+-- A functional array, as presented in part IA Foundations of Computer Science. Contains views on natural numbers, an was built as a proof fingertrees are faster.
+
+
 open import Data.Nat
 open import Relation.Binary.PropositionalEquality
 open import Data.Bool

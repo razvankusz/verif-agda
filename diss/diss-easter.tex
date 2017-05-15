@@ -23,7 +23,7 @@ total={170mm,257mm},
 \usepackage{float}
 \usepackage{agda}
 \usepackage{amsfonts}
-
+\usepackage{pdfpages}
 \usepackage{array}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -464,7 +464,7 @@ Consider the following implementation of \AgdaFunction{reverse}, using a helper 
 \\
 \end{code}
 
-The main goal of this exercise is to prove that $\forall xs : List A, rev (rev (xs)) \equiv xs$. We first need to prove some helper statements about reverse, of which I have included the type declarations\footnote{The full implementation is in the Appendix.}:
+The main goal of this exercise is to prove that $\forall xs : List A, rev (rev (xs)) \equiv xs$. We first need to prove some helper statements about reverse, of which I have included the type declarations. I have indented the type declaration of each proof such that the last line indicates the goal, whereas the assumptions are present in the previous lines.:
 
 \begin{code}
 \\
@@ -1231,7 +1231,7 @@ Ultimately, for correctness, we are concerned with whether the output tree is a 
 	\end{tikzpicture}
 }
 	\caption{Recursive \AgdaFunction{\_◁\_}(cons) operation}
-	\label{fig:ftex3}
+	\label{fig:ftex4}
 \end{figure}
 
 \begin{code}
@@ -2352,7 +2352,7 @@ By implementing the accessibility relation in Agda, we transform any given order
 
 The ordering of the sizes naturally extends to an ordering of the Sequences, so that removing an element from a Sequence necessarily yields a smaller Sequence.
 
-In this case, we can use Larry Paulson's results \footnote{also implemented in the standard library} to construct a Well-Founded relation on Sequences using a Well-Founded relation on the Sizes.
+In this case, we can use Larry Paulson's results \footnote{Also implemented in the standard library.} to construct a Well-Founded relation on Sequences using a Well-Founded relation on the Sizes: \cite{ml}
 
 \begin{code} 
 \\
@@ -2681,7 +2681,7 @@ Since performing the \textit{get} operation requires creating a \AgdaFunction{bi
 
 It is clear from both these experiments that the dependently typed versions incur a higher computational cost. Moreover, the ends show that the divergence between the two depends on the input size.  However, this is not a limitation of dependent types, but of the compiler and extracting tools. All the type annotations could be removed without damaging correctness.
 
-\subsection{reversing and problems with the compiler}
+\subsection{\AgdaFunction{reversing} and problems with the compiler}
 
 I have tried to repeat the same type of experiment, comparing the run-time of the \textbf{reverse-ft} method, implemented using \textbf{foldl}, and the \textit{rev} method, which uses the \textbf{ViewL}.
 
@@ -2876,16 +2876,23 @@ This would ensure that adding a new element to the FingerTree yields one with a 
 During this project, I have familiarised myself with Agda, and gained sufficient insight into type theory to be able to read and understand cutting edge research. I have acquired invaluable experience in formal verification and its application to testing or prototyping data structures. 
 Successful verification requires some practice in order to get used to the environment's quirks, as in many cases a well chosen definitions for theorems is key to the process. 
 
-The field of formal verification using dependent types is slowly entering the industry, through the advent of more accessible programming languages like Agda, Idris or Dependent Haskell. Although still young, such tools show potential and are surrounded by active communities. I have shown, through implementing a non trivial data structure, the trade-off between expressivity and limitations in Agda, and I hope that I have inspired further work and study in this area.
+The field of formal verification using dependent types is slowly entering the industry, through the advent of more accessible programming languages like Agda, Idris or Dependent Haskell. Although still young, such tools show potential and are surrounded by active communities. I have shown, through implementing a non trivial data structure, the trade-off between expressivity and limitations in Agda and I hope that I have inspired further work and study in this area.
+
+
+
+
+%TC:ignore
+
+\bibliography{refs}
 
 \chapter{Appendix}
 
-%TC:ignore
 \section{Helper Functions}
 \label{app:helper}
 \begin{itemize}
 
-\item Flattening a list of Node A V to a list of A, by repeatedly transforming nodes to lists and aggregating the result.\\
+\item Flattening a list of Node A V to a list of A, by repeatedly transforming nodes to lists and aggregating the result.
+
 \begin{code}
 \\
 \>\AgdaFunction{flatten-list} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{V} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a} \AgdaSymbol{\}}\<%
@@ -2908,8 +2915,44 @@ The field of formal verification using dependent types is slowly entering the in
 \\
 \end{code}
 
+\item toList-dig: Trivial conversion between a \textit{Digit A} and \textit{List A}, maintaining the order.
 
+\begin{code}
+\\
+\>\AgdaFunction{toList-dig} \AgdaSymbol{:} \AgdaSymbol{∀\{}\AgdaBound{a}\AgdaSymbol{\}\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>\AgdaFunction{toList-dig} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{toList-dig} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{x} \AgdaBound{x₁}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{x₁} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{toList-dig} \AgdaSymbol{(}\AgdaInductiveConstructor{Three} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{x₁} \AgdaInductiveConstructor{∷} \AgdaBound{x₂} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
+\\
+\>\AgdaFunction{toList-dig} \AgdaSymbol{(}\AgdaInductiveConstructor{Four} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{x₃}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{x₁} \AgdaInductiveConstructor{∷} \AgdaBound{x₂} \AgdaInductiveConstructor{∷} \AgdaBound{x₃} \AgdaInductiveConstructor{∷} \AgdaInductiveConstructor{[]}\<%
+\\
+\end{code} 
+
+\item foldl-dig. Folding a Digit from the left 
+
+\begin{code}
+\>\AgdaFunction{foldl-dig} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{W} \AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaBound{a}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{W} \AgdaSymbol{→} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{W}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{W} \AgdaSymbol{→} \AgdaDatatype{Digit} \AgdaBound{A} \AgdaSymbol{→} \AgdaBound{W}\<%
+\\
+\>\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{One} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{f} \AgdaBound{i} \AgdaBound{x}\<%
+\\
+\>\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Two} \AgdaBound{x} \AgdaBound{x₁}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaBound{i} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{x₁}\<%
+\\
+\>\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Three} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaBound{i} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{x₁}\AgdaSymbol{)} \AgdaBound{x₂}\<%
+\\
+\>\AgdaFunction{foldl-dig} \AgdaBound{f} \AgdaBound{i} \AgdaSymbol{(}\AgdaInductiveConstructor{Four} \AgdaBound{x} \AgdaBound{x₁} \AgdaBound{x₂} \AgdaBound{x₃}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaSymbol{(}\AgdaBound{f} \AgdaBound{i} \AgdaBound{x}\AgdaSymbol{)} \AgdaBound{x₁}\AgdaSymbol{)} \AgdaBound{x₂}\AgdaSymbol{)} \AgdaBound{x₃}\<%
+\\
+%
+\end{code}
+
+\item The implementations of toList-node and foldl-node proceed analogously to cases \AgdaInductiveConstructor{Two} and \AgdaInductiveConstructor{Three} in the \textit{Digit} versions.
 \end{itemize}
+
 \section{Numerical Representations}
 \label{app:numrep}
 The treatment of containers as natural numbers has been studied in depth\cite{okasaki}. The basic idea is that simple numerical operations correspond naturally to operations on containers. For example:
@@ -4065,11 +4108,9 @@ First, posing the problem in way compatible with the implementation can aid the 
 
 Secondly, I illustrates the difficulty of integrating the type of reasoning illustrated in Section \ref{eval:lemma}. This implementation became more lengthy because of having to define helper functions like \AgdaFunction{and-combine-3}, \AgdaFunction{and-combine}, \AgdaFunction{and-left}, \AgdaFunction{and-right}, which require explicit definitions of terms, although the inference algorithm should be able to identify them. Moreover, I have included proofs which are also present in the standard library for completeness (\AgdaFunction{nat, reflnat, transnat, neg}) to be able to instantiate and test the implementation.
  
+\section{Proposal}
+\includepdf[pages={-}]{proposal.pdf}
 
-
-
-
-\bibliography{refs}
 %TC:endignore
 
 \end{document}

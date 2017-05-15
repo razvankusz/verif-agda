@@ -1,3 +1,5 @@
+-- Definitions of the Monoid and Measured records, used in FingerTree. 
+
 open import Relation.Binary.PropositionalEquality
 open import Level
 open import Data.Maybe

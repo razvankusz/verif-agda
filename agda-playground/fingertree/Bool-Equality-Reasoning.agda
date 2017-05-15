@@ -1,3 +1,5 @@
+-- Attempt to make boolean reasoning easier, turns out it is more complicated than this.
+
 open import Data.Bool
 open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning

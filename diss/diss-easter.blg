@@ -20,45 +20,45 @@ Warning--I didn't find a database entry for "instanceargs"
 Warning--empty publisher in certified
 Warning--can't use both author and editor fields in auto
 Warning--can't use both author and editor fields in reflection
-You've used 22 entries,
+You've used 23 entries,
             2118 wiz_defined-function locations,
-            622 strings with 6739 characters,
-and the built_in function-call counts, 6408 in all, are:
-= -- 630
-> -- 212
+            626 strings with 6793 characters,
+and the built_in function-call counts, 6623 in all, are:
+= -- 649
+> -- 219
 < -- 7
-+ -- 89
-- -- 64
-* -- 349
-:= -- 1025
-add.period$ -- 64
-call.type$ -- 22
-change.case$ -- 91
++ -- 92
+- -- 66
+* -- 357
+:= -- 1063
+add.period$ -- 67
+call.type$ -- 23
+change.case$ -- 94
 chr.to.int$ -- 0
-cite$ -- 25
-duplicate$ -- 288
-empty$ -- 586
-format.name$ -- 64
-if$ -- 1405
+cite$ -- 26
+duplicate$ -- 300
+empty$ -- 608
+format.name$ -- 66
+if$ -- 1451
 int.to.chr$ -- 0
-int.to.str$ -- 22
-missing$ -- 24
-newline$ -- 108
-num.names$ -- 44
-pop$ -- 149
+int.to.str$ -- 23
+missing$ -- 26
+newline$ -- 113
+num.names$ -- 46
+pop$ -- 157
 preamble$ -- 1
-purify$ -- 76
+purify$ -- 79
 quote$ -- 0
-skip$ -- 219
+skip$ -- 225
 stack$ -- 0
-substring$ -- 367
-swap$ -- 75
+substring$ -- 372
+swap$ -- 76
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 74
+type$ -- 76
 warning$ -- 3
-while$ -- 67
-width$ -- 24
-write$ -- 227
+while$ -- 69
+width$ -- 25
+write$ -- 237
 (There were 12 warnings)

@@ -1,3 +1,6 @@
+-- Original GitHub implementation, plus some modifications and proof attempts
+
+
 ------------------------------------------------------------------------
 -- Finger trees for Agda
 ------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+-- Full implementation of the FingerTree, as present in the dissertation
+
 module FingerTree-measure-size-c where
 
 open import Class.Reduce

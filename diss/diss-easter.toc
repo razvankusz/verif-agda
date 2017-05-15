@@ -60,7 +60,7 @@
 \contentsline {section}{\numberline {4.1}Run-time}{37}
 \contentsline {subsection}{\numberline {4.1.1}\begingroup \thickmuskip =0mu\medmuskip =0mu\ensuremath {\mathsf {\leavevmode {\color {AgdaFunction}\_◁\_}}}\endgroup (cons)}{38}
 \contentsline {subsection}{\numberline {4.1.2}split}{39}
-\contentsline {subsection}{\numberline {4.1.3}reversing and problems with the compiler}{40}
+\contentsline {subsection}{\numberline {4.1.3}\begingroup \thickmuskip =0mu\medmuskip =0mu\ensuremath {\mathsf {\leavevmode {\color {AgdaFunction}reversing}}}\endgroup and problems with the compiler}{40}
 \contentsline {section}{\numberline {4.2}Heuristics for Effort}{40}
 \contentsline {subsection}{\numberline {4.2.1}Lines of code}{41}
 \contentsline {paragraph}{Selection Sort.}{41}
@@ -71,15 +71,16 @@
 \contentsline {section}{\numberline {5.1}Accomplishments}{45}
 \contentsline {section}{\numberline {5.2}Further work}{45}
 \contentsline {section}{\numberline {5.3}Lessons learned}{46}
-\contentsline {chapter}{\numberline {6}Appendix}{47}
-\contentsline {section}{\numberline {6.1}Helper Functions}{47}
-\contentsline {section}{\numberline {6.2}Numerical Representations}{47}
-\contentsline {section}{\numberline {6.3}Further example of the termination checking limitation}{48}
-\contentsline {subsection}{\numberline {6.3.1}Defining a view}{49}
-\contentsline {subsection}{\numberline {6.3.2}Example termination failure}{49}
-\contentsline {subsection}{\numberline {6.3.3}Using sized types}{50}
-\contentsline {section}{\numberline {6.4}Other Agda Syntax and Terminology}{50}
-\contentsline {subsection}{\numberline {6.4.1}Agda's interactive help}{50}
-\contentsline {subsection}{\numberline {6.4.2}Implicit Arguments}{51}
-\contentsline {subsection}{\numberline {6.4.3}Instance Arguments}{51}
-\contentsline {section}{\numberline {6.5}Sorting -- full code}{52}
+\contentsline {chapter}{\numberline {6}Appendix}{49}
+\contentsline {section}{\numberline {6.1}Helper Functions}{49}
+\contentsline {section}{\numberline {6.2}Numerical Representations}{50}
+\contentsline {section}{\numberline {6.3}Further example of the termination checking limitation}{50}
+\contentsline {subsection}{\numberline {6.3.1}Defining a view}{51}
+\contentsline {subsection}{\numberline {6.3.2}Example termination failure}{52}
+\contentsline {subsection}{\numberline {6.3.3}Using sized types}{52}
+\contentsline {section}{\numberline {6.4}Other Agda Syntax and Terminology}{53}
+\contentsline {subsection}{\numberline {6.4.1}Agda's interactive help}{53}
+\contentsline {subsection}{\numberline {6.4.2}Implicit Arguments}{53}
+\contentsline {subsection}{\numberline {6.4.3}Instance Arguments}{54}
+\contentsline {section}{\numberline {6.5}Sorting -- full code}{54}
+\contentsline {section}{\numberline {6.6}Proposal}{60}

@@ -1,3 +1,6 @@
+-- Simple version of fingertrees, combiniing depenedent types with boolean reasoning
+
+
 open import Data.Bool using (Bool; true; false)
 open import Data.Nat using (ℕ; suc; _<_)
 

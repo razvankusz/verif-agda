@@ -85,6 +85,11 @@ Chris Okasaki.
 \newblock In {\em Proceedings of the Fourth ACM SIGPLAN International
   Conference on Functional Programming}, page~28. Pearson Education, 1999.
 
+\bibitem{ml}
+Lawrence~C Paulson.
+\newblock {\em ML for the Working Programmer}.
+\newblock Cambridge University Press, 1996.
+
 \bibitem{coq}
 Matthieu Sozeau.
 \newblock Program-ing finger trees in coq.
