@@ -75,7 +75,7 @@ module RandomAccessSequence-final where
 
     module Proofs {a} (A : Set a) where
 
-      
+
       -- toList-seq : ∀ {μ} → Seq A μ → List A
       -- toList-seq seq = strip-entry (toList-ft seq)
       --   where
@@ -275,6 +275,7 @@ module RandomAccessSequence-final where
     main = (putStrLn (toCostring "Hello") >>=
             (λ x → putStrLn (toCostring (show-maybe(revst)))) >>=
             (λ x → return 1))
+
 
     -- rev-seq-pair : Seq-pair ℕ
     -- rev-seq-pair = rev test-seq-pair

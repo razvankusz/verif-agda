@@ -28,6 +28,12 @@ Adam Chipala.
 Nicolas~Pouillard Daniel~Gustafsson.
 \newblock Foldable containers and dependent types.
 
+\bibitem{cyclic}
+Neil Ghani, Makoto Hamana, Tarmo Uustalu, and Varmo Vene.
+\newblock Representing cyclic structures as nested datatypes.
+\newblock In {\em Proc. of 7th Symp. on Trends in Functional Programming, TFP},
+  volume 2006, 2006.
+
 \bibitem{nestedhinze}
 Ralf Hinze.
 \newblock Numerical representations as higher-order nested datatypes, 1998.

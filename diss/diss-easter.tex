@@ -147,8 +147,7 @@ Name:               & \bf Razvan Kusztos                       \\
 College:            & \bf Girton College                     \\
 Project Title:      & \bf Verified functional data structures and algorithms in Agda \\
 Examination:        & \bf Part II Project        \\
-Word Count:         & \bf 0\footnotemark[1]
-(well less than the 12000 limit) \\
+Word Count:         & \bf 10422 \\
 Project Originator: & Dr Timothy Griffin                    \\
 Supervisor:         & Dr Timothy Griffin                    \\
 \end{tabular}
@@ -164,11 +163,6 @@ formal verification using dependent types. I am presenting a dependently typed i
 
 \subsection*{Special Difficulties}
 None.
-
-\footnotetext[1]{This word count was computed
-by {\tt detex diss.tex | tr -cd '0-9A-Za-z $\tt\backslash$n' | wc -w}
-}
-\stepcounter{footnote}
 
 \newpage
 \section*{Declaration}
@@ -2527,7 +2521,6 @@ I have only used my machine for these experiments, with specifications detailed 
 Furthermore, I have repeated each experiment between 10 and 1000 times (limiting each measurement to approx 10 minutes) and only reported the smallest value, which could be read as a lower bound of the runtime.
 
 \begin{table}[h!]
-\label{tab:machine}
 \centering
 	\begin{tabular}{c c} 
 	\hline 
@@ -2541,6 +2534,7 @@ Furthermore, I have repeated each experiment between 10 and 1000 times (limiting
 	\hline
 	\end{tabular}
 \caption{Machine specifications}
+\label{tab:machine}
 \end{table} 
 
 \subsection{\AgdaFunction{\_◁\_}(cons)}
@@ -2986,7 +2980,7 @@ Consider the trivial implementation of a binary tree in a functional programming
 \\
 \end{code}
 
-In order to stay consistent with the original implementation, the data structure above will be split in two different types that represent the constructors \cite{numerical}.
+In order to stay consistent with the original implementation, the data structure above will be split in two different types that represent the constructors.
 
 %-- constructors.
 \begin{code}
@@ -3273,10 +3267,10 @@ perform a number of operations:
 \subsection{Instance Arguments}
 
   Throughout this dissertation, we will be using some properties of certain types, for example of having a monoid operation associated with them.
-  In Haskell, you would accomplish that with the use of type classes \cite{typeclasses} \\
+  In Haskell, you would accomplish that with the use of type classes.\\
   In order to mimic this behaviour we will use instance arguments. They are declared by using double square brackets, \{\{ \}\} or the unicode
   equivalent. \\
-  What Agda does in this case, it looks for a possible instantiation of that type in the current scope, following some predefined rules. \cite{instanceargs}
+  What Agda does in this case, it looks for a possible instantiation of that type in the current scope, following some predefined rules.
   It is important there is only one available possibility, otherwise it will fail to type check.
 
   The use will become obvious in the Implementation section.
