@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: diss-easter.aux
+The style file: plain.bst
+Database file #1: refs.bib
+Warning--entry type for "termination" isn't style-file defined
+--line 144 of file refs.bib
+Warning--entry type for "foetus" isn't style-file defined
+--line 150 of file refs.bib
+Warning--entry type for "nestedhinze" isn't style-file defined
+--line 155 of file refs.bib
+Warning--entry type for "sizedtypes" isn't style-file defined
+--line 183 of file refs.bib
+Warning--entry type for "foldl" isn't style-file defined
+--line 188 of file refs.bib
+Warning--I didn't find a database entry for "numerical"
+Warning--empty publisher in certified
+Warning--can't use both author and editor fields in auto
+Warning--can't use both author and editor fields in reflection
+You've used 24 entries,
+            2118 wiz_defined-function locations,
+            627 strings with 6944 characters,
+and the built_in function-call counts, 6968 in all, are:
+= -- 677
+> -- 242
+< -- 8
++ -- 101
+- -- 74
+* -- 382
+:= -- 1121
+add.period$ -- 70
+call.type$ -- 24
+change.case$ -- 101
+chr.to.int$ -- 0
+cite$ -- 27
+duplicate$ -- 314
+empty$ -- 636
+format.name$ -- 74
+if$ -- 1522
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 27
+newline$ -- 118
+num.names$ -- 48
+pop$ -- 167
+preamble$ -- 1
+purify$ -- 85
+quote$ -- 0
+skip$ -- 233
+stack$ -- 0
+substring$ -- 377
+swap$ -- 79
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 80
+warning$ -- 3
+while$ -- 71
+width$ -- 26
+write$ -- 248
+(There were 9 warnings)

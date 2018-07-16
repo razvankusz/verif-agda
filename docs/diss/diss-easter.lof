@@ -1,0 +1,19 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Example finger tree\relax }}{3}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Full Binary Tree\relax }}{11}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Example 2-3 Tree\relax }}{12}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Bigger FingerTree\relax }}{19}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Smaller FingerTree\relax }}{19}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Recursive \begingroup \thickmuskip =0mu\medmuskip =0mu\ensuremath {\mathsf {\leavevmode {\color {AgdaFunction}\_◁\_}}}\endgroup (cons) operation\relax }}{20}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before Cons}}}{20}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After Cons}}}{20}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces ViewL operation (only including the tails)\relax }}{22}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Before ViewL}}}{22}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {After ViewL}}}{22}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Consing experiment\relax }}{39}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Splitting Experiment\relax }}{40}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

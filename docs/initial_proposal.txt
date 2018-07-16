@@ -1,0 +1,40 @@
+Subject: Phase 1 - Kusztos: Verified functional data structures and algorithms in agda
+
+Phase 1 Project Selection Status Report
+
+Name: Razvan Kusztos
+
+College: Girton
+
+User Identifier: rek43
+
+Director of Studies: Chris Hadley
+
+Please complete 1, 2 and 3 below.
+
+1. Please write 100 words on your current project ideas.
+
+Based on Okasaki's book on efficient functional data structures,
+I plan on implementing some datastructures that use these principles
+as well as operations on them in Agda. The dependent typing allows
+developing proofs about the datastructures and also enforce invariants
+in the typing systems. It would also be interesting to see what benefits
+using a dependently typed programming language brings in terms of expresivity.
+Exactly what datastructures is still under consideration. I could start
+by implementing finger trees as a general purpose data structure
+and then building up to more complicated ones. There are also some
+good resources on disjoint sets.
+
+2. Please list names of potential project supervisors.
+Timothy Griffin
+
+3. Is there any chance that your project will involve any
+computing resources other than the Computing Service's MCS and
+software that is already installed there, for example: your own
+machine, machines in College, special peripherals, imported
+software packages, special hardware, network access, substantial
+extra disc space on the MCS.
+
+If so indicate below what, and what it is needed for.
+
+I will also be using my laptop, but will save all progress on the MCS machine.
